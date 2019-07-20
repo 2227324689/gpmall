@@ -1,3 +1,5 @@
+import {apis} from '../api/api'
+
 const CheckLoginInfo =
   {
     'success': true,
@@ -23,7 +25,7 @@ const CheckLoginInfo =
 
 export default {
   bootstrap (mock) {
-    mock.onGet('/member/checkLogin').reply(config => {
+    mock.onGet(apis.userInfo).reply(config => {
       return new Promise((resolve, reject) => {
         resolve([200, CheckLoginInfo])
       })

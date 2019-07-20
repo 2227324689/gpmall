@@ -1,3 +1,5 @@
+import {apis} from '../api/api'
+
 const homeData = {
   'success': true,
   'message': 'success',
@@ -652,7 +654,7 @@ const homeData = {
 
 export default {
   bootstrap (mock) {
-    mock.onGet('/goods/home').reply(config => {
+    mock.onGet(apis.productHome).reply(config => {
       return new Promise((resolve, reject) => {
         resolve([200, homeData])
       })

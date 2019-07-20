@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="dialog dialog-shadow" style="display: block; margin-top: -362px;">
         <div class="title">
-          <h4>使用 XMall 账号 登录官网</h4>
+          <h4>使用 咕泡商城 账号 登录</h4>
         </div>
         <div v-if="loginPage" class="content">
           <ul class="common-form">
@@ -25,7 +25,7 @@
             <li style="text-align: right" class="pr">
               <el-checkbox class="auto-login" v-model="autoLogin">记住密码</el-checkbox>
               <!-- <span class="pa" style="top: 0;left: 0;color: #d44d44">{{ruleForm.errMsg}}</span> -->
-              <a href="javascript:;" class="register" @click="toRegister">注册 XMall 账号</a>
+              <a href="javascript:;" class="register" @click="toRegister">注册 咕泡商城 账号</a>
               <a style="padding: 1px 0 0 10px" @click="open('找回密码','请联系作者邮箱找回密码或使用测试账号登录：test | test')">忘记密码 ?</a>
             </li>
           </ul>

@@ -1,3 +1,5 @@
+import {apis} from '../api/api'
+
 const navList = {
   'success': true,
   'message': 'success',
@@ -136,7 +138,7 @@ const navList = {
 
 export default {
   bootstrap (mock) {
-    mock.onGet('/goods/navList').reply(config => {
+    mock.onGet(apis.navList).reply(config => {
       return new Promise((resolve, reject) => {
         resolve([200, navList])
       })

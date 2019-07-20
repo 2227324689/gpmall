@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="dialog dialog-shadow" style="display: block; margin-top: -362px;">
         <div class="registered">
-          <h4>注册 XMall 账号</h4>
+          <h4>注册 咕泡商城 账号</h4>
           <div class="content" style="margin-top: 20px;">
             <ul class="common-form">
               <li class="username border-1p">
@@ -34,8 +34,8 @@
               </li>
             </ul>
             <el-checkbox class="agree" v-model="agreement">
-              我已阅读并同意遵守 
-              <a @click="open('法律声明','此仅为个人练习开源模仿项目，仅供学习参考，承担不起任何法律问题')">法律声明</a> 和 
+              我已阅读并同意遵守
+              <a @click="open('法律声明','此仅为个人练习开源模仿项目，仅供学习参考，承担不起任何法律问题')">法律声明</a> 和
               <a @click="open('隐私条款','本网站将不会严格遵守有关法律法规和本隐私政策所载明的内容收集、使用您的信息')">隐私条款</a>
             </el-checkbox>
             <div style="margin-bottom: 30px;">
@@ -51,7 +51,7 @@
             <ul class="common-form pr">
               <!-- <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registered.errMsg}}</li> -->
               <li style="text-align: center;line-height: 48px;margin-bottom: 0;font-size: 12px;color: #999;">
-                <span>如果您已拥有 XMall 账号，则可在此</span>
+                <span>如果您已拥有 咕泡商城 账号，则可在此</span>
                 <a href="javascript:;"
                    style="margin: 0 5px"
                    @click="toLogin">登陆</a>
