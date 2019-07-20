@@ -1,0 +1,66 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: PingFang SC, Helvetica Neue, Helvetica, Arial, Hiragino Sans GB, Microsoft Yahei, \\5FAE\8F6F\96C5\9ED1, STHeiti, \\534E\6587\7EC6\9ED1, sans-serif;
+  color: #666;
+  font-size: 14px;
+}
+
+a {
+  font-style: normal;
+  text-decoration: none;
+  color: #5079d9;
+  cursor: pointer;
+  transition: all .15s ease-out;
+  &:hover {
+    color: #6b95ea;
+  }
+}
+
+li {
+  list-style-type: none;
+}
+
+input,
+img,
+button {
+  border: none;
+  outline: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-size: 100%;
+  font-weight: 400;
+}
+
+i, em {
+  font-style: normal;
+}
+
+input[type=number], textarea {
+  -moz-appearance: textfield;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button,
+input[type="submit"],
+input[type="search"],
+input[type="reset"] {
+  -webkit-appearance: none;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #BEBEBE;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #BEBEBE;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #BEBEBE;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #BEBEBE;
+}

@@ -1,0 +1,72 @@
+.w {
+  width: 1220px;
+  margin: 0 auto;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.pr {
+  position: relative;
+}
+
+.pa {
+  position: absolute;
+}
+
+.active {
+  color: #c81623;
+}
+
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  line-height: 0;
+  visibility: hidden;
+}
+
+.clearfix {
+  *zoom: 1
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// 删除按钮
+.del-btn {
+  display: block;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) -50px -60px no-repeat;
+  background-size: 240px 107px;
+  text-indent: -9999em;
+  &:hover {
+    background-position: -75px -60px;
+  }
+}
+
+.layout-container {
+  min-height: 400px;
+  background: #E6E6E6;
+}
+
+.gray-box {
+  overflow: hidden;
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #dcdcdc;
+  border-color: rgba(0, 0, 0, .14);
+  box-shadow: 0 3px 8px -6px rgba(0, 0, 0, .1);
+}
+
+
