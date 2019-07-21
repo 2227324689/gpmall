@@ -7,6 +7,7 @@ import ProductDetail from './productDetail'
 import AddCard from './addCart'
 import Login from './login'
 import CartList from './cartList'
+import QuickSearch from './quickSearch'
 
 export default {
   /**
@@ -21,5 +22,6 @@ export default {
     AddCard.bootstrap(mock)
     Login.bootstrap(mock)
     CartList.bootstrap(mock)
+    QuickSearch.bootstrap(mock)
   }
 }

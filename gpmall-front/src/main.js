@@ -37,7 +37,9 @@ Vue.use(VueLazyload, {
   loading: '/static/images/load.gif'
   // attempt: 1
 })
+
 Mock.bootstrap()
+
 Vue.config.productionTip = false
 const whiteList = ['/home', '/goods', '/login', '/register', '/goodsDetails', '/thanks', '/search', '/refreshsearch', '/refreshgoods'] // 不需要登陆的页面
 router.beforeEach(function (to, from, next) {

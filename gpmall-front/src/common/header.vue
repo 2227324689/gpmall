@@ -8,27 +8,14 @@
               <router-link to="/" title="咕泡商城">咕泡商城</router-link>
             </h1>
           </div>
+          <div _ngcontent-c1="" class="container">
+            <ul _ngcontent-c1="" class="nav-list"> <!---->
+              <li _ngcontent-c1=""><a _ngcontent-c1="" class="active" title="在线商城" href="/" target="">在线商城 </a></li>
+              <li _ngcontent-c1=""><a _ngcontent-c1="" title="咕泡官网" href="//www.gupaoedu.com"target="_blank"> 咕泡官网 </a></li>
+              <li _ngcontent-c1=""><a _ngcontent-c1="" title="坚果 R1"  href="//gper.club" target="_blank">Gper社区</a></li>
+            </ul>
+          </div>
           <div class="right-box">
-            <div class="nav-list">
-              <el-autocomplete
-                placeholder="请输入商品信息"
-                icon="search"
-                v-model="input"
-                minlength=1
-                maxlength=100
-                :fetch-suggestions="querySearchAsync"
-                @select="handleSelect"
-                :on-icon-click="handleIconClick"
-                @keydown.enter.native="handleIconClick">
-              </el-autocomplete>
-              <router-link to="/goods"><a @click="changePage(2)">全部商品</a></router-link>
-              <!--<router-link to="/thanks"><a @click="changePage(4)">捐赠</a></router-link>-->
-              <!-- <router-link to="/">Smartisan M1 / M1L</router-link>
-              <router-link to="/">Smartisan OS</router-link>
-              <router-link to="/">欢喜云</router-link>
-              <router-link to="/">应用下载</router-link>
-              <router-link to="/">官方论坛</router-link> -->
-            </div>
             <div class="nav-aside" ref="aside" :class="{fixed:st}">
               <div class="user pr">
                 <router-link to="/user">个人中心</router-link>
@@ -132,14 +119,30 @@
                 <li>
                   <router-link to="/"><a @click="changGoods(-1)" :class="{active:choosePage===-1}">首页</a></router-link>
                 </li>
-                <li>
-                  <a @click="changGoods(-2)" :class="{active:choosePage===-2}">全部</a>
-                </li>
                 <li v-for="(item,i) in navList" :key="i">
                   <a @click="changGoods(i, item)" :class="{active:i===choosePage}">{{item.picUrl}}</a>
                 </li>
               </ul>
-              <div></div>
+              <div class="nav-search">
+                <el-autocomplete
+                  placeholder="请输入商品信息"
+                  icon="search"
+                  v-model="input"
+                  minlength=1
+                maxlength=100
+                :fetch-suggestions="querySearchAsync"
+                @select="handleSelect"
+                :on-icon-click="handleIconClick"
+                @keydown.enter.native="handleIconClick">
+                </el-autocomplete>
+                <!--<router-link to="/goods"><a @click="changePage(2)">全部商品</a></router-link>-->
+                <!--<router-link to="/thanks"><a @click="changePage(4)">捐赠</a></router-link>-->
+                <!-- <router-link to="/">Smartisan M1 / M1L</router-link>
+                <router-link to="/">Smartisan OS</router-link>
+                <router-link to="/">欢喜云</router-link>
+                <router-link to="/">应用下载</router-link>
+                <router-link to="/">官方论坛</router-link> -->
+              </div>
             </div>
           </div>
         </div>
@@ -150,11 +153,13 @@
 <script>
   import YButton from '/components/YButton'
   import { mapMutations, mapState } from 'vuex'
-  import { getCartList, cartDel, getQuickSearch } from '/api/goods'
+  import { getQuickSearch, getCartList, cartDel } from '/api/goods'
   import { loginOut, navList } from '/api/index'
   import { setStore, getStore, removeStore } from '/utils/storage'
+
   // import store from '../store/'
   import 'element-ui/lib/theme-default/index.css'
+
   export default{
     data () {
       return {
@@ -250,22 +255,22 @@
             key: this.input
           }
         }
-        getQuickSearch(params).then(res => {
-          if (res === null || res === '') {
+        getQuickSearch(params).then(response => {
+          if (response === null || response === '') {
             return
           }
-          if (res.error) {
-            this.showError(res.error.reason)
+          if (response.error) {
+            this.showError(response.error.reason)
             return
           }
           var array = []
           var maxSize = 5
-          if (res.hits.hits.length <= 5) {
-            maxSize = res.hits.hits.length
+          if (response.hits.hits.length <= 5) {
+            maxSize = response.hits.hits.length
           }
           for (var i = 0; i < maxSize; i++) {
             var obj = {}
-            obj.value = res.hits.hits[i]._source.productName
+            obj.value = response.hits.hits[i]._source.productName
             array.push(obj)
           }
           if (array.length !== 0) {
@@ -470,14 +475,14 @@
 
   .header-box {
     background: $head-bgc;
-    background-image: -webkit-linear-gradient(#000, #121212);
-    background-image: linear-gradient(#000, #121212);
+    background-image: -webkit-linear-gradient(#000, #fff);
+    background-image: linear-gradient(#000, #fff);
     width: 100%;
 
   }
 
   header {
-    height: 100px;
+    height: 50px;
     z-index: 30;
     position: relative;
   }
@@ -493,10 +498,10 @@
       display: flex;
       align-items: center;
       > a {
-        background: url(/static/images/global-logo-red@2x.png) no-repeat 50%;
+        background: url(/static/images/nav_logo.png) no-repeat 100%;
         background-size: cover;
         display: block;
-        @include wh(50px, 40px);
+        @include wh(144px, 46px);
         text-indent: -9999px;
         background-position: 0 0;
       }
@@ -529,18 +534,7 @@
     }
     .nav-aside {
       position: relative;
-      &:before {
-        background: #333;
-        background: hsla(0, 0%, 100%, .2);
-        content: " ";
-        @include wh(1px, 13px);
-        overflow: hidden;
-        // position: absolute;
-        display: flex;
-        align-items: center;
-        // top: 4px;
-        left: 0;
-      }
+
       &.fixed {
         width: 262px;
         position: fixed;
@@ -580,7 +574,7 @@
     }
     // 用户
     .user {
-      margin-left: 41px;
+      margin-left: 505px;
       width: 36px;
       &:hover {
         a:before {
@@ -676,7 +670,7 @@
     .shop {
       position: relative;
       float: left;
-      margin-left: 21px;
+      margin-left: 5px;
       width: 61px;
       z-index: 99;
       &:hover {
@@ -1005,25 +999,35 @@
       display: flex;
       justify-content: space-between;
     }
+    .nav-search {
+      position: relative;
+      float:right;
+      margin-right:120px;
+      width:25%;
+      .el-autocomplete {
+        width:100%;
+      }
+    }
     .nav-list2 {
       height: 28px;
-      line-height: 28px;
+      line-height: 31px;
       display: flex;
       align-items: center;
       height: 100%;
+      font-size:16px;
       li:first-child {
         padding-left: 0;
         a {
-          padding-left: 10px;
+          padding-left: 15px;
         }
       }
       li {
         position: relative;
         float: left;
-        padding-left: 2px;
+        padding-left: 4px;
         a {
           display: block;
-          padding: 0 10px;
+          padding: 0 15px;
           color: #666;
           &.active {
             font-weight: bold;
@@ -1032,15 +1036,6 @@
         a:hover {
           color: #5683EA;
         }
-      }
-      li:before {
-        content: ' ';
-        position: absolute;
-        left: 0;
-        top: 13px;
-        width: 2px;
-        height: 2px;
-        background: #bdbdbd;
       }
     }
   }
