@@ -36,7 +36,6 @@ export default {
   bootstrap (mock) {
     mock.onGet(apis.getQuickSearch).reply(config => {
       return new Promise((resolve, reject) => {
-        console.log(searchData)
         resolve([200, searchData])
       })
     })

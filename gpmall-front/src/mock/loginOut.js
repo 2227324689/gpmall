@@ -1,19 +1,20 @@
 import {apis} from '../api/api'
 
-const AddCartData = {
+const LogOutData = {
   'success': true,
   'message': 'success',
   'code': 200,
-  'timestamp': 1563605326848,
-  'result': 1
+  'timestamp': 1563678797287,
+  'result': null
 }
 
 export default {
   bootstrap (mock) {
-    mock.onPost(apis.addCart).reply(config => {
+    mock.onGet(apis.loginOut).reply(config => {
       return new Promise((resolve, reject) => {
-        resolve([200, AddCartData])
+        resolve([200, LogOutData])
       })
     })
   }
 }
+

@@ -30,7 +30,7 @@
           </a></div>
         </div>
       </div>
-      <div class="footer-copy"> 本站仅用于学习交流使用，前端末班是在 <a href="http://xmall.exrick.cn/" target="_blank">xmall</a>
+      <div class="footer-copy"> 本站仅用于学习交流使用，前端框架是在 <a href="http://xmall.exrick.cn/" target="_blank">xmall</a>
         基础之上做的重构，在此表示感谢</div>
     </div>
   </footer>

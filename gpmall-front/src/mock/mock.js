@@ -8,6 +8,10 @@ import AddCard from './addCart'
 import Login from './login'
 import CartList from './cartList'
 import QuickSearch from './quickSearch'
+import AllGoods from './allGoods'
+import LogOut from './loginOut'
+import OrderList from './orderList'
+import AddressList from './addressList'
 
 export default {
   /**
@@ -23,5 +27,9 @@ export default {
     Login.bootstrap(mock)
     CartList.bootstrap(mock)
     QuickSearch.bootstrap(mock)
+    AllGoods.bootstrap(mock)
+    LogOut.bootstrap(mock)
+    OrderList.bootstrap(mock)
+    AddressList.bootstrap(mock)
   }
 }

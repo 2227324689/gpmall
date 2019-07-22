@@ -12,7 +12,7 @@ const LoginData = {
     'email': null,
     'sex': null,
     'address': null,
-    'file': 'http://p77xsahe9.bkt.clouddn.com/1563551994449.png',
+    'file': 'https://istio.tech/images/avatar.png',
     'description': null,
     'points': null,
     'balance': null,
@@ -24,7 +24,7 @@ const LoginData = {
 
 export default {
   bootstrap (mock) {
-    mock.onGet(apis.userLogin).reply(config => {
+    mock.onPost(apis.userLogin).reply(config => {
       return new Promise((resolve, reject) => {
         resolve([200, LoginData])
       })
