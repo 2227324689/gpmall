@@ -3,10 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.6.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <artifactId>commons-parent</artifactId>
+        <groupId>com.gpmall.commons</groupId>
+        <version>1.0-SNAPSHOT</version>
     </parent>
     <groupId>com.gpmall.sso</groupId>
     <artifactId>gpmall-sso</artifactId>
@@ -16,6 +15,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <user-service.version>0.0.1-SNAPSHOT</user-service.version>
     </properties>
 
     <dependencies>
@@ -29,8 +29,32 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+        </dependency>
+        <dependency>
+            <artifactId>user-api</artifactId>
+            <groupId>com.gpmall.user</groupId>
+            <version>${user-service.version}</version>
+        </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>

@@ -13,8 +13,6 @@
 	<groupId>com.gpmall.user</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-
-
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
@@ -23,12 +21,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -44,8 +36,8 @@
 			<artifactId>dubbo</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-framework</artifactId>
+			<groupId>org.apache.zookeeper</groupId>
+			<artifactId>zookeeper</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.curator</groupId>
@@ -63,51 +55,61 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>druid</artifactId>
 		</dependency>
+		<dependency>
+			<artifactId>user-api</artifactId>
+			<groupId>com.gpmall.user</groupId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<excludes>
+					<exclude>/**</exclude>
+				</excludes>
+			</resource>
+		</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-			<plugin>
+			<!--<plugin>
 				<groupId>org.mybatis.generator</groupId>
 				<artifactId>mybatis-generator-maven-plugin</artifactId>
-				<version>1.3.7</version>
-				<dependencies>
-					<dependency>
-						<groupId> mysql</groupId>
-						<artifactId> mysql-connector-java</artifactId>
-						<version> 5.1.39</version>
-					</dependency>
-					<dependency>
-						<groupId>org.mybatis.generator</groupId>
-						<artifactId>mybatis-generator-core</artifactId>
-						<version>1.3.5</version>
-					</dependency>
-				</dependencies>
-				<executions>
-					<execution>
-						<id>Generate MyBatis Artifacts</id>
-						<phase>package</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<!--允许移动生成的文件 -->
-					<verbose>true</verbose>
-					<!-- 是否覆盖 -->
-					<overwrite>true</overwrite>
-					<!-- 自动生成的配置 -->
-					<configurationFile>
-						src/main/resources/mybatis-generator.xml</configurationFile>
-				</configuration>
-			</plugin>
+			</plugin>-->
 		</plugins>
-
 	</build>
-
 </project>

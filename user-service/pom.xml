@@ -5,7 +5,7 @@
 	<modules>
 		<module>user-api</module>
 		<module>user-provider</module>
-	</modules>
+    </modules>
 
 	<groupId>com.gpmall.user</groupId>
 	<artifactId>user-service</artifactId>
@@ -17,6 +17,4 @@
 	<properties>
 		<java.version>1.8</java.version>
 	</properties>
-
-
 </project>
