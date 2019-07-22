@@ -1,6 +1,6 @@
 package com.gpmall.sso.config;
 
-import com.gpmall.commons.intercepter.TokenIntercepter;
+import com.gpmall.user.intercepter.TokenIntercepter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;

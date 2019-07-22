@@ -1,14 +1,14 @@
 package com.gpmall.sso.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.gpmall.commons.annotation.Anoymous;
-import com.gpmall.commons.intercepter.TokenIntercepter;
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
 import com.gpmall.user.IUserLoginService;
+import com.gpmall.user.annotation.Anoymous;
 import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.dto.UserLoginRequest;
 import com.gpmall.user.dto.UserLoginResponse;
+import com.gpmall.user.intercepter.TokenIntercepter;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  * 风骚的Mic 老师
  * create-date: 2019/7/21
  */
+
 @RestController
 public class LoginController {
 
@@ -44,7 +45,7 @@ public class LoginController {
         return new ResponseUtil().setErrorMsg(userLoginResponse.getMsg());
     }
 
-    @GetMapping("/checkLogin")
+    @GetMapping("/login")
     public ResponseData checkLogin(HttpServletRequest request){
         String userInfo=(String)request.getAttribute(TokenIntercepter.USER_INFO_KEY);
         Object object=JSON.parse(userInfo);

@@ -1,11 +1,11 @@
-package com.gpmall.commons.intercepter;
+package com.gpmall.user.intercepter;
 
 import com.alibaba.fastjson.JSON;
-import com.gpmall.commons.annotation.Anoymous;
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
 import com.gpmall.commons.tool.utils.CookieUtil;
 import com.gpmall.user.IUserLoginService;
+import com.gpmall.user.annotation.Anoymous;
 import com.gpmall.user.dto.CheckAuthRequest;
 import com.gpmall.user.dto.CheckAuthResponse;
 import org.apache.commons.lang3.StringUtils;

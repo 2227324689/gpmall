@@ -5,7 +5,8 @@
 	<modules>
 		<module>user-api</module>
 		<module>user-provider</module>
-    </modules>
+		<module>user-sdk</module>
+	</modules>
 
 	<groupId>com.gpmall.user</groupId>
 	<artifactId>user-service</artifactId>

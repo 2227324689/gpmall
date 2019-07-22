@@ -3,8 +3,8 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>commons-parent</artifactId>
-        <groupId>com.gpmall.commons</groupId>
+        <groupId>com.gpmall.parent</groupId>
+        <artifactId>gpmall-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -25,9 +25,9 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.gpmall.commons</groupId>
-            <artifactId>commons-support</artifactId>
-            <optional>true</optional>
+            <groupId>com.gpmall.parent</groupId>
+            <version>1.0-SNAPSHOT</version>
+            <artifactId>commons-core</artifactId>
         </dependency>
     </dependencies>
 
