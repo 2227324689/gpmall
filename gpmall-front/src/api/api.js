@@ -2,7 +2,7 @@
 export const apis = {
   userLogin: '/member/login',
   loginOut: '/member/loginOut',
-  userInfo: '/login',
+  userInfo: '/sso/login',
   register: '/member/register',
   upload: '/member/imgaeUpload',
   updateheadimage: '/member/updateheadimage',

@@ -12,6 +12,7 @@ import com.gpmall.user.intercepter.TokenIntercepter;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 
 @RestController
+@RequestMapping("/sso")
 public class LoginController {
 
     @Reference(timeout = 3000)

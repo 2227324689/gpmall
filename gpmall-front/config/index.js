@@ -23,13 +23,13 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 9999,
     autoOpenBrowser: true,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/*': {
-        target: 'http://127.0.0.1:8080'  // 请求本地 需要咕泡商城后台项目 默认127.0.0.1:7777
+      '/sso/*': {
+        target: 'http://127.0.0.1:8080'  // 请求本地 需要咕泡商城后台项目 默认127.0.0.1:8080
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
