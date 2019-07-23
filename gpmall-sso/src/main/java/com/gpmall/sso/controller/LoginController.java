@@ -10,13 +10,11 @@ import com.gpmall.user.dto.UserLoginRequest;
 import com.gpmall.user.dto.UserLoginResponse;
 import com.gpmall.user.intercepter.TokenIntercepter;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -34,10 +32,12 @@ public class LoginController {
 
     @Anoymous
     @PostMapping("/login")
-    public ResponseData login(String userName, String password, HttpServletResponse response){
+
+    public ResponseData login(@RequestBody Map<String,String> map,
+                              HttpServletResponse response){
         UserLoginRequest loginRequest=new UserLoginRequest();
-        loginRequest.setPassword(userName);
-        loginRequest.setUserName(password);
+        loginRequest.setPassword(map.get("userName"));
+        loginRequest.setUserName(map.get("userPwd"));
         UserLoginResponse userLoginResponse=iUserLoginService.login(loginRequest);
         if(userLoginResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
             response.addHeader("Set-Cookie",

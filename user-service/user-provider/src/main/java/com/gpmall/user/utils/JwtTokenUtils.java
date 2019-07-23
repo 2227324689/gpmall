@@ -28,24 +28,12 @@ public class JwtTokenUtils {
      */
     private String msg;
     /**
-     * 密钥
-     */
-    private String secret;
-    /**
      * 所验证的jwt
      */
     @Setter private String token;
 
     {
-        Properties properties = new Properties();
-        //加载resource目录下的配置文件
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream("secret.properties");
-        try {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            log.info("读取密钥文件错误:"+e);
-        }
-        secret=properties.getProperty("jwtsecret");
+
     }
 
     /**
@@ -59,9 +47,10 @@ public class JwtTokenUtils {
             token = JWT.create()
                     .withIssuer("wlgzs").withExpiresAt(DateTime.now().plusDays(1).toDate())
                     .withClaim("user", msg)
-                    .sign(Algorithm.HMAC256(secret));
+                    .sign(Algorithm.HMAC256(createSecret()));
         } catch (Exception e) {
-            log.info("jwt 生成问题");
+            log.info("jwt 生成问题:"+e);
+            throw e;
         }
         log.info("加密后：" + token);
         return token;
@@ -74,7 +63,7 @@ public class JwtTokenUtils {
         try {
 
             //使用hmac256加密算法
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(createSecret()))
                     .withIssuer("wlgzs")
                     .build();
             decodedJWT = verifier.verify(token);
@@ -93,5 +82,16 @@ public class JwtTokenUtils {
             throw new ValidateException(SysRetCodeConstants.TOKEN_VALID_FAILED.getCode(),SysRetCodeConstants.TOKEN_VALID_FAILED.getMessage());
         }
         return decodedJWT.getClaim("user").asString();
+    }
+    public String createSecret(){
+        Properties properties = new Properties();
+        //加载resource目录下的配置文件
+        InputStream inputStream = ClassLoader.getSystemResourceAsStream("secret.properties");
+        try {
+            properties.load(inputStream);
+        } catch (IOException e) {
+            log.info("读取密钥文件错误:"+e);
+        }
+        return properties.getProperty("jwtsecret");
     }
 }

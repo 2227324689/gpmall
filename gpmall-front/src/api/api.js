@@ -1,6 +1,6 @@
 
 export const apis = {
-  userLogin: '/member/login',
+  userLogin: '/sso/login',
   loginOut: '/member/loginOut',
   userInfo: '/sso/login',
   register: '/member/register',

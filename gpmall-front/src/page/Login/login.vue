@@ -171,8 +171,8 @@ export default {
         statusKey: this.statusKey
       }
       userLogin(params).then(res => {
-        if (res.result.state === 1) {
-          setStore('token', res.result.token)
+        if (res.success) {
+          setStore('access_token', res.result.token)
           setStore('userId', res.result.id)
           // 登录后添加当前缓存中的购物车
           if (this.cart.length) {
@@ -193,7 +193,7 @@ export default {
           }
         } else {
           this.logintxt = '登录'
-          this.message(res.result.message)
+          this.message(res.message)
           captcha.reset()
           return false
         }

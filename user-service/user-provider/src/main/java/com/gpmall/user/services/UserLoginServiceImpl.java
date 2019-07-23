@@ -37,21 +37,20 @@ public class UserLoginServiceImpl implements IUserLoginService {
     public UserLoginResponse login(UserLoginRequest request) {
         log.info("Begin UserLoginServiceImpl.login: request:"+request);
         UserLoginResponse response=new UserLoginResponse();
-        response.setCode(SysRetCodeConstants.SUCCESS.getCode());
-        response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         try {
             request.requestCheck();
             UserExample userExample = new UserExample();
             UserExample.Criteria criteria = userExample.createCriteria();
             criteria.andStateEqualTo(1);
             criteria.andUsernameEqualTo(request.getUserName());
-            List<User> users = userMapper.selectByExample(new UserExample());
+
+            List<User> users = userMapper.selectByExample(userExample);
             if(users==null||users.size()==0) {
                 response.setCode(SysRetCodeConstants.USERORPASSWORD_ERRROR.getCode());
                 response.setMsg(SysRetCodeConstants.USERORPASSWORD_ERRROR.getMessage());
                 return response;
             }
-            if(!DigestUtils.md5DigestAsHex(request.getPassword().getBytes()).equals(request.getPassword())){
+            if(!DigestUtils.md5DigestAsHex(request.getPassword().getBytes()).equals(users.get(0).getPassword())){
                 response.setCode(SysRetCodeConstants.USERORPASSWORD_ERRROR.getCode());
                 response.setMsg(SysRetCodeConstants.USERORPASSWORD_ERRROR.getMessage());
                 return response;
@@ -59,6 +58,8 @@ public class UserLoginServiceImpl implements IUserLoginService {
             String token=JwtTokenUtils.builder().msg(JSON.toJSON(users.get(0)).toString()).build().creatJwtToken();
             response=UserConverterMapper.INSTANCE.converter(users.get(0));
             response.setToken(token);
+            response.setCode(SysRetCodeConstants.SUCCESS.getCode());
+            response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         }catch (Exception e){
             log.error("UserLoginServiceImpl.login Occur Exception :"+e);
             ExceptionProcessorUtils.wraperHandlerException(response,e);

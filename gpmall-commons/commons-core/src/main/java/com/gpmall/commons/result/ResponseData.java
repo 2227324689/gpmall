@@ -1,13 +1,24 @@
 package com.gpmall.commons.result;
 
+
 public class ResponseData<T> {
 
-    private boolean success;  //代码
+    private boolean success;
 
     private String message; //消息
 
+    private int code;
+
     private T result; //返回的数据
 
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
 
     /**
      * 时间戳
