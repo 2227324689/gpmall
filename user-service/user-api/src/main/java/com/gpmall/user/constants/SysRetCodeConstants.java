@@ -13,6 +13,8 @@ public enum SysRetCodeConstants {
 
     USERORPASSWORD_ERRROR               ("003001","用户名或密码不正确"),
     TOKEN_VALID_FAILED                  ("003002","token校验失败"),
+    USERNAME_ALREADY_EXISTS             ("003003","用户名已存在"),
+    USER_REGISTER_FAILED                ("003004","注册失败，请联系管理员"),
 
     REQUEST_FORMAT_ILLEGAL              ("003060", "请求数据格式非法"),
     REQUEST_IP_ILLEGAL                  ("003061", "请求IP非法"),

@@ -21,24 +21,22 @@ public class CookieUtil {
         }
         return null;
     }
-
-
     public static Cookie genCookieWithDomain(String key, String value, int maxAge, String domain) {
         Cookie cookie = new Cookie(key, value);
-        enrichCookie(cookie, "/", maxAge, domain);
+        cookie.setDomain(domain);
+        enrichCookie(cookie, "/", maxAge);
         return cookie;
     }
 
-    public static Cookie genCookie(String key, String value, String uri, int maxAge, String domain) {
+    public static Cookie genCookie(String key, String value, String uri, int maxAge) {
         Cookie cookie = new Cookie(key, value);
-        enrichCookie(cookie, uri, maxAge, domain);
+        enrichCookie(cookie, uri, maxAge);
         return cookie;
     }
 
-    public static void enrichCookie(Cookie cookie, String uri, int maxAge, String domain) {
+    public static void enrichCookie(Cookie cookie, String uri, int maxAge) {
         cookie.setPath(uri);
         cookie.setMaxAge(maxAge);
-        cookie.setDomain(domain);
     }
 
     public static void setCookie(HttpServletResponse response, Cookie cookie) {
@@ -46,11 +44,4 @@ public class CookieUtil {
     }
 
 
-    public static boolean isAjax(HttpServletRequest request) {
-        boolean isAjaxRequest = false;
-        if (!StringUtils.isBlank(request.getHeader("x-requested-with")) && request.getHeader("x-requested-with").equals("XMLHttpRequest")) {
-            isAjaxRequest = true;
-        }
-        return isAjaxRequest;
-    }
 }

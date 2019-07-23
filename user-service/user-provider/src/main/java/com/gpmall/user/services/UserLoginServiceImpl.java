@@ -16,10 +16,13 @@ import com.gpmall.user.utils.JwtTokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -55,14 +58,17 @@ public class UserLoginServiceImpl implements IUserLoginService {
                 response.setMsg(SysRetCodeConstants.USERORPASSWORD_ERRROR.getMessage());
                 return response;
             }
-            String token=JwtTokenUtils.builder().msg(JSON.toJSON(users.get(0)).toString()).build().creatJwtToken();
+            Map<String,Object> map=new HashMap<>();
+            map.put("uid",users.get(0).getId());
+
+            String token=JwtTokenUtils.builder().msg(JSON.toJSON(map).toString()).build().creatJwtToken();
             response=UserConverterMapper.INSTANCE.converter(users.get(0));
             response.setToken(token);
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         }catch (Exception e){
             log.error("UserLoginServiceImpl.login Occur Exception :"+e);
-            ExceptionProcessorUtils.wraperHandlerException(response,e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }
         return response;
     }
@@ -85,7 +91,7 @@ public class UserLoginServiceImpl implements IUserLoginService {
             response.setMsg(SysRetCodeConstants.TOKEN_VALID_FAILED.getMessage());
         }catch (Exception e){
             log.error("UserLoginServiceImpl.validToken Occur Exception :"+e);
-            ExceptionProcessorUtils.wraperHandlerException(response,e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }
         return response;
     }

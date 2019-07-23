@@ -247,7 +247,7 @@
         this.$router.push({path: 'checkout'})
       },
       delChecked () {
-        getCartList({userId: getStore('userId')}).then(res => {
+        getCartList().then(res => {
           if (res.success === true) {
             res.result.forEach(item => {
               if (item.checked === '1') {

@@ -25,7 +25,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.gpmall.parent</groupId>
+            <groupId>com.gpmall.commons</groupId>
             <version>1.0-SNAPSHOT</version>
             <artifactId>commons-core</artifactId>
         </dependency>

@@ -20,10 +20,10 @@ public class ExceptionUtil {
         if (e instanceof ValidateException) {
             response.setCode(((ValidateException) e).getErrorCode());
             response.setMsg(e.getMessage());
-        }if(e instanceof ProcessException) {
+        }else if(e instanceof ProcessException) {
             response.setCode(((ProcessException) e).getErrorCode());
             response.setMsg(e.getMessage());
-        }if(e instanceof BizException) {
+        }else if(e instanceof BizException) {
             response.setCode(((BizException) e).getErrorCode());
             response.setMsg(e.getMessage());
         }else if (e instanceof Exception) {

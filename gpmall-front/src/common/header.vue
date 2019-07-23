@@ -504,7 +504,7 @@
         background: url(/static/images/nav_logo.png) no-repeat 100%;
         background-size: cover;
         display: block;
-        @include wh(144px, 46px);
+        @include wh(144px, 70px);
         text-indent: -9999px;
         background-position: 0 0;
       }

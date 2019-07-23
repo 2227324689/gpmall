@@ -28,8 +28,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/sso/*': {
+      '/user/*': {
         target: 'http://127.0.0.1:8080'  // 请求本地 需要咕泡商城后台项目 默认127.0.0.1:8080
+      },
+      '/shopping/*': {
+        target: 'http://127.0.0.1:8081'  // 请求本地 需要咕泡商城后台项目 默认127.0.0.1:8081
       }
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"

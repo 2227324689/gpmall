@@ -7,7 +7,7 @@ export const getAllGoods = (params) => {
 }
 // 获取购物车列表
 export const getCartList = (params) => {
-  return http.fetchPost(apis.getCartList, params)
+  return http.fetchGet(apis.getCartList, params)
 }
 // 加入购物车
 export const addCart = (params) => {

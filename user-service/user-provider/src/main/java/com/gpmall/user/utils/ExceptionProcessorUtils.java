@@ -12,7 +12,7 @@ import com.gpmall.user.constants.SysRetCodeConstants;
  */
 public class ExceptionProcessorUtils {
 
-    public static void wraperHandlerException(AbstractResponse response,Exception e){
+    public static void wrapperHandlerException(AbstractResponse response,Exception e){
         try {
             ExceptionUtil.handlerException4biz(response,e);
         } catch (Exception ex) {

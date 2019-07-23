@@ -27,7 +27,7 @@ public class TokenIntercepter extends HandlerInterceptorAdapter {
     @Reference(timeout = 3000)
     IUserLoginService iUserLoginService;
 
-    private final String ACCESS_TOKEN="access_token";
+    public static String ACCESS_TOKEN="access_token";
 
     public static String USER_INFO_KEY="userInfo";
 

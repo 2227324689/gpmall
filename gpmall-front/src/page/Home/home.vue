@@ -24,7 +24,7 @@
 
       <div class="activity-panel" v-if="item.type === 1">
         <ul class="box">
-          <li class="content" v-for="(iitem,j) in item.panelContents" :key="j" @click="linkTo(iitem)">
+          <li class="content" v-for="(iitem,j) in item.panelContentItems" :key="j" @click="linkTo(iitem)">
             <img class="i" :src="iitem.picUrl">
             <a class="cover-link"></a>
           </li>
@@ -34,7 +34,7 @@
       <section class="w mt30 clearfix" v-if="item.type === 2">
         <y-shelf :title="item.name">
           <div slot="content" class="hot">
-            <mall-goods :msg="iitem" v-for="(iitem,j) in item.panelContents" :key="j"></mall-goods>
+            <mall-goods :msg="iitem" v-for="(iitem,j) in item.panelContentItems" :key="j"></mall-goods>
           </div>
         </y-shelf>
       </section>
@@ -42,11 +42,11 @@
       <section class="w mt30 clearfix" v-if="item.type === 3">
         <y-shelf :title="item.name">
           <div slot="content" class="floors" >
-            <div class="imgbanner" v-for="(iitem,j) in item.panelContents" :key="j" v-if="iitem.type === 2 || iitem.type === 3" @click="linkTo(iitem)">
+            <div class="imgbanner" v-for="(iitem,j) in item.panelContentItems" :key="j" v-if="iitem.type === 2 || iitem.type === 3" @click="linkTo(iitem)">
               <img v-lazy="iitem.picUrl">
               <a class="cover-link"></a>
             </div>
-            <mall-goods :msg="iitem" v-for="(iitem,j) in item.panelContents" :key="j+'key'" v-if="iitem.type != 2 && iitem.type != 3"></mall-goods>
+            <mall-goods :msg="iitem" v-for="(iitem,j) in item.panelContentItems" :key="j+'key'" v-if="iitem.type != 2 && iitem.type != 3"></mall-goods>
           </div>
         </y-shelf>
       </section>
@@ -61,16 +61,16 @@
       </div>
     </div>
 
-    <el-dialog
+    <!--<el-dialog
       title="通知"
       :visible.sync="dialogVisible"
       width="30%"
       style="width:70%;margin:0 auto">
-      <span>首页已升级！XPay个人支付收款系统已上线，赶快去支付体验吧！</span>
+      <span>测试消息</span>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogVisible = false">知道了</el-button>
       </span>
-    </el-dialog>
+    </el-dialog>-->
   </div>
 </template>
 <script>
@@ -180,7 +180,7 @@
         this.loading = false
         for (let i = 0; i < data.length; i++) {
           if (data[i].type === 0) {
-            this.banner = data[i].panelContents
+            this.banner = data[i].panelContentItems
           }
         }
       })

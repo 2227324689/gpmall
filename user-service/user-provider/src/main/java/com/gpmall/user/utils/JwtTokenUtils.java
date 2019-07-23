@@ -32,14 +32,6 @@ public class JwtTokenUtils {
      */
     @Setter private String token;
 
-    {
-
-    }
-
-    /**
-     * 生成jwt
-     * https://blog.csdn.net/sinat_25235033/article/details/80324006
-     */
     public String creatJwtToken () {
         msg = new AESUtil(msg).encrypt();//先对信息进行aes加密(防止被破解）
         String token = null;
@@ -49,8 +41,7 @@ public class JwtTokenUtils {
                     .withClaim("user", msg)
                     .sign(Algorithm.HMAC256(createSecret()));
         } catch (Exception e) {
-            log.info("jwt 生成问题:"+e);
-            throw e;
+              throw e;
         }
         log.info("加密后：" + token);
         return token;
@@ -61,7 +52,6 @@ public class JwtTokenUtils {
     public String freeJwt () {
         DecodedJWT decodedJWT = null;
         try {
-
             //使用hmac256加密算法
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(createSecret()))
                     .withIssuer("wlgzs")
@@ -81,8 +71,9 @@ public class JwtTokenUtils {
         if(!header.equals(headPayload[0]) && !payload.equals(headPayload[1])){
             throw new ValidateException(SysRetCodeConstants.TOKEN_VALID_FAILED.getCode(),SysRetCodeConstants.TOKEN_VALID_FAILED.getMessage());
         }
-        return decodedJWT.getClaim("user").asString();
+        return new AESUtil(decodedJWT.getClaim("user").asString()).decrypt();
     }
+
     public String createSecret(){
         Properties properties = new Properties();
         //加载resource目录下的配置文件

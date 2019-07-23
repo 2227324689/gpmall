@@ -35,7 +35,7 @@
             </ul>
             <el-checkbox class="agree" v-model="agreement">
               我已阅读并同意遵守
-              <a @click="open('法律声明','此仅为个人练习开源模仿项目，仅供学习参考，承担不起任何法律问题')">法律声明</a> 和
+              <a @click="open('法律声明','此站点仅作为学习使用，承担不起任何法律问题')">法律声明</a> 和
               <a @click="open('隐私条款','本网站将不会严格遵守有关法律法规和本隐私政策所载明的内容收集、使用您的信息')">隐私条款</a>
             </el-checkbox>
             <div style="margin-bottom: 30px;">
@@ -69,7 +69,7 @@ import YFooter from '/common/footer'
 import YButton from '/components/YButton'
 import { register, geetest } from '/api/index.js'
 require('../../../static/geetest/gt.js')
-var captcha
+// var captcha
 export default {
   data () {
     return {
@@ -139,25 +139,25 @@ export default {
         this.registxt = '注册'
         return false
       }
-      var result = captcha.getValidate()
-      if (!result) {
-        this.message('请完成验证')
-        this.registxt = '注册'
-        return false
-      }
+      // var result = captcha.getValidate()
+      // if (!result) {
+      //   this.message('请完成验证')
+      //   this.registxt = '注册'
+      //   return false
+      // }
       register({
         userName,
         userPwd,
-        challenge: result.geetest_challenge,
-        validate: result.geetest_validate,
-        seccode: result.geetest_seccode,
+        // challenge: result.geetest_challenge,
+        // validate: result.geetest_validate,
+        // seccode: result.geetest_seccode,
         statusKey: this.statusKey }).then(res => {
           if (res.success === true) {
             this.messageSuccess()
             this.toLogin()
           } else {
             this.message(res.message)
-            captcha.reset()
+            // captcha.reset()
             this.regist = '注册'
             return false
           }
@@ -174,7 +174,7 @@ export default {
           product: 'popup',
           width: '100%'
         }, function (captchaObj) {
-          captcha = captchaObj
+          // captcha = captchaObj
           captchaObj.appendTo('#captcha')
           captchaObj.onReady(function () {
             document.getElementById('wait').style.display = 'none'
@@ -184,7 +184,7 @@ export default {
     }
   },
   mounted () {
-    this.init_geetest()
+    // this.init_geetest()
   },
   components: {
     YFooter,

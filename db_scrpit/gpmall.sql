@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost_3306
-Source Server Version : 50527
-Source Host           : localhost:3306
-Source Database       : xmall
+Source Server         : 192.168.8.126
+Source Server Version : 50722
+Source Host           : 192.168.8.126:3306
+Source Database       : gpmall
 
 Target Server Type    : MYSQL
-Target Server Version : 50527
+Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2018-07-27 23:08:41
+Date: 2019-07-23 19:54:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -78,8 +78,8 @@ CREATE TABLE `tb_dict` (
 -- ----------------------------
 -- Records of tb_dict
 -- ----------------------------
-INSERT INTO `tb_dict` VALUES ('1', 'Exrick', '1');
-INSERT INTO `tb_dict` VALUES ('2', 'xmall', '1');
+INSERT INTO `tb_dict` VALUES ('1', 'Mic', '1');
+INSERT INTO `tb_dict` VALUES ('2', 'GPMall', '1');
 INSERT INTO `tb_dict` VALUES ('4', 'test', '0');
 
 -- ----------------------------
@@ -1629,10 +1629,10 @@ INSERT INTO `tb_panel_content` VALUES ('27', '8', '0', '150642571432835', '3', '
 INSERT INTO `tb_panel_content` VALUES ('28', '8', '0', '150635087972564', '4', 'https://www.smartisan.com/', 'https://resource.smartisan.com/resource/fe6ab43348a43152b4001b4454d206ac.jpg', null, null, '2018-04-15 19:08:58', '2018-04-19 23:21:13');
 INSERT INTO `tb_panel_content` VALUES ('29', '2', '2', '150642571432843', '0', '', 'https://resource.smartisan.com/resource/1/1220858shoujilouceng.jpg', null, null, '2018-04-15 20:14:35', '2018-04-20 11:41:27');
 INSERT INTO `tb_panel_content` VALUES ('30', '3', '2', '150642571432850', '0', '', 'https://resource.smartisan.com/resource/a/acillouceng1220856.jpg', null, null, '2018-04-15 20:15:18', '2018-04-20 11:18:03');
-INSERT INTO `tb_panel_content` VALUES ('32', '7', '0', '150635087972564', '1', '', 'http://static.smartisanos.cn/index/img/store/home/banner-3d-item-1-box-1_61bdc2f4f9.png', 'http://static.smartisanos.cn/index/img/store/home/banner-3d-item-1-box-3_8fa7866d59.png', 'http://ow2h3ee9w.bkt.clouddn.com/banner-3d-item-1-box-33.png', '2018-04-17 20:41:02', '2018-04-17 20:58:41');
-INSERT INTO `tb_panel_content` VALUES ('33', '7', '0', '150642571432835', '2', '', 'http://oweupqzdv.bkt.clouddn.com/bg_left.png', 'http://ow2h3ee9w.bkt.clouddn.com/phone_left2.png', 'http://oweupqzdv.bkt.clouddn.com/erji_left.png', '2018-04-17 21:08:22', '2018-04-20 10:47:19');
-INSERT INTO `tb_panel_content` VALUES ('34', '7', '0', '150635087972564', '3', null, 'https://s1.ax1x.com/2018/05/19/Ccdiid.png', '', '', '2018-04-17 21:08:30', '2018-04-17 21:08:32');
-INSERT INTO `tb_panel_content` VALUES ('35', '7', '0', '150642571432843', '4', '', 'http://ow2h3ee9w.bkt.clouddn.com/24401108web1.png', null, null, '2018-04-18 23:44:48', '2018-04-20 11:41:46');
+INSERT INTO `tb_panel_content` VALUES ('32', '7', '0', '150635087972564', '1', '', 'https://resource.smartisan.com/resource/52427d5ed690525b545d296159ffc63b.png?x-oss-process=image/format,jpg/quality,Q_100', 'https://resource.smartisan.com/resource/l/lou1.png?x-oss-process=image/format,jpg/quality,Q_100', 'https://resource.smartisan.com/resource/a9b9b5083118db99a58fe65afb6167e3.png?x-oss-process=image/format,jpg/quality,Q_100', '2018-04-17 20:41:02', '2018-04-17 20:58:41');
+INSERT INTO `tb_panel_content` VALUES ('33', '7', '0', '150642571432835', '2', '', 'https://resource.smartisan.com/resource/l/lou1.png?x-oss-process=image/format,jpg/quality,Q_100', 'https://resource.smartisan.com/resource/l/lou1.png?x-oss-process=image/format,jpg/quality,Q_100', 'https://resource.smartisan.com/resource/l/lou1.png?x-oss-process=image/format,jpg/quality,Q_100', '2018-04-17 21:08:22', '2018-04-20 10:47:19');
+INSERT INTO `tb_panel_content` VALUES ('34', '7', '0', '150635087972564', '3', null, 'https://resource.smartisan.com/resource/a9b9b5083118db99a58fe65afb6167e3.png?x-oss-process=image/format,jpg/quality,Q_100', '', '', '2018-04-17 21:08:30', '2018-04-17 21:08:32');
+INSERT INTO `tb_panel_content` VALUES ('35', '7', '0', '150642571432843', '4', '', 'https://i.loli.net/2018/11/04/5bdebb41e11f4.png', null, null, '2018-04-18 23:44:48', '2018-04-20 11:41:46');
 INSERT INTO `tb_panel_content` VALUES ('36', '9', '0', '150635087972564', '1', 'https://www.smartisan.com/pr/#/video/conference-jianguopro2', 'https://resource.smartisan.com/resource/88684d7ed5eee77e34f044fa32a9121b.png', null, null, '2018-04-18 23:51:45', '2018-04-20 12:03:05');
 INSERT INTO `tb_panel_content` VALUES ('37', '9', '0', '150642571432835', '2', 'https://www.smartisan.com/os/#/4-x', 'https://resource.smartisan.com/resource/6/610400dibu.jpg', null, null, '2018-04-18 23:51:51', '2018-04-20 12:03:19');
 INSERT INTO `tb_panel_content` VALUES ('38', '9', '0', '150635087972564', '3', 'https://www.smartisan.com/pr/#/video/changhuxi-jinghuaqi', 'https://resource.smartisan.com/resource/c245ada282824a4a15e68bec80502ad4.jpg', null, null, '2018-04-18 23:51:58', '2018-04-20 12:03:31');
@@ -1648,14 +1648,12 @@ INSERT INTO `tb_panel_content` VALUES ('47', '6', '0', '150635087972564', '1', '
 INSERT INTO `tb_panel_content` VALUES ('48', '6', '0', '150642571432835', '2', null, 'http://ow2h3ee9w.bkt.clouddn.com/FgwHSk1Rnd-8FKqNJhFSSdcq2QVB', null, null, '2018-04-19 11:18:16', '2018-04-19 11:18:18');
 INSERT INTO `tb_panel_content` VALUES ('49', '4', '0', '150635087972564', '1', null, 'http://ow2h3ee9w.bkt.clouddn.com/FjvP4gBFeYGQoEtEX7dL3kbwJTDW', null, null, '2018-04-19 11:20:15', '2018-04-19 11:20:17');
 INSERT INTO `tb_panel_content` VALUES ('50', '4', '0', '150642571432835', '2', null, 'http://ow2h3ee9w.bkt.clouddn.com/FgwHSk1Rnd-8FKqNJhFSSdcq2QVB', null, null, '2018-04-19 11:20:19', '2018-04-19 11:20:21');
-INSERT INTO `tb_panel_content` VALUES ('51', '7', '0', '150635087972564', '5', '', 'http://ow2h3ee9w.bkt.clouddn.com/417pcchunrihaolishouji.png', null, null, '2018-04-19 15:09:40', '2018-04-19 21:16:04');
-INSERT INTO `tb_panel_content` VALUES ('55', '0', '1', null, '1', 'http://xmall.exrick.cn/#/goods?cid=1184', '品牌周边', null, null, '2018-07-27 20:48:21', '2018-07-27 22:32:51');
-INSERT INTO `tb_panel_content` VALUES ('58', '0', '1', null, '2', 'http://xmall.exrick.cn/#/thanks', '捐赠名单', null, null, '2018-07-27 20:50:07', '2018-07-27 22:25:18');
-INSERT INTO `tb_panel_content` VALUES ('59', '0', '0', null, '3', 'http://xmadmin.exrick.cn', '后台管理系统', null, null, '2018-07-27 22:25:44', '2018-07-27 22:26:54');
-INSERT INTO `tb_panel_content` VALUES ('60', '0', '0', null, '4', 'http://xpay.exrick.cn', 'XPay支付系统', null, null, '2018-07-27 22:26:03', '2018-07-27 22:26:50');
-INSERT INTO `tb_panel_content` VALUES ('61', '0', '0', null, '5', 'https://github.com/Exrick/x-boot', 'XBoot框架', null, null, '2018-07-27 22:26:21', '2018-07-27 22:26:47');
-INSERT INTO `tb_panel_content` VALUES ('62', '0', '0', null, '6', 'https://www.bilibili.com/video/av23121122/', '宣传视频', null, null, '2018-07-27 22:26:44', '2018-07-27 22:26:44');
-INSERT INTO `tb_panel_content` VALUES ('63', '0', '0', null, '7', 'https://github.com/Exrick/xmall', 'Github', null, null, '2018-07-27 22:27:22', '2018-07-27 22:27:26');
+INSERT INTO `tb_panel_content` VALUES ('51', '7', '0', '150635087972564', '5', '', 'https://i.loli.net/2018/11/04/5bdebbd45a0b0.png', null, null, '2018-04-19 15:09:40', '2018-04-19 21:16:04');
+INSERT INTO `tb_panel_content` VALUES ('55', '0', '1', null, '1', '', '手机', null, null, '2018-07-27 20:48:21', '2018-07-27 22:32:51');
+INSERT INTO `tb_panel_content` VALUES ('58', '0', '1', null, '2', '', '官方配件', null, null, '2018-07-27 20:50:07', '2018-07-27 22:25:18');
+INSERT INTO `tb_panel_content` VALUES ('59', '0', '0', null, '3', '', '服饰箱包', null, null, '2018-07-27 22:25:44', '2018-07-27 22:26:54');
+INSERT INTO `tb_panel_content` VALUES ('60', '0', '0', null, '4', '', '畅呼吸', null, null, '2018-07-27 22:26:03', '2018-07-27 22:26:50');
+INSERT INTO `tb_panel_content` VALUES ('61', '0', '0', null, '5', '', '服务', null, null, '2018-07-27 22:26:21', '2018-07-27 22:26:47');
 
 -- ----------------------------
 -- Table structure for tb_permission
@@ -1739,13 +1737,13 @@ CREATE TABLE `tb_role` (
   `name` varchar(255) DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_role
 -- ----------------------------
-INSERT INTO `tb_role` VALUES ('0', '游客', '只是个过客');
 INSERT INTO `tb_role` VALUES ('1', '超级管理员', '拥有至高无上的权力');
+INSERT INTO `tb_role` VALUES ('2', '游客', '只是个过客');
 
 -- ----------------------------
 -- Table structure for tb_role_perm
@@ -1955,10 +1953,11 @@ CREATE TABLE `tb_user` (
   UNIQUE KEY `username` (`username`) USING BTREE,
   UNIQUE KEY `phone` (`phone`) USING BTREE,
   UNIQUE KEY `email` (`email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
 INSERT INTO `tb_user` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '17621230884', '1012139570@qq.com', '男', null, '1', '超级管理员', '1', 'http://ow2h3ee9w.bkt.clouddn.com/1507866340369.png', '2017-09-05 21:27:54', '2017-10-18 22:57:08');
 INSERT INTO `tb_user` VALUES ('2', 'test', '098f6bcd4621d373cade4e832627b4f6', '12345678901', '123@qq.com', '女', null, '1', '游客', '0', null, '2017-09-05 21:27:54', '2018-04-18 14:35:19');
+INSERT INTO `tb_user` VALUES ('3', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, null, null, '1', null, null, null, '2019-07-23 02:28:28', '2019-07-23 02:28:28');
