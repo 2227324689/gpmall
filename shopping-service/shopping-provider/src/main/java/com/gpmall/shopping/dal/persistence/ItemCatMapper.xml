@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gpmall.shopping.dal.persistence.PanelMapper">
-  <resultMap id="BaseResultMap" type="com.gpmall.shopping.dal.entitys.Panel">
-    <result column="id" jdbcType="INTEGER" property="id" />
+<mapper namespace="com.gpmall.shopping.dal.persistence.ItemCatMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.shopping.dal.entitys.ItemCat">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="parent_id" jdbcType="BIGINT" property="parentId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="type" jdbcType="INTEGER" property="type" />
-    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
-    <result column="position" jdbcType="INTEGER" property="position" />
-    <result column="limit_num" jdbcType="INTEGER" property="limitNum" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="sort_order" jdbcType="INTEGER" property="sortOrder" />
+    <result column="is_parent" jdbcType="BIT" property="isParent" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="updated" jdbcType="TIMESTAMP" property="updated" />
@@ -72,15 +72,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, type, sort_order, position, limit_num, status, remark, created, updated
+    id, parent_id, name, status, sort_order, is_parent, icon, remark, created, updated
   </sql>
-  <select id="selectByExample" parameterType="com.gpmall.shopping.dal.entitys.PanelExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.gpmall.shopping.dal.entitys.ItemCatExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_panel
+    from tb_item_cat
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,45 +88,55 @@
       order by ${orderByClause}
     </if>
   </select>
-  <delete id="deleteByExample" parameterType="com.gpmall.shopping.dal.entitys.PanelExample">
-    delete from tb_panel
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_item_cat
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from tb_item_cat
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gpmall.shopping.dal.entitys.ItemCatExample">
+    delete from tb_item_cat
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.gpmall.shopping.dal.entitys.Panel">
-    insert into tb_panel (id, name, type, 
-      sort_order, position, limit_num, 
-      status, remark, created, 
+  <insert id="insert" parameterType="com.gpmall.shopping.dal.entitys.ItemCat">
+    insert into tb_item_cat (id, parent_id, name, 
+      status, sort_order, is_parent, 
+      icon, remark, created, 
       updated)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{sortOrder,jdbcType=INTEGER}, #{position,jdbcType=INTEGER}, #{limitNum,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{remark,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{parentId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{status,jdbcType=INTEGER}, #{sortOrder,jdbcType=INTEGER}, #{isParent,jdbcType=BIT}, 
+      #{icon,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, 
       #{updated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.gpmall.shopping.dal.entitys.Panel">
-    insert into tb_panel
+  <insert id="insertSelective" parameterType="com.gpmall.shopping.dal.entitys.ItemCat">
+    insert into tb_item_cat
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
+      <if test="parentId != null">
+        parent_id,
+      </if>
       <if test="name != null">
         name,
       </if>
-      <if test="type != null">
-        type,
+      <if test="status != null">
+        status,
       </if>
       <if test="sortOrder != null">
         sort_order,
       </if>
-      <if test="position != null">
-        position,
+      <if test="isParent != null">
+        is_parent,
       </if>
-      <if test="limitNum != null">
-        limit_num,
-      </if>
-      <if test="status != null">
-        status,
+      <if test="icon != null">
+        icon,
       </if>
       <if test="remark != null">
         remark,
@@ -140,25 +150,25 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=INTEGER},
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="parentId != null">
+        #{parentId,jdbcType=BIGINT},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="type != null">
-        #{type,jdbcType=INTEGER},
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="sortOrder != null">
         #{sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="position != null">
-        #{position,jdbcType=INTEGER},
+      <if test="isParent != null">
+        #{isParent,jdbcType=BIT},
       </if>
-      <if test="limitNum != null">
-        #{limitNum,jdbcType=INTEGER},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
       </if>
       <if test="remark != null">
         #{remark,jdbcType=VARCHAR},
@@ -171,35 +181,35 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.gpmall.shopping.dal.entitys.PanelExample" resultType="java.lang.Long">
-    select count(*) from tb_panel
+  <select id="countByExample" parameterType="com.gpmall.shopping.dal.entitys.ItemCatExample" resultType="java.lang.Long">
+    select count(*) from tb_item_cat
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_panel
+    update tb_item_cat
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=INTEGER},
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentId != null">
+        parent_id = #{record.parentId,jdbcType=BIGINT},
       </if>
       <if test="record.name != null">
         name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="record.type != null">
-        type = #{record.type,jdbcType=INTEGER},
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.sortOrder != null">
         sort_order = #{record.sortOrder,jdbcType=INTEGER},
       </if>
-      <if test="record.position != null">
-        position = #{record.position,jdbcType=INTEGER},
+      <if test="record.isParent != null">
+        is_parent = #{record.isParent,jdbcType=BIT},
       </if>
-      <if test="record.limitNum != null">
-        limit_num = #{record.limitNum,jdbcType=INTEGER},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
+      <if test="record.icon != null">
+        icon = #{record.icon,jdbcType=VARCHAR},
       </if>
       <if test="record.remark != null">
         remark = #{record.remark,jdbcType=VARCHAR},
@@ -216,19 +226,65 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_panel
-    set id = #{record.id,jdbcType=INTEGER},
+    update tb_item_cat
+    set id = #{record.id,jdbcType=BIGINT},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
       name = #{record.name,jdbcType=VARCHAR},
-      type = #{record.type,jdbcType=INTEGER},
-      sort_order = #{record.sortOrder,jdbcType=INTEGER},
-      position = #{record.position,jdbcType=INTEGER},
-      limit_num = #{record.limitNum,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER},
+      sort_order = #{record.sortOrder,jdbcType=INTEGER},
+      is_parent = #{record.isParent,jdbcType=BIT},
+      icon = #{record.icon,jdbcType=VARCHAR},
       remark = #{record.remark,jdbcType=VARCHAR},
       created = #{record.created,jdbcType=TIMESTAMP},
       updated = #{record.updated,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gpmall.shopping.dal.entitys.ItemCat">
+    update tb_item_cat
+    <set>
+      <if test="parentId != null">
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sortOrder != null">
+        sort_order = #{sortOrder,jdbcType=INTEGER},
+      </if>
+      <if test="isParent != null">
+        is_parent = #{isParent,jdbcType=BIT},
+      </if>
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gpmall.shopping.dal.entitys.ItemCat">
+    update tb_item_cat
+    set parent_id = #{parentId,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      sort_order = #{sortOrder,jdbcType=INTEGER},
+      is_parent = #{isParent,jdbcType=BIT},
+      icon = #{icon,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

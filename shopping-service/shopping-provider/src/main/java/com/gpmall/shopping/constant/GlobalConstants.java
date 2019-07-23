@@ -9,6 +9,7 @@ package com.gpmall.shopping.constant;
 public class GlobalConstants {
 
     public final static String HEADER_PANEL_CACHE_KEY="header_panel"; //导航栏板块缓存
+
     public final static int HEADER_PANEL_ID=0;//导航栏板块表id
 
     public final static int RECOMMEND_PANEL_ID=6;//推荐商品板块表id
@@ -16,5 +17,8 @@ public class GlobalConstants {
 
     public final static String PRODUCT_ITEM_CACHE_KEY="product_item";//商品详情缓存前缀
     public final static int PRODUCT_ITEM_EXPIRE_TIME=60*60*1; //过期时间
+
+
+    public final static String CART_ITEM_CACHE_PREFIX="cart_item";
 
 }

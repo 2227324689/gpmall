@@ -1,7 +1,6 @@
 package com.gpmall.shopping;
 
-import com.gpmall.shopping.dto.CartListByIdRequest;
-import com.gpmall.shopping.dto.CartListByIdResponse;
+import com.gpmall.shopping.dto.*;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -11,5 +10,46 @@ import com.gpmall.shopping.dto.CartListByIdResponse;
  */
 public interface ICartService {
 
+
+
+
     CartListByIdResponse getCartListById(CartListByIdRequest request);
+
+    /**
+     * 添加商品到购物车
+     * @param request
+     * @return
+     */
+    AddCartResponse addToCart(AddCartRequest request);
+
+
+    /**
+     * 更新购物车中商品的数量
+     * @param request
+     * @return
+     */
+    UpdateCartNumResponse updateCartNum(UpdateCartNumRequest request);
+
+    /**
+     * 选择购物车中的所有商品
+     * @param request
+     * @return
+     */
+    CheckAllItemResponse checkAllCartItem(CheckAllItemRequest request);
+
+    /**
+     * 删除购物车中的商品
+     * @param request
+     * @return
+     */
+    DeleteCartItemResponse deleteCartItem(DeleteCartItemRequest request);
+
+    /**
+     * 删除选中的商品
+     * @param request
+     * @return
+     */
+    DeleteCheckedItemResposne deleteCheckedItem(DeleteCheckedItemRequest request);
+
+
 }

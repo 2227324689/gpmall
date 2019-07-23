@@ -19,7 +19,16 @@ spring:
     filters: stat,config
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
     useGlobalDataSourceStat: true
-
+  redis:
+      address: 192.168.1.105:6379
+      timeout: 3000
+      database: 0
+      jedis:
+        pool:
+          max-active: 20
+          max-idle: 10
+          max-wait: 3000ms
+          min-idle: 4
 dubbo:
   application:
     name: user-service

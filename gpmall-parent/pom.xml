@@ -26,6 +26,7 @@
     <jwt.version>3.8.1</jwt.version>
     <user-api.version>0.0.1-SNAPSHOT</user-api.version>
     <joda-time.version>2.10.3</joda-time.version>
+    <redisson.version>3.11.1</redisson.version>
   </properties>
 
   <dependencyManagement>
@@ -165,6 +166,11 @@
         <artifactId>joda-time</artifactId>
         <version>${joda-time.version}</version>
       </dependency>
+      <dependency>
+        <groupId>org.redisson</groupId>
+        <artifactId>redisson</artifactId>
+        <version>${redisson.version}</version>
+      </dependency>
 
     </dependencies>
 
@@ -209,7 +215,7 @@
             <!--允许移动生成的文件 -->
             <verbose>true</verbose>
             <!-- 是否覆盖 -->
-            <overwrite>true</overwrite>
+            <overwrite>false</overwrite>
             <!-- 自动生成的配置 -->
             <configurationFile>src/main/resources/mybatis-generater.xml</configurationFile>
           </configuration>
