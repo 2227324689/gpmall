@@ -12,8 +12,6 @@
 
 项目采用前后端分离开发，前端需要独立部署。前端架构是基于 xmall 提供框架进行的重构。
 
-* 感谢 [Exrick](https://github.com/Exrick/xmall) 的开源 [vue-mall](https://github.com/Exrick/xmall-front) 项目提供前端页面及框架支持
-
 ## 前端使用的技术
 
 * nodejs
