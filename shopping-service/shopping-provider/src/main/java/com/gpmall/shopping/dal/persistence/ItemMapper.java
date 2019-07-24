@@ -27,4 +27,8 @@ public interface ItemMapper {
     int updateByPrimaryKeySelective(Item record);
 
     int updateByPrimaryKey(Item record);
+
+    List<Item> selectItemFront(@Param("cid") Long cid,
+                                 @Param("orderCol") String orderCol,@Param("orderDir") String orderDir,
+                                 @Param("priceGt") int priceGt,@Param("priceLte") int priceLte);
 }

@@ -1,17 +1,21 @@
 package com.gpmall.shopping.services;
 
+import com.alibaba.fastjson.JSON;
 import com.gpmall.shopping.IHomeService;
+import com.gpmall.shopping.constant.GlobalConstants;
 import com.gpmall.shopping.constants.ShoppingRetCode;
 import com.gpmall.shopping.converter.ContentConverter;
 import com.gpmall.shopping.dal.entitys.*;
 import com.gpmall.shopping.dal.persistence.PanelContentMapper;
 import com.gpmall.shopping.dal.persistence.PanelMapper;
 import com.gpmall.shopping.dto.HomePageResponse;
-import com.gpmall.shopping.dto.PanelContentItemDto;
 import com.gpmall.shopping.dto.PanelDto;
+import com.gpmall.shopping.services.cache.CacheManager;
 import com.gpmall.shopping.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -34,16 +38,30 @@ public class HomeServiceImpl implements IHomeService {
     @Autowired
     ContentConverter contentConverter;
 
+    @Autowired
+    RedissonClient redissonClient;
+
+    @Autowired
+    CacheManager cacheManager;
+
     @Override
     public HomePageResponse homepage() {
         log.info("Begin HomeServiceImpl.homepage");
-        PanelExample panelExample=new PanelExample();
-        PanelExample.Criteria criteria=panelExample.createCriteria();
-        criteria.andPositionEqualTo(0);
-        criteria.andStatusEqualTo(1);
-        panelExample.setOrderByClause("sort_order");
         HomePageResponse response=new HomePageResponse();
+        response.setCode(ShoppingRetCode.SUCCESS.getCode());
+        response.setMsg(ShoppingRetCode.SUCCESS.getMessage());
         try {
+            String json= cacheManager.checkCache(GlobalConstants.HOMEPAGE_CACHE_KEY);
+            if(StringUtils.isNoneBlank(json)){
+                List<PanelDto> panelDtoList=JSON.parseArray(json,PanelDto.class);
+                response.setPanelContentItemDtos(panelDtoList);
+                return response;
+            }
+            PanelExample panelExample=new PanelExample();
+            PanelExample.Criteria criteria=panelExample.createCriteria();
+            criteria.andPositionEqualTo(0);
+            criteria.andStatusEqualTo(1);
+            panelExample.setOrderByClause("sort_order");
             List<Panel> panels = panelMapper.selectByExample(panelExample);
             List<PanelDto> panelContentItemDtos = new ArrayList<>();
             panels.parallelStream().forEach(panel -> {
@@ -52,14 +70,16 @@ public class HomeServiceImpl implements IHomeService {
                 panelDto.setPanelContentItems(contentConverter.panelContentItem2Dto(panelContentItems));
                 panelContentItemDtos.add(panelDto);
             });
-            //TODO 数据缓存
+            cacheManager.setCache(GlobalConstants.HOMEPAGE_CACHE_KEY,JSON.toJSONString(panelContentItemDtos),GlobalConstants.HOMEPAGE_EXPIRE_TIME);
             response.setPanelContentItemDtos(panelContentItemDtos);
-            response.setCode(ShoppingRetCode.SUCCESS.getCode());
-            response.setMsg(ShoppingRetCode.SUCCESS.getMessage());
         }catch (Exception e){
             log.error("HomeServiceImpl.homepage Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }
         return response;
     }
+
+
+
+
 }

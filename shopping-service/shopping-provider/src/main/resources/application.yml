@@ -1,8 +1,12 @@
 spring:
   profiles:
-    active: prod
+    active: dev
 
 mybatis:
   mapper-locations: classpath*:com/gpmall/shopping/dal/persistence/*Mapper.xml"
   type-aliases-package: com.gpmall.shopping.dal.entitys
-
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql

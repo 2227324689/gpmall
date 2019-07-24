@@ -27,32 +27,12 @@
     <user-api.version>0.0.1-SNAPSHOT</user-api.version>
     <joda-time.version>2.10.3</joda-time.version>
     <redisson.version>3.11.1</redisson.version>
+    <pagehelper.version>5.1.10</pagehelper.version>
+    <pagehelper.sprinboo.version>1.2.12</pagehelper.sprinboo.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <!--二方包统一管理-->
-      <!--<dependency>
-          <artifactId>commons-support</artifactId>
-          <groupId>com.gpmall.commons</groupId>
-          <version>${gpmall.commons}</version>
-      </dependency>
-      <dependency>
-          <groupId>com.gpmall.commons</groupId>
-          <version>${gpmall.commons}</version>
-          <artifactId>commons-core</artifactId>
-      </dependency>
-      <dependency>
-          <groupId>com.gpmall.commons</groupId>
-          <version>${gpmall.commons}</version>
-          <artifactId>commons-tool</artifactId>
-      </dependency>-->
-      <!--<dependency>-->
-      <!--<artifactId>user-api</artifactId>-->
-      <!--<groupId>com.gpmall.user</groupId>-->
-      <!--<version>${user-api.version}</version>-->
-      <!--</dependency>-->
-
       <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
@@ -170,6 +150,22 @@
         <groupId>org.redisson</groupId>
         <artifactId>redisson</artifactId>
         <version>${redisson.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper</artifactId>
+        <version>${pagehelper.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+        <version>${pagehelper.sprinboo.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper-spring-boot-starter</artifactId>
+        <version>${pagehelper.sprinboo.version}</version>
       </dependency>
 
     </dependencies>

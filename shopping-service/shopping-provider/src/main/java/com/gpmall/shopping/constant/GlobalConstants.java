@@ -16,7 +16,10 @@ public class GlobalConstants {
     public final static String RECOMMEND_PANEL_CACHE_KEY="recommend_panel";//推荐商品板块缓存key
 
     public final static String PRODUCT_ITEM_CACHE_KEY="product_item";//商品详情缓存前缀
-    public final static int PRODUCT_ITEM_EXPIRE_TIME=60*60*1; //过期时间
+    public final static int PRODUCT_ITEM_EXPIRE_TIME=1; //过期时间
+
+    public final static String HOMEPAGE_CACHE_KEY="home_page";//商品详情缓存前缀
+    public final static int HOMEPAGE_EXPIRE_TIME=1; //过期时间
 
 
     public final static String CART_ITEM_CACHE_PREFIX="cart_item";

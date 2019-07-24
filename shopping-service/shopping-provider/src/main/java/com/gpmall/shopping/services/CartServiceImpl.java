@@ -10,13 +10,14 @@ import com.gpmall.shopping.dal.persistence.ItemMapper;
 import com.gpmall.shopping.dto.*;
 import com.gpmall.shopping.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.redisson.api.RMap;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 腾讯课堂搜索【咕泡学院】

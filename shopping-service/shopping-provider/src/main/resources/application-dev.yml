@@ -20,7 +20,7 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
     useGlobalDataSourceStat: true
   redisson:
-      address: 192.168.1.105:6379
+      address: 192.168.13.106:6379
       timeout: 3000
       database: 0
       pool:
