@@ -1,4 +1,4 @@
-package com.gpmall.shopping.config;
+package com.gpmall.commons.tool.redisconfig;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * Created by mic on 2019/7/23.
  */
-@ConfigurationProperties(prefix = "spring.redis",ignoreUnknownFields = false)
+@ConfigurationProperties(prefix = "spring.redisson",ignoreUnknownFields = false)
 @Data
 public class RedissonProperties {
 

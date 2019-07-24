@@ -1,4 +1,4 @@
-package com.gpmall.shopping.config;
+package com.gpmall.commons.tool.redisconfig;
 
 import lombok.Data;
 

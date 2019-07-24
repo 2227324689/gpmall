@@ -1,6 +1,3 @@
-com\gpmall\commons\tool\exception\BaseBusinessException.class
-com\gpmall\commons\tool\exception\ProcessException.class
-com\gpmall\commons\tool\exception\BizException.class
-com\gpmall\commons\tool\exception\ExceptionUtil.class
-com\gpmall\commons\tool\exception\ValidateException.class
-com\gpmall\commons\tool\utils\CookieUtil.class
+com/gpmall/commons/tool/redisconfig/RedissonProperties.class
+com/gpmall/commons/tool/redisconfig/RedissonAutoConfiguration.class
+com/gpmall/commons/tool/redisconfig/RedissonPoolProperties.class
