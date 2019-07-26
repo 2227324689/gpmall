@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class AddCartRequest extends AbstractRequest{
 
-    private Integer userId;
-    private Integer itemId;
+    private Long userId;
+    private Long itemId;
     private Integer num;
 
     @Override

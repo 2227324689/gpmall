@@ -139,7 +139,7 @@
       YShelf, BuyNum, YButton
     },
     created () {
-      let id = this.$route.query.productId
+      let id = this.$route.params.productId
       this._productDet(id)
       this.userId = getStore('userId')
     }

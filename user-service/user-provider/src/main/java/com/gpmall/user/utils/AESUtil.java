@@ -101,7 +101,9 @@ public class AESUtil {
             //创建密钥生成器
             KeyGenerator generator = KeyGenerator.getInstance("AES");
             //初始化密钥
-            generator.init(128,new SecureRandom(secret.getBytes()));
+            SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+            random.setSeed(secret.getBytes());
+            generator.init(128,random);
             //生成密钥
             key = generator.generateKey();
         } catch (NoSuchAlgorithmException e) {
@@ -123,5 +125,12 @@ public class AESUtil {
             log.info("读取密钥文件错误:"+e);
         }
         return properties.getProperty("aessecret");
+    }
+
+    public static void main(String[] args) {
+        AESUtil aesUtil=new AESUtil("Hello");
+        String ec=aesUtil.encrypt();
+        System.out.println(ec);
+        System.out.println(new AESUtil(ec).decrypt());
     }
 }

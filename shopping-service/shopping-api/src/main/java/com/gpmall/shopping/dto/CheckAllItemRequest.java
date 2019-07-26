@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Data
 public class CheckAllItemRequest extends AbstractRequest {
-    private Integer userId;
+    private Long userId;
     private String checked;
 
     @Override

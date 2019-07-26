@@ -162,7 +162,7 @@
         this.checkValid()
       },
       goodsDetails (id) {
-        window.open(window.location.origin + '#/goodsDetails?productId=' + id)
+        window.open(window.location.origin + '#/product/' + id)
       },
       _getOrderDet (orderId) {
         let params = {

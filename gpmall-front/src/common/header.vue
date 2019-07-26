@@ -330,7 +330,19 @@
       },
       // 控制顶部
       navFixed () {
-        if (this.$route.path === '/goods' || this.$route.path === '/home' || this.$route.path === '/goodsDetails' || this.$route.path === '/thanks') {
+        const fixedPages = ['goods/*', '/home', 'product/*']
+        let path = this.$route.path
+        let rs = false
+        fixedPages.forEach(function (val, index, fixedPages) {
+          let exp = new RegExp(val)
+          if (path.match(exp)) {
+            rs = true
+            return
+          } else {
+            return
+          }
+        })
+        if (rs) {
           var st = document.documentElement.scrollTop || document.body.scrollTop
           st >= 100 ? this.st = true : this.st = false
           // 计算小圆当前位置
@@ -338,8 +350,6 @@
           this.positionL = num.getBoundingClientRect().left
           this.positionT = num.getBoundingClientRect().top
           this.ADD_ANIMATION({cartPositionL: this.positionL, cartPositionT: this.positionT})
-        } else {
-          return
         }
       },
       // 退出登陆
@@ -367,7 +377,7 @@
         }
       },
       openProduct (productId) {
-        window.open('//' + window.location.host + '/#/goodsDetails?productId=' + productId)
+        window.open('//' + window.location.host + '/#/product/' + productId)
       },
       _getNavList () {
         navList().then(res => {

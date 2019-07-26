@@ -11,8 +11,8 @@ import org.apache.commons.lang3.StringUtils;
  */
 @Data
 public class UpdateCartNumRequest extends AbstractRequest{
-    private Integer userId;
-    private Integer itemId;
+    private Long userId;
+    private Long itemId;
     private Integer num;
     private String checked;
 

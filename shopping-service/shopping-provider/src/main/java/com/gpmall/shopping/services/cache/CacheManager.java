@@ -1,12 +1,10 @@
 package com.gpmall.shopping.services.cache;
 
-import com.alibaba.fastjson.JSON;
-import org.apache.dubbo.config.annotation.Service;
 import org.redisson.api.RBucket;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class CacheManager {
 
     @Autowired
-    static RedissonClient redissonClient;
+    private RedissonClient redissonClient;
 
     public String checkCache(String key){
         try {

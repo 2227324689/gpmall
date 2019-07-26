@@ -85,4 +85,10 @@ public class JwtTokenUtils {
         }
         return properties.getProperty("jwtsecret");
     }
+
+    public static void main(String[] args) {
+        JwtTokenUtils jt=JwtTokenUtils.builder().
+                token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3bGd6cyIsImV4cCI6MTU2NDIxNDcxMywidXNlciI6IjY1OUUxQkU4MUUxREQxNzQ5M0E1NzlBQzEwRDdCQjcyIn0.iTEIyWWlmBo-AnmEXbADaAqV1k6RCHzshgD83NKJvQo").build();
+        System.out.println(jt.freeJwt());
+    }
 }

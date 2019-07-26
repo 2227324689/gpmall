@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class DeleteCheckedItemRequest extends AbstractRequest{
 
-    private Integer userId;
+    private Long userId;
 
     @Override
     public void requestCheck() {

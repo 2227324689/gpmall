@@ -52,7 +52,7 @@ public class HomeServiceImpl implements IHomeService {
         response.setMsg(ShoppingRetCode.SUCCESS.getMessage());
         try {
             String json= cacheManager.checkCache(GlobalConstants.HOMEPAGE_CACHE_KEY);
-            if(StringUtils.isNoneBlank(json)){
+            if(StringUtils.isNoneEmpty(json)){
                 List<PanelDto> panelDtoList=JSON.parseArray(json,PanelDto.class);
                 response.setPanelContentItemDtos(panelDtoList);
                 return response;

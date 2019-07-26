@@ -22,7 +22,7 @@
                     <div class="cart-items clearfix">
                       <!--勾选-->
                       <div class="items-choose">
-                      <span class="blue-checkbox-new " :class="{'checkbox-on':item.checked === '1'}"
+                      <span class="blue-checkbox-new " :class="{'checkbox-on':item.checked === 'true'}"
                             @click="editCart('check',item)"></span>
                       </div>
                       <!--图片-->
@@ -144,7 +144,7 @@
       checkedCount () {
         var i = 0
         this.cartList && this.cartList.forEach((item) => {
-          if (item.checked === '1') i++
+          if (item.checked === 'true') i++
         })
         return Number(i)
       },
@@ -160,7 +160,7 @@
       checkPrice () {
         var totalPrice = 0
         this.cartList && this.cartList.forEach(item => {
-          if (item.checked === '1') {
+          if (item.checked === 'true') {
             totalPrice += (item.productNum * item.salePrice)
           }
         })
@@ -170,7 +170,7 @@
       checkNum () {
         var checkNum = 0
         this.cartList && this.cartList.forEach(item => {
-          if (item.checked === '1') {
+          if (item.checked === 'true') {
             checkNum += (item.productNum)
           }
         })
@@ -187,7 +187,7 @@
         })
       },
       goodsDetails (id) {
-        window.open(window.location.origin + '#/goodsDetails?productId=' + id)
+        window.open(window.location.origin + '#/product/' + id)
       },
       // 全选
       editCheckAll () {
@@ -225,7 +225,7 @@
           let productNum = item.productNum
           // 勾选
           if (type === 'check') {
-            let newChecked = checked === '1' ? '0' : '1'
+            let newChecked = checked === 'true' ? 'false' : 'true'
             this._cartEdit(this.userId, productId, productNum, newChecked)
           }
         } else {
@@ -237,7 +237,7 @@
       },
       // 删除整条购物车
       cartdel (productId) {
-        cartDel({userId: this.userId, productId}).then(res => {
+        cartDel({userId: this.userId, productId: productId}).then(res => {
           this.EDIT_CART({productId})
         })
       },
@@ -250,7 +250,7 @@
         getCartList().then(res => {
           if (res.success === true) {
             res.result.forEach(item => {
-              if (item.checked === '1') {
+              if (item.checked === 'true') {
                 let productId = item.productId
                 this.EDIT_CART({productId})
               }

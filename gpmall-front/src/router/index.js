@@ -5,7 +5,7 @@ const Login = () => import('/page/Login/login.vue')
 const Register = () => import('/page/Login/register.vue')
 const Home = () => import('/page/Home/home.vue')
 const GoodS = () => import('/page/Goods/goods.vue')
-const goodsDetails = () => import('/page/Goods/goodsDetails.vue')
+const product = () => import('/page/Goods/goodsDetails.vue')
 const Cart = () => import('/page/Cart/cart.vue')
 const order = () => import('/page/Order/order.vue')
 const user = () => import('/page/User/user.vue')
@@ -37,7 +37,7 @@ export default new Router({
       children: [
         {path: 'home', component: Home},
         {path: 'goods', component: GoodS},
-        {path: 'goodsDetails', name: 'goodsDetails', component: goodsDetails},
+        {path: 'product/:productId', name: 'product', component: product},
         // {path: 'thanks', name: 'thanks', component: Thanks},
         {path: '/refreshgoods', name: 'refreshgoods', component: RefreshGoods}
       ]

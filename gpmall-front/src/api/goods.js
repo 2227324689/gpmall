@@ -15,23 +15,23 @@ export const addCart = (params) => {
 }
 // 删除购物车
 export const delCart = (params) => {
-  return http.fetchPost(apis.delCart, params)
+  return http.fetchDelete(apis.delCart, params)
 }
 // 删除购物车勾选商品
 export const delCartChecked = (params) => {
-  return http.fetchPost(apis.delCartChecked, params)
+  return http.fetchDelete(apis.delCartChecked + '/' + params.userId, null)
 }
 // 编辑购物车
 export const cartEdit = (params) => {
-  return http.fetchPost(apis.cartEdit, params)
+  return http.fetchPut(apis.cartEdit, params)
 }
 // 全选
 export const editCheckAll = (params) => {
-  return http.fetchPost(apis.editCheckAll, params)
+  return http.fetchPut(apis.editCheckAll, params)
 }
 // 删除整条购物车
 export const cartDel = (params) => {
-  return http.fetchPost(apis.cartDel, params)
+  return http.fetchDelete(apis.cartDel + '/' + params.userId + '/' + params.productId, params)
 }
 // 获取用户地址
 export const addressList = (params) => {
@@ -76,7 +76,7 @@ export const cancelOrder = (params) => {
 }
 // 商品详情
 export const productDet = (params) => {
-  return http.fetchGet(apis.productDet, params)
+  return http.fetchGet(apis.productDet + '/' + params.params.productId, null)
 }
 // 删除订单
 export const delOrder = (params) => {

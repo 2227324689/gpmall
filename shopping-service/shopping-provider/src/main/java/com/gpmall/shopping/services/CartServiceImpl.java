@@ -1,6 +1,7 @@
 package com.gpmall.shopping.services;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.gpmall.shopping.ICartService;
 import com.gpmall.shopping.constant.GlobalConstants;
 import com.gpmall.shopping.constants.ShoppingRetCode;
@@ -50,7 +51,7 @@ public class CartServiceImpl implements ICartService {
         try{
             Map<Object,Object> items=redissonClient.getMap(generatorCartItemKey(request.getUserId()));
             items.values().forEach(obj ->{
-               CartProductDto cartProductDto=JSON.parseObject(obj.toString(),CartProductDto.class);
+               CartProductDto cartProductDto= JSONObject.parseObject(obj.toString(),CartProductDto.class);
                productDtos.add(cartProductDto);
             });
             response.setCartProductDtos(productDtos);
@@ -74,15 +75,15 @@ public class CartServiceImpl implements ICartService {
                 String cartItemJson=redissonClient.getMap(generatorCartItemKey(request.getUserId())).get(request.getItemId()).toString();
                 CartProductDto cartProductDto=JSON.parseObject(cartItemJson,CartProductDto.class);
                 cartProductDto.setProductNum(cartProductDto.getProductNum().longValue()+request.getNum().longValue());
-                redissonClient.getMap(generatorCartItemKey(request.getUserId())).put(request.getItemId(),JSON.toJSON(cartProductDto));
+                redissonClient.getMap(generatorCartItemKey(request.getUserId())).put(request.getItemId(),JSON.toJSON(cartProductDto).toString());
                 return response;
             }
             Item item=itemMapper.selectByPrimaryKey(request.getItemId().longValue());
             if(item!=null){
                 CartProductDto cartProductDto=CartItemConverter.item2Dto(item);
-                cartProductDto.setChecked("1");
+                cartProductDto.setChecked("true");
                 cartProductDto.setProductNum(request.getNum().longValue());
-                redissonClient.getMap(generatorCartItemKey(request.getUserId())).put(request.getItemId(),JSON.toJSON(cartProductDto));
+                redissonClient.getMap(generatorCartItemKey(request.getUserId())).put(request.getItemId(),JSON.toJSON(cartProductDto).toString());
                 return response;
             }
             response.setCode(ShoppingRetCode.SYSTEM_ERROR.getCode());
@@ -121,7 +122,7 @@ public class CartServiceImpl implements ICartService {
         try{
             RMap items=redissonClient.getMap(generatorCartItemKey(request.getUserId()));
             items.values().forEach(obj ->{
-                CartProductDto cartProductDto=JSON.parseObject(obj.toString(),CartProductDto.class);
+                CartProductDto cartProductDto=(CartProductDto)obj;
                 cartProductDto.setChecked(request.getChecked());//true / false
                 items.put(cartProductDto.getProductId(),cartProductDto);
             });
@@ -151,17 +152,25 @@ public class CartServiceImpl implements ICartService {
 
     @Override
     public DeleteCheckedItemResposne deleteCheckedItem(DeleteCheckedItemRequest request) {
-        RMap itemMap=redissonClient.getMap(generatorCartItemKey(request.getUserId()));
-        itemMap.values().forEach(obj ->{
-            CartProductDto cartProductDto=JSON.parseObject(obj.toString(),CartProductDto.class);
-            if("true".equals(cartProductDto.getChecked())){
-                itemMap.remove(cartProductDto.getProductId());
-            }
-        });
-        return null;
+        DeleteCheckedItemResposne response=new DeleteCheckedItemResposne();
+        try {
+            RMap itemMap = redissonClient.getMap(generatorCartItemKey(request.getUserId()));
+            itemMap.values().forEach(obj -> {
+                CartProductDto cartProductDto = JSON.parseObject(obj.toString(), CartProductDto.class);
+                if ("true".equals(cartProductDto.getChecked())) {
+                    itemMap.remove(cartProductDto.getProductId());
+                }
+            });
+            response.setCode(ShoppingRetCode.SUCCESS.getCode());
+            response.setMsg(ShoppingRetCode.SUCCESS.getMessage());
+        }catch (Exception e){
+            log.error("CartServiceImpl.deleteCheckedItem Occur Exception :"+e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
+        return response;
     }
 
-    private String generatorCartItemKey(int userId){
+    private String generatorCartItemKey(long userId){
         StringBuilder sb=new StringBuilder(GlobalConstants.CART_ITEM_CACHE_PREFIX);
         sb.append(":").append(userId);
         return sb.toString();
