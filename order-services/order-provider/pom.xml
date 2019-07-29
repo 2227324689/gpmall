@@ -7,13 +7,11 @@
         <artifactId>gpmall-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
-    <groupId>com.gpmall.shopping</groupId>
-    <artifactId>shopping-provider</artifactId>
+    <groupId>com.gpmall.order</groupId>
+    <artifactId>order-provider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>shopping-provider</name>
-    <description>shopping-provider</description>
-    <packaging>jar</packaging>
+    <name>order-provider</name>
+    <description>Demo project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -58,18 +56,9 @@
             <artifactId>druid</artifactId>
         </dependency>
         <dependency>
-            <artifactId>shopping-api</artifactId>
-            <groupId>com.gpmall.shopping</groupId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -79,25 +68,11 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.redisson</groupId>
-            <artifactId>redisson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <groupId>com.gpmall.order</groupId>
+            <version>1.0-SNAPSHOT</version>
+            <artifactId>order-api</artifactId>
         </dependency>
     </dependencies>
 

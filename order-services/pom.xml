@@ -6,7 +6,12 @@
 
     <groupId>com.gpmall.order</groupId>
     <artifactId>order-services</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>order-api</module>
+        <module>order-provider</module>
+    </modules>
 
 
 </project>
