@@ -4,6 +4,7 @@ import com.gpmall.commons.result.AbstractResponse;
 import lombok.Data;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -14,5 +15,5 @@ import java.util.List;
 @Data
 public class HomePageResponse extends AbstractResponse {
 
-    private List<PanelDto> panelContentItemDtos;
+    private Set<PanelDto> panelContentItemDtos;
 }

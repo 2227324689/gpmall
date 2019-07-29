@@ -19,7 +19,9 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -54,7 +56,8 @@ public class HomeServiceImpl implements IHomeService {
             String json= cacheManager.checkCache(GlobalConstants.HOMEPAGE_CACHE_KEY);
             if(StringUtils.isNoneEmpty(json)){
                 List<PanelDto> panelDtoList=JSON.parseArray(json,PanelDto.class);
-                response.setPanelContentItemDtos(panelDtoList);
+                Set set=new HashSet(panelDtoList);
+                response.setPanelContentItemDtos(set);
                 return response;
             }
             PanelExample panelExample=new PanelExample();
@@ -63,7 +66,7 @@ public class HomeServiceImpl implements IHomeService {
             criteria.andStatusEqualTo(1);
             panelExample.setOrderByClause("sort_order");
             List<Panel> panels = panelMapper.selectByExample(panelExample);
-            List<PanelDto> panelContentItemDtos = new ArrayList<>();
+            Set<PanelDto> panelContentItemDtos = new HashSet<PanelDto>();
             panels.parallelStream().forEach(panel -> {
                 List<PanelContentItem> panelContentItems = panelContentMapper.selectPanelContentAndProductWithPanelId(panel.getId());
                 PanelDto panelDto = contentConverter.panen2Dto(panel);

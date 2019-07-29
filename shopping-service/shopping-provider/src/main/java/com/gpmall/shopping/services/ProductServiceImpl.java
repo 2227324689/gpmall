@@ -71,6 +71,7 @@ public class ProductServiceImpl implements IProductService {
                 productDetailDto.setProductImageBig(images[0]);
                 productDetailDto.setProductImageSmall(Arrays.asList(images));
             }
+            response.setProductDetailDto(productDetailDto);
             //设置缓存
             cacheManager.setCache(generatorProduceCacheKey(request),JSON.toJSON(productDetailDto).toString(),GlobalConstants.PRODUCT_ITEM_EXPIRE_TIME);
         }catch (Exception e){
