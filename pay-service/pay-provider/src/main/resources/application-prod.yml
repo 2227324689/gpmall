@@ -30,7 +30,7 @@ spring:
         min-idle: 4
 dubbo:
   application:
-    name: user-service
+    name: pay-services
     owner: Mic
   protocol:
     name: dubbo
@@ -46,7 +46,7 @@ dubbo:
     cycle-report: false
     group: dubbo-dev
   scan:
-    base-packages: com.gpmall.shopping.services
+    base-packages: com.gpmall.pay.services
 
 
 

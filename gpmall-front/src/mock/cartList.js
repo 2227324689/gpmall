@@ -26,7 +26,7 @@ const CartListData = {
 
 export default {
   bootstrap (mock) {
-    mock.onPost(apis.getCartList).reply(config => {
+    mock.onGet(apis.getCartList).reply(config => {
       return new Promise((resolve, reject) => {
         resolve([200, CartListData])
       })

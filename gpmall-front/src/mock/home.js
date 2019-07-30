@@ -16,7 +16,7 @@ const homeData = {
     'remark': '',
     'created': 1523766787000,
     'updated': 1523766787000,
-    'panelContents': [{
+    'panelContentItems': [{
       'id': 33,
       'panelId': 7,
       'type': 0,
@@ -92,7 +92,7 @@ const homeData = {
     'remark': '',
     'created': 1523790300000,
     'updated': 1523790300000,
-    'panelContents': [{
+    'panelContentItems': [{
       'id': 25,
       'panelId': 8,
       'type': 0,
@@ -168,7 +168,7 @@ const homeData = {
     'remark': '',
     'created': 1524066553000,
     'updated': 1523790316000,
-    'panelContents': [{
+    'panelContentItems': [{
       'id': 22,
       'panelId': 1,
       'type': 0,
@@ -212,7 +212,7 @@ const homeData = {
     'remark': '',
     'created': null,
     'updated': 1524108059000,
-    'panelContents': [{
+    'panelContentItems': [{
       'id': 29,
       'panelId': 2,
       'type': 2,
@@ -336,7 +336,7 @@ const homeData = {
     'remark': null,
     'created': 1524066632000,
     'updated': 1524066635000,
-    'panelContents': [{
+    'panelContentItems': [{
       'id': 40,
       'panelId': 10,
       'type': 3,
@@ -460,7 +460,7 @@ const homeData = {
     'remark': '',
     'created': 1524066559000,
     'updated': 1523962455000,
-    'panelContents': [{
+    'panelContentItems': [{
       'id': 30,
       'panelId': 3,
       'type': 2,
@@ -584,7 +584,7 @@ const homeData = {
     'remark': '',
     'created': null,
     'updated': 1524110267000,
-    'panelContents': [{
+    'panelContentItems': [{
       'id': 65,
       'panelId': 9,
       'type': 0,

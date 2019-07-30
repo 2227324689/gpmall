@@ -6,7 +6,7 @@ import NavList from './navList'
 import ProductDetail from './productDetail'
 import AddCard from './addCart'
 import Login from './login'
-// import CartList from './cartList'
+import CartList from './cartList'
 import QuickSearch from './quickSearch'
 import AllGoods from './allGoods'
 import LogOut from './loginOut'
@@ -25,7 +25,7 @@ export default {
     ProductDetail.bootstrap(mock)
     AddCard.bootstrap(mock)
     Login.bootstrap(mock)
-    // CartList.bootstrap(mock)
+    CartList.bootstrap(mock)
     QuickSearch.bootstrap(mock)
     AllGoods.bootstrap(mock)
     LogOut.bootstrap(mock)

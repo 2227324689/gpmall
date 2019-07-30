@@ -32,7 +32,7 @@ spring:
 
 dubbo:
   application:
-    name: user-service
+    name: pay-services
     owner: Mic
   protocol:
     name: dubbo
