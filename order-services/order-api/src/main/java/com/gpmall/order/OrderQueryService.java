@@ -1,0 +1,34 @@
+package com.gpmall.order;/**
+ * Created by mic on 2019/7/30.
+ */
+
+import com.gpmall.order.dto.OrderCountRequest;
+import com.gpmall.order.dto.OrderCountResponse;
+import com.gpmall.order.dto.OrderListRequest;
+import com.gpmall.order.dto.OrderListResposne;
+
+/**
+ * 腾讯课堂搜索【咕泡学院】
+ * 官网：www.gupaoedu.com
+ * 风骚的Mic 老师
+ * create-date: 2019/7/30-上午10:01
+ */
+public interface OrderQueryService {
+
+
+    /**
+     * 查询指定用户下订单总数
+     * @param request
+     * @return
+     */
+    OrderCountResponse orderCount(OrderCountRequest request);
+
+
+    /**
+     * 查询当前用户的历史订单列表
+     * @param request
+     * @return
+     */
+    OrderListResposne orderList(OrderListRequest request);
+
+}
