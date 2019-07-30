@@ -12,6 +12,7 @@
     <result column="remark" jdbcType="VARCHAR" property="remark" />
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="product_id" jdbcType="INTEGER" property="productId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -231,4 +232,8 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  <select id="selectPanelContentById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select a.*,b.product_id
+from tb_panel a inner join tb_panel_content b on a.id=b.panel_id where a.id=#{panelId} and status=1
+  </select>
 </mapper>

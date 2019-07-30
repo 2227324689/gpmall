@@ -3,7 +3,7 @@
     <div style="">
       <div class="good-img">
         <a @click="openProduct(msg.productId)">
-          <img v-lazy="msg.picUrl" :alt="msg.productName" :key="msg.picUrl">
+          <img v-lazy="msg.productImageBig" :alt="msg.productName" :key="msg.productImageBig">
         </a>
       </div>
       <h6 class="good-title" v-html="msg.productName">{{msg.productName}}</h6>

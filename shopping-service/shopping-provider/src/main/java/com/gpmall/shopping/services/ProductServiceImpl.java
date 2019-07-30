@@ -7,11 +7,13 @@ import com.github.pagehelper.PageInfo;
 import com.gpmall.shopping.IProductService;
 import com.gpmall.shopping.constant.GlobalConstants;
 import com.gpmall.shopping.constants.ShoppingRetCode;
+import com.gpmall.shopping.converter.ContentConverter;
 import com.gpmall.shopping.converter.ProductConverter;
-import com.gpmall.shopping.dal.entitys.Item;
-import com.gpmall.shopping.dal.entitys.ItemDesc;
+import com.gpmall.shopping.dal.entitys.*;
 import com.gpmall.shopping.dal.persistence.ItemDescMapper;
 import com.gpmall.shopping.dal.persistence.ItemMapper;
+import com.gpmall.shopping.dal.persistence.PanelContentMapper;
+import com.gpmall.shopping.dal.persistence.PanelMapper;
 import com.gpmall.shopping.dto.*;
 import com.gpmall.shopping.services.cache.CacheManager;
 import com.gpmall.shopping.utils.ExceptionProcessorUtils;
@@ -20,9 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -42,6 +42,13 @@ public class ProductServiceImpl implements IProductService {
     ItemDescMapper itemDescMapper;
     @Autowired
     ProductConverter productConverter;
+    @Autowired
+    PanelMapper panelMapper;
+
+    @Autowired
+    PanelContentMapper panelContentMapper;
+    @Autowired
+    ContentConverter contentConverter;
     @Override
     public ProductDetailResponse getProductDetail(ProductDetailRequest request) {
         ProductDetailResponse response=new ProductDetailResponse();
@@ -91,17 +98,13 @@ public class ProductServiceImpl implements IProductService {
             PageHelper.startPage(request.getPage(),request.getSize());
             String orderCol="created";
             String orderDir="desc";
-            //TODO 根据不同的选择进行排序
-            /*if(sort.equals("1")){
+            if(request.getSort().equals("1")){
                 orderCol="price";
                 orderDir="asc";
-            }else if(sort.equals("-1")){
+            }else if(request.getSort().equals("-1")){
                 orderCol="price";
                 orderDir="desc";
-            }else{
-                orderCol="created";
-                orderDir="desc";
-            }*/
+            }
             List<Item> items=itemMapper.selectItemFront(request.getCid(),orderCol,orderDir,request.getPriceGt(),request.getPriceLte());
             PageInfo<Item> pageInfo=new PageInfo<>(items);
             List<ProductDto> productDtosList =productConverter.items2Dto(items);
@@ -114,9 +117,58 @@ public class ProductServiceImpl implements IProductService {
         return response;
     }
 
+    @Override
+    public RecommendResponse getRecommendGoods() {
+        RecommendResponse response=new RecommendResponse();
+        response.setCode(ShoppingRetCode.SUCCESS.getCode());
+        response.setMsg(ShoppingRetCode.SUCCESS.getMessage());
+        try{
+
+            String json=cacheManager.checkCache(GlobalConstants.RECOMMEND_PANEL_CACHE_KEY);
+            if(StringUtils.isNotBlank(json)){
+                List<RecommendDto> recommendDtos=JSON.parseArray(json,RecommendDto.class);
+                Set set=new HashSet(recommendDtos);
+                response.setPanelContentItemDtos(set);
+                return response;
+            }
+            List<Panel> panels=panelMapper.selectPanelContentById(GlobalConstants.RECOMMEND_PANEL_ID);
+            if(panels==null||panels.isEmpty()){
+                return response;
+            }
+            Set<PanelDto> panelContentItemDtos = new HashSet<PanelDto>();
+            panels.parallelStream().forEach(panel -> {
+                List<PanelContentItem> panelContentItems = panelContentMapper.selectPanelContentAndProductWithPanelId(panel.getId());
+                PanelDto panelDto = contentConverter.panen2Dto(panel);
+                panelDto.setPanelContentItems(contentConverter.panelContentItem2Dto(panelContentItems));
+                panelContentItemDtos.add(panelDto);
+            });
+/*
+            panels.parallelStream().forEach(panel -> {
+                RecommendDto recommendDto=new RecommendDto();
+                Item item=itemMapper.selectByPrimaryKey(panel.getProductId());
+                recommendDto.setId(item.getId().intValue());
+                recommendDto.setName(item.getTitle());
+                recommendDto.setPosition(panel.getPosition());
+                recommendDto.setSortOrder(panel.getSortOrder());
+                recommendDto.setType(panel.getType());
+                recommendDtos.add(recommendDto);
+
+            });*/
+            response.setPanelContentItemDtos(panelContentItemDtos);
+            cacheManager.setCache(GlobalConstants.RECOMMEND_PANEL_CACHE_KEY,JSON.toJSONString(panelContentItemDtos),GlobalConstants.RECOMMEND_CACHE_EXPIRE);
+
+        }catch (Exception e){
+            log.error("ProductServiceImpl.getAllProduct Occur Exception :"+e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
+        return response;
+    }
+
     private String generatorProduceCacheKey(ProductDetailRequest request){
         StringBuilder stringBuilder=new StringBuilder(GlobalConstants.PRODUCT_ITEM_CACHE_KEY);
         stringBuilder.append(":").append(request.getId());
         return stringBuilder.toString();
     }
+
+
 }

@@ -27,6 +27,8 @@ public class Item implements Serializable {
 
     private Date updated;
 
+    private String imageBig;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -121,6 +123,18 @@ public class Item implements Serializable {
         if (image != null && !"".equals(image)) {
             String[] strings = image.split(",");
             return strings;
+        }
+        return null;
+    }
+
+    public void setImageBig(String imageBig) {
+        this.imageBig = imageBig;
+    }
+
+    public String getImageBig(){
+        if (image != null && !"".equals(image)) {
+            String[] strings = image.split(",");
+            return strings[0];
         }
         return null;
     }

@@ -1,9 +1,6 @@
 package com.gpmall.shopping;
 
-import com.gpmall.shopping.dto.AllProductRequest;
-import com.gpmall.shopping.dto.AllProductResponse;
-import com.gpmall.shopping.dto.ProductDetailRequest;
-import com.gpmall.shopping.dto.ProductDetailResponse;
+import com.gpmall.shopping.dto.*;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -28,5 +25,11 @@ public interface IProductService {
      * @return
      */
     AllProductResponse getAllProduct(AllProductRequest request);
+
+    /**
+     * 获取推荐的商品板块
+     * @return
+     */
+    RecommendResponse getRecommendGoods();
 
 }

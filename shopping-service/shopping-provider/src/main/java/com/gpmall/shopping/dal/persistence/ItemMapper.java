@@ -30,5 +30,5 @@ public interface ItemMapper {
 
     List<Item> selectItemFront(@Param("cid") Long cid,
                                  @Param("orderCol") String orderCol,@Param("orderDir") String orderDir,
-                                 @Param("priceGt") int priceGt,@Param("priceLte") int priceLte);
+                                 @Param("priceGt") Integer priceGt,@Param("priceLte") Integer priceLte);
 }

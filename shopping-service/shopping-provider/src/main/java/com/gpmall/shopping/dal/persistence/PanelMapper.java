@@ -19,4 +19,6 @@ public interface PanelMapper {
     int updateByExampleSelective(@Param("record") Panel record, @Param("example") PanelExample example);
 
     int updateByExample(@Param("record") Panel record, @Param("example") PanelExample example);
+
+    List<Panel> selectPanelContentById(@Param("panelId")Integer panelId);
 }

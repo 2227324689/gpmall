@@ -30,6 +30,8 @@ public class Panel implements Serializable {
 
     private List<PanelContentItem> panelContentItems;
 
+    private Long productId;
+
     private static final long serialVersionUID = 1L;
 
 }
