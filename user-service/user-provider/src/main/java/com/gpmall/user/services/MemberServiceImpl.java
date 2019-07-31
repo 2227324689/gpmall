@@ -7,6 +7,8 @@ import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.converter.MemberConverter;
 import com.gpmall.user.dal.entitys.Member;
 import com.gpmall.user.dal.persistence.MemberMapper;
+import com.gpmall.user.dto.HeadImageRequest;
+import com.gpmall.user.dto.HeadImageResponse;
 import com.gpmall.user.dto.QueryMemberRequest;
 import com.gpmall.user.dto.QueryMemberResponse;
 import com.gpmall.user.utils.ExceptionProcessorUtils;
@@ -49,5 +51,12 @@ public class MemberServiceImpl implements IMemberService{
             ExceptionProcessorUtils.wrapperHandlerException(queryMemberResponse,e);
         }
         return queryMemberResponse;
+    }
+
+    @Override
+    public HeadImageResponse updateHeadImage(HeadImageRequest request) {
+        HeadImageResponse response=new HeadImageResponse();
+        //TODO 
+        return response;
     }
 }

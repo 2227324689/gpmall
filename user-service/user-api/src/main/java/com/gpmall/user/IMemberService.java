@@ -2,6 +2,8 @@ package com.gpmall.user;/**
  * Created by mic on 2019/7/30.
  */
 
+import com.gpmall.user.dto.HeadImageRequest;
+import com.gpmall.user.dto.HeadImageResponse;
 import com.gpmall.user.dto.QueryMemberRequest;
 import com.gpmall.user.dto.QueryMemberResponse;
 
@@ -20,4 +22,11 @@ public interface IMemberService {
      * @return
      */
     QueryMemberResponse queryMemberById(QueryMemberRequest request);
+
+    /**
+     * 修改用户头像
+     * @param request
+     * @return
+     */
+    HeadImageResponse updateHeadImage(HeadImageRequest request);
 }

@@ -4,8 +4,8 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
     <!--    数据库驱动jar-->
-    <!--<classPathEntry location="E:\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />-->
-        <classPathEntry location="/Users/mic/Documents/software/workspace/gpmall/mysql-connector-java-8.0.16.jar" />
+    <classPathEntry location="E:\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />
+<!--        <classPathEntry location="/Users/mic/Documents/software/workspace/gpmall/mysql-connector-java-8.0.16.jar" />-->
 
     <context id="MysqlTables" targetRuntime="MyBatis3">
         <!-- 格式化java代码 -->
@@ -23,9 +23,9 @@
 
         <!--数据库连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.1.105:3306/gpmall"
+                        connectionURL="jdbc:mysql://192.168.8.126:3306/gpmall"
                         userId="root"
-                        password="123456">
+                        password="root">
             <property name="useInformationSchema" value="true"/>
         </jdbcConnection>
         <!--默认false
@@ -50,7 +50,7 @@
         </javaClientGenerator>
 
         <!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等-->
-        <table tableName="tb_member" domainObjectName="Member"
+        <table tableName="tb_address" domainObjectName="Address"
                enableCountByExample="true"
                enableSelectByExample="true"
                enableUpdateByExample="true"
