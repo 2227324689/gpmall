@@ -27,4 +27,6 @@ public interface OrderItemMapper {
     int updateByPrimaryKeySelective(OrderItem record);
 
     int updateByPrimaryKey(OrderItem record);
+
+    int deleteItemByOrderId(@Param("orderId") String orderId);
 }

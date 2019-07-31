@@ -6,6 +6,7 @@ import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.tool.exception.ValidateException;
 import com.gpmall.order.constant.OrderRetCode;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -16,11 +17,11 @@ import lombok.Data;
 @Data
 public class CancelOrderRequest extends AbstractRequest{
 
-    private Long orderId;
+    private String orderId;
 
     @Override
     public void requestCheck() {
-        if(orderId==null){
+        if(StringUtils.isBlank(orderId)){
             throw new ValidateException(OrderRetCode.REQUISITE_PARAMETER_NOT_EXIST.getCode(),OrderRetCode.REQUISITE_PARAMETER_NOT_EXIST.getMessage());
         }
     }

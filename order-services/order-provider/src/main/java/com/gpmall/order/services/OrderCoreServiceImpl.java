@@ -3,7 +3,23 @@ package com.gpmall.order.services;/**
  */
 
 import com.gpmall.order.OrderCoreService;
+import com.gpmall.order.constant.OrderRetCode;
+import com.gpmall.order.constants.OrderConstants;
+import com.gpmall.order.dal.entitys.Order;
+import com.gpmall.order.dal.persistence.OrderItemMapper;
+import com.gpmall.order.dal.persistence.OrderMapper;
+import com.gpmall.order.dal.persistence.OrderShippingMapper;
 import com.gpmall.order.dto.*;
+import com.gpmall.order.utils.ExceptionProcessorUtils;
+import com.gpmall.user.IMemberService;
+
+import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
+import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -11,20 +27,73 @@ import com.gpmall.order.dto.*;
  * 风骚的Mic 老师
  * create-date: 2019/7/30-上午10:05
  */
+@Slf4j
+@Service
 public class OrderCoreServiceImpl implements OrderCoreService{
+
+    @Reference
+    IMemberService memberService;
+
+    @Autowired
+    OrderMapper orderMapper;
+
+    @Autowired
+    OrderItemMapper orderItemMapper;
+
+    @Autowired
+    OrderShippingMapper orderShippingMapper;
+
 
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
+        CreateOrderResponse response=new CreateOrderResponse();
+        try{
+
+        }catch (Exception e){
+            log.error("OrderCoreServiceImpl.createOrder Occur Exception :"+e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
         return null;
     }
 
     @Override
     public CancelOrderResponse cancelOrder(CancelOrderRequest request) {
-        return null;
+        CancelOrderResponse response=new CancelOrderResponse();
+        try{
+            Order order=new Order();
+            order.setOrderId(request.getOrderId());
+            order.setStatus(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL);
+            order.setCloseTime(new Date());
+            int num=orderMapper.updateByPrimaryKey(order);
+            log.info("cancelOrder,effect Row:"+num);
+        }catch (Exception e){
+            log.error("OrderCoreServiceImpl.cancelOrder Occur Exception :"+e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
+        return response;
     }
+
 
     @Override
     public DeleteOrderResponse deleteOrder(DeleteOrderRequest request) {
-        return null;
+        DeleteOrderResponse response=new DeleteOrderResponse();
+        try{
+            request.requestCheck();
+            deleteOrderWithTransaction(request);
+            response.setCode(OrderRetCode.SUCCESS.getCode());
+            response.setMsg(OrderRetCode.SUCCESS.getMessage());
+        }catch (Exception e){
+            log.error("OrderCoreServiceImpl.deleteOrder Occur Exception :"+e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
+        return response;
+    }
+
+
+    @Transactional
+    private void deleteOrderWithTransaction(DeleteOrderRequest request){
+        orderMapper.deleteByPrimaryKey(request.getOrderId());
+        orderItemMapper.deleteItemByOrderId(request.getOrderId());
+        orderShippingMapper.deleteByPrimaryKey(request.getOrderId());
     }
 }

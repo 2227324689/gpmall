@@ -2,10 +2,7 @@ package com.gpmall.order;/**
  * Created by mic on 2019/7/30.
  */
 
-import com.gpmall.order.dto.OrderCountRequest;
-import com.gpmall.order.dto.OrderCountResponse;
-import com.gpmall.order.dto.OrderListRequest;
-import com.gpmall.order.dto.OrderListResposne;
+import com.gpmall.order.dto.*;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -30,5 +27,13 @@ public interface OrderQueryService {
      * @return
      */
     OrderListResposne orderList(OrderListRequest request);
+
+
+    /**
+     * 查询订单明细
+     * @param request
+     * @return
+     */
+    OrderDetailResponse orderDetail(OrderDetailRequest request);
 
 }

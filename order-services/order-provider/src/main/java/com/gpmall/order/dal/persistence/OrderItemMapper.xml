@@ -255,4 +255,7 @@
       pic_path = #{picPath,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <delete id="deleteItemByOrderId" parameterType="java.lang.String">
+    delete tb_order_item where order_id=#{orderId}
+  </delete>
 </mapper>
