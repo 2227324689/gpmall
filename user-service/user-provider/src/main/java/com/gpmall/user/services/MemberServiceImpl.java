@@ -43,6 +43,10 @@ public class MemberServiceImpl implements IMemberService{
         try{
             request.requestCheck();
             Member member=memberMapper.selectByPrimaryKey(request.getUserId());
+            if(member==null){
+                queryMemberResponse.setCode(SysRetCodeConstants.DATA_NOT_EXIST.getCode());
+                queryMemberResponse.setMsg(SysRetCodeConstants.DATA_NOT_EXIST.getMessage());
+            }
             queryMemberResponse=memberConverter.member2Res(member);
             queryMemberResponse.setCode(SysRetCodeConstants.SUCCESS.getCode());
             queryMemberResponse.setMsg(SysRetCodeConstants.SUCCESS.getMessage());

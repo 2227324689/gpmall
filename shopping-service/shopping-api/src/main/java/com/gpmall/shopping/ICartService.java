@@ -52,4 +52,12 @@ public interface ICartService {
     DeleteCheckedItemResposne deleteCheckedItem(DeleteCheckedItemRequest request);
 
 
+    /**
+     * 清空指定用户的购物车缓存(用户下完订单之后清理）
+     * @param request
+     * @return
+     */
+    ClearCartItemResponse clearCartItemByUserID(ClearCartItemRequest request);
+
+
 }

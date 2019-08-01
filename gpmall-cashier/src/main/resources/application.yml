@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: gpmall-cashier
+  profiles:
+      active: prod
+server:
+  port: 8082
+
+

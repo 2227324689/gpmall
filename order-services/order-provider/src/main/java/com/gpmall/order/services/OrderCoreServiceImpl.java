@@ -2,7 +2,10 @@ package com.gpmall.order.services;/**
  * Created by mic on 2019/7/30.
  */
 
+import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.order.OrderCoreService;
+import com.gpmall.order.biz.order.OrderContext;
+import com.gpmall.order.biz.pipeline.SimpleHandlerChain;
 import com.gpmall.order.constant.OrderRetCode;
 import com.gpmall.order.constants.OrderConstants;
 import com.gpmall.order.dal.entitys.Order;
@@ -11,10 +14,7 @@ import com.gpmall.order.dal.persistence.OrderMapper;
 import com.gpmall.order.dal.persistence.OrderShippingMapper;
 import com.gpmall.order.dto.*;
 import com.gpmall.order.utils.ExceptionProcessorUtils;
-import com.gpmall.user.IMemberService;
-
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +31,8 @@ import java.util.Date;
 @Service
 public class OrderCoreServiceImpl implements OrderCoreService{
 
-    @Reference
-    IMemberService memberService;
+   /* @Reference
+    IMemberService memberService;*/
 
     @Autowired
     OrderMapper orderMapper;
@@ -43,12 +43,25 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     @Autowired
     OrderShippingMapper orderShippingMapper;
 
+    @Autowired
+    SimpleHandlerChain<OrderContext,BizException> simpleHandlerChain;
 
+
+    /**
+     * 创建订单的处理流程
+     * @param request
+     * @return
+     */
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         CreateOrderResponse response=new CreateOrderResponse();
         try{
-
+            OrderContext context=new OrderContext();
+            context.setRequest(request);
+            response.setOrderId(context.getOrderID());
+            response.setCode(OrderRetCode.SUCCESS.getCode());
+            response.setMsg(OrderRetCode.SUCCESS.getMessage());
+            simpleHandlerChain.handleNext(context);
         }catch (Exception e){
             log.error("OrderCoreServiceImpl.createOrder Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
@@ -56,6 +69,11 @@ public class OrderCoreServiceImpl implements OrderCoreService{
         return null;
     }
 
+    /**
+     * 取消订单
+     * @param request
+     * @return
+     */
     @Override
     public CancelOrderResponse cancelOrder(CancelOrderRequest request) {
         CancelOrderResponse response=new CancelOrderResponse();
@@ -66,6 +84,8 @@ public class OrderCoreServiceImpl implements OrderCoreService{
             order.setCloseTime(new Date());
             int num=orderMapper.updateByPrimaryKey(order);
             log.info("cancelOrder,effect Row:"+num);
+            response.setCode(OrderRetCode.SUCCESS.getCode());
+            response.setMsg(OrderRetCode.SUCCESS.getMessage());
         }catch (Exception e){
             log.error("OrderCoreServiceImpl.cancelOrder Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
@@ -74,6 +94,11 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     }
 
 
+    /**
+     * 删除订单
+     * @param request
+     * @return
+     */
     @Override
     public DeleteOrderResponse deleteOrder(DeleteOrderRequest request) {
         DeleteOrderResponse response=new DeleteOrderResponse();

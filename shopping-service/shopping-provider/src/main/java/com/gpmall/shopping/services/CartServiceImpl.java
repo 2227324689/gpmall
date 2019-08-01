@@ -170,6 +170,26 @@ public class CartServiceImpl implements ICartService {
         return response;
     }
 
+    @Override
+    public ClearCartItemResponse clearCartItemByUserID(ClearCartItemRequest request) {
+        ClearCartItemResponse response=new ClearCartItemResponse();
+        try{
+            RMap itemMap = redissonClient.getMap(generatorCartItemKey(request.getUserId()));
+            itemMap.values().forEach(obj -> {
+                CartProductDto cartProductDto = JSON.parseObject(obj.toString(), CartProductDto.class);
+                if(request.getProductIds().contains(cartProductDto.getProductId())){
+                    itemMap.remove(cartProductDto.getProductId());
+                }
+            });
+            response.setCode(ShoppingRetCode.SUCCESS.getCode());
+            response.setMsg(ShoppingRetCode.SUCCESS.getMessage());
+        }catch (Exception e){
+            log.error("CartServiceImpl.clearCartItemByUserID Occur Exception :"+e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
+        return response;
+    }
+
     private String generatorCartItemKey(long userId){
         StringBuilder sb=new StringBuilder(GlobalConstants.CART_ITEM_CACHE_PREFIX);
         sb.append(":").append(userId);

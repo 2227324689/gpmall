@@ -33,6 +33,46 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.zookeeper</groupId>
+            <artifactId>zookeeper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+        </dependency>
+        <dependency>
+            <artifactId>shopping-api</artifactId>
+            <groupId>com.gpmall.shopping</groupId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gpmall.commons</groupId>
+            <version>1.0-SNAPSHOT</version>
+            <artifactId>commons-core</artifactId>
+        </dependency>
+        <dependency>
+            <artifactId>user-sdk</artifactId>
+            <groupId>com.gpmall.user</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gpmall.order</groupId>
+            <version>1.0-SNAPSHOT</version>
+            <artifactId>order-api</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

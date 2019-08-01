@@ -9,6 +9,7 @@ import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -20,7 +21,7 @@ import java.math.BigDecimal;
 public class CreateOrderRequest extends AbstractRequest{
 
 
-    private String userId;
+    private Long userId;
 
     private Long addressId;
 
@@ -32,9 +33,13 @@ public class CreateOrderRequest extends AbstractRequest{
 
     private BigDecimal orderTotal;
 
+    List<CartProductDto> cartProductDtoList;//购物车中的商品列表
+
+
+
     @Override
     public void requestCheck() {
-        if(StringUtils.isBlank(userId)||addressId==null||
+        if(userId==null||addressId==null||
                 StringUtils.isBlank(tel)||StringUtils.isBlank(userName)|| StringUtils.isBlank(streetName)||orderTotal==null){
             throw new ValidateException(OrderRetCode.REQUISITE_PARAMETER_NOT_EXIST.getCode(),OrderRetCode.REQUISITE_PARAMETER_NOT_EXIST.getMessage());
         }
