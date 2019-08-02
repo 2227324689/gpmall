@@ -14,14 +14,12 @@ import java.util.List;
  */
 @Component
 public class SimpleHandlerChain<Context,E extends Exception> extends BaseHandlerChain<Handler<Context,E>> implements HandlerChain<Context,E> {
+    public SimpleHandlerChain(){
 
-    public SimpleHandlerChain(List<Handler<Context,E>> handlers){
-        super(handlers);
     }
-
     @Override
     public void handleNext(Context context) throws E {
-        if (index < size) {
+        if (index < handlers.size()) {
             handlers.get(index++).handler(context, this);
         }
     }

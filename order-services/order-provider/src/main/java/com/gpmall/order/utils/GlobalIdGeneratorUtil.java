@@ -30,7 +30,6 @@ import java.util.UUID;
 @Component
 public class GlobalIdGeneratorUtil {
 
-    private static final Path filePath = Paths.get(Thread.currentThread().getContextClassLoader().getResource("get_next_seq.lua").getPath());
 
     private static final FastDateFormat seqDateFormat = FastDateFormat.getInstance("yyMMddHHmmssSSS");
 
@@ -47,7 +46,8 @@ public class GlobalIdGeneratorUtil {
 
     }
     @PostConstruct
-    private void init() throws IOException {
+    private void init() throws Exception {
+        Path filePath=Paths.get(Thread.currentThread().getContextClassLoader().getResource("get_next_seq.lua").toURI());
         byte[] script;
         try {
             script = Files.readAllBytes(filePath);

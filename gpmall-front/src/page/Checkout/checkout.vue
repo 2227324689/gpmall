@@ -250,7 +250,7 @@
           return
         }
         for (var i = 0; i < this.cartList.length; i++) {
-          if (this.cartList[i].checked === '1') {
+          if (this.cartList[i].checked) {
             array.push(this.cartList[i])
           }
         }
@@ -260,6 +260,7 @@
           userName: this.userName,
           streetName: this.streetName,
           cartProductDtoList: array,
+          addressId: this.addressId,
           orderTotal: this.orderTotal
         }
         submitOrder(params).then(res => {

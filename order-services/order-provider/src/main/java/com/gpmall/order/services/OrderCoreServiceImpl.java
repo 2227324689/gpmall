@@ -66,7 +66,7 @@ public class OrderCoreServiceImpl implements OrderCoreService{
             log.error("OrderCoreServiceImpl.createOrder Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }
-        return null;
+        return response;
     }
 
     /**

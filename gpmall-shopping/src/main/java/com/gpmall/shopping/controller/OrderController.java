@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
  * 风骚的Mic 老师
  * create-date: 2019/7/30-上午9:26
  */
+@RestController
 @RequestMapping("/shopping")
 public class OrderController {
 
@@ -28,7 +29,6 @@ public class OrderController {
 
     /*@Reference
     OrderQueryService orderQueryService;*/
-
     /**
      * 创建订单
      */

@@ -28,8 +28,6 @@ spring:
         max-idle: 10
         max-wait: 3000
         min-idle: 4
-
-
 dubbo:
   application:
     name: user-service

@@ -10,7 +10,7 @@
 
 # 项目用到的技术
 
-项目采用前后端分离开发，前端需要独立部署。前端架构是基于 xmall 提供框架进行的重构。
+项目采用前后端分离开发，前端需要独立部署。前端架构是基于 xmall 提供框架进行的重构。目前核心的技术栈采用的是SpringBoot2.1.5.RELEASE+Dubbo2.7.2,  后续我会再基于spring cloud alibaba进行重构
 
 ## 前端使用的技术
 
@@ -54,6 +54,7 @@
 * pay-service  提供支付处理能力
 * shopping-service  dubbo服务，提供购物车、推荐商品、商品等服务
 * user-service Dubbo服务，提供用户相关服务
+* order-service Dubbo服务，提供订单服务
 * 未完待续....
 
 # 部署说明

@@ -22,7 +22,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface OrderConverter {
 
-
     @Mappings({})
     OrderDetailResponse order2res(Order order);
 
