@@ -1,5 +1,6 @@
 package com.gpmall.user.converter;
 
+import com.gpmall.user.dal.entitys.Member;
 import com.gpmall.user.dal.entitys.User;
 import com.gpmall.user.dto.UserLoginResponse;
 import org.mapstruct.Mapper;
@@ -18,6 +19,6 @@ public interface UserConverterMapper {
     UserConverterMapper INSTANCE= Mappers.getMapper(UserConverterMapper.class);
 
     @Mappings({})
-    UserLoginResponse converter(User user);
+    UserLoginResponse converter(Member member);
 
 }

@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.gpmall.user.config")
-@MapperScan("com.gpmall.user")
+@ComponentScan(basePackages = "com.gpmall.user")
+@MapperScan("com.gpmall.user.dal")
 public class UserProviderApplication {
 
 	public static void main(String[] args) {

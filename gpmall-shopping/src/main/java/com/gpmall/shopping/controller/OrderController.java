@@ -4,6 +4,14 @@ package com.gpmall.shopping.controller;/**
 
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
+import com.gpmall.order.OrderCoreService;
+import com.gpmall.order.OrderQueryService;
+import com.gpmall.order.constant.OrderRetCode;
+import com.gpmall.order.dto.CreateOrderRequest;
+import com.gpmall.order.dto.CreateOrderResponse;
+import com.gpmall.shopping.form.PageResponse;
+import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -12,16 +20,25 @@ import org.springframework.web.bind.annotation.*;
  * 风骚的Mic 老师
  * create-date: 2019/7/30-上午9:26
  */
-@RequestMapping("/order")
+@RequestMapping("/shopping")
 public class OrderController {
 
+    @Reference
+    OrderCoreService orderCoreService;
+
+    /*@Reference
+    OrderQueryService orderQueryService;*/
 
     /**
      * 创建订单
      */
     @PostMapping("/order")
-    public ResponseData order(){
-        return new ResponseUtil<>().setData(null);
+    public ResponseData order(@RequestBody CreateOrderRequest request){
+        CreateOrderResponse response=orderCoreService.createOrder(request);
+        if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
+            return new ResponseUtil().setData(response.getOrderId());
+        }
+        return new ResponseUtil<>().setErrorMsg(response.getMsg());
     }
 
     /**

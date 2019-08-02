@@ -4,8 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.gpmall.user.IUserLoginService;
 import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.converter.UserConverterMapper;
+import com.gpmall.user.dal.entitys.Member;
+import com.gpmall.user.dal.entitys.MemberExample;
 import com.gpmall.user.dal.entitys.User;
 import com.gpmall.user.dal.entitys.UserExample;
+import com.gpmall.user.dal.persistence.MemberMapper;
 import com.gpmall.user.dal.persistence.UserMapper;
 import com.gpmall.user.dto.CheckAuthRequest;
 import com.gpmall.user.dto.CheckAuthResponse;
@@ -36,33 +39,36 @@ public class UserLoginServiceImpl implements IUserLoginService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    MemberMapper memberMapper;
+
     @Override
     public UserLoginResponse login(UserLoginRequest request) {
         log.info("Begin UserLoginServiceImpl.login: request:"+request);
         UserLoginResponse response=new UserLoginResponse();
         try {
             request.requestCheck();
-            UserExample userExample = new UserExample();
-            UserExample.Criteria criteria = userExample.createCriteria();
+            MemberExample memberExample = new MemberExample();
+            MemberExample.Criteria criteria = memberExample.createCriteria();
             criteria.andStateEqualTo(1);
             criteria.andUsernameEqualTo(request.getUserName());
 
-            List<User> users = userMapper.selectByExample(userExample);
-            if(users==null||users.size()==0) {
+            List<Member> member = memberMapper.selectByExample(memberExample);
+            if(member==null||member.size()==0) {
                 response.setCode(SysRetCodeConstants.USERORPASSWORD_ERRROR.getCode());
                 response.setMsg(SysRetCodeConstants.USERORPASSWORD_ERRROR.getMessage());
                 return response;
             }
-            if(!DigestUtils.md5DigestAsHex(request.getPassword().getBytes()).equals(users.get(0).getPassword())){
+            if(!DigestUtils.md5DigestAsHex(request.getPassword().getBytes()).equals(member.get(0).getPassword())){
                 response.setCode(SysRetCodeConstants.USERORPASSWORD_ERRROR.getCode());
                 response.setMsg(SysRetCodeConstants.USERORPASSWORD_ERRROR.getMessage());
                 return response;
             }
             Map<String,Object> map=new HashMap<>();
-            map.put("uid",users.get(0).getId());
+            map.put("uid",member.get(0).getId());
 
             String token=JwtTokenUtils.builder().msg(JSON.toJSON(map).toString()).build().creatJwtToken();
-            response=UserConverterMapper.INSTANCE.converter(users.get(0));
+            response=UserConverterMapper.INSTANCE.converter(member.get(0));
             response.setToken(token);
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());

@@ -92,7 +92,7 @@
         })
       },
       _addressList () {
-        addressList({userId: this.userId}).then(res => {
+        addressList().then(res => {
           let data = res.result
           if (data.length) {
             this.addList = res.result
@@ -196,10 +196,10 @@
       color: #838383;
     }
     .address {
-      margin-left: 115px; 
+      margin-left: 115px;
     }
     .tel {
-      margin-left: 195px; 
+      margin-left: 195px;
     }
   }
 

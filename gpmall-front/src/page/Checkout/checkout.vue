@@ -50,7 +50,7 @@
                 <span class="price">单价</span>
               </div>
               <!--列表-->
-              <div class="cart-table" v-for="(item,i) in cartList" :key="i" v-if="item.checked === '1'">
+              <div class="cart-table" v-for="(item,i) in cartList" :key="i" v-if="item.checked == 'true'">
                 <div class="cart-group divide pr" :data-productid="item.productId">
                   <div class="cart-top-items">
                     <div class="cart-items clearfix">
@@ -177,7 +177,7 @@
       checkPrice () {
         let totalPrice = 0
         this.cartList && this.cartList.forEach(item => {
-          if (item.checked === '1') {
+          if (item.checked) {
             totalPrice += (item.productNum * item.salePrice)
           }
         })
@@ -195,7 +195,7 @@
         window.open(window.location.origin + '#/product/' + id)
       },
       _getCartList () {
-        getCartList({userId: this.userId}).then(res => {
+        getCartList().then(res => {
           this.cartList = res.result
         })
       },
@@ -259,7 +259,7 @@
           tel: this.tel,
           userName: this.userName,
           streetName: this.streetName,
-          goodsList: array,
+          cartProductDtoList: array,
           orderTotal: this.orderTotal
         }
         submitOrder(params).then(res => {
