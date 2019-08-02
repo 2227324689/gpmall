@@ -11,6 +11,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -43,9 +44,9 @@ public class GlobalIdGeneratorUtil {
     private String sha1;
 
     public GlobalIdGeneratorUtil() throws IOException {
-        init();
-    }
 
+    }
+    @PostConstruct
     private void init() throws IOException {
         byte[] script;
         try {
