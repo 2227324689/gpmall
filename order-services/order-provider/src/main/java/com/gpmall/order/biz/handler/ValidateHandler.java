@@ -1,19 +1,9 @@
-package com.gpmall.order.biz.order;/**
+package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
-import com.gpmall.commons.tool.exception.BizException;
-import com.gpmall.order.biz.pipeline.HandlerChain;
-import com.gpmall.order.constant.OrderRetCode;
-import com.gpmall.order.dal.persistence.OrderMapper;
-import com.gpmall.order.dto.CreateOrderRequest;
-import com.gpmall.user.IMemberService;
-import com.gpmall.user.dto.QueryMemberRequest;
-import com.gpmall.user.dto.QueryMemberResponse;
+import com.gpmall.order.biz.context.TransHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -26,10 +16,18 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@Order(1)
-public class ValidateHandler extends AbstractOrderHandler{
+public class ValidateHandler extends AbstractTransHandler {
+    @Override
+    public boolean isAsync() {
+        return false;
+    }
 
-    @Autowired
+    @Override
+    public boolean handle(TransHandlerContext context) {
+        return false;
+    }
+
+    /*@Autowired
     OrderMapper orderMapper;
 
     @Reference
@@ -48,5 +46,5 @@ public class ValidateHandler extends AbstractOrderHandler{
             throw new BizException(response.getCode(),response.getMsg());
         }
 
-    }
+    }*/
 }

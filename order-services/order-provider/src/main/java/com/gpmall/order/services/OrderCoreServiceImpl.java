@@ -2,10 +2,10 @@ package com.gpmall.order.services;/**
  * Created by mic on 2019/7/30.
  */
 
-import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.order.OrderCoreService;
-import com.gpmall.order.biz.order.OrderContext;
-import com.gpmall.order.biz.pipeline.SimpleHandlerChain;
+import com.gpmall.order.biz.TransOutboundInvoker;
+import com.gpmall.order.biz.context.AbsTransHandlerContext;
+import com.gpmall.order.biz.factory.OrderProcessPipelineFactory;
 import com.gpmall.order.constant.OrderRetCode;
 import com.gpmall.order.constants.OrderConstants;
 import com.gpmall.order.dal.entitys.Order;
@@ -44,7 +44,7 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     OrderShippingMapper orderShippingMapper;
 
     @Autowired
-    SimpleHandlerChain<OrderContext,BizException> simpleHandlerChain;
+    OrderProcessPipelineFactory orderProcessPipelineFactory;
 
 
     /**
@@ -56,12 +56,17 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         CreateOrderResponse response=new CreateOrderResponse();
         try{
-            OrderContext context=new OrderContext();
+            TransOutboundInvoker invoker=orderProcessPipelineFactory.build(request);
+            invoker.start();
+
+            AbsTransHandlerContext context=invoker.getContext();
+            response=(CreateOrderResponse) context.getConvert().convertCtx2Respond(context);
+            /*OrderContext context=new OrderContext();
             context.setRequest(request);
             response.setOrderId(context.getOrderID());
             response.setCode(OrderRetCode.SUCCESS.getCode());
             response.setMsg(OrderRetCode.SUCCESS.getMessage());
-            simpleHandlerChain.handleNext(context);
+            simpleHandlerChain.handleNext(context);*/
         }catch (Exception e){
             log.error("OrderCoreServiceImpl.createOrder Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);

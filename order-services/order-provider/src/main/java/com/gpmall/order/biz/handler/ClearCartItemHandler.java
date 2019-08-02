@@ -1,16 +1,9 @@
-package com.gpmall.order.biz.order;/**
+package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
-import com.gpmall.commons.tool.exception.BizException;
-import com.gpmall.order.biz.pipeline.HandlerChain;
-import com.gpmall.order.constant.OrderRetCode;
-import com.gpmall.shopping.ICartService;
-import com.gpmall.shopping.dto.ClearCartItemRequest;
-import com.gpmall.shopping.dto.ClearCartItemResponse;
+import com.gpmall.order.biz.context.TransHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,10 +15,19 @@ import org.springframework.stereotype.Component;
  */
 @Slf4j
 @Component
-@Order(3)
-public class ClearCartItemHandler extends AbstractOrderHandler{
+public class ClearCartItemHandler extends AbstractTransHandler {
 
-    @Reference
+    @Override
+    public boolean isAsync() {
+        return false;
+    }
+
+    @Override
+    public boolean handle(TransHandlerContext context) {
+        return false;
+    }
+
+    /*@Reference
     ICartService cartService;
 
 
@@ -42,5 +44,5 @@ public class ClearCartItemHandler extends AbstractOrderHandler{
         }else{
             throw new BizException(response.getCode(),response.getMsg());
         }
-    }
+    }*/
 }

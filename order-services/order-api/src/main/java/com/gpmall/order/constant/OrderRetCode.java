@@ -13,6 +13,7 @@ public enum OrderRetCode {
 
     REQUISITE_PARAMETER_NOT_EXIST       ("005073", "必要的参数不能为空"),
 
+    PIPELINE_RUN_EXCEPTION              ("005094","交易管道运行异常"),
     SHIPPING_DB_SAVED_FAILED            ("005095","物流信息保存数据库失败"),
     DB_SAVE_EXCEPTION                   ("005096","数据保存异常"),
     DB_EXCEPTION                        ("005097", "数据库异常"),

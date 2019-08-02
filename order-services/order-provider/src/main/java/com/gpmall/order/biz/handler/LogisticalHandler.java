@@ -1,17 +1,9 @@
-package com.gpmall.order.biz.order;/**
+package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
-import com.gpmall.commons.tool.exception.BizException;
-import com.gpmall.order.biz.pipeline.HandlerChain;
-import com.gpmall.order.constant.OrderRetCode;
-import com.gpmall.order.dal.entitys.OrderShipping;
-import com.gpmall.order.dal.persistence.OrderShippingMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
+import com.gpmall.order.biz.context.TransHandlerContext;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -22,10 +14,18 @@ import java.util.Date;
  * 处理物流信息（商品寄送的地址）
  */
 @Component
-@Order(4)
-public class LogisticalHandler extends AbstractOrderHandler{
+public class LogisticalHandler extends AbstractTransHandler {
+    @Override
+    public boolean isAsync() {
+        return false;
+    }
 
-    @Autowired
+    @Override
+    public boolean handle(TransHandlerContext context) {
+        return false;
+    }
+
+    /*  @Autowired
     OrderShippingMapper orderShippingMapper;
 
     @Override
@@ -43,5 +43,5 @@ public class LogisticalHandler extends AbstractOrderHandler{
         }catch (Exception e){
             throw new BizException(OrderRetCode.SHIPPING_DB_SAVED_FAILED.getCode(),OrderRetCode.SHIPPING_DB_SAVED_FAILED.getMessage());
         }
-    }
+    }*/
 }

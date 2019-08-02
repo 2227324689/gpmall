@@ -1,28 +1,10 @@
-package com.gpmall.order.biz.order;/**
+package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
-import com.gpmall.commons.tool.exception.BizException;
-import com.gpmall.order.biz.pipeline.HandlerChain;
-import com.gpmall.order.constant.OrderRetCode;
-import com.gpmall.order.constants.OrderConstants;
-import com.gpmall.order.dal.entitys.OrderItem;
-import com.gpmall.order.dal.persistence.OrderItemMapper;
-import com.gpmall.order.dal.persistence.OrderMapper;
-import com.gpmall.order.utils.GlobalIdGeneratorUtil;
+import com.gpmall.order.biz.context.TransHandlerContext;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RAtomicLong;
-import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -34,10 +16,19 @@ import java.util.List;
 
 @Slf4j
 @Component
-@Order(2)
-public class InitOrderHandler extends AbstractOrderHandler{
+public class InitOrderHandler extends AbstractTransHandler {
 
-    @Autowired
+    @Override
+    public boolean isAsync() {
+        return false;
+    }
+
+    @Override
+    public boolean handle(TransHandlerContext context) {
+        return false;
+    }
+
+    /*@Autowired
     OrderMapper orderMapper;
 
     @Autowired
@@ -84,5 +75,5 @@ public class InitOrderHandler extends AbstractOrderHandler{
             log.error("InitOrderHandler occur Exception :"+e);
             throw new BizException(OrderRetCode.DB_SAVE_EXCEPTION.getCode(),OrderRetCode.DB_SAVE_EXCEPTION.getMessage());
         }
-    }
+    }*/
 }
