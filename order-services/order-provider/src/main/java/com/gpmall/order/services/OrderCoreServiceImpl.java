@@ -31,9 +31,6 @@ import java.util.Date;
 @Service
 public class OrderCoreServiceImpl implements OrderCoreService{
 
-   /* @Reference
-    IMemberService memberService;*/
-
     @Autowired
     OrderMapper orderMapper;
 
@@ -55,11 +52,9 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         CreateOrderResponse response=new CreateOrderResponse();
-        response.setCode(OrderRetCode.SUCCESS.getCode());
-        response.setMsg(OrderRetCode.SUCCESS.getMessage());
         try{
             TransOutboundInvoker invoker=orderProcessPipelineFactory.build(request);
-            invoker.start();
+            invoker.start(); //启动流程
             AbsTransHandlerContext context=invoker.getContext();
             response=(CreateOrderResponse) context.getConvert().convertCtx2Respond(context);
         }catch (Exception e){
