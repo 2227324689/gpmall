@@ -1,5 +1,6 @@
 package com.gpmall.order.biz;
 
+import com.gpmall.order.biz.callback.TransCallback;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import com.gpmall.order.biz.handler.AbstractTransHandler;
 import com.gpmall.order.biz.handler.TransHandler;

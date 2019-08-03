@@ -2,6 +2,7 @@ package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
+import com.gpmall.order.biz.callback.TransCallback;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -45,4 +46,6 @@ public class ClearCartItemHandler extends AbstractTransHandler {
             throw new BizException(response.getCode(),response.getMsg());
         }
     }*/
+
+
 }

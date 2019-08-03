@@ -27,8 +27,6 @@ public abstract class AbstranctTransPipelineFactory <T extends AbstractRequest> 
         //上朔
         AbsTransHandlerContext absCtx = (AbsTransHandlerContext) context;
 
-//        //set原始交易信息
-//        absCtx.setOldTrans(oldTrans);
         //set转换器
         absCtx.setConvert(convert);
         //上下文转换

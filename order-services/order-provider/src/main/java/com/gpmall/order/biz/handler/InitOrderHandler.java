@@ -2,8 +2,11 @@ package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
+import com.gpmall.order.biz.callback.SendEmailCallback;
+import com.gpmall.order.biz.callback.TransCallback;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,6 +20,8 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class InitOrderHandler extends AbstractTransHandler {
+    @Autowired
+    SendEmailCallback sendEmailCallback;
 
     @Override
     public boolean isAsync() {
@@ -76,4 +81,9 @@ public class InitOrderHandler extends AbstractTransHandler {
             throw new BizException(OrderRetCode.DB_SAVE_EXCEPTION.getCode(),OrderRetCode.DB_SAVE_EXCEPTION.getMessage());
         }
     }*/
+
+    @Override
+    public TransCallback setPostCallback() {
+        return sendEmailCallback;
+    }
 }

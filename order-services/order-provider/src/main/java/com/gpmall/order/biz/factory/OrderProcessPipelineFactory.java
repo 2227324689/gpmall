@@ -41,7 +41,8 @@ public class OrderProcessPipelineFactory extends AbstranctTransPipelineFactory<C
 
     @Override
     protected TransHandlerContext createContext() {
-        return new CreateOrderContext();
+        CreateOrderContext createOrderContext=new CreateOrderContext();
+        return createOrderContext;
     }
 
     @Override

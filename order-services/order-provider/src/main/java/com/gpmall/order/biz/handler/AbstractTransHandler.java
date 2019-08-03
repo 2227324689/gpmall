@@ -3,8 +3,7 @@ package com.gpmall.order.biz.handler;/**
  */
 
 import com.gpmall.order.biz.HandlerItem;
-import com.gpmall.order.biz.TransCallback;
-import com.gpmall.order.biz.handler.TransHandler;
+import com.gpmall.order.biz.callback.TransCallback;
 import lombok.Data;
 
 import java.util.Map;
@@ -35,21 +34,13 @@ public abstract class AbstractTransHandler implements TransHandler {
     }
 
     public TransCallback callback;//需要注入回调的值
-    /**
-     * 可以允许无回调
-     * @param callback
-     */
-    @Override
-    public void addPreCallback(TransCallback callback) {
-        ;
-    }
 
     /**
-     * 可以允许无回调
-     * @param callback
+     * 可以无回调
      */
-    @Override
-    public void addPostCallback(TransCallback callback) {
-        ;
+    public TransCallback setPostCallback(){return null;}
+
+    public void setCallback(TransCallback callback) {
+        this.callback = setPostCallback();
     }
 }

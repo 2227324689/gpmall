@@ -50,14 +50,14 @@
         </javaClientGenerator>
 
         <!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等-->
-        <table tableName="tb_address" domainObjectName="Address"
+       <!-- <table tableName="tb_address" domainObjectName="Address"
                enableCountByExample="true"
                enableSelectByExample="true"
                enableUpdateByExample="true"
                enableDeleteByExample="true"
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true" />
+               enableDeleteByPrimaryKey="true" />-->
 
     </context>
 </generatorConfiguration>
