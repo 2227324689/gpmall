@@ -2,7 +2,9 @@ package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
+import com.gpmall.order.biz.callback.TransCallback;
 import com.gpmall.order.biz.context.TransHandlerContext;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Component;
  *
  * 处理物流信息（商品寄送的地址）
  */
+@Slf4j
 @Component
 public class LogisticalHandler extends AbstractTransHandler {
     @Override
@@ -22,8 +25,10 @@ public class LogisticalHandler extends AbstractTransHandler {
 
     @Override
     public boolean handle(TransHandlerContext context) {
-        return false;
+        log.info("begin LogisticalHandler :context:"+context);
+        return true;
     }
+
 
     /*  @Autowired
     OrderShippingMapper orderShippingMapper;

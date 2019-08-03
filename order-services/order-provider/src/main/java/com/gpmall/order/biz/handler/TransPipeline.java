@@ -1,7 +1,8 @@
-package com.gpmall.order.biz;/**
+package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/2.
  */
 
+import com.gpmall.order.biz.TransOutboundInvoker;
 import com.gpmall.order.biz.handler.TransHandler;
 
 /**
@@ -10,7 +11,7 @@ import com.gpmall.order.biz.handler.TransHandler;
  * 风骚的Mic 老师
  * create-date: 2019/8/2-下午9:58
  */
-public interface TransPipeline extends TransOutboundInvoker{
+public interface TransPipeline extends TransOutboundInvoker {
 
     /**
      *

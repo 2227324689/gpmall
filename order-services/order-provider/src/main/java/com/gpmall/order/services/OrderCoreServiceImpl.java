@@ -55,18 +55,16 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         CreateOrderResponse response=new CreateOrderResponse();
+        response.setCode(OrderRetCode.SUCCESS.getCode());
+        response.setMsg(OrderRetCode.SUCCESS.getMessage());
         try{
             TransOutboundInvoker invoker=orderProcessPipelineFactory.build(request);
             invoker.start();
-
             AbsTransHandlerContext context=invoker.getContext();
             response=(CreateOrderResponse) context.getConvert().convertCtx2Respond(context);
-            /*OrderContext context=new OrderContext();
-            context.setRequest(request);
-            response.setOrderId(context.getOrderID());
+//            response.setOrderId(context.getOrderID());
             response.setCode(OrderRetCode.SUCCESS.getCode());
             response.setMsg(OrderRetCode.SUCCESS.getMessage());
-            simpleHandlerChain.handleNext(context);*/
         }catch (Exception e){
             log.error("OrderCoreServiceImpl.createOrder Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
@@ -121,7 +119,7 @@ public class OrderCoreServiceImpl implements OrderCoreService{
 
 
     @Transactional
-    private void deleteOrderWithTransaction(DeleteOrderRequest request){
+    void deleteOrderWithTransaction(DeleteOrderRequest request){
         orderMapper.deleteByPrimaryKey(request.getOrderId());
         orderItemMapper.deleteItemByOrderId(request.getOrderId());
         orderShippingMapper.deleteByPrimaryKey(request.getOrderId());

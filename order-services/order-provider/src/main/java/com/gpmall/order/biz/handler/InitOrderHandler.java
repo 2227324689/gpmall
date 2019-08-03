@@ -20,8 +20,14 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class InitOrderHandler extends AbstractTransHandler {
+
     @Autowired
     SendEmailCallback sendEmailCallback;
+
+    @Override
+    public TransCallback getTransCallback() {
+        return sendEmailCallback;
+    }
 
     @Override
     public boolean isAsync() {
@@ -30,7 +36,8 @@ public class InitOrderHandler extends AbstractTransHandler {
 
     @Override
     public boolean handle(TransHandlerContext context) {
-        return false;
+        log.info("begin InitOrderHandler :context:"+context);
+        return true;
     }
 
     /*@Autowired
@@ -82,8 +89,4 @@ public class InitOrderHandler extends AbstractTransHandler {
         }
     }*/
 
-    @Override
-    public TransCallback setPostCallback() {
-        return sendEmailCallback;
-    }
 }

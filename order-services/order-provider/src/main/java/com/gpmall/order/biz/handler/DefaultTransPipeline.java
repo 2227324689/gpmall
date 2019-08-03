@@ -1,10 +1,9 @@
-package com.gpmall.order.biz;/**
+package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/2.
  */
 
 import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.order.biz.context.TransHandlerContext;
-import com.gpmall.order.biz.handler.TransHandler;
 import com.gpmall.order.constant.OrderRetCode;
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DefaultTransPipeline implements TransPipeline{
 
 
-    private TransHandlerNode tail = new TransHandlerNode();
+    private TransHandlerNode tail;
 
     private TransHandlerNode head = new TransHandlerNode();
 
@@ -55,7 +54,6 @@ public class DefaultTransPipeline implements TransPipeline{
             TransHandlerNode node = new TransHandlerNode();
             node.setHandler(handler);
             next.setNext(node);
-
             next = node;
         }
 
@@ -67,7 +65,7 @@ public class DefaultTransPipeline implements TransPipeline{
         try {
             head.getNext().exec(getContext());
         } catch (Exception ex) {
-            log.error("Transcore pipeline系统运行异常.", ex);
+            log.error("pipeline系统运行异常.", ex);
             throw new BizException(OrderRetCode.PIPELINE_RUN_EXCEPTION.getCode(),OrderRetCode.PIPELINE_RUN_EXCEPTION.getMessage());//TODI
         }
     }
