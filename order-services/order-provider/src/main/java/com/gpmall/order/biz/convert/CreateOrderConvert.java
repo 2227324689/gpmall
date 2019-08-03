@@ -4,7 +4,11 @@ package com.gpmall.order.biz.convert;/**
 
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
+import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
+import com.gpmall.order.constant.OrderRetCode;
+import com.gpmall.order.dto.CreateOrderRequest;
+import com.gpmall.order.dto.CreateOrderResponse;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -14,14 +18,27 @@ import com.gpmall.order.biz.context.TransHandlerContext;
  */
 public class CreateOrderConvert implements TransConvert{
 
-
     @Override
     public TransHandlerContext convertRequest2Ctx(AbstractRequest req, TransHandlerContext context) {
-        return null;
+        CreateOrderRequest createOrderRequest=(CreateOrderRequest)req;
+        CreateOrderContext createOrderContext=(CreateOrderContext) context;
+        createOrderContext.setAddressId(createOrderRequest.getAddressId());
+        createOrderContext.setCartProductDtoList(createOrderRequest.getCartProductDtoList());
+        createOrderContext.setOrderTotal(createOrderRequest.getOrderTotal());
+        createOrderContext.setStreetName(createOrderRequest.getStreetName());
+        createOrderContext.setTel(createOrderRequest.getTel());
+        createOrderContext.setUserId(createOrderRequest.getUserId());
+        createOrderContext.setUserName(createOrderRequest.getUserName());
+        return createOrderContext;
     }
 
     @Override
     public AbstractResponse convertCtx2Respond(TransHandlerContext ctx) {
-        return null;
+        CreateOrderContext createOrderContext=(CreateOrderContext) ctx;
+        CreateOrderResponse createOrderResponse=new CreateOrderResponse();
+        createOrderResponse.setOrderId(createOrderContext.getOrderId());
+        createOrderResponse.setCode(OrderRetCode.SUCCESS.getCode());
+        createOrderResponse.setMsg(OrderRetCode.SUCCESS.getMessage());
+        return createOrderResponse;
     }
 }

@@ -2,9 +2,17 @@ package com.gpmall.order.biz.handler;/**
  * Created by mic on 2019/8/1.
  */
 
-import com.gpmall.order.biz.callback.TransCallback;
+import com.gpmall.commons.tool.exception.BizException;
+import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
+import com.gpmall.order.constant.OrderRetCode;
+import com.gpmall.order.dal.persistence.OrderMapper;
+import com.gpmall.user.IMemberService;
+import com.gpmall.user.dto.QueryMemberRequest;
+import com.gpmall.user.dto.QueryMemberResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +26,13 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class ValidateHandler extends AbstractTransHandler {
+
+    @Autowired
+    OrderMapper orderMapper;
+
+    @Reference
+    IMemberService memberService;
+
     @Override
     public boolean isAsync() {
         return false;
@@ -26,28 +41,15 @@ public class ValidateHandler extends AbstractTransHandler {
     @Override
     public boolean handle(TransHandlerContext context) {
         log.info("begin ValidateHandler :context:"+context);
-        return true;
-    }
-
-
-    /*@Autowired
-    OrderMapper orderMapper;
-
-    @Reference
-    IMemberService memberService;
-
-    @Override
-    public void handler(OrderContext context, HandlerChain<OrderContext, BizException> handlers) throws BizException {
-        log.info("begin -OrderValidateHandler:request:"+context);
+        CreateOrderContext createOrderContext=(CreateOrderContext)context;
         QueryMemberRequest queryMemberRequest =new QueryMemberRequest();
-        queryMemberRequest.setUserId(context.getRequest().getUserId());
+        queryMemberRequest.setUserId(createOrderContext.getUserId());
         QueryMemberResponse response=memberService.queryMemberById(queryMemberRequest);
         if(OrderRetCode.SUCCESS.getCode().equals(response.getCode())){
-            context.setMemberResponse(response);
-            handlers.handleNext(context); //调用下一个链进行处理
+            createOrderContext.setBuyerNickName(response.getUsername());
         }else{
             throw new BizException(response.getCode(),response.getMsg());
         }
-
-    }*/
+        return true;
+    }
 }

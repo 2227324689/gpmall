@@ -1,6 +1,4 @@
-package com.gpmall.order.biz;/**
- * Created by mic on 2019/8/2.
- */
+package com.gpmall.order.biz;
 
 import com.gpmall.order.biz.context.TransHandlerContext;
 

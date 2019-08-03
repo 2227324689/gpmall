@@ -4,6 +4,7 @@ package com.gpmall.order.biz.handler;/**
 
 import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.order.biz.callback.TransCallback;
+import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import com.gpmall.order.constant.OrderRetCode;
 import com.gpmall.shopping.ICartService;
@@ -37,8 +38,9 @@ public class ClearCartItemHandler extends AbstractTransHandler {
         log.info("begin - ClearCartItemHandler-context:"+context);
         //TODO 缓存失效和下单是属于两个事物操作，需要保证成功，后续可以改造成消息队列的形式来实现
         ClearCartItemRequest request=new ClearCartItemRequest();
-//        request.setProductIds(context.getBuyProductIds());
-//        request.setUserId(context.getRequest().getUserId());
+        CreateOrderContext createOrderContext=(CreateOrderContext)context;
+        request.setProductIds(createOrderContext.getBuyProductIds());
+        request.setUserId(createOrderContext.getUserId());
         ClearCartItemResponse response=cartService.clearCartItemByUserID(request);
         if(OrderRetCode.SUCCESS.getCode().equals(response.getCode())){
             return true;
@@ -46,23 +48,4 @@ public class ClearCartItemHandler extends AbstractTransHandler {
             throw new BizException(response.getCode(),response.getMsg());
         }
     }
-    /*
-
-
-    @Override
-    public void handler(OrderContext context, HandlerChain<OrderContext, BizException> handlers) throws BizException {
-        log.info("begin - ClearCartItemHandler,context:"+context);
-        //TODO 缓存失效和下单是属于两个事物操作，需要保证成功，后续可以改造成消息队列的形式来实现
-        ClearCartItemRequest request=new ClearCartItemRequest();
-        request.setProductIds(context.getBuyProductIds());
-        request.setUserId(context.getRequest().getUserId());
-        ClearCartItemResponse response=cartService.clearCartItemByUserID(request);
-        if(OrderRetCode.SUCCESS.getCode().equals(response.getCode())){
-            handlers.handleNext(context);
-        }else{
-            throw new BizException(response.getCode(),response.getMsg());
-        }
-    }*/
-
-
 }
