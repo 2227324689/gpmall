@@ -23,5 +23,5 @@ public class ProductDto implements Serializable {
 
     private String subTitle;
 
-    private String productImageBig;
+    private String picUrl;
 }

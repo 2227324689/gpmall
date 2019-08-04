@@ -23,7 +23,7 @@ public interface ProductConverter {
             @Mapping(source = "title",target = "productName"),
             @Mapping(source = "price",target = "salePrice"),
             @Mapping(source = "sellPoint",target = "subTitle"),
-            @Mapping(source = "imageBig",target = "productImageBig")
+            @Mapping(source = "imageBig",target = "picUrl")
     })
     ProductDto item2Dto(Item item);
 

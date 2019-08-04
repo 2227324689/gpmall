@@ -28,7 +28,7 @@ import java.util.Date;
  * create-date: 2019/7/30-上午10:05
  */
 @Slf4j
-@Service
+@Service(cluster = "failfast")
 public class OrderCoreServiceImpl implements OrderCoreService{
 
     @Autowired

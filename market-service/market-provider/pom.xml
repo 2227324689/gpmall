@@ -7,10 +7,10 @@
         <artifactId>gpmall-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <groupId>com.gpmall.pay</groupId>
-    <artifactId>pay-provider</artifactId>
+    <groupId>com.gpmall.market</groupId>
+    <artifactId>market-provider</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pay-provider</name>
+    <name>market-provider</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -60,37 +60,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.gupaoedu.pay</groupId>
-            <version>1.0-SNAPSHOT</version>
-            <artifactId>pay-api</artifactId>
-        </dependency>
-
-        <!--httpclient4-->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpcore</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpmime</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
@@ -99,7 +68,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.gpmall.pay.bootstrap.PayProviderApplication</mainClass>
+                    <mainClass>com.gpmall.market.marketprovider.MarketProviderApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -110,9 +79,9 @@
                 </executions>
             </plugin>
             <!--<plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-            </plugin>-->
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+			</plugin>-->
         </plugins>
         <resources>
             <resource>

@@ -59,13 +59,14 @@ public class GlobalIdGeneratorUtil {
     }
 
     public String getNextSeq(String keyName, int incrby) {
-        if(StringUtils.isNoneBlank(keyName)||incrby<0) {
+        if(StringUtils.isBlank(keyName)||incrby<0) {
             throw new RuntimeException("参数不正确");
         }
+        this.keyName=keyName;
+        this.incrby=incrby;
         try {
             return getMaxSeq();
-        }catch (Exception e){
-            //如果redis出现故障，则采用uuid
+        }catch (Exception e){//如果redis出现故障，则采用uuid
             return UUID.randomUUID().toString().replace("-","");
         }
     }
@@ -78,8 +79,7 @@ public class GlobalIdGeneratorUtil {
 
     public String getMaxSeq() {
         List<Object> keys= Arrays.asList(keyName,incrby,generateSeq());
-        String maxSeq= redissonClient.getScript().
-                evalSha(RScript.Mode.READ_WRITE,sha1, RScript.ReturnType.STATUS,keys);
+        String maxSeq= redissonClient.getScript().evalSha(RScript.Mode.READ_WRITE,sha1, RScript.ReturnType.STATUS,keys);
         return maxSeq;
     }
 }

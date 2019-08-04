@@ -15,6 +15,8 @@ import com.gpmall.order.utils.GlobalIdGeneratorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -57,11 +59,13 @@ public class InitOrderHandler extends AbstractTransHandler {
         return false;
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public boolean handle(TransHandlerContext context) {
         log.info("begin InitOrderHandler :context:"+context);
         Order order=new Order();
         try {
+            //TODO 幂等校验（防止订单重复提交）
             CreateOrderContext createOrderContext=(CreateOrderContext)context;
             String orderId = globalIdGeneratorUtil.getNextSeq(ORDER_GLOBAL_ID_CACHE_KEY, 1);
             order.setOrderId(orderId);

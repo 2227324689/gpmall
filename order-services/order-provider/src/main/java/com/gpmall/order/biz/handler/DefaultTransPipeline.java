@@ -66,7 +66,8 @@ public class DefaultTransPipeline implements TransPipeline{
             head.getNext().exec(getContext());
         } catch (Exception ex) {
             log.error("pipeline系统运行异常.", ex);
-            throw new BizException(OrderRetCode.PIPELINE_RUN_EXCEPTION.getCode(),OrderRetCode.PIPELINE_RUN_EXCEPTION.getMessage());//TODI
+            throw ex;
+            //throw new BizException(OrderRetCode.PIPELINE_RUN_EXCEPTION.getCode(),OrderRetCode.PIPELINE_RUN_EXCEPTION.getMessage());//TODI
         }
     }
 

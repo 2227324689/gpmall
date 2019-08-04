@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-07-30 15:04:27
+Date: 2019-08-04 22:19:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -324,14 +324,14 @@ CREATE TABLE `tb_order` (
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
-INSERT INTO `tb_order` VALUES ('150787555927616', '1.00', null, null, '5', '2017-10-13 14:19:19', '2017-10-13 14:19:19', null, null, null, '2017-10-13 14:19:35', null, null, '63', null, 'admin', null);
+INSERT INTO `tb_order` VALUES ('f96df774844a49959afbec706fb59908', '49.00', null, null, '0', '2019-08-04 06:20:27', '2019-08-04 06:20:27', null, null, null, null, null, null, '62', null, 'test', null);
 
 -- ----------------------------
 -- Table structure for tb_order_item
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_order_item`;
 CREATE TABLE `tb_order_item` (
-  `id` varchar(20) COLLATE utf8_bin NOT NULL,
+  `id` varchar(50) COLLATE utf8_bin NOT NULL,
   `item_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '商品id',
   `order_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '订单id',
   `num` int(10) DEFAULT NULL COMMENT '商品购买数量',
@@ -347,7 +347,7 @@ CREATE TABLE `tb_order_item` (
 -- ----------------------------
 -- Records of tb_order_item
 -- ----------------------------
-INSERT INTO `tb_order_item` VALUES ('150787555927880', '150642571432835', '150787555927616', '1', '捐赠商品', '1.00', '1.00', 'http://ow2h3ee9w.bkt.clouddn.com/FgwHSk1Rnd-8FKqNJhFSSdcq2QVB');
+INSERT INTO `tb_order_item` VALUES ('7677d2fb3ec642dcac237ea958e95422', '100026701', 'f96df774844a49959afbec706fb59908', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
 
 -- ----------------------------
 -- Table structure for tb_order_shipping
@@ -372,6 +372,14 @@ CREATE TABLE `tb_order_shipping` (
 -- Records of tb_order_shipping
 -- ----------------------------
 INSERT INTO `tb_order_shipping` VALUES ('150787555927616', '4', '4', null, null, null, null, '4', null, '2017-10-13 14:19:19', '2017-10-13 14:19:19');
+INSERT INTO `tb_order_shipping` VALUES ('47865f4c9c9142a792919e16e03d1bb7', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:12:14', '2019-08-04 06:12:14');
+INSERT INTO `tb_order_shipping` VALUES ('9b596ac74b33444b91bdb4c4316b05d1', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:08:36', '2019-08-04 06:08:36');
+INSERT INTO `tb_order_shipping` VALUES ('9b5c90cdc42147a4a36d1824a7036034', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:12:02', '2019-08-04 06:12:02');
+INSERT INTO `tb_order_shipping` VALUES ('a2ea0730b98843e8a861862b5dff7800', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:12:02', '2019-08-04 06:12:02');
+INSERT INTO `tb_order_shipping` VALUES ('a5150df2f2ca46359c18b3597dee8b78', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:08:38', '2019-08-04 06:08:38');
+INSERT INTO `tb_order_shipping` VALUES ('caf720fa6bd94a56a2ba402fafef54eb', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:08:45', '2019-08-04 06:08:45');
+INSERT INTO `tb_order_shipping` VALUES ('f96df774844a49959afbec706fb59908', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:22:59', '2019-08-04 06:22:59');
+INSERT INTO `tb_order_shipping` VALUES ('null', '1', '1', null, null, null, null, '1', null, '2019-08-02 06:51:54', '2019-08-02 06:51:54');
 
 -- ----------------------------
 -- Table structure for tb_panel
