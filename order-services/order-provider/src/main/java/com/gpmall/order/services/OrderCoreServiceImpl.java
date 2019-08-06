@@ -17,6 +17,7 @@ import com.gpmall.order.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -49,6 +50,7 @@ public class OrderCoreServiceImpl implements OrderCoreService{
      * @param request
      * @return
      */
+
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         CreateOrderResponse response=new CreateOrderResponse();

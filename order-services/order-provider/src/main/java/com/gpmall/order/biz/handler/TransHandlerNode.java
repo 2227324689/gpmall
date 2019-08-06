@@ -18,11 +18,14 @@ public class TransHandlerNode {
         boolean success = handler.handle(context);
         //回调函数
         execCallbacks(transHandler.getTransCallback(), context, null);
-        if (next != null && success)
-            if(transHandler.isAsync()){
-                //TODO 如果为true，则采用异步线程去执行任务
+        if (next != null) {
+            if (success) {
+                if (transHandler.isAsync()) {
+                    //TODO 如果为true，则采用异步线程去执行任务
+                }
+                next.exec(context);
             }
-            next.exec(context);
+        }
     }
 
     private void execCallbacks(TransCallback callback, TransHandlerContext context, Throwable ex) {

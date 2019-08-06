@@ -6,8 +6,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
+import org.redisson.RedissonScript;
 import org.redisson.api.RScript;
 import org.redisson.api.RedissonClient;
+import org.redisson.client.protocol.RedisCommands;
+import org.redisson.client.protocol.decoder.StringDataDecoder;
+import org.redisson.codec.JsonJacksonCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -79,7 +84,9 @@ public class GlobalIdGeneratorUtil {
 
     public String getMaxSeq() {
         List<Object> keys= Arrays.asList(keyName,incrby,generateSeq());
-        String maxSeq= redissonClient.getScript().evalSha(RScript.Mode.READ_WRITE,sha1, RScript.ReturnType.STATUS,keys);
-        return maxSeq;
+        RedissonScript rScript=(RedissonScript) redissonClient.getScript();
+        //这里遇到一个bug，默认情况下使用evalSha，不加Codec属性时，会报错。这个错误很神奇。花了3个小时才搞定。
+        Long seqNext=rScript.evalSha(RScript.Mode.READ_ONLY, JsonJacksonCodec.INSTANCE,sha1, RScript.ReturnType.VALUE,keys);
+        return seqNext.toString();
     }
 }
