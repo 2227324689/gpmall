@@ -73,6 +73,7 @@ public class UserLoginServiceImpl implements IUserLoginService {
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         }catch (Exception e){
+            e.printStackTrace();
             log.error("UserLoginServiceImpl.login Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }
