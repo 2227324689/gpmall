@@ -5,6 +5,10 @@ import com.gpmall.order.biz.context.TransHandlerContext;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 @Slf4j
 @Data
 public class TransHandlerNode {
@@ -22,6 +26,7 @@ public class TransHandlerNode {
             if (success) {
                 if (transHandler.isAsync()) {
                     //TODO 如果为true，则采用异步线程去执行任务
+
                 }
                 next.exec(context);
             }
