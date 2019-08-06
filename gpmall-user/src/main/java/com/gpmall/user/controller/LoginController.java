@@ -4,9 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
 import com.gpmall.commons.tool.utils.CookieUtil;
+import com.gpmall.user.IKaptchaService;
 import com.gpmall.user.IUserLoginService;
 import com.gpmall.user.annotation.Anoymous;
 import com.gpmall.user.constants.SysRetCodeConstants;
+import com.gpmall.user.dto.KaptchaCodeRequest;
+import com.gpmall.user.dto.KaptchaCodeResponse;
 import com.gpmall.user.dto.UserLoginRequest;
 import com.gpmall.user.dto.UserLoginResponse;
 import com.gpmall.user.intercepter.TokenIntercepter;
@@ -32,14 +35,26 @@ public class LoginController {
     @Reference(timeout = 3000)
     IUserLoginService iUserLoginService;
 
+    @Reference
+    IKaptchaService kaptchaService;
+
     @Anoymous
     @PostMapping("/login")
-
     public ResponseData login(@RequestBody Map<String,String> map,
-                              HttpServletResponse response){
+                              HttpServletRequest request,HttpServletResponse response){
         UserLoginRequest loginRequest=new UserLoginRequest();
         loginRequest.setPassword(map.get("userName"));
         loginRequest.setUserName(map.get("userPwd"));
+        String captcha=map.get("captcha");
+
+        KaptchaCodeRequest kaptchaCodeRequest = new KaptchaCodeRequest();
+        String uuid = CookieUtil.getCookieValue(request, "kaptcha_uuid");
+        kaptchaCodeRequest.setCode(captcha);
+        kaptchaCodeRequest.setUuid(uuid);
+        KaptchaCodeResponse kaptchaCodeResponse = kaptchaService.validateKaptchaCode(kaptchaCodeRequest);
+        if (!kaptchaCodeResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
+            return new ResponseUtil<>().setErrorMsg(kaptchaCodeResponse.getMsg());
+        }
         UserLoginResponse userLoginResponse=iUserLoginService.login(loginRequest);
         if(userLoginResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
             Cookie cookie=CookieUtil.genCookie(TokenIntercepter.ACCESS_TOKEN,userLoginResponse.getToken(),"/",24*60*60);

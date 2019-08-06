@@ -28,8 +28,10 @@
                 </div>
               </li>
               <li>
-                <div id="captcha">
-                  <p id="wait">正在加载验证码...</p>
+                <div class="input">
+                  <input type="text" v-model="registered.captcha" placeholder="验证码" style="width:650px;"/>
+                  &nbsp;&nbsp;&nbsp;
+                  <img id="imageCode" :src="imageCode" @click="init_geetest()"/>
                 </div>
               </li>
             </ul>
@@ -40,9 +42,9 @@
             </el-checkbox>
             <div style="margin-bottom: 30px;">
               <y-button
-                :classStyle="registered.userPwd&&registered.userPwd2&&registered.userName&&registxt==='注册'?'main-btn':'disabled-btn'"
+                :classStyle="registered.userPwd&&registered.userPwd2&&registered.userName&&registered.captcha&&registxt==='注册'?'main-btn':'disabled-btn'"
                 :text="registxt"
-                style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px"
+                style="margin: 0;width: 100%;height: 40px;font-size: 15px;line-height: 40px"
                 @btnClick="regist"
               >
               </y-button>
@@ -50,11 +52,11 @@
             <div class="border" style="margin-bottom: 10px;"></div>
             <ul class="common-form pr">
               <!-- <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registered.errMsg}}</li> -->
-              <li style="text-align: center;line-height: 48px;margin-bottom: 0;font-size: 12px;color: #999;">
-                <span>如果您已拥有 咕泡商城 账号，则可在此</span>
+              <li style="text-align: center;line-height: 48px;margin-bottom: 0;font-size: 15px;color: #999;">
+                <span>如果您已拥有 <span style="color:royalblue">咕泡商城</span> 账号，则可在此</span>
                 <a href="javascript:;"
                    style="margin: 0 5px"
-                   @click="toLogin">登陆</a>
+                   @click="toLogin">登录</a>
               </li>
             </ul>
           </div>
@@ -67,7 +69,7 @@
 <script>
 import YFooter from '/common/footer'
 import YButton from '/components/YButton'
-import { register, geetest } from '/api/index.js'
+import { register, initKaptcha } from '/api/index.js'
 require('../../../static/geetest/gt.js')
 // var captcha
 export default {
@@ -84,8 +86,10 @@ export default {
         userName: '',
         userPwd: '',
         userPwd2: '',
-        errMsg: ''
+        errMsg: '',
+        captcha: ''
       },
+      imageCode: '',
       agreement: false,
       registxt: '注册',
       statusKey: ''
@@ -124,6 +128,7 @@ export default {
       let userName = this.registered.userName
       let userPwd = this.registered.userPwd
       let userPwd2 = this.registered.userPwd2
+      let captcha = this.registered.captcha
       if (!userName || !userPwd || !userPwd2) {
         this.message('账号密码不能为空!')
         this.registxt = '注册'
@@ -134,57 +139,40 @@ export default {
         this.registxt = '注册'
         return false
       }
+      if (!captcha) {
+        this.message('请输入验证码')
+        this.registxt = '注册'
+        return false
+      }
       if (!this.agreement) {
         this.message('您未勾选同意我们的相关注册协议!')
         this.registxt = '注册'
         return false
       }
-      // var result = captcha.getValidate()
-      // if (!result) {
-      //   this.message('请完成验证')
-      //   this.registxt = '注册'
-      //   return false
-      // }
       register({
         userName,
         userPwd,
-        // challenge: result.geetest_challenge,
-        // validate: result.geetest_validate,
-        // seccode: result.geetest_seccode,
-        statusKey: this.statusKey }).then(res => {
+        captcha}).then(res => {
           if (res.success === true) {
             this.messageSuccess()
             this.toLogin()
           } else {
             this.message(res.message)
-            // captcha.reset()
-            this.regist = '注册'
+            this.registxt = '注册'
+            this.init_geetest()
+            this.registered.captcha = ''
             return false
           }
         })
     },
     init_geetest () {
-      geetest().then(res => {
-        this.statusKey = res.statusKey
-        window.initGeetest({
-          gt: res.gt,
-          challenge: res.challenge,
-          new_captcha: res.new_captcha,
-          offline: !res.success,
-          product: 'popup',
-          width: '100%'
-        }, function (captchaObj) {
-          // captcha = captchaObj
-          captchaObj.appendTo('#captcha')
-          captchaObj.onReady(function () {
-            document.getElementById('wait').style.display = 'none'
-          })
-        })
+      initKaptcha().then(res => {
+        this.imageCode = 'data:image/gif;base64,' + res.result
       })
     }
   },
   mounted () {
-    // this.init_geetest()
+    this.init_geetest()
   },
   components: {
     YFooter,
@@ -201,11 +189,11 @@ export default {
   overflow-x: hidden;
   overflow-y: hidden;
   .input {
-    height: 50px;
+    height: 46px;
     display: flex;
     align-items: center;
     input {
-      font-size: 16px;
+      font-size: 14px;
       width: 100%;
       height: 100%;
       padding: 10px 15px;
@@ -236,7 +224,6 @@ export default {
     overflow: visible;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
     position: relative;
-    background-image: url(/static/images/smartisan_4ada7fecea.png);
     background-size: 140px;
     background-position: top center;
     background-repeat: no-repeat;
@@ -364,6 +351,8 @@ export default {
 
 .registered {
   h4 {
+    background-image: -webkit-linear-gradient(#fff, #f1f1f1);
+    background-image: linear-gradient(#fff, #f1f1f1);
     padding: 0;
     text-align: center;
     color: #666;
@@ -372,9 +361,10 @@ export default {
     -moz-box-shadow: none;
     box-shadow: none;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     height: 60px;
     line-height: 60px;
+    border-radius:20px 10px 0px 0;
   }
 }
 
