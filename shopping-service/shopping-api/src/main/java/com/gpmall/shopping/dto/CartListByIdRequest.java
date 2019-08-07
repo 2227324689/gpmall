@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 public class CartListByIdRequest extends AbstractRequest {
     private Long userId;
+
     @Override
     public void requestCheck() {
         if(userId==null||userId.intValue()==0){
