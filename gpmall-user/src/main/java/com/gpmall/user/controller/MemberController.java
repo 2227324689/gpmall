@@ -20,15 +20,22 @@ import org.springframework.web.bind.annotation.*;
  * @Version 1.0
  **/
 @RestController
-@RequestMapping("/member")
+@RequestMapping("/user")
 public class MemberController {
 
     @Reference
     IMemberService memberService;
 
-
-    @GetMapping("/searchMemberById")
-    public ResponseData searchMemberById( QueryMemberRequest request) {
+    /**
+     * 根据ID查询单条会员信息
+     * @param id 编号
+     * @return
+     */
+    @GetMapping("/member/{id}")
+    @ApiOperation("查询单条会员信息")
+    public ResponseData searchMemberById(@PathVariable(name = "id")long id) {
+        QueryMemberRequest request=new QueryMemberRequest();
+        request.setUserId(id);
         QueryMemberResponse queryMemberResponse = memberService.queryMemberById(request);
         if (!queryMemberResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
             return new ResponseUtil<>().setErrorMsg(queryMemberResponse.getMsg());
