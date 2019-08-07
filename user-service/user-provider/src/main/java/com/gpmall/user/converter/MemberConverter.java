@@ -4,6 +4,7 @@ package com.gpmall.user.converter;/**
 
 import com.gpmall.user.dal.entitys.Member;
 import com.gpmall.user.dto.QueryMemberResponse;
+import com.gpmall.user.dto.UpdateMemberRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 
@@ -18,4 +19,7 @@ public interface MemberConverter {
 
     @Mappings({})
     QueryMemberResponse member2Res(Member member);
+
+    @Mappings({})
+    Member updateReq2Member(UpdateMemberRequest request);
 }

@@ -6,12 +6,11 @@ import com.gpmall.user.IMemberService;
 import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.dto.QueryMemberRequest;
 import com.gpmall.user.dto.QueryMemberResponse;
+import com.gpmall.user.dto.UpdateMemberRequest;
+import com.gpmall.user.dto.UpdateMemberResponse;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @ClassName MemberController
@@ -27,6 +26,7 @@ public class MemberController {
     @Reference
     IMemberService memberService;
 
+
     @GetMapping("/searchMemberById")
     public ResponseData searchMemberById( QueryMemberRequest request) {
         QueryMemberResponse queryMemberResponse = memberService.queryMemberById(request);
@@ -35,4 +35,19 @@ public class MemberController {
         }
         return new ResponseUtil<>().setData(queryMemberResponse);
     }
+
+    /**
+     * 会员信息更新
+     * @return
+     */
+    @PutMapping("member")
+    @ApiOperation("会员信息更新")
+    public ResponseData updateUser(@RequestBody UpdateMemberRequest request) {
+        UpdateMemberResponse response = memberService.updateMember(request);
+        if(response.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
+            return new ResponseUtil().setData(null);
+        }
+        return new ResponseUtil().setErrorMsg(response.getMsg());
+    }
 }
+

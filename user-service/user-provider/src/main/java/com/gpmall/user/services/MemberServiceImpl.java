@@ -3,14 +3,12 @@ package com.gpmall.user.services;/**
  */
 
 import com.gpmall.user.IMemberService;
+import com.gpmall.user.IUserLoginService;
 import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.converter.MemberConverter;
 import com.gpmall.user.dal.entitys.Member;
 import com.gpmall.user.dal.persistence.MemberMapper;
-import com.gpmall.user.dto.HeadImageRequest;
-import com.gpmall.user.dto.HeadImageResponse;
-import com.gpmall.user.dto.QueryMemberRequest;
-import com.gpmall.user.dto.QueryMemberResponse;
+import com.gpmall.user.dto.*;
 import com.gpmall.user.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
@@ -28,6 +26,9 @@ public class MemberServiceImpl implements IMemberService{
 
     @Autowired
     MemberMapper memberMapper;
+
+    @Autowired
+    IUserLoginService userLoginService;
 
     @Autowired
     MemberConverter memberConverter;
@@ -60,7 +61,32 @@ public class MemberServiceImpl implements IMemberService{
     @Override
     public HeadImageResponse updateHeadImage(HeadImageRequest request) {
         HeadImageResponse response=new HeadImageResponse();
-        //TODO 
+        //TODO
+        return response;
+    }
+
+    @Override
+    public UpdateMemberResponse updateMember(UpdateMemberRequest request) {
+        UpdateMemberResponse response = new UpdateMemberResponse();
+        try{
+            request.requestCheck();
+            CheckAuthRequest checkAuthRequest = new CheckAuthRequest();
+            checkAuthRequest.setToken(request.getToken());
+            CheckAuthResponse authResponse = userLoginService.validToken(checkAuthRequest);
+            if (!authResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
+                response.setCode(authResponse.getCode());
+                response.setMsg(authResponse.getMsg());
+                return response;
+            }
+            Member member = memberConverter.updateReq2Member(request);
+            int row = memberMapper.updateByPrimaryKeySelective(member);
+            response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
+            response.setCode(SysRetCodeConstants.SUCCESS.getCode());
+            log.info("MemberServiceImpl.updateMember effect row :"+row);
+        }catch (Exception e){
+            log.error("MemberServiceImpl.updateMember Occur Exception :"+e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
         return response;
     }
 }

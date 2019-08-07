@@ -5,32 +5,62 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Member implements Serializable {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 用户名
+     */
     private String username;
 
+    /**
+     * 密码
+     */
     private String password;
 
+    /**
+     * 注册手机号
+     */
     private String phone;
 
+    /**
+     * 注册邮箱
+     */
     private String email;
 
     private Date created;
 
     private Date updated;
 
+    /**
+     * 性别
+     */
     private String sex;
 
+    /**
+     * 地址
+     */
     private String address;
 
     private Integer state;
 
+    /**
+     * 头像
+     */
     private String file;
 
     private String description;
 
+    /**
+     * 积分
+     */
     private Integer points;
 
+    /**
+     * 余额
+     */
     private BigDecimal balance;
 
     private static final long serialVersionUID = 1L;
