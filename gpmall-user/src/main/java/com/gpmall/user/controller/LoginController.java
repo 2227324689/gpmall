@@ -13,7 +13,10 @@ import com.gpmall.user.dto.KaptchaCodeResponse;
 import com.gpmall.user.dto.UserLoginRequest;
 import com.gpmall.user.dto.UserLoginResponse;
 import com.gpmall.user.intercepter.TokenIntercepter;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -38,8 +41,15 @@ public class LoginController {
     @Reference
     IKaptchaService kaptchaService;
 
+    /**
+     * 验证码开关
+     */
+    @Value("${captchaFlag:true}")
+    private boolean captchaFlag;
+
     @Anoymous
     @PostMapping("/login")
+    @ApiOperation("登录")
     public ResponseData login(@RequestBody Map<String,String> map,
                               HttpServletRequest request,HttpServletResponse response){
         UserLoginRequest loginRequest=new UserLoginRequest();
@@ -47,13 +57,15 @@ public class LoginController {
         loginRequest.setUserName(map.get("userPwd"));
         String captcha=map.get("captcha");
 
-        KaptchaCodeRequest kaptchaCodeRequest = new KaptchaCodeRequest();
-        String uuid = CookieUtil.getCookieValue(request, "kaptcha_uuid");
-        kaptchaCodeRequest.setCode(captcha);
-        kaptchaCodeRequest.setUuid(uuid);
-        KaptchaCodeResponse kaptchaCodeResponse = kaptchaService.validateKaptchaCode(kaptchaCodeRequest);
-        if (!kaptchaCodeResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
-            return new ResponseUtil<>().setErrorMsg(kaptchaCodeResponse.getMsg());
+        if (captchaFlag) {
+            KaptchaCodeRequest kaptchaCodeRequest = new KaptchaCodeRequest();
+            String uuid = CookieUtil.getCookieValue(request, "kaptcha_uuid");
+            kaptchaCodeRequest.setCode(captcha);
+            kaptchaCodeRequest.setUuid(uuid);
+            KaptchaCodeResponse kaptchaCodeResponse = kaptchaService.validateKaptchaCode(kaptchaCodeRequest);
+            if (!kaptchaCodeResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
+                return new ResponseUtil<>().setErrorMsg(kaptchaCodeResponse.getMsg());
+            }
         }
         UserLoginResponse userLoginResponse=iUserLoginService.login(loginRequest);
         if(userLoginResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {

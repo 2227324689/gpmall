@@ -7,7 +7,7 @@
         <artifactId>gpmall-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    
+
     <modelVersion>4.0.0</modelVersion>
     <artifactId>user-api</artifactId>
     <groupId>com.gpmall.user</groupId>
@@ -37,6 +37,10 @@
             <groupId>com.gpmall.commons</groupId>
             <artifactId>commons-tool</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.spring4all</groupId>
+            <artifactId>swagger-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 </project>

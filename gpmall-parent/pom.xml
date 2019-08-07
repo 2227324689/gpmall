@@ -4,6 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+
   <groupId>com.gpmall.parent</groupId>
   <artifactId>gpmall-parent</artifactId>
   <version>1.0-SNAPSHOT</version>
@@ -29,6 +30,7 @@
     <redisson.version>3.11.1</redisson.version>
     <pagehelper.version>5.1.10</pagehelper.version>
     <pagehelper.sprinboo.version>1.2.12</pagehelper.sprinboo.version>
+    <swagger-starter.version>1.8.0.RELEASE</swagger-starter.version>
   </properties>
 
   <dependencyManagement>
@@ -167,7 +169,12 @@
         <artifactId>pagehelper-spring-boot-starter</artifactId>
         <version>${pagehelper.sprinboo.version}</version>
       </dependency>
-
+      <!--swagger在线文档工具-->
+      <dependency>
+        <groupId>com.spring4all</groupId>
+        <artifactId>swagger-spring-boot-starter</artifactId>
+        <version>${swagger-starter.version}</version>
+      </dependency>
     </dependencies>
 
   </dependencyManagement>
