@@ -19,6 +19,8 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -67,6 +69,7 @@ public class GlobalIdGeneratorUtil {
         try {
             return getMaxSeq();
         }catch (Exception e){//如果redis出现故障，则采用uuid
+            e.printStackTrace();
             return UUID.randomUUID().toString().replace("-","");
         }
     }
@@ -77,9 +80,9 @@ public class GlobalIdGeneratorUtil {
         return candidateSeq;
     }
 
-    public String getMaxSeq() {
+    public String getMaxSeq() throws ExecutionException, InterruptedException {
         List<Object> keys= Arrays.asList(keyName,incrby,generateSeq());
-        String maxSeq= redissonClient.getScript().evalSha(RScript.Mode.READ_WRITE,sha1, RScript.ReturnType.STATUS,keys);
-        return maxSeq;
+        Future<String> maxSeq= redissonClient.getScript().evalShaAsync(RScript.Mode.READ_WRITE,sha1, RScript.ReturnType.VALUE,keys);
+        return maxSeq.get();
     }
 }
