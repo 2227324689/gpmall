@@ -85,7 +85,6 @@
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
         </dependency>
-
         <dependency>
             <artifactId>shopping-api</artifactId>
             <groupId>com.gpmall.shopping</groupId>

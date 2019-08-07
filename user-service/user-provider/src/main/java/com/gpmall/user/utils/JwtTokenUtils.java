@@ -32,6 +32,8 @@ public class JwtTokenUtils {
      */
     @Setter private String token;
 
+    private final String secret="324iu23094u598ndsofhsiufhaf_+0wq-42q421jiosadiusadiasd";
+
     public String creatJwtToken () {
         msg = new AESUtil(msg).encrypt();//先对信息进行aes加密(防止被破解）
         String token = null;
@@ -39,7 +41,7 @@ public class JwtTokenUtils {
             token = JWT.create()
                     .withIssuer("wlgzs").withExpiresAt(DateTime.now().plusDays(1).toDate())
                     .withClaim("user", msg)
-                    .sign(Algorithm.HMAC256(createSecret()));
+                    .sign(Algorithm.HMAC256(secret));
         } catch (Exception e) {
               throw e;
         }
@@ -53,7 +55,7 @@ public class JwtTokenUtils {
         DecodedJWT decodedJWT = null;
         try {
             //使用hmac256加密算法
-            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(createSecret()))
+            JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
                     .withIssuer("wlgzs")
                     .build();
             decodedJWT = verifier.verify(token);
@@ -74,21 +76,4 @@ public class JwtTokenUtils {
         return new AESUtil(decodedJWT.getClaim("user").asString()).decrypt();
     }
 
-    public String createSecret(){
-        Properties properties = new Properties();
-        //加载resource目录下的配置文件
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream("secret.properties");
-        try {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            log.info("读取密钥文件错误:"+e);
-        }
-        return properties.getProperty("jwtsecret");
-    }
-
-    public static void main(String[] args) {
-        JwtTokenUtils jt=JwtTokenUtils.builder().
-                token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ3bGd6cyIsImV4cCI6MTU2NDIxNDcxMywidXNlciI6IjY1OUUxQkU4MUUxREQxNzQ5M0E1NzlBQzEwRDdCQjcyIn0.iTEIyWWlmBo-AnmEXbADaAqV1k6RCHzshgD83NKJvQo").build();
-        System.out.println(jt.freeJwt());
-    }
 }

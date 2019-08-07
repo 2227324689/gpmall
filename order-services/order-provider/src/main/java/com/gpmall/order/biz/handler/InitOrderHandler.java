@@ -14,6 +14,7 @@ import com.gpmall.order.dal.persistence.OrderMapper;
 import com.gpmall.order.utils.GlobalIdGeneratorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,6 +93,9 @@ public class InitOrderHandler extends AbstractTransHandler {
             });
             createOrderContext.setOrderId(orderId);
             createOrderContext.setBuyProductIds(buyProductIds);
+        }catch(DuplicateKeyException e){
+            log.error("订单重复提交："+e);
+            throw new BizException(OrderRetCode.DB_SAVE_EXCEPTION.getCode(),OrderRetCode.DB_SAVE_EXCEPTION.getMessage());
         }catch (Exception e){
             log.error("InitOrderHandler occur Exception :"+e);
             throw new BizException(OrderRetCode.DB_SAVE_EXCEPTION.getCode(),OrderRetCode.DB_SAVE_EXCEPTION.getMessage());

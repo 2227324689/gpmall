@@ -7,19 +7,6 @@
           <p class="payment-detail">请在 <span>2 小时内</span>完成支付，超时订单将自动取消。</p>
           <p class="payment-detail">我们不会在您完成支付后的 72 小时内发货，您的支付将用作捐赠</p>
         </div>
-       <!-- <div class="pay-info">
-          <span style="color:red">*</span> 昵称：<el-input v-model="nickName" placeholder="请输入您的昵称" @change="checkValid" :maxlength="maxLength" class="input"></el-input><br>
-          <span style="color:red">*</span> 捐赠金额：<el-select class="money-select" v-model="moneySelect" placeholder="请选择支付金额" @change="changeSelect">
-            <el-option label="￥0.10 我是穷逼" value="0.10"></el-option>
-            <el-option label="￥1.00 支付测试" value="1.00"></el-option>
-            <el-option label="￥5.00 感谢捐赠" value="5.00"></el-option>
-            <el-option label="￥10.00 感谢大佬" value="10.00"></el-option>
-            <el-option label="自定义 随意撒币" value="custom"></el-option>
-          </el-select><br>
-          <div v-if="moneySelect === 'custom'"><span style="color:red">*</span> 输入金额：<el-input v-model="money" placeholder="请输入捐赠金额(最多2位小数，不得低于0.1元)" @change="checkValid" :maxlength="maxLength" class="input" style="margin-left:10px"></el-input><br></div>
-          <span style="color:red">*</span> 通知邮箱：<el-input v-model="email" placeholder="支付审核结果将以邮件方式发送至您的邮箱" @change="checkValid" :maxlength="maxLength" class="input" style="margin-left:10px"></el-input><br>
-          &nbsp;&nbsp; 留言：<el-input v-model="info" placeholder="请输入您的留言内容" :maxlength="maxLength" class="input"></el-input>
-        </div>-->
         <!--支付方式-->
         <div class="pay-type">
           <div class="p-title">支付方式</div>
@@ -73,7 +60,7 @@
         tel: '',
         streetName: '',
         payNow: '立刻支付',
-        submit: false,
+        submit: true,
         nickName: '',
         money: '1.00',
         info: '',
@@ -90,7 +77,7 @@
       checkPrice () {
         let totalPrice = 0
         this.cartList && this.cartList.forEach(item => {
-          if (item.checked === '1') {
+          if (item.checked) {
             totalPrice += (item.productNum * item.salePrice)
           }
         })

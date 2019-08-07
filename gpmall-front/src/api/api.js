@@ -25,7 +25,7 @@ export const apis = {
   submitOrder: '/shopping/order',
   payMent: '/cashier/pay',
   orderList: '/shopping/order',
-  getOrderDet: '/shopping/orderDetail',
+  getOrderDet: '/shopping/order',
   cancelOrder: '/shopping/cancelOrder',
   productDet: '/shopping/product',
   delOrder: '/shopping/delOrder',

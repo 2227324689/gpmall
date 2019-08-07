@@ -47,8 +47,7 @@ export const thank = (params) => {
   return http.fetchGet('/goods/thank', params)
 } */
 
-// 极验验证码
-export const geetest = (params) => {
-  return http.fetchGet('/member/geetestInit?t=' + (new Date()).getTime(), params)
+export const initKaptcha = (params) => {
+  return http.fetchGet('/user/kaptcha?t=' + (new Date()).getTime(), params)
 }
 

@@ -2,10 +2,7 @@ package com.gpmall.user;/**
  * Created by mic on 2019/7/30.
  */
 
-import com.gpmall.user.dto.HeadImageRequest;
-import com.gpmall.user.dto.HeadImageResponse;
-import com.gpmall.user.dto.QueryMemberRequest;
-import com.gpmall.user.dto.QueryMemberResponse;
+import com.gpmall.user.dto.*;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -29,4 +26,11 @@ public interface IMemberService {
      * @return
      */
     HeadImageResponse updateHeadImage(HeadImageRequest request);
+
+    /**
+     * 更新信息
+     * @param request
+     * @return
+     */
+    UpdateMemberResponse updateMember(UpdateMemberRequest request);
 }

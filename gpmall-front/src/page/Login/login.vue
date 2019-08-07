@@ -18,8 +18,10 @@
               </div>
             </li>
             <li>
-              <div id="captcha">
-                <p id="wait">正在加载验证码...</p>
+              <div class="input">
+                <input type="text" v-model="ruleForm.captcha" placeholder="验证码"/>
+                &nbsp;&nbsp;&nbsp;
+                <img id="imageCode" :src="imageCode" @click="init_geetest()"/>
               </div>
             </li>
             <li style="text-align: right" class="pr">
@@ -56,11 +58,10 @@
 <script>
 import YFooter from '/common/footer'
 import YButton from '/components/YButton'
-import { userLogin, geetest } from '/api/index.js'
+import { userLogin, initKaptcha } from '/api/index.js'
 import { addCart } from '/api/goods.js'
 import { setStore, getStore, removeStore } from '/utils/storage.js'
 require('../../../static/geetest/gt.js')
-var captcha
 export default {
   data () {
     return {
@@ -69,6 +70,7 @@ export default {
       ruleForm: {
         userName: '',
         userPwd: '',
+        captcha: '',
         errMsg: ''
       },
       registered: {
@@ -79,7 +81,7 @@ export default {
       },
       autoLogin: false,
       logintxt: '登录',
-      statusKey: ''
+      imageCode: ''
     }
   },
   computed: {
@@ -152,23 +154,17 @@ export default {
       this.logintxt = '登录中...'
       this.rememberPass()
       if (!this.ruleForm.userName || !this.ruleForm.userPwd) {
-        // this.ruleForm.errMsg = '账号或者密码不能为空!'
         this.message('账号或者密码不能为空!')
         return false
       }
-//      var result = captcha.getValidate()
-//      if (!result) {
-//        this.message('请完成验证')
-//        this.logintxt = '登录'
-//        return false
-//      }
+      if (!this.ruleForm.captcha) {
+        this.message('请输入验证码!')
+        return false
+      }
       var params = {
         userName: this.ruleForm.userName,
         userPwd: this.ruleForm.userPwd,
-//        challenge: result.geetest_challenge,
-//        validate: result.geetest_validate,
-//        seccode: result.geetest_seccode,
-        statusKey: this.statusKey
+        captcha: this.ruleForm.captcha
       }
       userLogin(params).then(res => {
         if (res.success) {
@@ -194,35 +190,21 @@ export default {
         } else {
           this.logintxt = '登录'
           this.message(res.message)
-          captcha.reset()
+          this.init_geetest()
           return false
         }
       })
     },
     init_geetest () {
-      geetest().then(res => {
-        this.statusKey = res.statusKey
-        window.initGeetest({
-          gt: res.gt,
-          challenge: res.challenge,
-          new_captcha: res.new_captcha,
-          offline: !res.success,
-          product: 'popup',
-          width: '100%'
-        }, function (captchaObj) {
-          captcha = captchaObj
-          captchaObj.appendTo('#captcha')
-          captchaObj.onReady(function () {
-            document.getElementById('wait').style.display = 'none'
-          })
-        })
+      initKaptcha().then(res => {
+        this.imageCode = 'data:image/gif;base64,' + res.result
       })
     }
   },
   mounted () {
     this.getRemembered()
     this.login_addCart()
-//    this.init_geetest()
+    this.init_geetest()
     this.open('登录提示', '测试体验账号密码：test | test')
   },
   components: {

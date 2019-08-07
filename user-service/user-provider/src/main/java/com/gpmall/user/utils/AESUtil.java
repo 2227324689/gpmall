@@ -29,7 +29,7 @@ public class AESUtil {
 
     public AESUtil(String content) {
         this.content = content;
-        this.secret = readSecret();
+        this.secret = "iwofnoadnsa922342mnjaolkdsao9423242niosadopa_a02402sad";
     }
 
     /**
@@ -110,21 +110,6 @@ public class AESUtil {
             e.printStackTrace();
         }
         return key;
-    }
-    /**
-     * 读取密钥
-     * @return 密钥信息
-     */
-    public String readSecret () {
-        Properties properties = new Properties();
-        //加载resource目录下的配置文件
-        InputStream inputStream = ClassLoader.getSystemResourceAsStream("secret.properties");
-        try {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            log.info("读取密钥文件错误:"+e);
-        }
-        return properties.getProperty("aessecret");
     }
 
     public static void main(String[] args) {
