@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -81,6 +83,7 @@ public class GlobalIdGeneratorUtil {
         try {
             return getMaxSeq();
         }catch (Exception e){//如果redis出现故障，则采用uuid
+            e.printStackTrace();
             return UUID.randomUUID().toString().replace("-","");
         }
     }
@@ -91,7 +94,7 @@ public class GlobalIdGeneratorUtil {
         return candidateSeq;
     }
 
-    public String getMaxSeq() {
+    public String getMaxSeq() throws ExecutionException, InterruptedException {
         List<Object> keys= Arrays.asList(keyName,incrby,generateSeq());
         RedissonScript rScript=(RedissonScript) redissonClient.getScript();
         //这里遇到一个bug，默认情况下使用evalSha，不加Codec属性时，会报错。这个错误很神奇。花了3个小时才搞定。

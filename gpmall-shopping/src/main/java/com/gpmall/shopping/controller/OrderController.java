@@ -9,7 +9,11 @@ import com.gpmall.order.OrderQueryService;
 import com.gpmall.order.constant.OrderRetCode;
 import com.gpmall.order.dto.CreateOrderRequest;
 import com.gpmall.order.dto.CreateOrderResponse;
+import com.gpmall.order.dto.OrderDetailRequest;
+import com.gpmall.order.dto.OrderDetailResponse;
+import com.gpmall.shopping.form.OrderDetail;
 import com.gpmall.shopping.form.PageResponse;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +28,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shopping")
 public class OrderController {
 
-    @Reference
+    @Reference(timeout = 3000)
     OrderCoreService orderCoreService;
 
+    @Reference(timeout = 3000)
+    OrderQueryService orderQueryService;
     /*@Reference
     OrderQueryService orderQueryService;*/
     /**
@@ -56,7 +62,17 @@ public class OrderController {
      */
     @GetMapping("/order/{id}")
     public ResponseData orderDetail(@PathVariable String id){
-        return new ResponseUtil<>().setData(null);
+        OrderDetailRequest request=new OrderDetailRequest();
+        request.setOrderId(id);
+        OrderDetailResponse response=orderQueryService.orderDetail(request);
+        if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
+            OrderDetail orderDetail=new OrderDetail();
+            orderDetail.setOrderTotal(response.getPayment());
+            orderDetail.setUserId(response.getUserId());
+            orderDetail.setUserName(response.getBuyerNick());
+            return new ResponseUtil().setData(orderDetail);
+        }
+        return new ResponseUtil<>().setErrorMsg(null);
     }
 
     /**

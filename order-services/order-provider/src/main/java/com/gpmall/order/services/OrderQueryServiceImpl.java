@@ -57,7 +57,7 @@ public class OrderQueryServiceImpl implements OrderQueryService{
     }
 
     @Override
-    public OrderListResposne orderList(OrderListRequest request) {
+    public OrderListResponse orderList(OrderListRequest request) {
 
         return null;
     }
