@@ -26,7 +26,7 @@
               <span>
                 实际应付金额：
               </span>
-              <em><span>¥</span>{{money}}</em>
+              <em><span>¥</span>{{orderTotal.toFixed(2)}}</em>
               <y-button :text="payNow"
                         :classStyle="submit?'main-btn':'disabled-btn'"
                         style="width: 120px;height: 40px;font-size: 16px;line-height: 38px"
@@ -44,7 +44,7 @@
   import YShelf from '/components/shelf'
   import YButton from '/components/YButton'
   import { getOrderDet, payMent } from '/api/goods'
-  import { getStore, setStore } from '/utils/storage'
+  import { setStore } from '/utils/storage'
   export default {
     data () {
       return {
@@ -117,10 +117,10 @@
         }
         getOrderDet(params).then(res => {
           this.cartList = res.result.goodsList
-          this.userName = res.result.addressInfo.userName
+          this.userName = res.result.userName
+          this.orderTotal = res.result.orderTotal
           this.tel = res.result.addressInfo.tel
           this.streetName = res.result.addressInfo.streetName
-          this.orderTotal = res.result.orderTotal
         })
       },
       paySuc () {
@@ -187,8 +187,7 @@
       }
     },
     created () {
-      this.userId = getStore('userId')
-      this.orderId = this.$route.query.orderId
+      this.orderId = this.$route.params.orderId
       if (this.orderId) {
         this._getOrderDet(this.orderId)
       } else {

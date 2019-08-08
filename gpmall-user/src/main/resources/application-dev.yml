@@ -18,5 +18,6 @@ dubbo:
 swagger :
   name : test
   title: titles
+  enabled: true
 
 captchaFlag : false

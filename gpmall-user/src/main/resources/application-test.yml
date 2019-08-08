@@ -1,0 +1,17 @@
+dubbo:
+  application:
+    name: gpmall-user
+    owner: Mic
+  registry:
+    address: zookeeper://192.168.1.105:2181
+    check: true
+    group: dubbo-dev
+    simplified: true
+  metadata-report:
+    address: zookeeper://192.168.1.105:2181
+    retry-times: 30
+    cycle-report: false
+    group: dubbo-dev
+  scan:
+    base-packages: com.gpmall.user
+captchaFlag : true

@@ -1,6 +1,7 @@
 package com.gpmall.pay.biz.payment.channel.wechatpay;
 
 import com.gpmall.pay.biz.payment.commons.MD5Utils;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -17,11 +18,11 @@ import java.util.*;
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
+@Slf4j
 public class WeChatBuildRequest {
 
-    static Logger LOG = LoggerFactory.getLogger(WeChatBuildRequest.class);
 
 
     /**
@@ -53,7 +54,8 @@ public class WeChatBuildRequest {
     @SuppressWarnings("unchecked")
     public static String createSign(SortedMap<Object, Object> parameters, String key) {
         StringBuffer sb = new StringBuffer();
-        Set es = parameters.entrySet();// 所有参与传参的参数按照accsii排序（升序）
+        // 所有参与传参的参数按照accsii排序（升序）
+        Set es = parameters.entrySet();
         Iterator it = es.iterator();
         while (it.hasNext()) {
             Map.Entry entry = (Map.Entry) it.next();
@@ -75,7 +77,7 @@ public class WeChatBuildRequest {
      * @return
      */
     public static Map<String, String> doXMLParse(String xml) {
-        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<>(12);
         // 将编码改为UTF-8,并去掉换行符\空格等
         xml = xml.replaceFirst("encoding=\".*\"", "encoding=\"UTF-8\"");
         //去掉空白 换行符
@@ -104,7 +106,7 @@ public class WeChatBuildRequest {
                 map.put(node.getNodeName(), node.getFirstChild().getNodeValue());
             }
         } catch (Exception e) {
-            LOG.error("xml解析异常：" + e);
+            log.error("xml解析异常：" + e);
         }
 
         return map;
@@ -148,7 +150,7 @@ public class WeChatBuildRequest {
         try {
             return sb.toString();
         } catch (Exception e) {
-            LOG.error("map转化成xml异常：" + e);
+            log.error("map转化成xml异常：" + e);
         }
         return "";
     }
