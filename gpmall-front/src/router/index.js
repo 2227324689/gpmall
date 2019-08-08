@@ -18,7 +18,6 @@ const support = () => import('/page/User/children/support.vue')
 const checkout = () => import('/page/Checkout/checkout.vue')
 const payment = () => import('/page/Order/payment.vue')
 const paysuccess = () => import('/page/Order/paysuccess.vue')
-// const Thanks = () => import('/page/Thanks/thanks.vue')
 const Search = () => import('/page/Search/search.vue')
 const RefreshSearch = () => import('/page/Refresh/refreshsearch.vue')
 const RefreshGoods = () => import('/page/Refresh/refreshgoods.vue')
@@ -74,7 +73,7 @@ export default new Router({
         {path: 'aihuishou', name: '以旧换新', component: aihuishou}
       ]
     },
-    {path: '/checkout', name: 'checkout', component: checkout},
+    {path: '/checkout/:productId?/:num?', name: 'checkout', component: checkout},
     {path: '*', redirect: '/home'}
   ]
 })

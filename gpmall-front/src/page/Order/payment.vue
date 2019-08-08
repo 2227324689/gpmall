@@ -72,6 +72,18 @@
         maxLength: 30
       }
     },
+    computed: {
+      // 选中的总价格
+      checkPrice () {
+        let totalPrice = 0
+        this.cartList && this.cartList.forEach(item => {
+          if (item.checked) {
+            totalPrice += (item.productNum * item.salePrice)
+          }
+        })
+        return totalPrice
+      }
+    },
     methods: {
       checkValid () {
         if (this.nickName !== '' && this.money !== '' && this.isMoney(this.money) && this.email !== '' && this.isEmail(this.email)) {
@@ -104,8 +116,11 @@
           }
         }
         getOrderDet(params).then(res => {
+          this.cartList = res.result.goodsList
           this.userName = res.result.userName
           this.orderTotal = res.result.orderTotal
+          this.tel = res.result.addressInfo.tel
+          this.streetName = res.result.addressInfo.streetName
         })
       },
       paySuc () {
