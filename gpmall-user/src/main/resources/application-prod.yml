@@ -14,3 +14,4 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.user
+captchaFlag : true
