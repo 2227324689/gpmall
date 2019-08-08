@@ -29,7 +29,6 @@ public class KaptchaServiceImpl implements IKaptchaService {
 
     @Autowired
     RedissonClient redissonClient;
-
     private final String KAPTCHA_UUID="kaptcha_uuid";
 
 
