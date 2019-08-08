@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
 @Service
 public class AliPaymentConfig {
@@ -42,11 +42,13 @@ public class AliPaymentConfig {
     @Value("${ali.it_b_pay}")
     private String it_b_pay;
 
+    /** 商户的私钥 */
     @Value("${ali.private_key}")
-    private String private_key;// 商户的私钥
+    private String private_key;
 
+    /** 支付宝的公钥 */
     @Value("${ali.public_key}")
-    private String public_key;// 支付宝的公钥
+    private String public_key;
 
     @Value("${ali.pay_open_gateway}")
     private String pay_open_gateway;
