@@ -2,8 +2,6 @@ package com.gpmall.pay.biz.payment.channel.wechatpay;
 
 import com.gpmall.pay.biz.payment.commons.MD5Utils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,7 +11,10 @@ import org.xml.sax.InputSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.SortedMap;
 
 /**
  * 腾讯课堂搜索 咕泡学院
@@ -55,16 +56,11 @@ public class WeChatBuildRequest {
     public static String createSign(SortedMap<Object, Object> parameters, String key) {
         StringBuffer sb = new StringBuffer();
         // 所有参与传参的参数按照accsii排序（升序）
-        Set es = parameters.entrySet();
-        Iterator it = es.iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            String k = (String) entry.getKey();
-            Object v = entry.getValue();
-            if (null != v && !"".equals(v) && !"sign".equals(k) && !"key".equals(k)) {
+        parameters.forEach((k,v) ->{
+            if (!"sign".equals(k) && !"key".equals(k) && null != v && !"".equals(v)) {
                 sb.append(k + "=" + v + "&");
             }
-        }
+        });
         sb.append("key=" + key);
         String sign = MD5Utils.GetMD5Code(sb.toString()).toUpperCase();
         return sign;
@@ -133,19 +129,14 @@ public class WeChatBuildRequest {
     public static String getRequestXml(SortedMap<Object, Object> parameters) {
         StringBuffer sb = new StringBuffer();
         sb.append("<xml>");
-        Set<?> es = parameters.entrySet();
-        Iterator<?> it = es.iterator();
-        while (it.hasNext()) {
-            Map.Entry entry = (Map.Entry) it.next();
-            String k = (String) entry.getKey();
-            Object v = entry.getValue();
-            if ("attach".equalsIgnoreCase(k) || "body".equalsIgnoreCase(k)
-                    || "sign".equalsIgnoreCase(k)) {
+        parameters.forEach((k,v) -> {
+            if ("attach".equalsIgnoreCase((String) k) || "body".equalsIgnoreCase((String) k)
+                    || "sign".equalsIgnoreCase((String) k)) {
                 sb.append("<" + k + ">" + "<![CDATA[" + v + "]]></" + k + ">");
             } else {
                 sb.append("<" + k + ">" + v + "</" + k + ">");
             }
-        }
+        });
         sb.append("</xml>");
         try {
             return sb.toString();
