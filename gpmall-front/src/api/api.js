@@ -10,6 +10,7 @@ export const apis = {
   navList: '/shopping/navigation',
   recommend: '/shopping/recommend',
   getAllGoods: '/shopping/goods',
+  getAllCategories: '/shopping/categories',
   getCartList: '/shopping/carts',
   addCart: '/shopping/carts',
   delCart: '/shopping/carts',
