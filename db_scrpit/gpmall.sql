@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-08-06 17:23:30
+Date: 2019-08-08 12:52:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -216,25 +216,25 @@ CREATE TABLE `tb_item_desc` (
 INSERT INTO `tb_item_desc` VALUES ('100023501', '<img src=\"https://resource.smartisan.com/resource/1a4b3d159317fe26377b2db040aaa2dc.jpg\" style=\"width:880px;height:7966px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item_desc` VALUES ('100026701', '<img src=\"https://resource.smartisan.com/resource/4a7b87fe01ec8339985702ee922d205a.jpg\" style=\"width:1220px;height:4526px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item_desc` VALUES ('100026801', '<img src=\"https://resource.smartisan.com/resource/586f7bfcf88f14935918943bb0421c26.jpg\" style=\"width:1220px;height:4715px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100036501', '<img src=\"https://resource.smartisan.com/resource/55191eb9aeb1367eefcb6d946fdc0546.jpg\" style=\"width:1080px;height:9823px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100039702', '<img src=\"https://resource.smartisan.com/resource/88cfe3dc879813dd6f60e57405a58cc1.jpg\" style=\"width:1080px;height:8863px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100040501', '<img src=\"https://resource.smartisan.com/resource/cf9cd35a37fed165577358b5cf72df7a.jpg\" style=\"width:1080px;height:12671px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100042203', '<img src=\"https://resource.smartisan.com/resource/7d9e5c72d2af941602228d78c7b8904f.jpg\" style=\"width:1080px;height:8173px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100042801', '<img src=\"https://resource.smartisan.com/resource/234a5b125db07de264b5467d9ac15f1b.jpg\" style=\"width:1080px;height:8701px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100046401', '<img src=\"https://resource.smartisan.com/resource/79217e13f5f8d55cfb036edd93b2ce11.jpg\" style=\"width:1080px;height:24948px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100047001', '<img src=\"https://resource.smartisan.com/resource/a115f37d26c5ce4a99c0b5569cb736ab.jpg\" style=\"width:1080px;height:27384px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100047101', '<img src=\"https://resource.smartisan.com/resource/c6796a8fbe89a6ee92ede798be60c7ac.jpg\" style=\"width:1080px;height:5513px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100051701', '<img src=\"https://resource.smartisan.com/resource/a115f37d26c5ce4a99c0b5569cb736ab.jpg\" style=\"width:1080px;height:27384px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100052801', '<img src=\"https://resource.smartisan.com/resource/79217e13f5f8d55cfb036edd93b2ce11.jpg\" style=\"width:1080px;height:24948px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100053001', '<img src=\"https://resource.smartisan.com/resource/11e577bdce56fcf2048cd9a59a1498ad.jpg\" style=\"width:1080px;height:8475px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100053202', '<img src=\"https://resource.smartisan.com/resource/4285feb829a243a566cbe53af4b85438.jpg\" style=\"width:1080px;height:11689px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100053312', '<img src=\"https://resource.smartisan.com/resource/7d9803ef381540aa1c8097d3fc0680ea.png\" style=\"width:1080px;height:9166px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100055301', '<img src=\"https://resource.smartisan.com/resource/3ac96791a0b246a88ed8007223d5a2e2.jpg\" style=\"width:1080px;height:10486px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100055601', '<img src=\"https://resource.smartisan.com/resource/13bc92fefafd8583bcab13b4ff02b4a4.jpg\" style=\"width:1080px;height:28140px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100057401', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1080px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100057501', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1080px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100057601', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1080px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
-INSERT INTO `tb_item_desc` VALUES ('100057701', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1080px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100036501', '<img src=\"https://resource.smartisan.com/resource/55191eb9aeb1367eefcb6d946fdc0546.jpg\" style=\"width:1220px;height:9823px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100039702', '<img src=\"https://resource.smartisan.com/resource/88cfe3dc879813dd6f60e57405a58cc1.jpg\" style=\"width:1220px;height:8863px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100040501', '<img src=\"https://resource.smartisan.com/resource/cf9cd35a37fed165577358b5cf72df7a.jpg\" style=\"width:1220px;height:12671px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100042203', '<img src=\"https://resource.smartisan.com/resource/7d9e5c72d2af941602228d78c7b8904f.jpg\" style=\"width:1220px;height:8173px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100042801', '<img src=\"https://resource.smartisan.com/resource/234a5b125db07de264b5467d9ac15f1b.jpg\" style=\"width:1220px;height:8701px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100046401', '<img src=\"https://resource.smartisan.com/resource/79217e13f5f8d55cfb036edd93b2ce11.jpg\" style=\"width:1220px;height:24948px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100047001', '<img src=\"https://resource.smartisan.com/resource/a115f37d26c5ce4a99c0b5569cb736ab.jpg\" style=\"width:1220px;height:27384px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100047101', '<img src=\"https://resource.smartisan.com/resource/c6796a8fbe89a6ee92ede798be60c7ac.jpg\" style=\"width:1220px;height:5513px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100051701', '<img src=\"https://resource.smartisan.com/resource/a115f37d26c5ce4a99c0b5569cb736ab.jpg\" style=\"width:1220px;height:27384px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100052801', '<img src=\"https://resource.smartisan.com/resource/79217e13f5f8d55cfb036edd93b2ce11.jpg\" style=\"width:1220px;height:24948px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100053001', '<img src=\"https://resource.smartisan.com/resource/11e577bdce56fcf2048cd9a59a1498ad.jpg\" style=\"width:1220px;height:8475px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100053202', '<img src=\"https://resource.smartisan.com/resource/4285feb829a243a566cbe53af4b85438.jpg\" style=\"width:1220px;height:11689px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100053312', '<img src=\"https://resource.smartisan.com/resource/7d9803ef381540aa1c8097d3fc0680ea.png\" style=\"width:1220px;height:9166px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100055301', '<img src=\"https://resource.smartisan.com/resource/3ac96791a0b246a88ed8007223d5a2e2.jpg\" style=\"width:1220px;height:10486px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100055601', '<img src=\"https://resource.smartisan.com/resource/13bc92fefafd8583bcab13b4ff02b4a4.jpg\" style=\"width:1220px;height:28140px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100057401', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1220px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100057501', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1220px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100057601', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1220px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100057701', '<img src=\"https://resource.smartisan.com/resource/6406be8c9066fd0fa6d4495f7aec9bfb.jpg\" style=\"width:1220px;height:14827px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 
 -- ----------------------------
 -- Table structure for tb_log
