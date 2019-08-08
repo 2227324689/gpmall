@@ -1,4 +1,4 @@
-package com.gpmall.user.config;
+package com.gpmall.commons.tool.swaggerconfig;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -32,8 +32,8 @@ public class SwaggerInfoConfig
     /** 版权年份 */
     private String copyrightYear;
 
-    /** 实例演示开关 */
-    private boolean demoEnabled;
+    /** swagger开关 */
+    private boolean enabled;
 
     /** 上传路径 */
     private static String profile;

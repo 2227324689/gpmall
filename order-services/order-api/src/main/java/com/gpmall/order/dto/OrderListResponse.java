@@ -1,6 +1,4 @@
-package com.gpmall.order.dto;/**
- * Created by mic on 2019/7/30.
- */
+package com.gpmall.order.dto;
 
 import com.gpmall.commons.result.AbstractResponse;
 
@@ -10,5 +8,5 @@ import com.gpmall.commons.result.AbstractResponse;
  * 风骚的Mic 老师
  * create-date: 2019/7/30-上午10:02
  */
-public class OrderListResposne extends AbstractResponse{
+public class OrderListResponse extends AbstractResponse{
 }
