@@ -52,7 +52,7 @@ export default new Router({
       component: order,
       children: [
         {path: 'paysuccess', name: 'paysuccess', component: paysuccess},
-        {path: 'payment', name: 'payment', component: payment},
+        {path: 'payment/:orderId', name: 'payment', component: payment},
         {path: '/search', name: 'search', component: Search},
         {path: 'alipay', name: 'alipay', component: Alipay},
         {path: 'wechat', name: 'wechat', component: Wechat},
