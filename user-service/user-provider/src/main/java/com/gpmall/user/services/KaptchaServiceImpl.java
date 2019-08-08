@@ -44,6 +44,7 @@ public class KaptchaServiceImpl implements IKaptchaService {
             rBucket.expire(60, TimeUnit.SECONDS);
             response.setImageCode(capText.getImg());
             response.setUuid(uuid);
+
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         }catch (Exception e){
