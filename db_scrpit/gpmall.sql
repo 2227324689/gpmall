@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-08-04 22:19:42
+Date: 2019-08-06 17:23:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -34,7 +34,7 @@ CREATE TABLE `tb_address` (
 -- ----------------------------
 INSERT INTO `tb_address` VALUES ('3', '63', 'test', '18782059038', '四川省成都市青羊区百花中心站对面', '1');
 INSERT INTO `tb_address` VALUES ('5', '63', 'admin', '18782059038', '上海青浦区汇联路', '0');
-INSERT INTO `tb_address` VALUES ('6', '62', '1', '1', '1', '0');
+INSERT INTO `tb_address` VALUES ('6', '62', 'Mic', '18073804421', '湖南省长沙市麓谷企业广场A3栋3单元407', '0');
 
 -- ----------------------------
 -- Table structure for tb_base
@@ -253,7 +253,7 @@ CREATE TABLE `tb_log` (
   `time` int(11) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_log
@@ -282,15 +282,13 @@ CREATE TABLE `tb_member` (
   UNIQUE KEY `username` (`username`) USING BTREE,
   UNIQUE KEY `phone` (`phone`) USING BTREE,
   UNIQUE KEY `email` (`email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of tb_member
 -- ----------------------------
 INSERT INTO `tb_member` VALUES ('62', 'test', '098f6bcd4621d373cade4e832627b4f6', null, null, '2017-09-05 21:27:54', '2017-10-08 18:13:51', null, null, '1', 'http://ow2h3ee9w.bkt.clouddn.com/1507866636672.png', null, null, null);
-INSERT INTO `tb_member` VALUES ('63', 'admin', '21232f297a57a5a743894a0e4a801fc3', null, null, '2017-09-05 21:27:54', '2018-04-18 14:43:32', null, null, '2', 'http://ow2h3ee9w.bkt.clouddn.com/1507875078112.png', null, null, null);
-INSERT INTO `tb_member` VALUES ('64', 'xhy', '21232f297a57a5a743894a0e4a801fc3', null, null, '2017-09-05 21:27:54', '2018-04-18 14:43:33', null, null, '2', null, null, null, null);
-INSERT INTO `tb_member` VALUES ('65', 'xhy1', '202cb962ac59075b964b07152d234b70', null, null, '2017-09-05 21:27:54', '2017-10-17 21:21:32', null, null, '0', '', null, null, null);
+INSERT INTO `tb_member` VALUES ('66', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, '2019-08-06 00:15:48', '2019-08-06 00:15:48', null, null, '1', null, null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_order
@@ -324,7 +322,11 @@ CREATE TABLE `tb_order` (
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
-INSERT INTO `tb_order` VALUES ('f96df774844a49959afbec706fb59908', '49.00', null, null, '0', '2019-08-04 06:20:27', '2019-08-04 06:20:27', null, null, null, null, null, null, '62', null, 'test', null);
+INSERT INTO `tb_order` VALUES ('19080517070753127', '49.00', null, null, '0', '2019-08-05 04:07:08', '2019-08-05 04:07:08', null, null, null, null, null, null, '62', null, 'test', null);
+INSERT INTO `tb_order` VALUES ('19080517141099516', '79.00', null, null, '0', '2019-08-05 04:14:11', '2019-08-05 04:14:11', null, null, null, null, null, null, '62', null, 'test', null);
+INSERT INTO `tb_order` VALUES ('19080517173049838', '79.00', null, null, '0', '2019-08-05 04:17:31', '2019-08-05 04:17:31', null, null, null, null, null, null, '62', null, 'test', null);
+INSERT INTO `tb_order` VALUES ('19080517194073300', '79.00', null, null, '0', '2019-08-05 04:19:41', '2019-08-05 04:19:41', null, null, null, null, null, null, '62', null, 'test', null);
+INSERT INTO `tb_order` VALUES ('19080517204053817', '49.00', null, null, '0', '2019-08-05 04:20:41', '2019-08-05 04:20:41', null, null, null, null, null, null, '62', null, 'test', null);
 
 -- ----------------------------
 -- Table structure for tb_order_item
@@ -347,7 +349,11 @@ CREATE TABLE `tb_order_item` (
 -- ----------------------------
 -- Records of tb_order_item
 -- ----------------------------
-INSERT INTO `tb_order_item` VALUES ('7677d2fb3ec642dcac237ea958e95422', '100026701', 'f96df774844a49959afbec706fb59908', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
+INSERT INTO `tb_order_item` VALUES ('19080517070774058', '100026701', '19080517070753127', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
+INSERT INTO `tb_order_item` VALUES ('19080517141100502', '100023501', '19080517141099516', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
+INSERT INTO `tb_order_item` VALUES ('19080517173050619', '100023501', '19080517173049838', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
+INSERT INTO `tb_order_item` VALUES ('19080517194074018', '100023501', '19080517194073300', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
+INSERT INTO `tb_order_item` VALUES ('19080517204054596', '100026701', '19080517204053817', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
 
 -- ----------------------------
 -- Table structure for tb_order_shipping
@@ -371,15 +377,11 @@ CREATE TABLE `tb_order_shipping` (
 -- ----------------------------
 -- Records of tb_order_shipping
 -- ----------------------------
-INSERT INTO `tb_order_shipping` VALUES ('150787555927616', '4', '4', null, null, null, null, '4', null, '2017-10-13 14:19:19', '2017-10-13 14:19:19');
-INSERT INTO `tb_order_shipping` VALUES ('47865f4c9c9142a792919e16e03d1bb7', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:12:14', '2019-08-04 06:12:14');
-INSERT INTO `tb_order_shipping` VALUES ('9b596ac74b33444b91bdb4c4316b05d1', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:08:36', '2019-08-04 06:08:36');
-INSERT INTO `tb_order_shipping` VALUES ('9b5c90cdc42147a4a36d1824a7036034', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:12:02', '2019-08-04 06:12:02');
-INSERT INTO `tb_order_shipping` VALUES ('a2ea0730b98843e8a861862b5dff7800', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:12:02', '2019-08-04 06:12:02');
-INSERT INTO `tb_order_shipping` VALUES ('a5150df2f2ca46359c18b3597dee8b78', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:08:38', '2019-08-04 06:08:38');
-INSERT INTO `tb_order_shipping` VALUES ('caf720fa6bd94a56a2ba402fafef54eb', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:08:45', '2019-08-04 06:08:45');
-INSERT INTO `tb_order_shipping` VALUES ('f96df774844a49959afbec706fb59908', '1', '1', null, null, null, null, '1', null, '2019-08-04 06:22:59', '2019-08-04 06:22:59');
-INSERT INTO `tb_order_shipping` VALUES ('null', '1', '1', null, null, null, null, '1', null, '2019-08-02 06:51:54', '2019-08-02 06:51:54');
+INSERT INTO `tb_order_shipping` VALUES ('19080517070753127', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:07:08', '2019-08-05 04:07:08');
+INSERT INTO `tb_order_shipping` VALUES ('19080517141099516', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:14:11', '2019-08-05 04:14:11');
+INSERT INTO `tb_order_shipping` VALUES ('19080517173049838', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:17:31', '2019-08-05 04:17:31');
+INSERT INTO `tb_order_shipping` VALUES ('19080517194073300', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:19:41', '2019-08-05 04:19:41');
+INSERT INTO `tb_order_shipping` VALUES ('19080517204053817', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:20:41', '2019-08-05 04:20:41');
 
 -- ----------------------------
 -- Table structure for tb_panel
@@ -431,7 +433,7 @@ CREATE TABLE `tb_panel_content` (
   PRIMARY KEY (`id`),
   KEY `category_id` (`panel_id`),
   KEY `updated` (`updated`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_panel_content

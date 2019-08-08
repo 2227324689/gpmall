@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 public class MemberController {
 
-    @Reference
+    @Reference(timeout = 3000)
     IMemberService memberService;
 
     /**

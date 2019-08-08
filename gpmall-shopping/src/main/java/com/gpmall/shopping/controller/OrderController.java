@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shopping")
 public class OrderController {
 
-    @Reference
+    @Reference(timeout = 3000)
     OrderCoreService orderCoreService;
 
     /*@Reference

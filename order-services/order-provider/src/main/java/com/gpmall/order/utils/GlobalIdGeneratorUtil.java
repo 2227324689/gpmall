@@ -9,21 +9,17 @@ import org.apache.commons.lang3.time.FastDateFormat;
 import org.redisson.RedissonScript;
 import org.redisson.api.RScript;
 import org.redisson.api.RedissonClient;
-import org.redisson.client.protocol.RedisCommands;
-import org.redisson.client.protocol.decoder.StringDataDecoder;
 import org.redisson.codec.JsonJacksonCodec;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -47,20 +43,35 @@ public class GlobalIdGeneratorUtil {
 
     private String sha1;
 
+    private String luaScript="local function get_max_seq()\n" +
+            "    local key = tostring(KEYS[1])\n" +
+            "    local incr_amoutt = tonumber(KEYS[2])\n" +
+            "    local seq = tostring(KEYS[3])\n" +
+            "    local month_in_seconds = 24 * 60 * 60 * 30\n" +
+            "    if (1 == redis.call('setnx', key, seq))\n" +
+            "    then\n" +
+            "        redis.call('expire', key, month_in_seconds)\n" +
+            "        return seq\n" +
+            "    else\n" +
+            "        local prev_seq = redis.call('get', key)\n" +
+            "        if (prev_seq < seq)\n" +
+            "        then\n" +
+            "            redis.call('set', key, seq)\n" +
+            "            return seq\n" +
+            "        else\n" +
+            "            redis.call('incrby', key, incr_amoutt)\n" +
+            "            return redis.call('get', key)\n" +
+            "        end\n" +
+            "    end\n" +
+            "end\n" +
+            "return get_max_seq()";
+
     public GlobalIdGeneratorUtil() throws IOException {
 
     }
     @PostConstruct
     private void init() throws Exception {
-        Path filePath=Paths.get(Thread.currentThread().getContextClassLoader().getResource("get_next_seq.lua").toURI());
-        byte[] script;
-        try {
-            script = Files.readAllBytes(filePath);
-        } catch (IOException e) {
-            log.error("读取文件出错, path: {}", filePath);
-            throw e;
-        }
-        sha1 = redissonClient.getScript().scriptLoad(new String(script));
+        sha1 = redissonClient.getScript().scriptLoad(luaScript);
     }
 
     public String getNextSeq(String keyName, int incrby) {
@@ -72,6 +83,7 @@ public class GlobalIdGeneratorUtil {
         try {
             return getMaxSeq();
         }catch (Exception e){//如果redis出现故障，则采用uuid
+            e.printStackTrace();
             return UUID.randomUUID().toString().replace("-","");
         }
     }
@@ -82,7 +94,7 @@ public class GlobalIdGeneratorUtil {
         return candidateSeq;
     }
 
-    public String getMaxSeq() {
+    public String getMaxSeq() throws ExecutionException, InterruptedException {
         List<Object> keys= Arrays.asList(keyName,incrby,generateSeq());
         RedissonScript rScript=(RedissonScript) redissonClient.getScript();
         //这里遇到一个bug，默认情况下使用evalSha，不加Codec属性时，会报错。这个错误很神奇。花了3个小时才搞定。
