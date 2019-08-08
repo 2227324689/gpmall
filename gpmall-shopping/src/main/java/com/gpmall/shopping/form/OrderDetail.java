@@ -1,8 +1,10 @@
 package com.gpmall.shopping.form;
 
+import com.gpmall.order.dto.OrderItemDto;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -15,4 +17,7 @@ public class OrderDetail {
     private String userName;
     private BigDecimal orderTotal;
     private long userId;
+    private List<OrderItemDto> goodsList;
+    private String tel;
+    private String streetName;
 }
