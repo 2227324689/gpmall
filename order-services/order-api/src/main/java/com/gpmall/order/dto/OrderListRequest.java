@@ -22,7 +22,12 @@ public class OrderListRequest extends AbstractRequest{
 
     @Override
     public void requestCheck() {
-        if(page<0) page=1;
+        if(page == null || page < 1){
+            page = 1;
+        }
+        if(size == null || size < 1){
+            size = 5;
+        }
         if(userId==null){
             throw new ValidateException(OrderRetCode.REQUISITE_PARAMETER_NOT_EXIST.getCode(),OrderRetCode.REQUISITE_PARAMETER_NOT_EXIST.getMessage());
 
