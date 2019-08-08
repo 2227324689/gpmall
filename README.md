@@ -6,7 +6,7 @@
 
 > 这个项目开发完成之后，我会部署到公网上，供大家来体验，并且基于访问量的提升，我们可以不断的优化这个架构。
 
-
+**注意： 参与的人太多，本来是打算分组，但是分组的配合比较麻烦，比如各个组的代码的分支提交、合并、不好协调。所以暂时没考虑分组。所有参与的人，都是从前台到后台的统一开发。大家自己在开发的时候可以自己拉组**
 
 # 项目用到的技术
 
@@ -44,14 +44,14 @@
 # 项目模块说明
 
 * db_script  本项目的数据库脚本
-* gpmall-cashier 收银台，负责支付相关的交互逻辑
+* gpmall-cashier 收银台，负责支付相关的交互逻辑【暂时未开发，可以不用关心】
 * gpmall-commons 公共的组件
 * gpmall-front  咕泡商城的前端项目
 * gpmall-parent 父控文件，用来统一管理所有jar包
 * gpmall-shopping  商品/购物车/首页渲染等交互
 * gpmall-user  提供用户相关的交互，如登录、注册、个人中心等
-* market-service 促销活动的Dubbo服务
-* pay-service  提供支付处理能力
+* market-service 促销活动的Dubbo服务【暂时未联调完成，可以不启动】
+* pay-service  提供支付处理能力【暂时未联调完成可以不用启动】
 * shopping-service  dubbo服务，提供购物车、推荐商品、商品等服务
 * user-service Dubbo服务，提供用户相关服务
 * order-service Dubbo服务，提供订单服务
@@ -85,11 +85,20 @@
 * 购物车、订单查询、下单、支付
 * 促销活动
 
+![1565235690613](https://github.com/2227324689/gpmall/blob/stu_dev/1565235690613.png)
+
 ## 后台规划
 
 后台这块我会搭建一个框架，有兴趣的同学可以参与开发，主要是提供对于前端相关模块的配置
 
+# 如何贡献
 
+非常欢迎您对ShopXO的开发作出贡献！ 你可以选择以下方式向ShopXO贡献：
+
+- [Github - 发布issue进行问题反馈和建议](https://github.com/2227324689/gpmall/issues)
+- 通过Pull Request提交修复
+- 完善文档
+- 提交产品需求
 
 
 

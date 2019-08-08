@@ -40,7 +40,8 @@ public class PayCoreServiceImpl implements PayCoreService {
         log.info("paymentResultNotify request:"+request);
         PaymentNotifyResponse response=new PaymentNotifyResponse();
         try{
-            response=(PaymentNotifyResponse) BasePayment.paymentMap.get(request.getPayChannel()).completePayment(request);
+            response=(PaymentNotifyResponse) BasePayment.paymentMap.get
+                    (request.getPayChannel()).completePayment(request);
 
         }catch (Exception e){
             log.error("paymentResultNotify occur exception:"+e);

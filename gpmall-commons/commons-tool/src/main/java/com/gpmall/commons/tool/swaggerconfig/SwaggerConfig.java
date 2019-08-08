@@ -1,7 +1,9 @@
-package com.gpmall.user.config;
+package com.gpmall.commons.tool.swaggerconfig;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,6 +28,8 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
+@EnableConfigurationProperties(SwaggerInfoConfig.class)
+@ConditionalOnClass({ApiOperation.class})
 public class SwaggerConfig
 {
     /** 系统基础配置 */
@@ -48,6 +52,8 @@ public class SwaggerConfig
                 .globalResponseMessage(RequestMethod.DELETE, responseMessageList)
                 .groupName("基础接口操作")
                 .apiInfo(apiInfo())
+                //开关配置
+                .enable(swaggerInfoConfig.isEnabled())
                 // 设置哪些接口暴露给Swagger展示
                 .select()
                 // 扫描所有有注解的api，用这种方式更灵活

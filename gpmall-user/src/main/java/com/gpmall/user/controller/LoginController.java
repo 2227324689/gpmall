@@ -38,7 +38,7 @@ public class LoginController {
     @Reference(timeout = 3000)
     IUserLoginService iUserLoginService;
 
-    @Reference
+    @Reference(timeout = 3000)
     IKaptchaService kaptchaService;
 
     /**
