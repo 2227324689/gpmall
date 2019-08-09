@@ -1,6 +1,5 @@
 package com.gpmall.pay.services;
 
-import com.gpmall.commons.tool.exception.ExceptionUtil;
 import com.gpmall.pay.biz.abs.BasePayment;
 import com.gpmall.pay.utils.ExceptionProcessorUtils;
 import com.gupaoedu.pay.PayCoreService;
@@ -14,7 +13,7 @@ import org.apache.dubbo.config.annotation.Service;
 /**
  * 腾讯课堂搜索【咕泡学院】
  * 官网：www.gupaoedu.com
- * 风骚的Mic 老师
+ * @author 风骚的Mic 老师
  * create-date: 2019/7/30-13:54
  */
 @Slf4j
@@ -40,7 +39,8 @@ public class PayCoreServiceImpl implements PayCoreService {
         log.info("paymentResultNotify request:"+request);
         PaymentNotifyResponse response=new PaymentNotifyResponse();
         try{
-            response=(PaymentNotifyResponse) BasePayment.paymentMap.get(request.getPayChannel()).completePayment(request);
+            response=(PaymentNotifyResponse) BasePayment.paymentMap.get
+                    (request.getPayChannel()).completePayment(request);
 
         }catch (Exception e){
             log.error("paymentResultNotify occur exception:"+e);

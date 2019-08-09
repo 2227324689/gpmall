@@ -14,3 +14,10 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.user
+
+swagger :
+  name : test
+  title: titles
+  enabled: true
+
+captchaFlag : false
