@@ -153,22 +153,20 @@
               </div>
             </div>
           </div>
-          <div
-            v-if="showCateDiv"
-            style="margin-top: -5px;height: 200px;background: #fff;"
-          >
-            <div style="display: flex;justify-content: center">
+          <div v-if="showCateDiv" class="cate-div">
+            <div class="cate-con">
               <div
-                style="margin: 20px 50px;"
+                class="cate"
                 v-for="(item, index) in curCateList"
                 :key="index">
-                <div style="font-size: 12px;color: #000;margin-bottom: 20px">{{item.name}}</div>
+                <div class="cate-name-label">{{item.name}}</div>
                 <div
-                  style="cursor: pointer;display: flex;flex-direction: row;align-items: center"
-                  v-for="childItem, idx in item.children"
+                  class="cate-item"
+                  v-for="(childItem, idx) in item.children"
+                  @click="goGoodsCatePage(childItem)"
                   :key="idx">
-                  <img :src="childItem.iconUrl" style="width: 40px;height: 40px;margin-right: 5px">
-                  <div style="font-weight: 700">{{childItem.name}}</div>
+                  <img :src="childItem.iconUrl" class="item-icon">
+                  <div>{{childItem.name}}</div>
                 </div>
               </div>
             </div>
@@ -267,6 +265,10 @@
             }
           })
         }
+      },
+      goGoodsCatePage (childCateItem) {
+        let {id} = childCateItem
+        this.$router.push({path: 'goods', query: {cid: id}})
       },
       showError (m) {
         this.$message.error({
@@ -1163,6 +1165,43 @@
     background: url("/static/images/cart-empty-new.png") no-repeat;
     background-size: cover;
 
+  }
+
+  .cate-div {
+    margin-top: -5px;
+    height: 200px;
+    background: #fff;
+
+    .cate-con {
+      display: flex;
+      justify-content: center;
+
+      .cate {
+        margin: 20px 50px;
+
+        .cate-name-label {
+          font-size: 12px;
+          color: #000;
+          margin-bottom: 20px;
+        }
+        .cate-item {
+          cursor: pointer;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+
+          .item-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 5px;
+          }
+
+          div {
+            font-weight: 700
+          }
+        }
+      }
+    }
   }
 </style>
 
