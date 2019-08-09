@@ -9,28 +9,31 @@ import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayBuildRequest;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayNotify;
 import com.gpmall.pay.biz.payment.constants.AliPaymentConfig;
-import com.gpmall.pay.biz.payment.constants.PayChannelEnum;
+import com.gpmall.pay.biz.payment.constants.PayResultEnum;
 import com.gpmall.pay.biz.payment.context.AliPaymentContext;
+import com.gpmall.pay.dal.entitys.Payment;
+import com.gpmall.pay.dal.persistence.PaymentMapper;
+import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
  * @author 风骚的Michael 老师
  */
+@Slf4j
 @Service
 public class AliPayment extends BasePayment {
 
@@ -39,6 +42,9 @@ public class AliPayment extends BasePayment {
 
     @Autowired
     AliPaymentConfig aliPaymentConfig;
+
+    @Autowired
+    PaymentMapper paymentMapper;
 
     @Override
     public Validator getValidator() {
@@ -72,8 +78,6 @@ public class AliPayment extends BasePayment {
         sParaTemp.put("subject", aliPaymentContext.getSubject());
         sParaTemp.put("total_fee", aliPaymentContext.getTotalFee().doubleValue());
         aliPaymentContext.setsParaTemp(sParaTemp);
-        //TODO 保存订单记录
-
     }
 
 
@@ -89,9 +93,28 @@ public class AliPayment extends BasePayment {
         return response;
     }
 
+
     @Override
     public void afterProcess(AbstractRequest request, AbstractResponse respond, PaymentContext context) throws BizException {
-
+        log.info("Alipayment begin - afterProcess -request:"+request+"\n response:"+respond);
+        PaymentRequest paymentRequest=(PaymentRequest)request;
+        PaymentResponse response=(PaymentResponse)respond;
+        com.gpmall.pay.dal.entitys.Payment payment=new Payment();
+        payment.setCreateTime(new Date());
+        payment.setId(UUID.randomUUID().toString());
+        BigDecimal amount=new BigDecimal(paymentRequest.getOrderFee()/100);
+        payment.setOrderAmount(amount);
+        payment.setOrderId(paymentRequest.getTradeNo());
+        payment.setPayerAmount(amount);
+        payment.setPayerUid(paymentRequest.getUserId());
+        payment.setPayerName("");//TODO
+        payment.setPayWay(paymentRequest.getPayChannel());
+        payment.setProductName(paymentRequest.getSubject());
+        payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());//
+        payment.setRemark("");
+        payment.setPayNo(response.getPrepayId());//第三方的交易id
+        payment.setUpdateTime(new Date());
+        paymentMapper.insert(payment);
     }
 
     @Override

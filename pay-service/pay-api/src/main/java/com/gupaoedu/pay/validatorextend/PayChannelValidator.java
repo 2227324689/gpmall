@@ -1,7 +1,6 @@
-package com.gpmall.pay.biz.payment.validator.validatorextend;
+package com.gupaoedu.pay.validatorextend;
 
-import com.gpmall.pay.biz.payment.constants.PayChannelEnum;
-import com.gpmall.pay.utils.EnumUtils;
+import com.gupaoedu.pay.constants.PayChannelEnum;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
