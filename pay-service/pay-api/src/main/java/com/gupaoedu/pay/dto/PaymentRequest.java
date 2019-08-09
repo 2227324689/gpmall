@@ -1,12 +1,13 @@
 package com.gupaoedu.pay.dto;
 
 import com.gpmall.commons.result.AbstractRequest;
-import com.gpmall.pay.biz.payment.validator.validatorextend.PayChannel;
+import com.gupaoedu.pay.validatorextend.PayChannel;
 import lombok.Data;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 
 /**
  * 腾讯课堂搜索 咕泡学院

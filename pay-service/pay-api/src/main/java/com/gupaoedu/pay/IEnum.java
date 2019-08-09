@@ -1,4 +1,4 @@
-package com.gpmall.pay.biz.payment.constants;
+package com.gupaoedu.pay;
 
 /**
  * description:

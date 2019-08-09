@@ -1,8 +1,8 @@
-package com.gpmall.pay.utils;
+package com.gupaoedu.pay.validatorextend;
 
 
-import com.gpmall.pay.biz.payment.constants.IEnum;
-import com.gpmall.pay.biz.payment.constants.PayChannelEnum;
+import com.gupaoedu.pay.IEnum;
+import com.gupaoedu.pay.constants.PayChannelEnum;
 
 /**
  * description: 枚举工具类

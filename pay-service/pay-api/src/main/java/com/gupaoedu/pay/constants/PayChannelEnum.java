@@ -1,4 +1,7 @@
-package com.gpmall.pay.biz.payment.constants;
+package com.gupaoedu.pay.constants;
+
+
+import com.gupaoedu.pay.IEnum;
 
 /**
  * 腾讯课堂搜索 咕泡学院
@@ -19,12 +22,10 @@ public enum PayChannelEnum implements IEnum{
         this.desc=desc;
     }
 
-    @Override
     public String getCode() {
         return code;
     }
 
-    @Override
     public String getDesc() {
         return desc;
     }

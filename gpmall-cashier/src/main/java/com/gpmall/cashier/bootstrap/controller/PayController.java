@@ -19,5 +19,6 @@ public class PayController {
 
     @GetMapping("/pay")
     public void pay(){
+
     }
 }

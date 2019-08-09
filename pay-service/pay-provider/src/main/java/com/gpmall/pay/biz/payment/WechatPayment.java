@@ -8,7 +8,7 @@ import com.gpmall.pay.biz.abs.PaymentContext;
 import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.wechatpay.WeChatBuildRequest;
 import com.gpmall.pay.biz.payment.commons.HttpClientUtil;
-import com.gpmall.pay.biz.payment.constants.PayChannelEnum;
+import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gpmall.pay.biz.payment.constants.PaymentConstants;
 import com.gpmall.pay.biz.payment.constants.WechatPaymentConfig;
 import com.gpmall.pay.biz.payment.context.WechatPaymentContext;
@@ -17,8 +17,6 @@ import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

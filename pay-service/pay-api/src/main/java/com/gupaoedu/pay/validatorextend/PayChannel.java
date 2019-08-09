@@ -1,4 +1,4 @@
-package com.gpmall.pay.biz.payment.validator.validatorextend;
+package com.gupaoedu.pay.validatorextend;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
