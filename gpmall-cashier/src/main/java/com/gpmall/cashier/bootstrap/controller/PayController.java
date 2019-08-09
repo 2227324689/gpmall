@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,7 @@ import java.math.BigDecimal;
  */
 @Slf4j
 @RestController
+@RequestMapping("/cashier")
 public class PayController {
 
     @Reference(timeout = 3000)
@@ -43,10 +45,11 @@ public class PayController {
         request.setUserId(uid);
         BigDecimal money=payForm.getMoney();
         money=money.multiply(new BigDecimal(100));
-        request.setOrderFee(Integer.parseInt(money.toString());
+        request.setOrderFee(money.intValue());
         request.setPayChannel(payForm.getPayType());
         request.setSubject(payForm.getInfo());
         request.setTradeNo(payForm.getOrderId());
+        request.setTotalFee(money.intValue());
         PaymentResponse response=payCoreService.execPay(request);
         if(response.getCode().equals(PayReturnCodeEnum.SUCCESS.getCode())){
             return new ResponseUtil<>().setData(response.getHtmlStr());

@@ -1,6 +1,6 @@
 <template>
   <div class="w" style="padding-bottom: 100px;">
-    <y-shelf title="XPay收银台 收款方: Exrick">
+    <y-shelf title="支付结果通知">
       <div slot="content">
         <div class="box-inner order-info">
           <p class="payment-detail">扫一扫付款（元）</p>
@@ -28,7 +28,7 @@
           <div class="box-btn">
             <div>
               <span>
-              
+
               </span>
               <em><span>¥</span>{{orderTotal}}</em>
               <y-button :text="payNow"
@@ -42,18 +42,6 @@
 
       </div>
     </y-shelf>
-
-    <el-dialog
-      title="支付红包"
-      :visible.sync="dialogVisible"
-      width="30%"
-      @close="handleClose" style="text-align:center;width:50%;margin:0 auto">
-      <img src="http://oweupqzdv.bkt.clouddn.com/1512881761970_small.jpg" class="qr-red"/>
-      <span>支付前领个红包吧(每日可领一次)</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogVisible = false">领取了</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 <script>
@@ -348,7 +336,7 @@
     color: #222;
     margin-top: -18px;
   }
-  
+
   .timeout{
     position: absolute;
     top: 0;
