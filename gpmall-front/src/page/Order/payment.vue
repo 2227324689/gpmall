@@ -54,7 +54,6 @@
         addressId: 0,
         productId: '',
         num: '',
-        userId: '',
         orderTotal: 0,
         userName: '',
         tel: '',
@@ -129,19 +128,18 @@
         if (this.payType === 1) {
           this.type = 'Alipay'
         } else if (this.payType === 2) {
-          this.type = 'Wechat'
+          this.type = 'wechat_pay'
         } else if (this.payType === 3) {
           this.type = 'QQ'
         } else {
           this.type = '其它'
         }
+        const info = this.cartList[0].title
         payMent({
           nickName: this.nickName,
           money: this.money,
-          info: this.info,
-          email: this.email,
+          info: info,
           orderId: this.orderId,
-          userId: this.userId,
           payType: this.type
         }).then(res => {
           if (res.success === true) {
