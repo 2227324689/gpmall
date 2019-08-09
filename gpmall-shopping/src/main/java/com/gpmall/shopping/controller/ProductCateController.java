@@ -30,7 +30,7 @@ public class ProductCateController {
     public ResponseData allProductCateList(@RequestParam(
             value = "sort",
             required = false,
-            defaultValue = "asc")String sort){
+            defaultValue = "1")String sort){
         AllProductCateRequest request = new AllProductCateRequest();
         request.setSort(sort);
         AllProductCateResponse response= productCateService.getAllProductCate(request);
