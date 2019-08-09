@@ -172,17 +172,17 @@ CREATE TABLE `tb_item_cat` (
 -- Records of tb_item_cat
 -- ----------------------------
 INSERT INTO `tb_item_cat` VALUES ('1', '1', '官方配件', '1', '0', '1', 'https://www.smartisan.com/category/185?type=shop', null, '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('2', '1', '耳机', '1', '0', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('3', '1', '手机充电配件', '1', '1', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('4', '1', '自拍杆', '1', '2', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('5', '1', '音箱', '1', '3', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('6', '1', '车载配件', '1', '4', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('2', '1', '耳机', '1', '0', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('3', '1', '手机充电配件', '1', '1', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('4', '1', '自拍杆', '1', '2', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('5', '1', '音箱', '1', '3', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('6', '1', '车载配件', '1', '4', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
 INSERT INTO `tb_item_cat` VALUES ('7', '1', '服饰箱包', '1', '1', '1', 'https://www.smartisan.com/category/157', null, '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('8', '7', '服饰', '1', '0', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('9', '7', '鞋', '1', '1', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('10', '7', '箱包', '1', '2', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('8', '7', '服饰', '1', '0', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('9', '7', '鞋', '1', '1', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('10', '7', '箱包', '1', '2', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
 INSERT INTO `tb_item_cat` VALUES ('11', '1', '畅呼吸', '1', '2', '1', 'https://www.smartisan.com/category/296?type=shop', null, '2019-07-29 14:01:59', '2019-07-29 14:01:59');
-INSERT INTO `tb_item_cat` VALUES ('12', '11', '生活电器', '1', '0', '2', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
+INSERT INTO `tb_item_cat` VALUES ('12', '11', '生活电器', '1', '0', '0', '', 'shop', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
 INSERT INTO `tb_item_cat` VALUES ('202', '8', 'T恤', '1', '0', '0', 'https://resource.smartisan.com/resource/d01dcb91b34b26cda7064a3c9bf655c4.png', '', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
 INSERT INTO `tb_item_cat` VALUES ('204', '8', 'POLO衫', '1', '1', '0', 'https://resource.smartisan.com/resource/daa975651d6d700c0f886718c520ee19.jpg', '', '2019-07-29 14:01:59', '2019-07-29 14:01:59');
 INSERT INTO `tb_item_cat` VALUES ('206', '9', '帆布鞋', '1', '0', '0', 'https://resource.smartisan.com/resource/1db1a8bfee3623fded41c9115b5a5335.jpg', '', '2019-07-29 14:01:59', '2019-07-29 14:01:59');

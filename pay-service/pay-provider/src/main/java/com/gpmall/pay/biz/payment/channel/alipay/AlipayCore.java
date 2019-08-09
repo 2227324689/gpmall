@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
 public class AlipayCore {
 
@@ -48,8 +48,8 @@ public class AlipayCore {
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
             String value = params.get(key).toString();
-
-            if (i == keys.size() - 1) {//拼接时，不包括最后一个&字符
+            //拼接时，不包括最后一个&字符
+            if (i == keys.size() - 1) {
             	prestr.append(key + "=" + value);
             } else {
             	prestr.append(key + "=" + value + "&");
@@ -78,7 +78,8 @@ public class AlipayCore {
           /*  if(key.equals("sign")){
             	continue;
             }*/
-            if (i == keys.size() - 1) {//拼接时，不包括最后一个&字符
+            //拼接时，不包括最后一个&字符
+            if (i == keys.size() - 1) {
             	prestr.append(key + "=\"" + value + "\"");
             } else {
             	prestr.append(key + "=\"" + value + "\"&");

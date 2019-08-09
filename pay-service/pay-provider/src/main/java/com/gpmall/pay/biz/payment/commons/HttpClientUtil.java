@@ -21,7 +21,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLContext;
 
-
+/**
+ * @author
+ */
 public class HttpClientUtil {
 
     static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);

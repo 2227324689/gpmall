@@ -16,23 +16,23 @@ import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
 @Service
 public class AliPayment extends BasePayment {
-
-    Logger LOG=LoggerFactory.getLogger(AliPayment.class);
 
     @Resource(name="aliPaymentValidator")
     private Validator validator;
@@ -102,19 +102,17 @@ public class AliPayment extends BasePayment {
     @Override
     public AbstractResponse completePayment(AbstractRequest request) throws BizException {
         PaymentNotifyRequest paymentNotifyRequest=(PaymentNotifyRequest)request;
-        Map<String, Object> params = new HashMap<>();
+
         Map requestParams = paymentNotifyRequest.getResultMap();
-        PaymentNotifyResponse response=new PaymentNotifyResponse();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
-            String name = (String) iter.next();
-            String[] values = (String[]) requestParams.get(name);
-            String valueStr = "";
-            for (int i = 0; i < values.length; i++) {
-                valueStr = (i == values.length - 1) ? valueStr + values[i]: valueStr + values[i] + ",";
-            }
-            params.put(name, valueStr);
-        }
-        if (AlipayNotify.verify(params, aliPaymentConfig)) {//验证成功
+        Map<String, Object> params = new HashMap<>(requestParams.size());
+        requestParams.forEach((key,value)->{
+            String[] values = (String[]) value;
+            params.put((String)key,StringUtils.join(values, ","));
+        });
+
+        PaymentNotifyResponse response = new PaymentNotifyResponse();
+        //验证
+        if (AlipayNotify.verify(params, aliPaymentConfig)) {
             //TODO 判断交易状态
             //TRADE_FINISH(支付完成)、TRADE_SUCCESS(支付成功)、FAIL(支付失败)
             String tradeStatus = params.get("trade_status").toString();
