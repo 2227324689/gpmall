@@ -20,7 +20,7 @@ public class PaymentRequest extends AbstractRequest{
      * 用户id
      */
     @NotNull(message = "userId不可为空")
-    private Integer userId;
+    private Long userId;
 
     /**
      * 交易订单号, 统一生成全局唯一的订单号
