@@ -133,12 +133,4 @@ public class OrderQueryServiceImpl implements OrderQueryService{
         }
         return response;
     }
-
-    private int getPageNum(int totalNum, int pageSize){
-        if(totalNum % pageSize == 0){
-            return totalNum/pageSize;
-        }else{
-            return totalNum/pageSize + 1;
-        }
-    }
 }
