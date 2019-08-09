@@ -30,7 +30,7 @@ public class ValidateHandler extends AbstractTransHandler {
     @Autowired
     OrderMapper orderMapper;
 
-    @Reference
+    @Reference(mock = "com.gpmall.order.biz.mock.MockMemberService",check = false)
     IMemberService memberService;
 
     @Override

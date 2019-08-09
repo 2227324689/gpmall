@@ -19,6 +19,7 @@ public class OrderListRequest extends AbstractRequest{
     private Long userId;
     private Integer page;
     private Integer size;
+    private String sort;
 
     @Override
     public void requestCheck() {

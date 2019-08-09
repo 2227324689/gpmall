@@ -32,7 +32,9 @@ public class DefaultTransPipeline implements TransPipeline{
     public void addFirst(TransHandler... handlers) {
         TransHandlerNode pre = head.getNext();
         for (TransHandler handler : handlers) {
-            if(handler == null)  continue;
+            if(handler == null) {
+                continue;
+            }
             TransHandlerNode node = new TransHandlerNode();
             node.setHandler(handler);
             node.setNext(pre);
@@ -75,6 +77,7 @@ public class DefaultTransPipeline implements TransPipeline{
         ;
     }
 
+    @Override
     public <T extends TransHandlerContext> T getContext() {
         return (T)context;
     }

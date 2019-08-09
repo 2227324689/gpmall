@@ -17,12 +17,8 @@ public class OrderListResponse extends AbstractResponse{
     private List<OrderDetailInfo> detailInfoList;
 
     /**
-     * 当前页
+     * 总记录数
      */
-    private Integer currentPage;
+    private Long total;
 
-    /**
-     * 总共多少页
-     */
-    private Integer totalPage;
 }
