@@ -17,7 +17,7 @@ import java.util.Set;
  * @date 2019-08-09 01:16
  */
 
-public final class ParamValidatorUtils {
+public class ParamValidatorUtils {
 
     public static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 

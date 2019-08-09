@@ -26,7 +26,7 @@ import java.util.UUID;
  * create-date: 2019/7/30-13:54
  */
 @Slf4j
-@Service
+@Service(cluster = "failfast")
 public class PayCoreServiceImpl implements PayCoreService {
 
 
