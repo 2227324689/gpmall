@@ -5,6 +5,11 @@ import {apis} from './api'
 export const getAllGoods = (params) => {
   return http.fetchGet(apis.getAllGoods, params)
 }
+// 商品分类列表
+export const getAllGoodsCategories = (params) => {
+  return http.fetchGet(apis.getAllCategories, params)
+}
+
 // 获取购物车列表
 export const getCartList = (params) => {
   return http.fetchGet(apis.getCartList, params)
