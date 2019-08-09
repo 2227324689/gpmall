@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: test
+    active: dev
 
 mybatis:
   mapper-locations: classpath*:com/gpmall/pay/dal/persistence/*Mapper.xml"
