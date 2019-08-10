@@ -138,6 +138,15 @@
     components: {
       YShelf, BuyNum, YButton
     },
+    watch: {
+      $route (to, from) {
+        if (to.fullPath.includes('/product/')) {
+          let id = this.$route.params.productId
+          this._productDet(id)
+          this.userId = getStore('userId')
+        }
+      }
+    },
     created () {
       let id = this.$route.params.productId
       this._productDet(id)

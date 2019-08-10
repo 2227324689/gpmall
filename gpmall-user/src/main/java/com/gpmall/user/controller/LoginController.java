@@ -13,8 +13,6 @@ import com.gpmall.user.dto.KaptchaCodeResponse;
 import com.gpmall.user.dto.UserLoginRequest;
 import com.gpmall.user.dto.UserLoginResponse;
 import com.gpmall.user.intercepter.TokenIntercepter;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +47,6 @@ public class LoginController {
 
     @Anoymous
     @PostMapping("/login")
-    @ApiOperation("登录")
     public ResponseData login(@RequestBody Map<String,String> map,
                               HttpServletRequest request,HttpServletResponse response){
         UserLoginRequest loginRequest=new UserLoginRequest();
