@@ -33,7 +33,7 @@ spring:
 dubbo:
   application:
     name: search-services
-    owner: SH
+    owner: gp-search
   protocol:
     name: dubbo
     port: 20883

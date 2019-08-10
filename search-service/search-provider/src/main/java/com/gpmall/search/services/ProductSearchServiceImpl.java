@@ -21,4 +21,9 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     public SearchResponse search(SearchRequest request) {
         return SearchResponse.ok().data(null);
     }
+
+    @Override
+    public SearchResponse fuzzySearch(SearchRequest request) {
+        return SearchResponse.ok().data(null);
+    }
 }

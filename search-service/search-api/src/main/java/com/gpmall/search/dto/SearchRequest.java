@@ -3,7 +3,7 @@ package com.gpmall.search.dto;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.search.SearchException;
 import com.gpmall.search.consts.SearchEnum;
-import org.springframework.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * 通用请求类
@@ -53,7 +53,7 @@ public class SearchRequest extends AbstractRequest {
 
     @Override
     public void requestCheck() {
-        if (!StringUtils.hasText(keyword)) {
+        if (StringUtils.isAllBlank(keyword)) {
             throw SearchException.create(SearchEnum.STRING_EMPTY.getCodeString(),
                     SearchEnum.STRING_EMPTY.param(keyword));
         }

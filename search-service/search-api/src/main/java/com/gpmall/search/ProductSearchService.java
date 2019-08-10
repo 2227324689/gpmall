@@ -12,10 +12,18 @@ import com.gpmall.search.dto.SearchResponse;
  */
 public interface ProductSearchService {
     /**
-     * 搜索商品
+     * 搜索商品 精准搜索
      *
      * @param request
      * @return
      */
     SearchResponse search(SearchRequest request);
+
+    /**
+     * 搜索商品 模糊搜索
+     *
+     * @param request
+     * @return
+     */
+    SearchResponse fuzzySearch(SearchRequest request);
 }
