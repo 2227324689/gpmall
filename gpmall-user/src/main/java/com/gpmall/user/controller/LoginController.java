@@ -50,8 +50,8 @@ public class LoginController {
     public ResponseData login(@RequestBody Map<String,String> map,
                               HttpServletRequest request,HttpServletResponse response){
         UserLoginRequest loginRequest=new UserLoginRequest();
-        loginRequest.setPassword(map.get("userName"));
-        loginRequest.setUserName(map.get("userPwd"));
+        loginRequest.setPassword(map.get("userPwd"));
+        loginRequest.setUserName(map.get("userName"));
         String captcha=map.get("captcha");
 
         if (captchaFlag) {
