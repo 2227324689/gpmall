@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: dev
+
+mybatis:
+  mapper-locations: classpath*:com/gpmall/pay/dal/persistence/*Mapper.xml"
+  type-aliases-package: com.gpmall.pay.dal.entitys
+
+
