@@ -23,6 +23,7 @@ import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -126,12 +127,14 @@ public class ProductServiceImpl implements IProductService {
 
             String json=cacheManager.checkCache(GlobalConstants.RECOMMEND_PANEL_CACHE_KEY);
             if(StringUtils.isNotBlank(json)){
-                List<RecommendDto> recommendDtos=JSON.parseArray(json,RecommendDto.class);
-                Set set=new HashSet(recommendDtos);
-                response.setPanelContentItemDtos(set);
+                List<PanelDto> panelContentItemDtoList = JSON.parseArray(json,PanelDto.class);
+                Set<PanelDto> panelDtoSet = new HashSet<>(panelContentItemDtoList);
+                response.setPanelContentItemDtos(panelDtoSet);
                 return response;
             }
             List<Panel> panels=panelMapper.selectPanelContentById(GlobalConstants.RECOMMEND_PANEL_ID);
+
+            System.out.println(panels);
             if(panels==null||panels.isEmpty()){
                 return response;
             }
@@ -152,7 +155,6 @@ public class ProductServiceImpl implements IProductService {
                 recommendDto.setSortOrder(panel.getSortOrder());
                 recommendDto.setType(panel.getType());
                 recommendDtos.add(recommendDto);
-
             });*/
             response.setPanelContentItemDtos(panelContentItemDtos);
             cacheManager.setCache(GlobalConstants.RECOMMEND_PANEL_CACHE_KEY,JSON.toJSONString(panelContentItemDtos),GlobalConstants.RECOMMEND_CACHE_EXPIRE);
