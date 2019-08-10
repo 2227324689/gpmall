@@ -93,7 +93,7 @@
 
 # 如何贡献
 
-非常欢迎您对ShopXO的开发作出贡献！ 你可以选择以下方式向Gpmall贡献：
+非常欢迎您对Gpmall的开发作出贡献！ 你可以选择以下方式向Gpmall贡献：
 
 - [Github - 发布issue进行问题反馈和建议](https://github.com/2227324689/gpmall/issues)
 - 通过Pull Request提交修复
