@@ -23,18 +23,30 @@ public @interface CustomerLock {
      */
     String lockKey();
 
+    /**  后缀
+     * @return
+     */
     String lockSuffix() default "";
 
-    String lockPrefix() default "com/gpmall/commons/lock";
+    /** 前缀
+     * @return
+     */
+    String lockPrefix() default "";
 
+    /** 分割符
+     * @return
+     */
     String separator() default "#";
 
+    /**  实现类对应的名称 默认使用redis
+     * @return
+     */
     String lockType() default "";
 
     /**
      * 是否使用尝试锁。
      */
-    boolean tryLock() default true;
+    boolean tryLock() default false;
 
     /**
      * 最长等待时间。
