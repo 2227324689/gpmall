@@ -11,6 +11,7 @@
     <modules>
         <module>commons-tool</module>
         <module>commons-core</module>
+        <module>commons-lock</module>
     </modules>
 
     <name>gpmall-commons</name>
