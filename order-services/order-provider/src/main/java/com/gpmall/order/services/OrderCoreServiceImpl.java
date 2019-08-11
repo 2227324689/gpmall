@@ -50,13 +50,12 @@ public class OrderCoreServiceImpl implements OrderCoreService{
      * @param request
      * @return
      */
-
     @Override
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
         CreateOrderResponse response=new CreateOrderResponse();
         try{
             TransOutboundInvoker invoker=orderProcessPipelineFactory.build(request);
-            invoker.start(); //启动流程
+            invoker.start(); //启动流程（pipeline来处理）
             AbsTransHandlerContext context=invoker.getContext();
             response=(CreateOrderResponse) context.getConvert().convertCtx2Respond(context);
         }catch (Exception e){
