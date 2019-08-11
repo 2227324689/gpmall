@@ -3,14 +3,14 @@ package com.gpmall.comment.dal.entitys;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemDescExample {
+public class CommentPictureExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public ItemDescExample() {
+    public CommentPictureExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 

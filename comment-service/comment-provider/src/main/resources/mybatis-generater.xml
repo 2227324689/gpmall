@@ -58,7 +58,7 @@
 <!--               enableSelectByPrimaryKey="true"-->
 <!--               enableUpdateByPrimaryKey="true"-->
 <!--               enableDeleteByPrimaryKey="true" />-->
-<!--        <table tableName="tb_comment_reply" domainObjectName="ItemCat"-->
+<!--        <table tableName="tb_comment_reply" domainObjectName="CommentReply"-->
 <!--               enableCountByExample="true"-->
 <!--               enableSelectByExample="true"-->
 <!--               enableUpdateByExample="true"-->
@@ -66,7 +66,7 @@
 <!--               enableSelectByPrimaryKey="true"-->
 <!--               enableUpdateByPrimaryKey="true"-->
 <!--               enableDeleteByPrimaryKey="true"/>-->
-<!--        <table tableName="tb_comment_picture" domainObjectName="ItemDesc"-->
+<!--        <table tableName="tb_comment_picture" domainObjectName="CommentPicture"-->
 <!--               enableCountByExample="true"-->
 <!--               enableSelectByExample="true"-->
 <!--               enableUpdateByExample="true"-->

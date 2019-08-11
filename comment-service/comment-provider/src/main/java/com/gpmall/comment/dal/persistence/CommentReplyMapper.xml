@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.gpmall.comment.dal.persistence.ItemCatMapper">
-  <resultMap id="BaseResultMap" type="com.gpmall.comment.dal.entitys.ItemCat">
+<mapper namespace="com.gpmall.comment.dal.persistence.CommentReplyMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.comment.dal.entitys.CommentReply">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="comment_id" jdbcType="VARCHAR" property="commentId" />
     <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
@@ -75,7 +75,7 @@
     id, comment_id, parent_id, content, reply_time, reply_nick, user_id, is_deleted, 
     deletion_time, deletion_user_id
   </sql>
-  <select id="selectByExample" parameterType="com.gpmall.comment.dal.entitys.ItemCatExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.gpmall.comment.dal.entitys.CommentReplyExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -99,13 +99,13 @@
     delete from tb_comment_reply
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.gpmall.comment.dal.entitys.ItemCatExample">
+  <delete id="deleteByExample" parameterType="com.gpmall.comment.dal.entitys.CommentReplyExample">
     delete from tb_comment_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.gpmall.comment.dal.entitys.ItemCat">
+  <insert id="insert" parameterType="com.gpmall.comment.dal.entitys.CommentReply">
     insert into tb_comment_reply (id, comment_id, parent_id, 
       content, reply_time, reply_nick, 
       user_id, is_deleted, deletion_time, 
@@ -115,7 +115,7 @@
       #{userId,jdbcType=BIGINT}, #{isDeleted,jdbcType=BIT}, #{deletionTime,jdbcType=TIMESTAMP}, 
       #{deletionUserId,jdbcType=BIGINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.gpmall.comment.dal.entitys.ItemCat">
+  <insert id="insertSelective" parameterType="com.gpmall.comment.dal.entitys.CommentReply">
     insert into tb_comment_reply
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -182,7 +182,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.gpmall.comment.dal.entitys.ItemCatExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.gpmall.comment.dal.entitys.CommentReplyExample" resultType="java.lang.Long">
     select count(*) from tb_comment_reply
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -242,7 +242,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gpmall.comment.dal.entitys.ItemCat">
+  <update id="updateByPrimaryKeySelective" parameterType="com.gpmall.comment.dal.entitys.CommentReply">
     update tb_comment_reply
     <set>
       <if test="commentId != null">
@@ -275,7 +275,7 @@
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gpmall.comment.dal.entitys.ItemCat">
+  <update id="updateByPrimaryKey" parameterType="com.gpmall.comment.dal.entitys.CommentReply">
     update tb_comment_reply
     set comment_id = #{commentId,jdbcType=VARCHAR},
       parent_id = #{parentId,jdbcType=VARCHAR},

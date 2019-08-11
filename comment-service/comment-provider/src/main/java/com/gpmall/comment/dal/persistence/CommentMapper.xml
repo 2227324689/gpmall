@@ -252,7 +252,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.gpmall.comment.dal.entitys.CommentExample" resultType="java.lang.Integer">
+  <select id="countByExample" parameterType="com.gpmall.comment.dal.entitys.CommentExample" resultType="java.lang.Long">
     select count(*) from tb_comment
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />

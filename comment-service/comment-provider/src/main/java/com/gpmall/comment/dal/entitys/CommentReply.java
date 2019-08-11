@@ -3,7 +3,7 @@ package com.gpmall.comment.dal.entitys;
 import java.io.Serializable;
 import java.util.Date;
 
-public class ItemCat implements Serializable {
+public class CommentReply implements Serializable {
     private String id;
 
     private String commentId;

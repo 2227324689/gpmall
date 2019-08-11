@@ -2,7 +2,7 @@ package com.gpmall.comment.dal.entitys;
 
 import java.io.Serializable;
 
-public class ItemDesc implements Serializable {
+public class CommentPicture implements Serializable {
     private String id;
 
     private String commentId;
