@@ -46,12 +46,12 @@
           <input type="text" placeholder="收货地址" v-model="msg.streetName">
         </div>
         <div>
-          <el-checkbox class="auto-login" v-model="msg.isDefault">设为默认</el-checkbox>
+          <el-checkbox class="auto-login" v-model="msg._Default">设为默认</el-checkbox>
         </div>
         <y-button text='保存'
                   class="btn"
                   :classStyle="btnHighlight?'main-btn':'disabled-btn'"
-                  @btnClick="save({userId:userId,addressId:msg.addressId,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,isDefault:msg.isDefault})">
+                  @btnClick="save({userId:userId,addressId:msg.addressId,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,_Default:msg._Default})">
         </y-button>
       </div>
     </y-popup>
@@ -74,7 +74,7 @@
           userName: '',
           tel: '',
           streetName: '',
-          isDefault: false
+          _Default: false
         },
         userId: ''
       }
@@ -117,14 +117,15 @@
         })
       },
       changeDef (item) {
-        if (!item.isDefault) {
-          item.isDefault = true
+        if (!item._Default) {
+          item._Default = true
           this._addressUpdate(item)
         }
         return false
       },
       // 保存
       save (p) {
+//        alert(p._Default)
         this.popupOpen = false
         if (p.addressId) {
           this._addressUpdate(p)
@@ -151,14 +152,14 @@
           this.msg.userName = item.userName
           this.msg.tel = item.tel
           this.msg.streetName = item.streetName
-          this.msg.isDefault = item.isDefault
+          this.msg._Default = item._Default
           this.msg.addressId = item.addressId
         } else {
           this.popupTitle = '新增收货地址'
           this.msg.userName = ''
           this.msg.tel = ''
           this.msg.streetName = ''
-          this.msg.isDefault = false
+          this.msg._Default = false
           this.msg.addressId = ''
         }
       }
