@@ -26,4 +26,11 @@ public interface ProductSearchService {
      * @return
      */
     SearchResponse fuzzySearch(SearchRequest request);
+
+    /**
+     * 商品热门搜索关键字 **热搜推荐**
+     *
+     * @return
+     */
+    SearchResponse hotProductKeyword();
 }

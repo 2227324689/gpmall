@@ -9,20 +9,20 @@ package com.gpmall.search.consts;
  * @Date 2019年8月10日
  */
 public enum SearchEnum {
-    SUCCESS(10000, "成功"),
-    FAILED(10001, "失败，详情见附属信息"),
+    SUCCESS("Z0000", "成功"),
+    FAILED("Z0001", "失败，详情见附属信息"),
 
-    STRING_EMPTY(10002, "入参字符串为空，%s");
-    private Integer code;
+    STRING_EMPTY("Z0002", "入参字符串为空，%s");
+    private String code;
 
     private String msg;
 
-    private SearchEnum(Integer code, String msg) {
+    private SearchEnum(String code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
@@ -36,10 +36,6 @@ public enum SearchEnum {
 
     public String getMsg(String code) {
         return msg + ":" + code;
-    }
-
-    public String getCodeString() {
-        return getCode() + "";
     }
 
     @Override
