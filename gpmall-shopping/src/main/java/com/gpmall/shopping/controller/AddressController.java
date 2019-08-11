@@ -6,16 +6,15 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
+import com.gpmall.shopping.constants.ShoppingRetCode;
+import com.gpmall.shopping.form.AddressForm;
 import com.gpmall.user.IAddressService;
 import com.gpmall.user.constants.SysRetCodeConstants;
-import com.gpmall.user.dto.AddressListRequest;
-import com.gpmall.user.dto.AddressListResponse;
+import com.gpmall.user.dto.*;
 import com.gpmall.user.intercepter.TokenIntercepter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -31,13 +30,13 @@ import javax.servlet.http.HttpServletRequest;
 public class AddressController {
 
     @Reference(timeout = 3000)
-    IAddressService addressService;
+	IAddressService addressService;
 
     /**
      * 获取当前用户的地址列表
      * @return
      */
-    @GetMapping("/address")
+    @GetMapping("/addresses")
     public ResponseData addressList(HttpServletRequest request){
         String userInfo=(String)request.getAttribute(TokenIntercepter.USER_INFO_KEY);
         JSONObject object= JSON.parseObject(userInfo);
@@ -47,6 +46,56 @@ public class AddressController {
         AddressListResponse response=addressService.addressList(addressListRequest);
         if(response.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())){
             return new ResponseUtil().setData(response.getAddressDtos());
+        }
+        return new ResponseUtil().setErrorMsg(response.getMsg());
+    }
+
+    @PostMapping("/addresses")
+    public ResponseData addressAdd(@RequestBody  AddressForm form){
+
+        System.out.println(form.is_Default());
+        System.out.println(form.toString() );
+
+        AddAddressRequest request = new AddAddressRequest();
+        request.setUserId(form.getUserId());
+        request.setUserName(form.getUserName());
+        request.setStreetName(form.getStreetName());
+        request.setTel(form.getTel());
+        request.setIsDefault(form.is_Default());
+        AddAddressResponse response = addressService.createAddress(request);
+
+        if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
+            return new ResponseUtil().setData(response.getMsg());
+        }
+        return new ResponseUtil().setErrorMsg(response.getMsg());
+    }
+    @DeleteMapping("/addresses/{addressid}")
+    public ResponseData addressDel(@PathVariable("addressid") Long addressid){
+        DeleteAddressRequest request = new DeleteAddressRequest();
+        request.setAddressId(addressid);
+        DeleteAddressResponse response = addressService.deleteAddress(request);
+
+        if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
+            return new ResponseUtil().setData(response.getMsg());
+        }
+        return new ResponseUtil().setErrorMsg(response.getMsg());
+
+    }
+
+    @PutMapping("/addresses")
+    public ResponseData addressUpdate(@RequestBody AddressForm form){
+        UpdateAddressRequest request = new UpdateAddressRequest();
+        request.setAddressId(form.getAddressId());
+        request.setIsDefault(form.is_Default());
+        request.setStreetName(form.getStreetName());
+        request.setTel(form.getTel());
+        request.setUserId(form.getUserId());
+        request.setUserName(form.getUserName());
+
+        UpdateAddressResponse response = addressService.updateAddress(request);
+
+        if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
+            return new ResponseUtil().setData(response.getMsg());
         }
         return new ResponseUtil().setErrorMsg(response.getMsg());
     }
