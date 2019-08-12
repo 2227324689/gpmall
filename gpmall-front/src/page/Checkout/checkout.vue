@@ -450,8 +450,8 @@
         margin-bottom: 15px;
         > input {
           width: 100%;
-          height: 50px;
-          font-size: 18px;
+          height: 38px;
+          font-size: 14px;
           padding: 10px 20px;
           border: 1px solid #ccc;
           border-radius: 6px;
@@ -464,9 +464,9 @@
     .btn {
       margin: 0;
       width: 100%;
-      height: 50px;
+      height: 43px;
       font-size: 14px;
-      line-height: 48px
+      line-height: 43px
     }
   }
 

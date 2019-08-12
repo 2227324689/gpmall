@@ -35,6 +35,7 @@ public class CreateOrderRequest extends AbstractRequest{
 
     List<CartProductDto> cartProductDtoList;//购物车中的商品列表
 
+    private String uniqueKey; //业务唯一id
 
 
     @Override

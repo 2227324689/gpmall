@@ -17,7 +17,7 @@
 
 # 项目用到的技术
 
-项目采用前后端分离开发，前端需要独立部署。前端架构是基于 xmall 提供框架进行的重构。目前核心的技术栈采用的是SpringBoot2.1.5.RELEASE+Dubbo2.7.2,  后续我会再基于spring cloud alibaba进行重构
+项目采用前后端分离开发，前端需要独立部署。目前核心的技术栈采用的是SpringBoot2.1.5.RELEASE+Dubbo2.7.2,  
 
 ## 前端使用的技术
 

@@ -16,6 +16,7 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -42,6 +43,7 @@ public class OrderController {
         JSONObject object= JSON.parseObject(userInfo);
         Long uid=Long.parseLong(object.get("uid").toString());
         request.setUserId(uid);
+        request.setUniqueKey(UUID.randomUUID().toString());
         CreateOrderResponse response=orderCoreService.createOrder(request);
         if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
             return new ResponseUtil<>().setData(response.getOrderId());
