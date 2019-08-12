@@ -181,7 +181,7 @@
                 <div class="item">
                   <img :src="item.picUrl" alt="手机图片">
                   <div class="product-name">{{item.productName}}</div>
-                  <div><span class="product-price">&yen;{{item.salePrice}}</span>起</div>
+                  <div><span class="product-price">&yen;{{item.salePrice}}</span>&nbsp;起</div>
                 </div>
               </div>
             </div>
@@ -258,14 +258,12 @@
       ...mapMutations(['ADD_CART', 'INIT_BUYCART', 'ADD_ANIMATION', 'SHOW_CART', 'REDUCE_CART', 'RECORD_USERINFO', 'EDIT_CART']),
       handleNavItemMouseEnter (item, index) {
         let cateName = item.picUrl
-
+        this.showRecommend = false
         if (cateName === '手机') {
           this.showCateDiv = false
           this.showRecommend = true
           return
         }
-        this.showRecommend = false
-
         let cate = this.goodsCateTree[cateName]
         if (cate) {
           this.curCateList = cate.children
@@ -324,15 +322,6 @@
           this.$router.push({
             path: '/refreshgoods'
           })
-        } else {
-          // 站内跳转
-          if (item.type === 1) {
-            // TODO 跳转产品大分类
-            // window.location.href = item.fullUrl
-          } else {
-            // 站外跳转
-            window.open(item.fullUrl)
-          }
         }
       },
       // 搜索框提示
