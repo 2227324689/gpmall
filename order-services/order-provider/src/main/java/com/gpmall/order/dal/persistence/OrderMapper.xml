@@ -20,6 +20,21 @@
     <result column="buyer_nick" jdbcType="VARCHAR" property="buyerNick" />
     <result column="buyer_comment" jdbcType="BIT" property="buyerComment" />
   </resultMap>
+
+  <resultMap id="OrderListBaseResultMap" type="com.gpmall.order.dal.entitys.OrderList">
+    <id column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="payment" jdbcType="DECIMAL" property="payment" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="payment_time" jdbcType="TIMESTAMP" property="paymentTime" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="price" jdbcType="DECIMAL" property="price" />
+    <result column="total_fee" jdbcType="DECIMAL" property="totalFee" />
+    <result column="pic_path" jdbcType="VARCHAR" property="picPath" />
+    <result column="item_id" jdbcType="VARCHAR" property="itemId" />
+  </resultMap>
   <sql id="Example_Where_Clause">
     <where>
       <foreach collection="oredCriteria" item="criteria" separator="or">
@@ -398,4 +413,9 @@
       buyer_comment = #{buyerComment,jdbcType=BIT}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectOrderListByUserId" parameterType="java.lang.Integer" resultMap="OrderListBaseResultMap">
+    select a.order_id,a.`status`,a.create_time,ifnull(a.payment,0) as payment,b.item_id,b.num,b.title,b.price,b.total_fee,b.pic_path
+from tb_order a inner join tb_order_item b on a.order_id=b.order_id where a.user_id=#{uid} order create_time DESC
+  </select>
 </mapper>
