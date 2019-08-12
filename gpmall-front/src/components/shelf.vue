@@ -1,5 +1,5 @@
 <template>
-  <div class="gray-box">
+  <div class="gray-box" v-if="show">
     <div class="title">
       <h2>{{title}}</h2>
       <div>
@@ -14,9 +14,17 @@
 </template>
 <script>
   export default {
-    props: [
-      'title'
-    ]
+    props: {
+      title: {
+        type: String,
+        required: false
+      },
+      show: {
+        type: Boolean,
+        default: true,
+        required: false
+      }
+    }
   }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
