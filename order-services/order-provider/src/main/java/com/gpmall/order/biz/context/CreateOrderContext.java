@@ -35,4 +35,6 @@ public class CreateOrderContext extends AbsTransHandlerContext{
 
     private String buyerNickName;
 
+    private String uniqueKey; //业务唯一id
+
 }

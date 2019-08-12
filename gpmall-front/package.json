@@ -18,6 +18,7 @@
     "gitment": "0.0.3",
     "mockjs": "^1.0.1-beta3",
     "vue": "^2.6.10",
+    "vue-area-linkage": "^5.1.0",
     "vue-content-placeholders": "^0.2.1",
     "vue-cookie": "^1.1.4",
     "vue-cropper": "^0.1.7",
