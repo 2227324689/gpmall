@@ -29,20 +29,20 @@ public class ProductSearchServiceImpl implements ProductSearchService {
     @Override
     public SearchResponse search(SearchRequest request) {
         request.requestCheck();
-        Iterable<ProductSearchModel> elsticRes =
+        Iterable<ProductSearchModel> elasticRes =
                 productRepository.search(QueryBuilders.termsQuery(request.getKeyword(), "title", "sell_point"));
         ArrayList<ProductSearchModel> response = new ArrayList<>();
-        elsticRes.forEach(response::add);
+        elasticRes.forEach(response::add);
         return SearchResponse.ok().data(response);
     }
 
     @Override
     public SearchResponse fuzzySearch(SearchRequest request) {
         request.requestCheck();
-        Iterable<ProductSearchModel> elsticRes =
+        Iterable<ProductSearchModel> elasticRes =
                 productRepository.search(QueryBuilders.fuzzyQuery("title", request.getKeyword()));
         ArrayList<ProductSearchModel> response = new ArrayList<>();
-        elsticRes.forEach(response::add);
+		elasticRes.forEach(response::add);
         return SearchResponse.ok().data(response);
     }
 

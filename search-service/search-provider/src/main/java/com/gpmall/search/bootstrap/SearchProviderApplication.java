@@ -6,9 +6,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-
 /**
- * 启动类
+ * 搜索服务启动类
+ *
+ * @author jin
  */
 
 @SpringBootApplication
@@ -16,9 +17,9 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan(basePackages = "com.gpmall.search.mapper")
 public class SearchProviderApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(SearchProviderApplication.class, args);
-    }
+	public static void main(String[] args) {
+		SpringApplication.run(SearchProviderApplication.class, args);
+	}
 
 }
 
