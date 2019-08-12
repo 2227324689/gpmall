@@ -1,4 +1,5 @@
-package com.gpmall.cashier.bootstrap.controller;/**
+package com.gpmall.cashier.bootstrap.controller;
+/**
  * Created by mic on 2019/8/1.
  */
 
