@@ -1,6 +1,4 @@
-package com.gpmall.shopping.form;/**
- * Created by mic on 2019/7/29.
- */
+package com.gpmall.shopping.form;
 
 import lombok.Data;
 
