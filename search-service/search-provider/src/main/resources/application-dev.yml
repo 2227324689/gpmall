@@ -43,7 +43,7 @@ dubbo:
     owner: gp-search
   protocol:
     name: dubbo
-    port: 20883
+    port: 20884
   registry:
     address: zookeeper://zk.gpmall.com:2181
     check: true
