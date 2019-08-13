@@ -18,6 +18,16 @@ public class SearchRequest extends AbstractRequest {
     private Integer currentPage;
     private Integer pageSize;
 
+    public SearchRequest() {
+    }
+
+    public SearchRequest(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public static SearchRequest of(String keyword) {
+        return new SearchRequest(keyword);
+    }
     public String getKeyword() {
         return keyword;
     }
@@ -54,7 +64,7 @@ public class SearchRequest extends AbstractRequest {
     @Override
     public void requestCheck() {
         if (StringUtils.isAllBlank(keyword)) {
-            throw SearchException.create(SearchEnum.STRING_EMPTY.getCodeString(),
+            throw SearchException.create(SearchEnum.STRING_EMPTY.getCode(),
                     SearchEnum.STRING_EMPTY.param(keyword));
         }
     }
