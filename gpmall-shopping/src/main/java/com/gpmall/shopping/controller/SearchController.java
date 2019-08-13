@@ -5,6 +5,7 @@ import com.gpmall.commons.result.ResponseUtil;
 import com.gpmall.search.ProductSearchService;
 import com.gpmall.search.dto.SearchRequest;
 import com.gpmall.search.dto.SearchResponse;
+import com.gpmall.shopping.constants.ShoppingRetCode;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +28,10 @@ public class SearchController {
 
     @GetMapping("/product/{keyword}")
     public ResponseData<SearchResponse> searchProduct(@PathVariable("keyword") String keyword) {
-        SearchResponse searchResponse = productSearchService.search(SearchRequest.of(keyword));
-        return new ResponseUtil().setData(searchResponse.getData());
+        SearchResponse response = productSearchService.search(SearchRequest.of(keyword));
+        if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
+            return new ResponseUtil().setData(response.getData());
+        }
+        return new ResponseUtil().setErrorMsg(response.getMsg());
     }
 }
