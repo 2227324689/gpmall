@@ -4,7 +4,8 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 <!--    数据库驱动jar-->
-    <classPathEntry location="E:\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />
+    <classPathEntry location="D:\software\database\mysql-connector-java-8.0.16.jar" />
+    <!--<classPathEntry location="E:\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />-->
 <!--    <classPathEntry location="/Users/mic/Documents/software/workspace/gpmall/mysql-connector-java-8.0.16.jar" />-->
 
     <context id="MysqlTables" targetRuntime="MyBatis3">
@@ -15,6 +16,9 @@
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
 
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+        <!--解决重新生成mapper追加问题 -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
 
         <!--去除注释  -->
         <commentGenerator>

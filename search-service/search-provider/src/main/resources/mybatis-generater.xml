@@ -15,6 +15,9 @@
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin"/>
 
         <plugin type="org.mybatis.generator.plugins.ToStringPlugin"/>
+        <!--解决重新生成mapper追加问题 -->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
+
 
         <!--去除注释  -->
         <commentGenerator>
