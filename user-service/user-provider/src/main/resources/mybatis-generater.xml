@@ -35,7 +35,7 @@
             <property name="enableSubPackages" value="true"/>
         </javaModelGenerator>
 
-        <sqlMapGenerator targetPackage="mapper" targetProject="com.gpmall.user.dal.persistence"/>
+        <sqlMapGenerator targetPackage="com.gpmall.user.dal.persistence" targetProject="src/main/java"/>
 
         <javaClientGenerator targetPackage="com.gpmall.user.dal.persistence"
                              targetProject="src/main/java"

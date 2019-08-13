@@ -26,4 +26,5 @@ public class Address {
 
     @Column(name = "is_default")
     private Byte isDefault;
+
 }
