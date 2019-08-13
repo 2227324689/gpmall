@@ -28,7 +28,14 @@ spring:
         max-idle: 10
         max-wait: 3000
         min-idle: 4
-
+  data:
+    elasticsearch:
+#      cluster-name: docker-cluster
+      cluster-name: esbest
+#      cluster-nodes: 39.98.240.253:9300
+      cluster-nodes: 127.0.0.1:9300
+#      repositories:
+#        enabled: true
 
 dubbo:
   application:
@@ -49,4 +56,3 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.search.services
-
