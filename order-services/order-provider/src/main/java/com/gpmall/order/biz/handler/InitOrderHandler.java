@@ -60,15 +60,16 @@ public class InitOrderHandler extends AbstractTransHandler {
         return false;
     }
 
+    //TODO: 事务这里还没测试过， 大家看到这段代码的时候测试一下，如果有问题记得改
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public boolean handle(TransHandlerContext context) {
         log.info("begin InitOrderHandler :context:"+context);
         Order order=new Order();
         try {
-            //TODO 幂等校验（防止订单重复提交）
             CreateOrderContext createOrderContext=(CreateOrderContext)context;
             String orderId = globalIdGeneratorUtil.getNextSeq(ORDER_GLOBAL_ID_CACHE_KEY, 1);
+            order.setUniqueKey(createOrderContext.getUniqueKey());
             order.setOrderId(orderId);
             order.setUserId(Long.valueOf(createOrderContext.getUserId()));
             order.setBuyerNick(createOrderContext.getBuyerNickName());

@@ -58,22 +58,6 @@
                enableSelectByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
                enableDeleteByPrimaryKey="true" />
-        <table tableName="tb_order_item" domainObjectName="OrderItem"
-               enableCountByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true"/>
-        <table tableName="tb_order_shipping" domainObjectName="OrderShipping"
-               enableCountByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableDeleteByPrimaryKey="true"/>
 
     </context>
 </generatorConfiguration>

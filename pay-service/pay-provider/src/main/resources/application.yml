@@ -8,17 +8,17 @@ mybatis:
 
 ali:
   ali_service: create_direct_pay_by_user
-  ali_partner:
+  ali_partner: 2088721158773470
   input_charset: utf-8
   sign_type: MD5
   notify_url: http://shop.gupaoedu.com/pay/alipayNotify
   return_url: http://shop.gupaoedu.com/pay/syncResult
-  seller_id:
-  seller_email:
+  seller_id:  2088721158773470
+  seller_email: 641437529@qq.com
   pay_gateway_new: https://mapi.alipay.com/gateway.do?
   it_b_pay: 1h
-  private_key:
-  public_key:
+  private_key: MIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMGp5W1SHedDOp1yc/k+LsKQrZ40PY56A9hylRpRXr3wzoFqNBV9o3sIs1WFRq7BHDT76qNuI9/1BdM0Lly/2zELANHdEgxjyqR1snwwwc8EcoO+DyNTBQRjqZGMgKyixBOQjAw8IZ7ir4AxzUhr/AekP7EklLz7kmKoCBgAue4LAgMBAAECgYAiw1B/kyHzBUpcQNM4hkT2f+nqYA48qQJPtCG3m6uaBMPMzzeSM/9IcoNecpIBhIB/skioFXkzFlR5WQCJfZbmos4bKaNIU1ZhFUHc8fStbVo4kmG63XfuQseU5YXFBtAfLRBUI3+CRPSDeMgPClQwhu5GEjs+QMSVkCTVqKL0AQJBAOVY1kRPZWIj+zokvwuRkctkTTHmFp9dK9xR4H1i3SQ/9UKVI0V7+M1jLTX1yCTPKpYNVoH064cOAbnyEtm+hoECQQDYK3celSwKpRXJMv1jej2zcuHtKmpK92k51Qs2wES7P6hVHOwwGsXugKEI/u+7IuDRSofjRTGNhj4u4e2H7+aLAkEA4B5nDEv2C+iTeWctVjXDnll+4jMxijw3P063rG/vIJxrpMwuspkKMlMnfCKZmfbka8vO7KIVg13ZrAb2CtiXgQJAP/rVXcre5yOnSA58aqXyfxtAfRZxsVB653ADyqercBROOSq/SRmTfZy6jNQPlj6jda5ue7iuCuoxm2SpDfPWMwJBAMwHQjKaSYWEG8Uss2jPCcsEQE6VGIm+MuJfMfmkM/pJQ/WRh+hqGnqX8S4LWMsi/ELIU1eW0Iy1Fcuixze2R6s=
+  public_key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCnxj/9qwVfgoUh/y2W89L6BkRAFljhNhgPdyPuBV64bfQNN1PjbCzkIM6qRdKBoLPXmKKMiFYnkd6rAoprih3/PrQEB/VsW8OoM8fxn67UDYuyBTqA23MML9q1+ilIZwBC2AQ2UBVOrFXfFl75p6/B5KsiNG9zpgmLCUYuLkxpLQIDAQAB
   pay_open_gateway: https://openapi.alipay.com/gateway.do
 
 wechat:

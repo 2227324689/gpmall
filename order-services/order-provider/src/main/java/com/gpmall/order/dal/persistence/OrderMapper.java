@@ -1,9 +1,9 @@
 package com.gpmall.order.dal.persistence;
 
-import com.gpmall.order.dal.entitys.Order;
-import com.gpmall.order.dal.entitys.OrderExample;
 import java.util.List;
 
+import com.gpmall.order.dal.entitys.Order;
+import com.gpmall.order.dal.entitys.OrderExample;
 import com.gpmall.order.dal.entitys.OrderList;
 import org.apache.ibatis.annotations.Param;
 
