@@ -37,7 +37,7 @@ public class CreateOrderRequest extends AbstractRequest{
 
     //如果需要在web层做防重复提交  可以基于session的方式，访问订单页面预先生成一个token，下发给浏览器，浏览器提交
     //的时候带着token请求服务端，服务端收到请求删除token，下次在请求时服务端的token被删除了，提示订单重复提交
-//    private String uniqueKey; //业务唯一id
+    private String uniqueKey; //业务唯一id
 
 
     @Override

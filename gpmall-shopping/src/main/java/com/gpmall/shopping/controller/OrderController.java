@@ -38,17 +38,20 @@ public class OrderController {
      * 创建订单
      */
     @PostMapping("/order")
-    public ResponseData order(@RequestBody CreateOrderRequest request,HttpServletRequest servletRequest){
+    public ResponseData order(@RequestBody CreateOrderRequest request,HttpServletRequest servletRequest)  {
         String userInfo=(String)servletRequest.getAttribute(TokenIntercepter.USER_INFO_KEY);
         JSONObject object= JSON.parseObject(userInfo);
         Long uid=Long.parseLong(object.get("uid").toString());
         request.setUserId(uid);
+        request.setUniqueKey(UUID.randomUUID().toString().replace("-",""));
         CreateOrderResponse response=orderCoreService.createOrder(request);
         if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
             return new ResponseUtil<>().setData(response.getOrderId());
         }
         return new ResponseUtil<>().setErrorMsg(response.getMsg());
     }
+
+
 
     /**
      * 获取当前用户的所有订单

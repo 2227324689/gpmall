@@ -55,18 +55,13 @@ public class ValidateHandler extends AbstractTransHandler {
     public boolean handle(TransHandlerContext context) {
         log.info("begin ValidateHandler :context:"+context);
         CreateOrderContext createOrderContext=(CreateOrderContext)context;
-
-        //根据md5从缓存中获取，大于1表示当前1s中重复请求，数据库层面也对key做了唯一约束
-        String uniqueKey = gernatorOrderItemUnique(createOrderContext);
         RMapCache<String, Integer> mapCache = redissonClient
                 .getMapCache(OrderConstants.CAR_ITEM_UNQIQUE_KEY, IntegerCodec.INSTANCE);
-        mapCache.putIfAbsent(uniqueKey, 0, 1, TimeUnit.SECONDS);
-        Integer incr = mapCache.addAndGet(uniqueKey, 1);
-        if(incr > 1){
+        Integer value = mapCache.putIfAbsent(createOrderContext.getUniqueKey(), 0, 1, TimeUnit.SECONDS);
+        if(value != null){//存在
             throw new BizException(OrderRetCode.DB_SAVE_EXCEPTION.getCode(),OrderRetCode.DB_SAVE_EXCEPTION.getMessage());
         }
 
-        createOrderContext.setUniqueKey(uniqueKey);
         QueryMemberRequest queryMemberRequest =new QueryMemberRequest();
         queryMemberRequest.setUserId(createOrderContext.getUserId());
         QueryMemberResponse response=memberService.queryMemberById(queryMemberRequest);
@@ -78,19 +73,7 @@ public class ValidateHandler extends AbstractTransHandler {
         return true;
     }
 
-    private String gernatorOrderItemUnique(CreateOrderContext context){
-        StringBuilder localKey = new StringBuilder();
-        context.getCartProductDtoList().parallelStream().forEach(cartProductDto -> {
-            localKey.append(context.getUserId())
-                    .append(String.valueOf(cartProductDto.getProductId()))
-                    .append(String.valueOf(cartProductDto.getSalePrice()))
-                    .append(String.valueOf(cartProductDto.getProductNum()))
-                    .append(FastDateFormat.getInstance("yyMMddHHmmss").format(new Date()));
-        });
 
-        return DigestUtils.md5DigestAsHex(String.valueOf(localKey).getBytes());
-
-    }
 
 
 }

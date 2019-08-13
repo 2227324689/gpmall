@@ -29,6 +29,7 @@ public class CreateOrderConvert implements TransConvert{
         createOrderContext.setTel(createOrderRequest.getTel());
         createOrderContext.setUserId(createOrderRequest.getUserId());
         createOrderContext.setUserName(createOrderRequest.getUserName());
+        createOrderContext.setUniqueKey(createOrderRequest.getUniqueKey());
         return createOrderContext;
     }
 
