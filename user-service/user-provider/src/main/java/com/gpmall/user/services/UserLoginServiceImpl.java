@@ -66,6 +66,7 @@ public class UserLoginServiceImpl implements IUserLoginService {
             }
             Map<String,Object> map=new HashMap<>();
             map.put("uid",member.get(0).getId());
+            map.put("file",member.get(0).getFile());
 
             String token=JwtTokenUtils.builder().msg(JSON.toJSON(map).toString()).build().creatJwtToken();
             response=UserConverterMapper.INSTANCE.converter(member.get(0));
