@@ -18,27 +18,18 @@ public class ZkMutexDistributedLockFactory {
 
     private static Logger logger = LoggerFactory.getLogger(ZkMutexDistributedLockFactory.class);
 
+
     protected final static String lockPath = "/gpcommons_lock/curator_recipes_lock/";
     protected static String projectName;
 
     static CuratorFramework client = null;
 
 
-
-    /**
-     * 获取锁实例
-     * @return
-     */
-    public static synchronized ZkMutexDistributedLock getZkMutexDistributedLock() {
-        return new ZkMutexDistributedLock();
-    }
-
-
-    static synchronized InterProcessMutex getInterProcessMutex() {
+    static synchronized InterProcessMutex getInterProcessMutex(String lockKey) {
         if(client==null){
             init();
         }
-        InterProcessMutex mutexLock = new InterProcessMutex(client, lockPath + projectName);
+        InterProcessMutex mutexLock = new InterProcessMutex(client, lockPath + projectName + lockKey);
         return mutexLock;
     }
 

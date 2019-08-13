@@ -15,9 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class ZkMutexDistributedLock implements DistributedLock {
     private InterProcessMutex interProcessMutex;
     private int defaultTimeoutSeconds = 30;
-    public ZkMutexDistributedLock() {
-        interProcessMutex = ZkMutexDistributedLockFactory.getInterProcessMutex();
-    }
+
 
     @Override
     public void lock(String key) throws DistributedLockException {
@@ -29,8 +27,9 @@ public class ZkMutexDistributedLock implements DistributedLock {
     }
 
     @Override
-    public boolean tryLock(String key) throws DistributedLockException {
+    public boolean tryLock(String lockKey) throws DistributedLockException {
         try {
+            init(lockKey);
             return interProcessMutex.acquire(defaultTimeoutSeconds, TimeUnit.SECONDS);
         } catch (Exception e) {
             throw new DistributedLockException("zk加锁异常: ", e);
@@ -40,6 +39,7 @@ public class ZkMutexDistributedLock implements DistributedLock {
     @Override
     public void lock(String lockKey, TimeUnit unit, int timeout) throws DistributedLockException {
         try{
+            init(lockKey);
             interProcessMutex.acquire(timeout, unit);
         } catch (Exception e){
             throw new DistributedLockException("zk加锁异常: ", e);
@@ -49,6 +49,7 @@ public class ZkMutexDistributedLock implements DistributedLock {
     @Override
     public boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime) throws DistributedLockException {
         try {
+            init(lockKey);
             return interProcessMutex.acquire(waitTime, unit);
         } catch (Exception e) {
             throw new DistributedLockException("zk加锁异常: ", e);
@@ -58,9 +59,21 @@ public class ZkMutexDistributedLock implements DistributedLock {
     @Override
     public void unlock(String lockKey) throws DistributedLockException {
         try {
+            init(lockKey);
             interProcessMutex.release();
         } catch (Exception e) {
             throw new DistributedLockException("zk释放锁异常: ", e);
+        }
+    }
+
+    /**
+     * 创建interProcessMutex 客户端
+     * 因为 此类  是 每个带CustomerLock 注解的方法  在调用的时候 都会创建一个对象，因此不会出现线程安全问题。
+     * @param lockKey
+     */
+    void init(String lockKey) {
+        if (interProcessMutex == null) {
+            interProcessMutex  = ZkMutexDistributedLockFactory.getInterProcessMutex(lockKey);
         }
     }
 }

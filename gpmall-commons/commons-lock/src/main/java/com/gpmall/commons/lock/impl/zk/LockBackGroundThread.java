@@ -11,6 +11,20 @@ import java.util.List;
 /**
  * Description: 分布式锁---后台线程
  * 用来删除无效节点
+ * 目录如下
+ * gpcommons_lock/
+ *      --AAA
+ *          -- orderId:001
+ *              --临时节点 （锁释放后删除）
+ *              --临时节点  （锁释放后删除）
+ *          -- orderId:002
+ *          -- orderId:003
+ *          -- orderId:004
+ *          -- orderId:005
+ *      --BBB
+ *      --CCC
+ * 上面 gpcommons_lock 为根目录，AAA,BBB代表具体的项目名，锁释放后，AAA下面的 orderId:001  等目录  不会被删除
+ * 随着时间的推移会造成 大量的 冗余目录堆积。  怕说不明白，小伙伴们可以自行实验一下
  * @date 2019年8月12日
  * @author msl 1015952139
  */
@@ -45,17 +59,16 @@ public class LockBackGroundThread extends Thread{
 
     private void deleteInvalidNode(LockBackGroundConf conf) throws Exception{
         String projectDir = ZkMutexDistributedLockFactory.lockPath + ZkMutexDistributedLockFactory.projectName;
-        Stat exitDir = client.checkExists().forPath(projectDir.substring(0, projectDir.length()-1));
+        Stat exitDir = client.checkExists().forPath(projectDir);
         if(exitDir == null){
             logger.error("根目录尚未创建，本次清理结束--" + projectDir);
             return;
         }
-        List<String> paths = client.getChildren().forPath(projectDir.substring(0, projectDir.length()-1));
+        List<String> paths = client.getChildren().forPath(projectDir);
         Date date = new Date();
         paths.forEach(currPath -> {
             try{
                 Stat stat = new Stat();
-                client.getData().storingStatIn(stat).forPath(projectDir + currPath);
                 // 默认删除一天前无效的数据。 子节点为0，说明当前节点无效
                 if(stat.getMtime()<(date.getTime() - (conf.getBeforeTime()*1000)) && stat.getNumChildren() == 0){
                     // 只删除空目录

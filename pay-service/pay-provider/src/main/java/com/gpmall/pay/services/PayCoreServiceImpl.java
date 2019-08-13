@@ -1,5 +1,6 @@
 package com.gpmall.pay.services;
 
+import com.gpmall.commons.lock.annotation.CustomerLock;
 import com.gpmall.pay.biz.abs.BasePayment;
 import com.gpmall.pay.utils.ExceptionProcessorUtils;
 import com.gupaoedu.pay.PayCoreService;
@@ -23,6 +24,7 @@ public class PayCoreServiceImpl implements PayCoreService {
 
 
     @Override
+    @CustomerLock(lockKey = "#request.tradeNo",lockType = "zookeeper", tryLock = true)
     public PaymentResponse execPay(PaymentRequest request) {
         PaymentResponse paymentResponse=new PaymentResponse();
         try {
