@@ -36,21 +36,24 @@ public class DistributedLockAspect {
 
     public static final Logger logger = LoggerFactory.getLogger(DistributedLockAspect.class);
 
+    //切入点：有这个注解的方法
     @Pointcut("@annotation(com.gpmall.commons.lock.annotation.CustomerLock)")
     public void distributedLockPointcut() {
     }
-
+    //环绕通知，通知+切入点(distributedLockPointcut) = 切面
     @Around("distributedLockPointcut()")
     public Object doAround(ProceedingJoinPoint pjp) throws Throwable {
         //组成key
         //切点所在的类
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
+        //根据注解获取锁对应的key
         final String lockKey = getLockKey(method, pjp.getArgs());
         return startLock(lockKey, pjp, method);
     }
 
     private Object startLock(final String lockKey, ProceedingJoinPoint pjp, Method method) throws Throwable {
         CustomerLock annotation = method.getAnnotation(CustomerLock.class);
+         //是否尝试获得锁 com.gpmall.commons.lock.annotation.CustomerLock.tryLock
         boolean tryLock = annotation.tryLock();
         if (tryLock) {
             return tryLock(pjp, annotation, lockKey);
@@ -63,14 +66,16 @@ public class DistributedLockAspect {
         int leaseTime = annotation.leaseTime();
         TimeUnit timeUnit = annotation.timeUnit();
         String type = annotation.lockType();
+        //获得分布式锁的具体实现类
         DistributedLock distributedLock = getByType(type);
         try {
-            distributedLock.lock(lockKey, timeUnit, leaseTime);
+            distributedLock.lock(lockKey, timeUnit, leaseTime);//获得不到会抛出异常
             return pjp.proceed();
         } finally {
             distributedLock.unlock(lockKey);
         }
     }
+
 
     private Object tryLock(ProceedingJoinPoint pjp, CustomerLock customerLock, String lockKey) throws Throwable {
         int leaseTime = customerLock.leaseTime();
@@ -80,12 +85,18 @@ public class DistributedLockAspect {
         DistributedLock distributedLock = getByType(type);
 
         try {
+            //如果等待时间为0，则redis如果获得不到锁就直接返回false
             if (waitTime == 0) {
                 if (distributedLock.tryLock(lockKey)) {
+                    //执行业务方法
                     return pjp.proceed();
                 }
             } else {
+                //如果等待时间不等于0，则redis最长的等待时间为waitTime
+                // 如果没有获得锁则放回false
+                //如果获得锁则放回true，让后上锁后自动释放锁时间leaseTime
                 distributedLock.tryLock(lockKey, timeUnit, waitTime, leaseTime);
+                //执行业务方法
                 return pjp.proceed();
             }
         } finally {
@@ -151,7 +162,11 @@ public class DistributedLockAspect {
         return parser.parseExpression(key).getValue(context, String.class);
     }
 
-
+    /**
+     * type =  customerLock.lockType
+     * @param type
+     * @return
+     */
     private DistributedLock getByType(String type) {
         return (DistributedLock) ExtensionLoader.getExtensionLoader(DistributedLock.class).getExtension(type);
     }

@@ -39,6 +39,8 @@ public class Order implements Serializable {
 
     private Boolean buyerComment;
 
+    private String uniqueKey;
+
     private static final long serialVersionUID = 1L;
 
     public String getOrderId() {
@@ -177,6 +179,14 @@ public class Order implements Serializable {
         this.buyerComment = buyerComment;
     }
 
+    public String getUniqueKey() {
+        return uniqueKey;
+    }
+
+    public void setUniqueKey(String uniqueKey) {
+        this.uniqueKey = uniqueKey == null ? null : uniqueKey.trim();
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -200,6 +210,7 @@ public class Order implements Serializable {
         sb.append(", buyerMessage=").append(buyerMessage);
         sb.append(", buyerNick=").append(buyerNick);
         sb.append(", buyerComment=").append(buyerComment);
+        sb.append(", uniqueKey=").append(uniqueKey);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();
