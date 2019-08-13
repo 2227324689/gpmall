@@ -16,4 +16,6 @@ public class OrderConstants {
     public static int ORDER_STATUS_TRANSACTION_CLOSE=5; //交易关闭
     public static int ORDER_STATUS_TRANSACTION_FAILED=6; //交易失败
     public static int ORDER_STATUS_TRANSACTION_CANCEL=7; //订单取消
+
+    public static String CAR_ITEM_UNQIQUE_KEY = "cart_item_unique";
 }

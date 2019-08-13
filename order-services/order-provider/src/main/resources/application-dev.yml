@@ -49,3 +49,7 @@ dubbo:
   scan:
     base-packages: com.gpmall.order.services
 
+
+logging:
+  level:
+    root: info

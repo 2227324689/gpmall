@@ -291,13 +291,12 @@ CREATE TABLE `tb_member` (
 -- ----------------------------
 INSERT INTO `tb_member` VALUES ('62', 'test', '098f6bcd4621d373cade4e832627b4f6', null, null, '2017-09-05 21:27:54', '2017-10-08 18:13:51', null, null, '1', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', null, null, null);
 INSERT INTO `tb_member` VALUES ('66', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, '2019-08-06 00:15:48', '2019-08-06 00:15:48', null, null, '1', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', null, null, null);
-
 -- ----------------------------
--- Table structure for tb_order
+-- Table structure for `tb_order`
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_order`;
 CREATE TABLE `tb_order` (
-  `order_id` varchar(50) COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '订单id',
+  `order_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT '订单id',
   `payment` decimal(10,2) DEFAULT NULL COMMENT '实付金额',
   `payment_type` int(1) DEFAULT NULL COMMENT '支付类型 1在线支付 2货到付款',
   `post_fee` decimal(10,2) DEFAULT NULL COMMENT '邮费',
@@ -308,18 +307,21 @@ CREATE TABLE `tb_order` (
   `consign_time` datetime DEFAULT NULL COMMENT '发货时间',
   `end_time` datetime DEFAULT NULL COMMENT '交易完成时间',
   `close_time` datetime DEFAULT NULL COMMENT '交易关闭时间',
-  `shipping_name` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '物流名称',
-  `shipping_code` varchar(20) COLLATE utf8_bin DEFAULT NULL COMMENT '物流单号',
+  `shipping_name` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '物流名称',
+  `shipping_code` varchar(20) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '物流单号',
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户id',
-  `buyer_message` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '买家留言',
-  `buyer_nick` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '买家昵称',
+  `buyer_message` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '买家留言',
+  `buyer_nick` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '买家昵称',
   `buyer_comment` tinyint(1) DEFAULT NULL COMMENT '买家是否已经评价',
+  `unique_key` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '璁㈠崟鎻愪氦鐨勯槻姝㈤噸澶峩ey',
   PRIMARY KEY (`order_id`),
+  UNIQUE KEY `unique_key` (`unique_key`) USING BTREE,
   KEY `create_time` (`create_time`),
   KEY `buyer_nick` (`buyer_nick`),
   KEY `status` (`status`),
   KEY `payment_type` (`payment_type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
 
 -- ----------------------------
 -- Records of tb_order

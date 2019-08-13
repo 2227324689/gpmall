@@ -43,7 +43,6 @@ public class OrderController {
         JSONObject object= JSON.parseObject(userInfo);
         Long uid=Long.parseLong(object.get("uid").toString());
         request.setUserId(uid);
-        request.setUniqueKey(UUID.randomUUID().toString());
         CreateOrderResponse response=orderCoreService.createOrder(request);
         if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
             return new ResponseUtil<>().setData(response.getOrderId());

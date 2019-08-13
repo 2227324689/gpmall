@@ -23,7 +23,7 @@
 
         <!--数据库连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.8.126:3306/gpmall"
+                        connectionURL="jdbc:mysql://mysql.gpmall.com:3306/gpmall"
                         userId="root"
                         password="root">
             <property name="useInformationSchema" value="true"/>

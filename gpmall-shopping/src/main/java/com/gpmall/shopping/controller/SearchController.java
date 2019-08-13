@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/search")
 public class SearchController {
-    @Reference(timeout = 30000)
+    @Reference(timeout = 30000,check = false)
     private ProductSearchService productSearchService;
 
     @GetMapping("/product/{keyword}")
