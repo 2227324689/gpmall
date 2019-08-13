@@ -7,7 +7,8 @@ import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Description: zk分布式锁实现
+ * Description: zk分布式锁实现,
+ * <p1>注意:此锁可以重入，但是重入几次需要释放几次。</p1>
  * @date 2019年8月12日
  * @author msl 1015952139
  */
