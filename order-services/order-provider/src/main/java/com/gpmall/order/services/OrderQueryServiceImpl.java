@@ -73,11 +73,7 @@ public class OrderQueryServiceImpl implements OrderQueryService{
             PageHelper.startPage(request.getPage(),request.getSize());
             OrderExample example = new OrderExample();
             example.createCriteria().andUserIdEqualTo(request.getUserId());
-            if("1".equals(request.getSort())){
-                example.setOrderByClause("create_time asc");
-            }else{
-                example.setOrderByClause("create_time desc");
-            }
+            example.setOrderByClause("create_time desc");
             List<Order> orderList = orderMapper.selectByExample(example);
             if(CollectionUtils.isEmpty(orderList)){
                 response.setTotal(0L);

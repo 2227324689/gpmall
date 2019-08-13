@@ -58,7 +58,7 @@ export default {
         background: rgba(0, 0, 0, .5);
     }
     .content {
-        width: 30%;
+        width: 20%;
         background: #fff;
         border-radius: 10px;
     }
@@ -81,7 +81,7 @@ export default {
          h4 {
         text-align: center;
         font-size: 18px;
-        font-weight: 400;
+        font-weight: 700;
         color: #666;
         }
     }
