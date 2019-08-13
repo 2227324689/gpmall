@@ -91,6 +91,16 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
         </dependency>
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.el</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -108,6 +118,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
             <!--<plugin>
                 <groupId>org.mybatis.generator</groupId>

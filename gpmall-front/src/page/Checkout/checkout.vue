@@ -126,7 +126,7 @@
           <y-button text='保存'
                     class="btn"
                     :classStyle="btnHighlight?'main-btn':'disabled-btn'"
-                    @btnClick="save({userId:userId,addressId:msg.addressId,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,isDefault:msg.isDefault})">
+                    @btnClick="save({addressId:msg.addressId,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,isDefault:msg.isDefault})">
           </y-button>
         </div>
       </y-popup>
@@ -141,7 +141,6 @@
   import YPopup from '/components/popup'
   import YHeader from '/common/header'
   import YFooter from '/common/footer'
-  import { getStore } from '/utils/storage'
   export default {
     data () {
       return {
@@ -162,7 +161,6 @@
         userName: '',
         tel: '',
         streetName: '',
-        userId: '',
         orderTotal: 0,
         submit: false,
         submitOrder: '提交订单'
@@ -200,7 +198,7 @@
         })
       },
       _addressList () {
-        addressList({userId: this.userId}).then(res => {
+        addressList().then(res => {
           let data = res.result
           if (data.length) {
             this.addList = data
@@ -255,7 +253,6 @@
           }
         }
         let params = {
-          userId: this.userId,
           tel: this.tel,
           userName: this.userName,
           streetName: this.streetName,
@@ -277,10 +274,7 @@
       payment (orderId) {
         // 需要拿到地址id
         this.$router.push({
-          path: '/order/payment',
-          query: {
-            'orderId': orderId
-          }
+          path: '/order/payment/' + orderId
         })
       },
       // 选择地址
@@ -326,7 +320,7 @@
       _productDet (productId) {
         productDet({params: {productId}}).then(res => {
           let item = res.result
-          item.checked = '1'
+          item.checked = 'true'
           item.productImg = item.productImageBig
           item.productNum = this.num
           item.productPrice = item.salePrice
@@ -335,8 +329,7 @@
       }
     },
     created () {
-      this.userId = getStore('userId')
-      let query = this.$route.query
+      let query = this.$route.params
       if (query.productId && query.num) {
         this.productId = query.productId
         this.num = query.num
@@ -457,8 +450,8 @@
         margin-bottom: 15px;
         > input {
           width: 100%;
-          height: 50px;
-          font-size: 18px;
+          height: 38px;
+          font-size: 14px;
           padding: 10px 20px;
           border: 1px solid #ccc;
           border-radius: 6px;
@@ -471,9 +464,9 @@
     .btn {
       margin: 0;
       width: 100%;
-      height: 50px;
+      height: 43px;
       font-size: 14px;
-      line-height: 48px
+      line-height: 43px
     }
   }
 

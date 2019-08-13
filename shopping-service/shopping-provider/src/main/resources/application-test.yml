@@ -1,0 +1,53 @@
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.1.105:3306/gpmall?useUnicode=true&characterEncoding=utf8&useOldAliasMetadataBehavior=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 2
+    minIdle: 1
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: false
+    maxPoolPreparedStatementPerConnectionSize: 20
+    filters: stat,config
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+    useGlobalDataSourceStat: true
+  redisson:
+      address: 192.168.1.105:6379
+      timeout: 3000
+      database: 0
+      pool:
+        max-active: 20
+        max-idle: 10
+        max-wait: 3000
+        min-idle: 4
+dubbo:
+  application:
+    name: user-service
+    owner: Mic
+  protocol:
+    name: dubbo
+    port: 20881
+  registry:
+    address: zookeeper://192.168.1.105:2181
+    check: true
+    group: dubbo-dev
+    simplified: true
+  metadata-report:
+    address: zookeeper://192.168.1.105:2181
+    retry-times: 30
+    cycle-report: false
+    group: dubbo-dev
+  scan:
+    base-packages: com.gpmall.shopping.services
+
+
+
+

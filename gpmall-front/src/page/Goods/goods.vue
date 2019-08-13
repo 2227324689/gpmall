@@ -38,9 +38,9 @@
           <br> 抱歉！暂时还没有商品
         </div>
         <section class="section">
-          <y-shelf :title="recommendPanel.name">
+          <y-shelf :show="!isEmpty(recommendPanel.panelContentItems)" :title="recommendPanel.name">
             <div slot="content" class="recommend">
-              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContents" :key="i"></mall-goods>
+              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContentItems" :key="i"></mall-goods>
             </div>
           </y-shelf>
         </section>
@@ -67,6 +67,9 @@
   import mallGoods from '/components/mallGoods'
   import YButton from '/components/YButton'
   import YShelf from '/components/shelf'
+
+  import Utils from '/utils'
+
   export default {
     data () {
       return {
@@ -88,6 +91,7 @@
       }
     },
     methods: {
+      isEmpty: Utils.isEmpty,
       handleSizeChange (val) {
         this.pageSize = val
         this._getAllGoods()
@@ -99,7 +103,14 @@
         this.loading = true
       },
       _getAllGoods () {
-        let cid = this.$route.query.cid
+        let cid
+
+        if (this.$route.path.includes('goods/cate')) {
+          cid = this.$route.params.cateId
+        } else {
+          cid = this.$route.query.cid
+        }
+
         if (this.min !== '') {
           this.min = Math.floor(this.min)
         }
@@ -152,6 +163,9 @@
       $route (to, from) {
         if (to.fullPath.indexOf('/goods?cid=') >= 0) {
           this.cId = to.query.cid
+          this._getAllGoods()
+        }
+        if (to.fullPath.includes('/goods/cate')) {
           this._getAllGoods()
         }
       }
