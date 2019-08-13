@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 @Service("aliPaymentValidator")
 public class AliPaymentValidator extends BaseValidator {
 
+    //TODO 验证支付订单是否已存在
+
+
     @Override
     public void specialValidate(PaymentRequest paymentRequest) {
         //TODO  待实现   防止金额篡改等

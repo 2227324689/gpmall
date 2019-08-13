@@ -20,3 +20,9 @@ vi /etc/hosts
 ```
 
 其中 ,127.0.0.1 修改为对于应用的Ip地址即可
+
+如果是Windows环境，请编辑以下文件
+```
+C:\Windows\System32\drivers\etc\hosts
+```
+将上述示例内容添加到hosts文件中即可

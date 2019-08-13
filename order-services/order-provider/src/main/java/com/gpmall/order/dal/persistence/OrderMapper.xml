@@ -19,6 +19,7 @@
     <result column="buyer_message" jdbcType="VARCHAR" property="buyerMessage" />
     <result column="buyer_nick" jdbcType="VARCHAR" property="buyerNick" />
     <result column="buyer_comment" jdbcType="BIT" property="buyerComment" />
+    <result column="unique_key" jdbcType="VARCHAR" property="uniqueKey" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -81,7 +82,7 @@
   <sql id="Base_Column_List">
     order_id, payment, payment_type, post_fee, status, create_time, update_time, payment_time, 
     consign_time, end_time, close_time, shipping_name, shipping_code, user_id, buyer_message, 
-    buyer_nick, buyer_comment
+    buyer_nick, buyer_comment, unique_key
   </sql>
   <select id="selectByExample" parameterType="com.gpmall.order.dal.entitys.OrderExample" resultMap="BaseResultMap">
     select
@@ -119,13 +120,15 @@
       update_time, payment_time, consign_time, 
       end_time, close_time, shipping_name, 
       shipping_code, user_id, buyer_message, 
-      buyer_nick, buyer_comment)
+      buyer_nick, buyer_comment, unique_key
+      )
     values (#{orderId,jdbcType=VARCHAR}, #{payment,jdbcType=DECIMAL}, #{paymentType,jdbcType=INTEGER}, 
       #{postFee,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{paymentTime,jdbcType=TIMESTAMP}, #{consignTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{closeTime,jdbcType=TIMESTAMP}, #{shippingName,jdbcType=VARCHAR}, 
       #{shippingCode,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{buyerMessage,jdbcType=VARCHAR}, 
-      #{buyerNick,jdbcType=VARCHAR}, #{buyerComment,jdbcType=BIT})
+      #{buyerNick,jdbcType=VARCHAR}, #{buyerComment,jdbcType=BIT}, #{uniqueKey,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.gpmall.order.dal.entitys.Order">
     insert into tb_order
@@ -181,6 +184,9 @@
       <if test="buyerComment != null">
         buyer_comment,
       </if>
+      <if test="uniqueKey != null">
+        unique_key,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="orderId != null">
@@ -233,6 +239,9 @@
       </if>
       <if test="buyerComment != null">
         #{buyerComment,jdbcType=BIT},
+      </if>
+      <if test="uniqueKey != null">
+        #{uniqueKey,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -296,6 +305,9 @@
       <if test="record.buyerComment != null">
         buyer_comment = #{record.buyerComment,jdbcType=BIT},
       </if>
+      <if test="record.uniqueKey != null">
+        unique_key = #{record.uniqueKey,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -319,7 +331,8 @@
       user_id = #{record.userId,jdbcType=BIGINT},
       buyer_message = #{record.buyerMessage,jdbcType=VARCHAR},
       buyer_nick = #{record.buyerNick,jdbcType=VARCHAR},
-      buyer_comment = #{record.buyerComment,jdbcType=BIT}
+      buyer_comment = #{record.buyerComment,jdbcType=BIT},
+      unique_key = #{record.uniqueKey,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -375,6 +388,9 @@
       <if test="buyerComment != null">
         buyer_comment = #{buyerComment,jdbcType=BIT},
       </if>
+      <if test="uniqueKey != null">
+        unique_key = #{uniqueKey,jdbcType=VARCHAR},
+      </if>
     </set>
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
@@ -395,7 +411,8 @@
       user_id = #{userId,jdbcType=BIGINT},
       buyer_message = #{buyerMessage,jdbcType=VARCHAR},
       buyer_nick = #{buyerNick,jdbcType=VARCHAR},
-      buyer_comment = #{buyerComment,jdbcType=BIT}
+      buyer_comment = #{buyerComment,jdbcType=BIT},
+      unique_key = #{uniqueKey,jdbcType=VARCHAR}
     where order_id = #{orderId,jdbcType=VARCHAR}
   </update>
 </mapper>

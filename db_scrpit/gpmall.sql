@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-08-09 00:03:28
+Date: 2019-08-12 15:35:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -131,6 +131,7 @@ INSERT INTO `tb_item` VALUES ('100026801', 'Smartisan 耳机转接头', '即插�
 INSERT INTO `tb_item` VALUES ('100036501', '畅呼吸除霾除甲醛高效复合滤芯', '精选双层防护材质，过滤更精细，去味更有效', '699.00', '100', '100', 'https://resource.smartisan.com/resource/00eee903962f17d75950397843117e6e.jpg,https://resource.smartisan.com/resource/7a1f7380f2f2851fe133bd84115c42fe.jpg,https://resource.smartisan.com/resource/e2cd33328fe96214c2bff3ef0652350a.jpg', '228', '1', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item` VALUES ('100039702', 'Smartisan 帆布鞋', '用于支付测试使用', '1.00', '100', '100', 'https://resource.smartisan.com/resource/578116bddf1d170c89e9af7ba5073fb6.jpg,https://resource.smartisan.com/resource/ebb01298315bf2ebdb6b21ee2c8e4237.jpg,https://resource.smartisan.com/resource/bd634d820859032b4c0f7a521eda486d.jpg,https://resource.smartisan.com/resource/51958a0a771f24e405f1b5de98108528.jpg,https://resource.smartisan.com/resource/e8791dd06c1e964d89436407f8827fe4.jpg', '236', '1', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item` VALUES ('100040501', '畅呼吸智能空气净化器 · 超级除甲醛版', '800CADR 超强空气净化能力，400CADR超强除甲醛能力，app远程操控，多种专业滤芯可供选择', '2999.00', '100', '100', 'https://resource.smartisan.com/resource/71432ad30288fb860a4389881069b874.png,https://resource.smartisan.com/resource/6ff92d05a3bfab4fad489ca04d3eea5a.png', '226', '1', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item` VALUES ('100040607', '坚果 3', '坚果 3 意外碎屏保修服务（碎屏险）', '2999.00', '100', '100', 'https://resource.smartisan.com/resource/13e91511f6ba3227ca5378fd2e93c54b.png,https://resource.smartisan.com/resource/fac4130efc39ed4db697cc8d137890e9.png,https://resource.smartisan.com/resource/91dc3f577960e30ca11b632e7b6ebd0f.png,https://resource.smartisan.com/resource/61586b59793ac16bd973010aecad2ca9.png', '210', '1', '2019-08-12 13:06:26', '2019-08-12 13:06:28');
 INSERT INTO `tb_item` VALUES ('100042203', '坚果“电池形电池”移动电源', 'Type-C 接口、轻巧便携、多重电路保护', '49.00', '100', '100', 'https://resource.smartisan.com/resource/33954b3f6a2f1614c5482ef130af9cc8.jpg,https://resource.smartisan.com/resource/1910dba5f999debab84c97c55845c74d.jpg,https://resource.smartisan.com/resource/3e62068911a78fb4b7c4ac20520a5216.jpg,https://resource.smartisan.com/resource/0329e3f7d4fd64659b36a9f3726ccf37.jpg', '218', '1', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item` VALUES ('100042801', 'Smartisan 半入耳式耳机', '经典配色、专业调音、高品质麦克风', '59.00', '100', '100', 'https://resource.smartisan.com/resource/ce632bd67465027861707ec221b37c2d.jpg,https://resource.smartisan.com/resource/10525c4b21f039fc8ccb42cd1586f5cd.jpg,https://resource.smartisan.com/resource/d14645b66ff52c2e5958cd866a7d91e5.jpg,https://resource.smartisan.com/resource/7a4257950f953d6a7048d72de374530f.jpg,https://resource.smartisan.com/resource/dbe085a6f133b944e4e23bbb515c31ff.jpg', '217', '1', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item` VALUES ('100046401', '坚果 R1', '骁龙 845 处理器 · 光学防抖双摄像头 · 6.17 英寸压力感应屏幕 · 10W快速无线充电功能', '2999.00', '100', '100', 'https://resource.smartisan.com/resource/06c2253354096f5e9ebf0616f1af2086.png', '210', '1', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
@@ -219,6 +220,7 @@ INSERT INTO `tb_item_desc` VALUES ('100026801', '<img src=\"https://resource.sma
 INSERT INTO `tb_item_desc` VALUES ('100036501', '<img src=\"https://resource.smartisan.com/resource/55191eb9aeb1367eefcb6d946fdc0546.jpg\" style=\"width:1220px;height:9823px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item_desc` VALUES ('100039702', '<img src=\"https://resource.smartisan.com/resource/88cfe3dc879813dd6f60e57405a58cc1.jpg\" style=\"width:1220px;height:8863px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item_desc` VALUES ('100040501', '<img src=\"https://resource.smartisan.com/resource/cf9cd35a37fed165577358b5cf72df7a.jpg\" style=\"width:1220px;height:12671px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
+INSERT INTO `tb_item_desc` VALUES ('100040607', '<img src=\"https://resource.smartisan.com/resource/d5a1453ad115e15bd79579e8bdb20ba0.jpg\" style=\"width:1220px;height:18021px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item_desc` VALUES ('100042203', '<img src=\"https://resource.smartisan.com/resource/7d9e5c72d2af941602228d78c7b8904f.jpg\" style=\"width:1220px;height:8173px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item_desc` VALUES ('100042801', '<img src=\"https://resource.smartisan.com/resource/234a5b125db07de264b5467d9ac15f1b.jpg\" style=\"width:1220px;height:8701px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
 INSERT INTO `tb_item_desc` VALUES ('100046401', '<img src=\"https://resource.smartisan.com/resource/79217e13f5f8d55cfb036edd93b2ce11.jpg\" style=\"width:1220px;height:24948px\"/>', '2019-07-29 14:37:02', '2019-07-29 14:37:02');
@@ -282,13 +284,13 @@ CREATE TABLE `tb_member` (
   UNIQUE KEY `username` (`username`) USING BTREE,
   UNIQUE KEY `phone` (`phone`) USING BTREE,
   UNIQUE KEY `email` (`email`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8 COMMENT='用户表';
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8 COMMENT='用户表';
 
 -- ----------------------------
 -- Records of tb_member
 -- ----------------------------
-INSERT INTO `tb_member` VALUES ('62', 'test', '098f6bcd4621d373cade4e832627b4f6', null, null, '2017-09-05 21:27:54', '2017-10-08 18:13:51', null, null, '1', 'http://ow2h3ee9w.bkt.clouddn.com/1507866636672.png', null, null, null);
-INSERT INTO `tb_member` VALUES ('66', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, '2019-08-06 00:15:48', '2019-08-06 00:15:48', null, null, '1', null, null, null, null);
+INSERT INTO `tb_member` VALUES ('62', 'test', '098f6bcd4621d373cade4e832627b4f6', null, null, '2017-09-05 21:27:54', '2017-10-08 18:13:51', null, null, '1', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', null, null, null);
+INSERT INTO `tb_member` VALUES ('66', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, '2019-08-06 00:15:48', '2019-08-06 00:15:48', null, null, '1', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', null, null, null);
 
 -- ----------------------------
 -- Table structure for tb_order
@@ -322,22 +324,6 @@ CREATE TABLE `tb_order` (
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
-INSERT INTO `tb_order` VALUES ('19080517070753127', '49.00', null, null, '0', '2019-08-05 04:07:08', '2019-08-05 04:07:08', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080517141099516', '79.00', null, null, '0', '2019-08-05 04:14:11', '2019-08-05 04:14:11', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080517173049838', '79.00', null, null, '0', '2019-08-05 04:17:31', '2019-08-05 04:17:31', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080517194073300', '79.00', null, null, '0', '2019-08-05 04:19:41', '2019-08-05 04:19:41', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080517204053817', '49.00', null, null, '0', '2019-08-05 04:20:41', '2019-08-05 04:20:41', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080813030552616', '79.00', null, null, '0', '2019-08-08 00:03:06', '2019-08-08 00:03:06', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080814120342501', '49.00', null, null, '0', '2019-08-08 01:12:03', '2019-08-08 01:12:03', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080814122907793', '79.00', null, null, '0', '2019-08-08 01:12:29', '2019-08-08 01:12:29', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080814125502099', '79.00', null, null, '0', '2019-08-08 01:12:55', '2019-08-08 01:12:55', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080815140515317', '49.00', null, null, '0', '2019-08-08 02:14:05', '2019-08-08 02:14:05', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080817174321892', '49.00', null, null, '0', '2019-08-08 04:17:43', '2019-08-08 04:17:43', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080817175156866', '49.00', null, null, '0', '2019-08-08 04:17:52', '2019-08-08 04:17:52', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080817203991587', '79.00', null, null, '0', '2019-08-08 04:20:40', '2019-08-08 04:20:40', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080817204924310', '79.00', null, null, '0', '2019-08-08 04:20:49', '2019-08-08 04:20:49', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080817263509780', '49.00', null, null, '0', '2019-08-08 04:26:35', '2019-08-08 04:26:35', null, null, null, null, null, null, '62', null, 'test', null);
-INSERT INTO `tb_order` VALUES ('19080818515786502', '79.00', null, null, '0', '2019-08-08 05:51:58', '2019-08-08 05:51:58', null, null, null, null, null, null, '62', null, 'test', null);
 
 -- ----------------------------
 -- Table structure for tb_order_item
@@ -360,22 +346,6 @@ CREATE TABLE `tb_order_item` (
 -- ----------------------------
 -- Records of tb_order_item
 -- ----------------------------
-INSERT INTO `tb_order_item` VALUES ('19080517070774058', '100026701', '19080517070753127', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080517141100502', '100023501', '19080517141099516', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080517173050619', '100023501', '19080517173049838', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080517194074018', '100023501', '19080517194073300', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080517204054596', '100026701', '19080517204053817', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080813030571714', '100023501', '19080813030552616', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080814120343487', '100026701', '19080814120342501', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080814122908440', '100023501', '19080814122907793', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080814125502597', '100023501', '19080814125502099', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080815140516384', '100026701', '19080815140515317', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080817174322546', '100026701', '19080817174321892', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080817175157456', '100026701', '19080817175156866', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080817203992179', '100023501', '19080817203991587', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080817204924909', '100023501', '19080817204924310', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080817263510494', '100026701', '19080817263509780', '1', 'Smartisan 原装快充充电器 18W', '49.00', '49.00', 'https://resource.smartisan.com/resource/dc53bd870ee64d2053ecc51750ece43a.jpg');
-INSERT INTO `tb_order_item` VALUES ('19080818515787348', '100023501', '19080818515786502', '1', 'Smartisan 双口 & 快充车载充电器', '79.00', '79.00', 'https://resource.smartisan.com/resource/d4480234a2f24b0ff5acd98288fd902d.jpg');
 
 -- ----------------------------
 -- Table structure for tb_order_shipping
@@ -399,22 +369,6 @@ CREATE TABLE `tb_order_shipping` (
 -- ----------------------------
 -- Records of tb_order_shipping
 -- ----------------------------
-INSERT INTO `tb_order_shipping` VALUES ('19080517070753127', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:07:08', '2019-08-05 04:07:08');
-INSERT INTO `tb_order_shipping` VALUES ('19080517141099516', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:14:11', '2019-08-05 04:14:11');
-INSERT INTO `tb_order_shipping` VALUES ('19080517173049838', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:17:31', '2019-08-05 04:17:31');
-INSERT INTO `tb_order_shipping` VALUES ('19080517194073300', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:19:41', '2019-08-05 04:19:41');
-INSERT INTO `tb_order_shipping` VALUES ('19080517204053817', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-05 04:20:41', '2019-08-05 04:20:41');
-INSERT INTO `tb_order_shipping` VALUES ('19080813030552616', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 00:03:06', '2019-08-08 00:03:06');
-INSERT INTO `tb_order_shipping` VALUES ('19080814120342501', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 01:12:03', '2019-08-08 01:12:03');
-INSERT INTO `tb_order_shipping` VALUES ('19080814122907793', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 01:12:29', '2019-08-08 01:12:29');
-INSERT INTO `tb_order_shipping` VALUES ('19080814125502099', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 01:12:55', '2019-08-08 01:12:55');
-INSERT INTO `tb_order_shipping` VALUES ('19080815140515317', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 02:14:05', '2019-08-08 02:14:05');
-INSERT INTO `tb_order_shipping` VALUES ('19080817174321892', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 04:17:43', '2019-08-08 04:17:43');
-INSERT INTO `tb_order_shipping` VALUES ('19080817175156866', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 04:17:52', '2019-08-08 04:17:52');
-INSERT INTO `tb_order_shipping` VALUES ('19080817203991587', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 04:20:40', '2019-08-08 04:20:40');
-INSERT INTO `tb_order_shipping` VALUES ('19080817204924310', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 04:20:49', '2019-08-08 04:20:49');
-INSERT INTO `tb_order_shipping` VALUES ('19080817263509780', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 04:26:35', '2019-08-08 04:26:35');
-INSERT INTO `tb_order_shipping` VALUES ('19080818515786502', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-08 05:51:58', '2019-08-08 05:51:58');
 
 -- ----------------------------
 -- Table structure for tb_panel
@@ -501,8 +455,10 @@ INSERT INTO `tb_panel_content` VALUES ('43', '10', '0', '100053001', '3', '', 'h
 INSERT INTO `tb_panel_content` VALUES ('44', '10', '0', '100047101', '4', '', 'https://resource.smartisan.com/resource/8635cb91f2cdbbc5576e069c52b99412.jpg?x-oss-process=image/resize,w_216/format,webp', null, null, '2018-04-19 00:03:10', '2018-04-20 10:55:52');
 INSERT INTO `tb_panel_content` VALUES ('45', '10', '0', '100026801', '5', '', 'https://resource.smartisan.com/resource/45312fb748d54aa2e58a8f4d637e9e65.jpg?x-oss-process=image/resize,w_216/format,webp', null, null, '2018-04-19 00:03:15', '2018-04-20 10:54:56');
 INSERT INTO `tb_panel_content` VALUES ('46', '10', '0', '100042801', '6', '', 'https://resource.smartisan.com/resource/8a875418797690e26b665cc0d86dffc7.jpg?x-oss-process=image/resize,w_216/format,webp', null, null, '2018-04-19 00:03:20', '2018-04-20 10:55:03');
-INSERT INTO `tb_panel_content` VALUES ('47', '6', '0', '100046401', '1', '', 'https://resource.smartisan.com/resource/06c2253354096f5e9ebf0616f1af2086.png', null, null, '2018-04-19 11:15:35', '2018-04-19 11:15:35');
-INSERT INTO `tb_panel_content` VALUES ('48', '6', '0', '100051701', '2', null, 'https://resource.smartisan.com/resource/b07b9765e272f866da6acda4ee107d88.png', null, null, '2018-04-19 11:18:16', '2018-04-19 11:18:18');
+INSERT INTO `tb_panel_content` VALUES ('47', '6', '0', '100046401', '1', '', 'https://resource.smartisan.com/resource/17f254e6f809355d8fe66260ccb48fb0.png', null, null, '2018-04-19 11:15:35', '2018-04-19 11:15:35');
+INSERT INTO `tb_panel_content` VALUES ('48', '6', '0', '100046401', '2', null, 'https://resource.smartisan.com/resource/06c2253354096f5e9ebf0616f1af2086.png', null, null, '2018-04-19 11:18:16', '2018-04-19 11:18:18');
+INSERT INTO `tb_panel_content` VALUES ('49', '6', '0', '100051701', '3', '', 'https://resource.smartisan.com/resource/b07b9765e272f866da6acda4ee107d88.png', '', '', '2018-04-19 11:18:16', '2018-04-19 11:18:18');
+INSERT INTO `tb_panel_content` VALUES ('50', '6', '0', '100040607', '4', '', 'https://resource.smartisan.com/resource/718bcecced0df1cd23bbdb9cc1f70b7d.png', '', '', '2018-04-19 11:18:16', '2018-04-19 11:18:18');
 INSERT INTO `tb_panel_content` VALUES ('55', '0', '1', null, '1', '', '手机', null, null, '2018-07-27 20:48:21', '2018-07-27 22:32:51');
 INSERT INTO `tb_panel_content` VALUES ('58', '0', '1', null, '2', '', '官方配件', null, null, '2018-07-27 20:50:07', '2018-07-27 22:25:18');
 INSERT INTO `tb_panel_content` VALUES ('59', '0', '0', null, '3', '', '服饰箱包', null, null, '2018-07-27 22:25:44', '2018-07-27 22:26:54');
@@ -518,8 +474,8 @@ CREATE TABLE `tb_payment` (
   `status` varchar(20) NOT NULL COMMENT '支付状态',
   `order_id` varchar(50) NOT NULL COMMENT '订单id',
   `product_name` varchar(80) DEFAULT NULL COMMENT '产品名称',
-  `pay_no` varchar(80) NOT NULL COMMENT '支付流水号',
-  `payer_uid` int(12) NOT NULL COMMENT '付款人id',
+  `pay_no` varchar(80) DEFAULT NULL COMMENT '支付流水号',
+  `payer_uid` int(20) NOT NULL COMMENT '付款人id',
   `payer_name` varchar(50) DEFAULT NULL COMMENT '付款人姓名',
   `payer_amount` decimal(10,2) NOT NULL COMMENT '付款方支付金额',
   `order_amount` decimal(10,2) NOT NULL COMMENT '订单金额',
@@ -535,6 +491,8 @@ CREATE TABLE `tb_payment` (
 -- ----------------------------
 -- Records of tb_payment
 -- ----------------------------
+INSERT INTO `tb_payment` VALUES ('77451a4f-9283-47a7-9e65-715d361fdbe1', '1', '19081121113751649', 'Smartisan 原装快充充电器 18W', null, '62', '', '1.00', '1.00', 'alipay', null, null, '', '2019-08-11 08:11:41', '2019-08-11 08:11:41');
+INSERT INTO `tb_payment` VALUES ('e403ba34-e492-4ac8-8c2f-32a72d3002e1', '1', '19081018205253962', '坚果 R1', null, '62', '', '1.00', '1.00', 'alipay', null, null, '', '2019-08-10 05:21:29', '2019-08-10 05:21:29');
 
 -- ----------------------------
 -- Table structure for tb_permission
@@ -839,6 +797,6 @@ CREATE TABLE `tb_user` (
 -- ----------------------------
 -- Records of tb_user
 -- ----------------------------
-INSERT INTO `tb_user` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '17621230884', '1012139570@qq.com', '男', null, '1', '超级管理员', '1', 'http://ow2h3ee9w.bkt.clouddn.com/1507866340369.png', '2017-09-05 21:27:54', '2017-10-18 22:57:08');
-INSERT INTO `tb_user` VALUES ('2', 'test', '098f6bcd4621d373cade4e832627b4f6', '12345678901', '123@qq.com', '女', null, '1', '游客', '0', null, '2017-09-05 21:27:54', '2018-04-18 14:35:19');
-INSERT INTO `tb_user` VALUES ('3', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, null, null, '1', null, null, null, '2019-07-23 02:28:28', '2019-07-23 02:28:28');
+INSERT INTO `tb_user` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '17621230884', '1012139570@qq.com', '男', null, '1', '超级管理员', '1', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', '2017-09-05 21:27:54', '2017-10-18 22:57:08');
+INSERT INTO `tb_user` VALUES ('2', 'test', '098f6bcd4621d373cade4e832627b4f6', '12345678901', '123@qq.com', '女', null, '1', '游客', '0', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', '2017-09-05 21:27:54', '2018-04-18 14:35:19');
+INSERT INTO `tb_user` VALUES ('3', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, null, null, '1', null, null, 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', '2019-07-23 02:28:28', '2019-07-23 02:28:28');

@@ -36,6 +36,7 @@ export default new Router({
       children: [
         {path: 'home', component: Home},
         {path: 'goods', component: GoodS},
+        {path: 'goods/cate/:cateId', component: GoodS},
         {path: 'product/:productId', name: 'product', component: product},
         // {path: 'thanks', name: 'thanks', component: Thanks},
         {path: '/refreshgoods', name: 'refreshgoods', component: RefreshGoods}
