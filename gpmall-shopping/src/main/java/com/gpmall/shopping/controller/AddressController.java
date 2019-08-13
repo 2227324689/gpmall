@@ -51,13 +51,16 @@ public class AddressController {
     }
 
     @PostMapping("/addresses")
-    public ResponseData addressAdd(@RequestBody  AddressForm form){
+    public ResponseData addressAdd(@RequestBody  AddressForm form,HttpServletRequest servletRequest){
 
         System.out.println(form.is_Default());
         System.out.println(form.toString() );
 
         AddAddressRequest request = new AddAddressRequest();
-        request.setUserId(form.getUserId());
+        String userInfo=(String)servletRequest.getAttribute(TokenIntercepter.USER_INFO_KEY);
+        JSONObject object= JSON.parseObject(userInfo);
+        Long uid=Long.parseLong(object.get("uid").toString());
+        request.setUserId(uid);
         request.setUserName(form.getUserName());
         request.setStreetName(form.getStreetName());
         request.setTel(form.getTel());
@@ -83,13 +86,16 @@ public class AddressController {
     }
 
     @PutMapping("/addresses")
-    public ResponseData addressUpdate(@RequestBody AddressForm form){
+    public ResponseData addressUpdate(@RequestBody AddressForm form,HttpServletRequest servletRequest){
         UpdateAddressRequest request = new UpdateAddressRequest();
+        String userInfo=(String)servletRequest.getAttribute(TokenIntercepter.USER_INFO_KEY);
+        JSONObject object= JSON.parseObject(userInfo);
+        Long uid=Long.parseLong(object.get("uid").toString());
         request.setAddressId(form.getAddressId());
         request.setIsDefault(form.is_Default());
         request.setStreetName(form.getStreetName());
         request.setTel(form.getTel());
-        request.setUserId(form.getUserId());
+        request.setUserId(uid);
         request.setUserName(form.getUserName());
 
         UpdateAddressResponse response = addressService.updateAddress(request);

@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @Date 2019年8月10日
  */
 public class SearchResponse implements Serializable {
-    private Integer code;
+    private String code;
     private String msg;
     private Object data;
 
@@ -39,11 +39,11 @@ public class SearchResponse implements Serializable {
         return this;
     }
 
-    public Integer getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
