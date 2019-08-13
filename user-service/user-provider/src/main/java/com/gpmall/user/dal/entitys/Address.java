@@ -25,6 +25,7 @@ public class Address {
     private String streetName;
 
     @Column(name = "is_default")
-    private Byte isDefault;
+    private Integer isDefault;
+
 
 }
