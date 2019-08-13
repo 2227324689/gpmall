@@ -1,8 +1,10 @@
 package com.gpmall.order.dal.persistence;
 
+import java.util.List;
+
 import com.gpmall.order.dal.entitys.Order;
 import com.gpmall.order.dal.entitys.OrderExample;
-import java.util.List;
+import com.gpmall.order.dal.entitys.OrderList;
 import org.apache.ibatis.annotations.Param;
 
 public interface OrderMapper {
@@ -27,4 +29,6 @@ public interface OrderMapper {
     int updateByPrimaryKeySelective(Order record);
 
     int updateByPrimaryKey(Order record);
+
+    List<OrderList> selectOrderListByUserId(@Param("uid")Long uid);
 }

@@ -9,36 +9,42 @@ import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayBuildRequest;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayNotify;
 import com.gpmall.pay.biz.payment.constants.AliPaymentConfig;
-import com.gpmall.pay.biz.payment.constants.PayChannelEnum;
+import com.gpmall.pay.biz.payment.constants.PayResultEnum;
 import com.gpmall.pay.biz.payment.context.AliPaymentContext;
+import com.gpmall.pay.dal.entitys.Payment;
+import com.gpmall.pay.dal.persistence.PaymentMapper;
+import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
+@Slf4j
 @Service
 public class AliPayment extends BasePayment {
-
-    Logger LOG=LoggerFactory.getLogger(AliPayment.class);
 
     @Resource(name="aliPaymentValidator")
     private Validator validator;
 
     @Autowired
     AliPaymentConfig aliPaymentConfig;
+
+    @Autowired
+    PaymentMapper paymentMapper;
 
     @Override
     public Validator getValidator() {
@@ -72,8 +78,6 @@ public class AliPayment extends BasePayment {
         sParaTemp.put("subject", aliPaymentContext.getSubject());
         sParaTemp.put("total_fee", aliPaymentContext.getTotalFee().doubleValue());
         aliPaymentContext.setsParaTemp(sParaTemp);
-        //TODO 保存订单记录
-
     }
 
 
@@ -89,9 +93,28 @@ public class AliPayment extends BasePayment {
         return response;
     }
 
+
     @Override
     public void afterProcess(AbstractRequest request, AbstractResponse respond, PaymentContext context) throws BizException {
-
+        log.info("Alipayment begin - afterProcess -request:"+request+"\n response:"+respond);
+        PaymentRequest paymentRequest=(PaymentRequest)request;
+        PaymentResponse response=(PaymentResponse)respond;
+        com.gpmall.pay.dal.entitys.Payment payment=new Payment();
+        payment.setCreateTime(new Date());
+        payment.setId(UUID.randomUUID().toString());
+        BigDecimal amount=new BigDecimal(paymentRequest.getOrderFee()/100);
+        payment.setOrderAmount(amount);
+        payment.setOrderId(paymentRequest.getTradeNo());
+        payment.setPayerAmount(amount);
+        payment.setPayerUid(paymentRequest.getUserId());
+        payment.setPayerName("");//TODO
+        payment.setPayWay(paymentRequest.getPayChannel());
+        payment.setProductName(paymentRequest.getSubject());
+        payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());//
+        payment.setRemark("");
+        payment.setPayNo(response.getPrepayId());//第三方的交易id
+        payment.setUpdateTime(new Date());
+        paymentMapper.insert(payment);
     }
 
     @Override
@@ -102,19 +125,17 @@ public class AliPayment extends BasePayment {
     @Override
     public AbstractResponse completePayment(AbstractRequest request) throws BizException {
         PaymentNotifyRequest paymentNotifyRequest=(PaymentNotifyRequest)request;
-        Map<String, Object> params = new HashMap<>();
+
         Map requestParams = paymentNotifyRequest.getResultMap();
-        PaymentNotifyResponse response=new PaymentNotifyResponse();
-        for (Iterator iter = requestParams.keySet().iterator(); iter.hasNext(); ) {
-            String name = (String) iter.next();
-            String[] values = (String[]) requestParams.get(name);
-            String valueStr = "";
-            for (int i = 0; i < values.length; i++) {
-                valueStr = (i == values.length - 1) ? valueStr + values[i]: valueStr + values[i] + ",";
-            }
-            params.put(name, valueStr);
-        }
-        if (AlipayNotify.verify(params, aliPaymentConfig)) {//验证成功
+        Map<String, Object> params = new HashMap<>(requestParams.size());
+        requestParams.forEach((key,value)->{
+            String[] values = (String[]) value;
+            params.put((String)key,StringUtils.join(values, ","));
+        });
+
+        PaymentNotifyResponse response = new PaymentNotifyResponse();
+        //验证
+        if (AlipayNotify.verify(params, aliPaymentConfig)) {
             //TODO 判断交易状态
             //TRADE_FINISH(支付完成)、TRADE_SUCCESS(支付成功)、FAIL(支付失败)
             String tradeStatus = params.get("trade_status").toString();

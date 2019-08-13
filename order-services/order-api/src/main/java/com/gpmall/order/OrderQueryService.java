@@ -26,7 +26,7 @@ public interface OrderQueryService {
      * @param request
      * @return
      */
-    OrderListResposne orderList(OrderListRequest request);
+    OrderListResponse orderList(OrderListRequest request);
 
 
     /**

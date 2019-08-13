@@ -1,6 +1,6 @@
 <template>
   <div class="w" style="padding-bottom: 100px;">
-    <y-shelf title="XPay收银台 收款方: Exrick">
+    <y-shelf title="支付结果通知">
       <div slot="content">
         <div class="box-inner order-info">
           <img class="wechat" src="static/images/weixinpay@2x.png" alt="扫一扫标识">
@@ -18,7 +18,7 @@
           <div class="box-btn">
             <div>
               <span>
-              
+
               </span>
               <em><span>¥</span>{{orderTotal}}</em>
               <y-button :text="payNow"
@@ -269,7 +269,7 @@
     color: #222;
     margin-top: -45px;
   }
-  
+
   .timeout{
     position: absolute;
     top: 0;

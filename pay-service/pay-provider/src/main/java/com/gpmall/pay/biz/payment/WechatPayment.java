@@ -8,7 +8,7 @@ import com.gpmall.pay.biz.abs.PaymentContext;
 import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.wechatpay.WeChatBuildRequest;
 import com.gpmall.pay.biz.payment.commons.HttpClientUtil;
-import com.gpmall.pay.biz.payment.constants.PayChannelEnum;
+import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gpmall.pay.biz.payment.constants.PaymentConstants;
 import com.gpmall.pay.biz.payment.constants.WechatPaymentConfig;
 import com.gpmall.pay.biz.payment.context.WechatPaymentContext;
@@ -17,8 +17,6 @@ import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,15 +29,13 @@ import java.util.TreeMap;
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
 @Service
 public class WechatPayment extends BasePayment {
 
-    Logger LOG = LoggerFactory.getLogger(WechatPayment.class);
-
     @Autowired
-    WechatPaymentConfig wechatPaymentConfig;
+    private WechatPaymentConfig wechatPaymentConfig;
 
     @Resource(name="wechatPaymentValidator")
     private Validator validator;
@@ -65,15 +61,17 @@ public class WechatPayment extends BasePayment {
         SortedMap<Object, Object> paraMap = new TreeMap<>();
         paraMap.put("body", wechatPaymentContext.getBody());
         paraMap.put("out_trade_no", wechatPaymentContext.getOutTradeNo());
-        paraMap.put("total_fee", wechatPaymentContext.getTotalFee().intValue());//单位分
+        //单位分
+        paraMap.put("total_fee", wechatPaymentContext.getTotalFee().intValue());
         paraMap.put("spbill_create_ip", wechatPaymentContext.getSpbillCreateIp());
         paraMap.put("appid", wechatPaymentConfig.getWechatAppid());
         paraMap.put("mch_id", wechatPaymentConfig.getWechatMch_id());
         paraMap.put("nonce_str", WeChatBuildRequest.getNonceStr());
         paraMap.put("trade_type", wechatPaymentContext.getTradeType());
         paraMap.put("product_id",wechatPaymentContext.getProductId());
+        // 此路径是微信服务器调用支付结果通知路径
         paraMap.put("device_info","WEB");
-        paraMap.put("notify_url", wechatPaymentConfig.getWechatNotifyurl());// 此路径是微信服务器调用支付结果通知路径
+        paraMap.put("notify_url", wechatPaymentConfig.getWechatNotifyurl());
         String sign = WeChatBuildRequest.createSign(paraMap, wechatPaymentConfig.getWechatMchsecret());
         paraMap.put("sign", sign);
         String xml = WeChatBuildRequest.getRequestXml(paraMap);
@@ -89,8 +87,9 @@ public class WechatPayment extends BasePayment {
         WechatPaymentContext wechatPaymentContext=(WechatPaymentContext)context;
 
         String xmlStr = HttpClientUtil.httpPost(wechatPaymentConfig.getWechatUnifiedOrder(), wechatPaymentContext.getXml());
-        LOG.info("wechatPayment. generalProcess response：" + xmlStr);
+        log.info("wechatPayment. generalProcess response：" + xmlStr);
         Map<String, String> resultMap = WeChatBuildRequest.doXMLParse(xmlStr);
+        //TODO ???
         if ("SUCCESS".equals(resultMap.get("return_code"))) {
             if ("SUCCESS".equals(resultMap.get("result_code"))) {
                 //表示订单处理成功
@@ -134,9 +133,10 @@ public class WechatPayment extends BasePayment {
         //组装返回的结果的签名字符串
         String rsSign=resultMap.remove("sign").toString();
         String sign = WeChatBuildRequest.createSign(paraMap, wechatPaymentConfig.getWechatMchsecret());
-        if(rsSign.equals(sign)){ //验证签名
+        //验证签名
+        if(rsSign.equals(sign)){
             //SUCCESS、FAIL
-            String resultCode=resultMap.get("result_code").toString();//返回结果
+            String resultCode=resultMap.get("result_code").toString();
             if("SUCCESS".equals(resultCode)){
                 //TODO 更新交易表的交易结果
                 response.setResult(WeChatBuildRequest.setXML("SUCCESS","OK"));

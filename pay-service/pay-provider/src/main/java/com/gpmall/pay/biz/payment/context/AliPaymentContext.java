@@ -14,8 +14,8 @@ import java.util.SortedMap;
 public class AliPaymentContext extends PaymentContext {
 
     SortedMap<String, Object> sParaTemp;
-
-    private String subject;//商品名称（必填）
+    /** 商品名称（必填）*/
+    private String subject;
 
 
     public SortedMap<String, Object> getsParaTemp() {

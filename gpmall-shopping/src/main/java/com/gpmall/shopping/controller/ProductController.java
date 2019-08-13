@@ -1,6 +1,4 @@
-package com.gpmall.shopping.controller;/**
- * Created by mic on 2019/7/26.
- */
+package com.gpmall.shopping.controller;
 
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
@@ -25,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shopping")
 public class ProductController {
 
-    @Reference
+    @Reference(timeout = 3000)
     IProductService productService;
 
     @Anoymous

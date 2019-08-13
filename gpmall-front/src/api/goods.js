@@ -5,6 +5,11 @@ import {apis} from './api'
 export const getAllGoods = (params) => {
   return http.fetchGet(apis.getAllGoods, params)
 }
+// 商品分类列表
+export const getAllGoodsCategories = (params) => {
+  return http.fetchGet(apis.getAllCategories, params)
+}
+
 // 获取购物车列表
 export const getCartList = (params) => {
   return http.fetchGet(apis.getCartList, params)
@@ -43,7 +48,7 @@ export const getAddress = (params) => {
 }
 // 修改收货地址
 export const addressUpdate = (params) => {
-  return http.fetchPost(apis.addressUpdate, params)
+  return http.fetchPut(apis.addressUpdate, params)
 }
 // 添加收货地址
 export const addressAdd = (params) => {
@@ -52,7 +57,9 @@ export const addressAdd = (params) => {
 
 // 删除收货地址
 export const addressDel = (params) => {
-  return http.fetchPost(apis.addressDel, params)
+  // return    http.fetchDelete(apis.cartDel + '/' + params.userId + '/' + params.productId, params)
+  return http.fetchDelete(apis.addressDel + '/' + params.addressId, params)
+  // return http.fetchDelete(apis.addressDel, params)
 }
 // 生成订单
 export const submitOrder = (params) => {

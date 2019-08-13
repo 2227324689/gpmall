@@ -1,0 +1,2 @@
+redis=com.gpmall.commons.lock.impl.DistributedRedisLock
+wrapper=com.gpmall.commons.lock.impl.DistributedLockWrapper
