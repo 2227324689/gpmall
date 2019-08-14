@@ -3,6 +3,7 @@ package com.gpmall.pay.biz.payment;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
+import com.gpmall.commons.tool.utils.NumberUtils;
 import com.gpmall.pay.biz.abs.BasePayment;
 import com.gpmall.pay.biz.abs.PaymentContext;
 import com.gpmall.pay.biz.abs.Validator;
@@ -13,7 +14,7 @@ import com.gpmall.pay.biz.payment.constants.PayResultEnum;
 import com.gpmall.pay.biz.payment.context.AliPaymentContext;
 import com.gpmall.pay.dal.entitys.Payment;
 import com.gpmall.pay.dal.persistence.PaymentMapper;
-import com.gpmall.pay.utils.NumberUtils;
+
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.PaymentNotifyRequest;
@@ -100,7 +101,7 @@ public class AliPayment extends BasePayment {
         log.info("Alipayment begin - afterProcess -request:"+request+"\n response:"+respond);
         PaymentRequest paymentRequest=(PaymentRequest)request;
         PaymentResponse response=(PaymentResponse)respond;
-        com.gpmall.pay.dal.entitys.Payment payment=new Payment();
+        Payment payment=new Payment();
         payment.setCreateTime(new Date());
         payment.setId(UUID.randomUUID().toString());
         BigDecimal amount=new BigDecimal(paymentRequest.getOrderFee()/100);

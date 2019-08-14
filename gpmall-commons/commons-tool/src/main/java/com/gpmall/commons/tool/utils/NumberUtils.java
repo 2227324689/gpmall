@@ -1,4 +1,4 @@
-package com.gpmall.pay.utils;
+package com.gpmall.commons.tool.utils;
 
 import java.math.BigDecimal;
 

@@ -1,14 +1,13 @@
 package com.gpmall.pay.dal.entitys;
 
 import lombok.Data;
-import lombok.ToString;
 
-import java.math.BigDecimal;
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Date;
-import javax.persistence.*;
 
 @Table(name = "tb_payment")
-@ToString
 @Data
 public class Payment {
     @Id
