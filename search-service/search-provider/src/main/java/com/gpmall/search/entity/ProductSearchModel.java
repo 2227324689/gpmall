@@ -11,7 +11,7 @@ import java.util.Date;
  * @author jin
  */
 
-@Document(indexName = "product", type = "item", shards = 1, replicas = 0)
+@Document(indexName = "tb_item", type = "doc", shards = 1, replicas = 0)
 public class ProductSearchModel {
 	@Id
 	private Integer id;
@@ -27,7 +27,7 @@ public class ProductSearchModel {
 	private Integer num;
 	@Field(type = FieldType.Long)
 	private Long cid;
-	@Field(type = FieldType.Long)
+	@Field(type = FieldType.Date)
 	private Date created;
 	@Field(type = FieldType.Float)
 	private Double price;
