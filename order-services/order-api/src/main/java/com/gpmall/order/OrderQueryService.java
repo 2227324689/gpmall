@@ -36,4 +36,11 @@ public interface OrderQueryService {
      */
     OrderDetailResponse orderDetail(OrderDetailRequest request);
 
+    /**
+     * 查询订单条目
+     * @param request
+     * @return
+     */
+    OrderItemResponse orderItem(OrderItemRequest request);
+
 }
