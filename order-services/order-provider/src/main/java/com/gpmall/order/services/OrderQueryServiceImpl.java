@@ -130,4 +130,22 @@ public class OrderQueryServiceImpl implements OrderQueryService{
         }
         return response;
     }
+
+    @Override
+    public OrderItemResponse orderItem(OrderItemRequest request) {
+        OrderItemResponse response = new OrderItemResponse();
+        try {
+            request.requestCheck();
+            OrderItem orderItem = orderItemMapper.selectByPrimaryKey(request.getOrderItemId());
+            response = orderConverter.item2res(orderItem);
+            Order order = orderMapper.selectByPrimaryKey(orderItem.getOrderId());
+            response.setOrderDto(orderConverter.order2dto(order));
+            response.setCode(OrderRetCode.SUCCESS.getCode());
+            response.setMsg(OrderRetCode.SUCCESS.getMessage());
+        } catch (Exception e){
+            log.error("OrderQueryServiceImpl.orderItem occur Exception :" +e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
+        return response;
+    }
 }
