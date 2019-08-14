@@ -27,7 +27,7 @@ public class ProductSearchModel {
 	private Integer num;
 	@Field(type = FieldType.Long)
 	private Long cid;
-	@Field(type = FieldType.Date)
+	@Field(type = FieldType.Long)
 	private Date created;
 	@Field(type = FieldType.Float)
 	private Double price;
