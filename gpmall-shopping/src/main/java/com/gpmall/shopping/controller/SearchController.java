@@ -28,7 +28,9 @@ public class SearchController {
 
     @GetMapping("/product/{keyword}")
     public ResponseData<SearchResponse> searchProduct(@PathVariable("keyword") String keyword) {
-        SearchResponse response = productSearchService.search(SearchRequest.of(keyword));
+        SearchRequest request = new SearchRequest();
+        request.setKeyword(keyword);
+        SearchResponse response = productSearchService.search(request);
         if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
             return new ResponseUtil().setData(response.getData());
         }
