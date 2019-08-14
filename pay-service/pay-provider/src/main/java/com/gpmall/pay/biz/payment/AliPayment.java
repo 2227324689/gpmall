@@ -13,6 +13,7 @@ import com.gpmall.pay.biz.payment.constants.PayResultEnum;
 import com.gpmall.pay.biz.payment.context.AliPaymentContext;
 import com.gpmall.pay.dal.entitys.Payment;
 import com.gpmall.pay.dal.persistence.PaymentMapper;
+import com.gpmall.pay.utils.NumberUtils;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.PaymentNotifyRequest;
@@ -103,9 +104,9 @@ public class AliPayment extends BasePayment {
         payment.setCreateTime(new Date());
         payment.setId(UUID.randomUUID().toString());
         BigDecimal amount=new BigDecimal(paymentRequest.getOrderFee()/100);
-        payment.setOrderAmount(amount);
+        payment.setOrderAmount(NumberUtils.toDouble(amount));
         payment.setOrderId(paymentRequest.getTradeNo());
-        payment.setPayerAmount(amount);
+        payment.setPayerAmount(NumberUtils.toDouble(amount));
         payment.setPayerUid(paymentRequest.getUserId());
         payment.setPayerName("");//TODO
         payment.setPayWay(paymentRequest.getPayChannel());
@@ -114,7 +115,7 @@ public class AliPayment extends BasePayment {
         payment.setRemark("");
         payment.setPayNo(response.getPrepayId());//第三方的交易id
         payment.setUpdateTime(new Date());
-        paymentMapper.insert(payment);
+        paymentMapper.insertSelective(payment);
     }
 
     @Override
