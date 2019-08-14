@@ -5,7 +5,7 @@
 <generatorConfiguration>
     <!--    数据库驱动jar-->
     <!--<classPathEntry location="E:\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />-->
-    <classPathEntry location="/Users/mic/Documents/software/workspace/gpmall/mysql-connector-java-8.0.16.jar"/>
+    <classPathEntry location="/Users/wangzhong/IdeaProjects/gpmall/mysql-connector-java-8.0.16.jar"/>
 
     <context id="MysqlTables" targetRuntime="MyBatis3">
         <!-- 格式化java代码 -->
@@ -23,7 +23,7 @@
 
         <!--数据库连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.1.105:3306/gpmall"
+                        connectionURL="jdbc:mysql://mysql.gpmall.com:3306/gpmall"
                         userId="root"
                         password="123456">
             <property name="useInformationSchema" value="true"/>
