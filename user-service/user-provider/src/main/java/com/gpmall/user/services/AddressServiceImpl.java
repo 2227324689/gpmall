@@ -1,6 +1,5 @@
 package com.gpmall.user.services;
 
-import com.alibaba.druid.support.calcite.DDLColumn;
 import com.gpmall.user.IAddressService;
 import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.converter.AddressConverter;
@@ -26,10 +25,10 @@ import java.util.List;
 public class AddressServiceImpl implements IAddressService {
 
     @Autowired
-    AddressMapper addressMapper;
+	AddressMapper addressMapper;
 
     @Autowired
-    AddressConverter converter;
+	AddressConverter converter;
 
     @Override
     public AddressListResponse addressList(AddressListRequest request) {
@@ -112,6 +111,13 @@ public class AddressServiceImpl implements IAddressService {
         try{
             request.requestCheck();
             int row=addressMapper.deleteByPrimaryKey(request.getAddressId());
+            if(row>0){
+                response.setCode(SysRetCodeConstants.SUCCESS.getCode());
+                response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
+            }else{
+                response.setCode(SysRetCodeConstants.DATA_NOT_EXIST.getCode());
+                response.setMsg(SysRetCodeConstants.DATA_NOT_EXIST.getMessage());
+            }
             log.info("AddressServiceImpl.deleteAddress effect row :"+row);
         }catch (Exception e){
             log.error("AddressServiceImpl.deleteAddress occur Exception :"+e);

@@ -26,7 +26,7 @@ public interface OrderQueryService {
      * @param request
      * @return
      */
-    OrderListResposne orderList(OrderListRequest request);
+    OrderListResponse orderList(OrderListRequest request);
 
 
     /**
@@ -35,5 +35,12 @@ public interface OrderQueryService {
      * @return
      */
     OrderDetailResponse orderDetail(OrderDetailRequest request);
+
+    /**
+     * 查询订单条目
+     * @param request
+     * @return
+     */
+    OrderItemResponse orderItem(OrderItemRequest request);
 
 }

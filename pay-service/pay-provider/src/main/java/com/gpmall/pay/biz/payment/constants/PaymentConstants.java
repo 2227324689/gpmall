@@ -2,6 +2,7 @@ package com.gpmall.pay.biz.payment.constants;
 
 /**
  * 支付相关常量
+ * @author mic
  */
 public class PaymentConstants {
 

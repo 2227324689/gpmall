@@ -5,9 +5,7 @@ package com.gpmall.order.converter;/**
 import com.gpmall.order.dal.entitys.Order;
 import com.gpmall.order.dal.entitys.OrderItem;
 import com.gpmall.order.dal.entitys.OrderShipping;
-import com.gpmall.order.dto.OrderDetailResponse;
-import com.gpmall.order.dto.OrderItemDto;
-import com.gpmall.order.dto.OrderShippingDto;
+import com.gpmall.order.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 
@@ -26,6 +24,9 @@ public interface OrderConverter {
     OrderDetailResponse order2res(Order order);
 
     @Mappings({})
+    OrderDetailInfo order2detail(Order order);
+
+    @Mappings({})
     OrderItemDto item2dto(OrderItem item);
 
     @Mappings({})
@@ -33,4 +34,10 @@ public interface OrderConverter {
 
 
     List<OrderItemDto> item2dto(List<OrderItem> items);
+
+    @Mappings({})
+    OrderItemResponse item2res(OrderItem orderItem);
+
+    @Mappings({})
+    OrderDto order2dto(Order order);
 }

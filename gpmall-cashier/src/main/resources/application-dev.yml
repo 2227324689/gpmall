@@ -4,12 +4,12 @@ dubbo:
     name: gpmall-cashier
     owner: Mic
   registry:
-    address: zookeeper://192.168.13.106:2181
+    address: zookeeper://zk.gpmall.com:2181
     check: true
     group: dubbo-dev
     simplified: true
   metadata-report:
-    address: zookeeper://192.168.13.106:2181
+    address: zookeeper://zk.gpmall.com:2181
     retry-times: 30
     cycle-report: false
     group: dubbo-dev

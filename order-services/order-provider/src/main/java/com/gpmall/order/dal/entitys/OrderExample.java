@@ -1175,6 +1175,76 @@ public class OrderExample {
             addCriterion("buyer_comment not between", value1, value2, "buyerComment");
             return (Criteria) this;
         }
+
+        public Criteria andUniqueKeyIsNull() {
+            addCriterion("unique_key is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyIsNotNull() {
+            addCriterion("unique_key is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyEqualTo(String value) {
+            addCriterion("unique_key =", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyNotEqualTo(String value) {
+            addCriterion("unique_key <>", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyGreaterThan(String value) {
+            addCriterion("unique_key >", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyGreaterThanOrEqualTo(String value) {
+            addCriterion("unique_key >=", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyLessThan(String value) {
+            addCriterion("unique_key <", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyLessThanOrEqualTo(String value) {
+            addCriterion("unique_key <=", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyLike(String value) {
+            addCriterion("unique_key like", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyNotLike(String value) {
+            addCriterion("unique_key not like", value, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyIn(List<String> values) {
+            addCriterion("unique_key in", values, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyNotIn(List<String> values) {
+            addCriterion("unique_key not in", values, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyBetween(String value1, String value2) {
+            addCriterion("unique_key between", value1, value2, "uniqueKey");
+            return (Criteria) this;
+        }
+
+        public Criteria andUniqueKeyNotBetween(String value1, String value2) {
+            addCriterion("unique_key not between", value1, value2, "uniqueKey");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

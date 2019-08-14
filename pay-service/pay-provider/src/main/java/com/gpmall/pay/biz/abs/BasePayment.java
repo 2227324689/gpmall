@@ -13,24 +13,29 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
 public abstract class BasePayment implements Payment{
 
-    Logger Log=LoggerFactory.getLogger(BasePayment.class);
+    protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
-    public static Map<String,BasePayment> paymentMap=new ConcurrentHashMap<>();
+    public static Map<String,BasePayment> paymentMap=new ConcurrentHashMap<String,BasePayment>();
 
     @PostConstruct
     public void init(){
         paymentMap.put(getPayChannel(),this);
     }
 
+    /**
+     * 获取验证器
+     * @return
+     */
     public abstract Validator getValidator();
 
     /**
      * 创建上下文信息
      *
+     * @param request
      * @return
      */
     public abstract PaymentContext createContext(AbstractRequest request);
@@ -40,6 +45,7 @@ public abstract class BasePayment implements Payment{
      * 为下层的支付渠道的数据做好准备
      *
      * @param request
+     * @param context
      * @throws BizException
      */
     public abstract void prepare(AbstractRequest request, PaymentContext context) throws BizException;
@@ -49,6 +55,8 @@ public abstract class BasePayment implements Payment{
     /**
      * 基本业务处理
      * @param request
+     * @param context
+     * @return AbstractResponse
      * @throws BizException
      */
     public abstract AbstractResponse generalProcess(AbstractRequest request, PaymentContext context) throws BizException;
@@ -68,7 +76,7 @@ public abstract class BasePayment implements Payment{
      */
     @Override
     public AbstractResponse process(AbstractRequest request) throws BizException {
-        Log.info("Begin BasePayment.process:"+request);
+        log.info("Begin BasePayment.process:"+request);
         AbstractResponse response = null;
         PaymentContext context = createContext(request);
         //验证

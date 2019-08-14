@@ -31,7 +31,22 @@
     <pagehelper.version>5.1.10</pagehelper.version>
     <pagehelper.sprinboo.version>1.2.12</pagehelper.sprinboo.version>
     <swagger-starter.version>1.8.0.RELEASE</swagger-starter.version>
+    <validation-api.version>2.0.1.Final</validation-api.version>
+    <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
   </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>maven-release</id>
+      <name>Nexus Release Repository</name>
+      <url>http://maven.igper.com/repository/maven-releases/</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven-snapshots</id>
+      <name>Nexus Snapshot Repository</name>
+      <url>http://maven.igper.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
 
   <dependencyManagement>
     <dependencies>
@@ -174,6 +189,17 @@
         <groupId>com.spring4all</groupId>
         <artifactId>swagger-spring-boot-starter</artifactId>
         <version>${swagger-starter.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.validation</groupId>
+        <artifactId>validation-api</artifactId>
+        <version>${validation-api.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.hibernate.validator</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate-validator.version}</version>
       </dependency>
     </dependencies>
 

@@ -30,10 +30,10 @@ import java.util.Map;
 @RequestMapping("/user")
 public class RegisterController {
 
-    @Reference
+    @Reference(timeout = 3000)
     IUserRegisterService iUserRegisterService;
 
-    @Reference
+    @Reference(timeout = 3000)
     IKaptchaService kaptchaService;
     @Anoymous
     @PostMapping("/register")
