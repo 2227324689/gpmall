@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "com.gpmall.user")
-@MapperScan("com.gpmall.user.dal")
+@MapperScan(basePackages = {"com.gpmall.user.dal", "com.gpmall.user.dal.dao"})
 public class UserProviderApplication {
 
 	public static void main(String[] args) {
