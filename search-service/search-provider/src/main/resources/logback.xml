@@ -16,11 +16,11 @@
 
     <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--定义日志输出的路径-->
-        <file>${scheduler.manager.server.home}/logs/${app.name}.log</file>
+        <file>/logs/${app.name}.log</file>
         <!--定义日志滚动的策略-->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!--定义文件滚动时的文件名的格式-->
-            <fileNamePattern>${scheduler.manager.server.home}/logs/${app.name}.%d{yyyy-MM-dd.HH}.log
+            <fileNamePattern>/logs/${app.name}.%d{yyyy-MM-dd.HH}.log
             </fileNamePattern>
             <!--60天的时间周期，日志量最大20GB-->
             <maxHistory>60</maxHistory>
