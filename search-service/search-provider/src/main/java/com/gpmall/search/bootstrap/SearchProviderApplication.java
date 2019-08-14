@@ -15,6 +15,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  */
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.gpmall.search")
 @MapperScan(basePackages = "com.gpmall.search.mapper")
 @EnableElasticsearchRepositories(basePackages = "com.gpmall.search.repository")
 public class SearchProviderApplication {

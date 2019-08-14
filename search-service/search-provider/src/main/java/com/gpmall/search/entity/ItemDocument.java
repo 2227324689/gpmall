@@ -12,7 +12,7 @@ import java.util.Date;
  */
 
 @Document(indexName = "tb_item", type = "doc", shards = 1, replicas = 0)
-public class ProductSearchModel {
+public class ItemDocument {
 	@Id
 	private Integer id;
 	@Field(type = FieldType.Text)
@@ -42,7 +42,7 @@ public class ProductSearchModel {
 
 	@Override
 	public String toString() {
-		return "ProductSearchModel{" +
+		return "ItemDocument{" +
 				"id=" + id +
 				", image='" + image + '\'' +
 				", status=" + status +

@@ -20,6 +20,9 @@ public class SearchRequest extends AbstractRequest {
     private String keyword;
     private Integer currentPage;
     private Integer pageSize;
+    private String sort;
+    private Integer priceGt;
+    private Integer priceLte;
 
     @Override
     public void requestCheck() {
@@ -27,9 +30,6 @@ public class SearchRequest extends AbstractRequest {
             throw new ValidateException(
                     SearchRetCode.REQUEST_CHECK_FAILURE.getCode(),
                     SearchRetCode.REQUEST_CHECK_FAILURE.getMsg());
-        }
-        if (currentPage == null || currentPage <= 0) {
-            currentPage = 1;
         }
     }
 

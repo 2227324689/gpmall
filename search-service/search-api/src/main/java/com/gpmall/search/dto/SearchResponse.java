@@ -5,6 +5,8 @@ import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.search.consts.SearchRetCode;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * 通用响应类
  *
@@ -13,22 +15,23 @@ import lombok.Data;
  * @Date 2019年8月10日
  */
 @Data
-public class SearchResponse extends AbstractResponse {
+public class SearchResponse<T> extends AbstractResponse {
 
-    private Object data;
+    private List<T> data;
 
-    public Object getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public SearchResponse setData(Object data) {
+    public SearchResponse setData(List<T> data) {
         this.data = data;
         return this;
     }
 
-    public SearchResponse ok(Object data) {
+    public SearchResponse ok(List<T> data) {
         this.setCode(SearchRetCode.SUCCESS.getCode());
         this.setMsg(SearchRetCode.SUCCESS.getMsg());
+        this.setData(data);
         return this;
     }
 }
