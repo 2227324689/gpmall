@@ -102,7 +102,7 @@
             <version>3.0.0</version>
         </dependency>
         <dependency>
-            <groupId>com.gpmall.commons</groupId>
+            <groupId>com.gpmall.parent</groupId>
             <artifactId>common-lock</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
