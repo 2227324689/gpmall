@@ -31,11 +31,7 @@ spring:
   data:
     elasticsearch:
       cluster-name: docker-cluster
-#      cluster-name: esbest
       cluster-nodes: 39.98.240.253:9300
-#     cluster-nodes: 127.0.0.1:9300
-#      repositories:
-#        enabled: true
 
 dubbo:
   application:
@@ -43,7 +39,7 @@ dubbo:
     owner: gp-search
   protocol:
     name: dubbo
-    port: 20883
+    port: 20884
   registry:
     address: zookeeper://zk.gpmall.com:2181
     check: true

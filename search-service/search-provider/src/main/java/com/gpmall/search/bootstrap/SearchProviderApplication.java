@@ -1,6 +1,7 @@
 package com.gpmall.search.bootstrap;
 
 
+//import org.mybatis.spring.annotation.MapperScan;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +15,7 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
  */
 
 @SpringBootApplication
-@ComponentScan(basePackages = "com.gpmall.search.repository")
+@ComponentScan(basePackages = "com.gpmall.search")
 @MapperScan(basePackages = "com.gpmall.search.mapper")
 @EnableElasticsearchRepositories(basePackages = "com.gpmall.search.repository")
 public class SearchProviderApplication {
