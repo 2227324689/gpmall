@@ -1,8 +1,14 @@
 package com.gpmall.user.dal.entitys;
 
+import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
+@Table(name = "tb_address")
 public class Address implements Serializable {
+    @Id
+    @Column(name = "address_id", table = "tb_address")
     private Long addressId;
 
     private Long userId;
