@@ -28,7 +28,10 @@ spring:
         max-idle: 10
         max-wait: 3000
         min-idle: 4
-
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: 39.98.240.253:9300
 
 dubbo:
   application:
@@ -36,7 +39,7 @@ dubbo:
     owner: gp-search
   protocol:
     name: dubbo
-    port: 20883
+    port: 20884
   registry:
     address: zookeeper://zk.gpmall.com:2181
     check: true
@@ -49,4 +52,3 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.search.services
-
