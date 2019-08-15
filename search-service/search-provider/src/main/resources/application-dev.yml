@@ -30,12 +30,8 @@ spring:
         min-idle: 4
   data:
     elasticsearch:
-#      cluster-name: docker-cluster
-      cluster-name: elasticsearch
-#      cluster-nodes: 39.98.240.253:9300
-      cluster-nodes: 192.168.117.135:9300
-#      repositories:
-#        enabled: true
+      cluster-name: docker-cluster
+      cluster-nodes: 39.98.240.253:9300
 
 dubbo:
   application:
@@ -43,7 +39,7 @@ dubbo:
     owner: gp-search
   protocol:
     name: dubbo
-    port: 20886
+    port: 20884
   registry:
     address: zookeeper://zk.gpmall.com:2181
     check: true
