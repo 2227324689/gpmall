@@ -13,12 +13,11 @@ import java.util.concurrent.TimeUnit;
  */
 @LockSpi("redis")
 public interface DistributedLock {
+    void lock(String key) throws DistributedLockException;
 
-    void lock(String key) throws Exception;
+    boolean tryLock(String key) throws DistributedLockException;
 
-    boolean tryLock(String key) throws Exception;
-
-    void lock(String lockKey, TimeUnit unit, int timeout) throws Exception;
+    void lock(String lockKey, TimeUnit unit, int timeout) throws DistributedLockException;
 
     /**
      * 尝试获取锁
@@ -29,7 +28,12 @@ public interface DistributedLock {
      * @param leaseTime 上锁后自动释放锁时间
      * @return
      */
-    boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime) throws Exception;
+    boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime) throws DistributedLockException;
 
-    void unlock(String lockKey);
+    /**
+     * 释放锁
+     * @param lockKey
+     * @throws DistributedLockException
+     */
+    void unlock(String lockKey) throws DistributedLockException;
 }
