@@ -6,7 +6,6 @@ import com.gpmall.shopping.constant.GlobalConstants;
 import com.gpmall.shopping.constants.ShoppingRetCode;
 import com.gpmall.shopping.converter.ProductCateConverter;
 import com.gpmall.shopping.dal.entitys.ItemCat;
-import com.gpmall.shopping.dal.entitys.ItemCatExample;
 import com.gpmall.shopping.dal.persistence.ItemCatMapper;
 import com.gpmall.shopping.dto.AllProductCateRequest;
 import com.gpmall.shopping.dto.AllProductCateResponse;

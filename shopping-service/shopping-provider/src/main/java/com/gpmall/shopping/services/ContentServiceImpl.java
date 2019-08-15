@@ -5,7 +5,6 @@ import com.gpmall.shopping.constant.GlobalConstants;
 import com.gpmall.shopping.constants.ShoppingRetCode;
 import com.gpmall.shopping.converter.ContentConverter;
 import com.gpmall.shopping.dal.entitys.PanelContent;
-import com.gpmall.shopping.dal.entitys.PanelContentExample;
 import com.gpmall.shopping.dal.persistence.PanelContentMapper;
 import com.gpmall.shopping.dto.NavListResponse;
 import com.gpmall.shopping.utils.ExceptionProcessorUtils;
