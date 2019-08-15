@@ -30,10 +30,10 @@ spring:
         min-idle: 4
   data:
     elasticsearch:
-#      cluster-name: docker-cluster
-      cluster-name: esbest
-#      cluster-nodes: 39.98.240.253:9300
-      cluster-nodes: 127.0.0.1:9300
+      cluster-name: docker-cluster
+#      cluster-name: esbest
+      cluster-nodes: 39.98.240.253:9300
+#     cluster-nodes: 127.0.0.1:9300
 #      repositories:
 #        enabled: true
 
