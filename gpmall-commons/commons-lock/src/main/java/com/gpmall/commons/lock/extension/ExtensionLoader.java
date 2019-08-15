@@ -42,6 +42,7 @@ public class ExtensionLoader<T> {
 
     /**
      * 默认扩展点
+     * loadExtensionClasses 加载扩展文件的时候赋值
      */
     private String cachedDefaultName;
 
@@ -151,6 +152,7 @@ public class ExtensionLoader<T> {
 
 
     private Map<String, Class<?>> loadExtensionClasses() {
+        //type 就是 DistributedLock
         final LockSpi defaultAnnotation = type.getAnnotation(LockSpi.class);
         if (defaultAnnotation != null) {
             String value = defaultAnnotation.value();
@@ -160,6 +162,7 @@ public class ExtensionLoader<T> {
                     throw new IllegalStateException("more than 1 default extension name on extension " + type.getName()
                             + ": " + Arrays.toString(names));
                 }
+                // cachedDefaultName = @LockSpi 的value
                 if (names.length == 1) cachedDefaultName = names[0];
             }
         }
@@ -176,8 +179,10 @@ public class ExtensionLoader<T> {
     }
 
     private void loadFile(Map<String, Class<?>> extensionClasses, String dir) throws IOException {
+        //这里拼凑了一个需要加载的文件路径
         String fileName = dir + type.getName();
         Enumeration<URL> urls;
+        //获取类加载器（应用类加载器）
         ClassLoader classLoader = findClassLoader();
         if (classLoader != null) {
             urls = classLoader.getResources(fileName);
@@ -204,10 +209,12 @@ public class ExtensionLoader<T> {
                                         String name = null;
                                         int i = line.indexOf('=');
                                         if (i > 0) {
+                                            //name 是文件中的key
                                             name = line.substring(0, i).trim();
                                             line = line.substring(i + 1).trim();
                                         }
                                         if (line.length() > 0) {
+                                            // 加载类的类型是否是 DistributedLock的类型
                                             Class<?> clazz = Class.forName(line, true, classLoader);
                                             if (!type.isAssignableFrom(clazz)) {
                                                 throw new IllegalStateException("Error when load extension class(interface: " +
@@ -223,19 +230,28 @@ public class ExtensionLoader<T> {
                                                     wrappers = cachedWrapperClasses;
                                                 }
                                                 wrappers.add(clazz);
-                                            } catch (NoSuchMethodException e) {
+                                            } catch (NoSuchMethodException e) {//这里抛出异常后解析非warpper类
                                                 clazz.getConstructor();
+                                                //name 是文件中的key
                                                 if (name == null || name.length() == 0) {
                                                     throw new IllegalStateException("No such extension name for the class " + clazz.getName() + " in the config " + url);
                                                 }
+                                                //name 按都逗号分隔，可以配置多个
+                                                //如：redis,redis_1=com.gpmall.commons.lock.impl.DistributedRedisLock
                                                 String[] names = NAME_SEPARATOR.split(name);
                                                 if (names != null && names.length > 0) {
                                                     for (String n : names) {
+                                                        //缓存扩展类对应的的名称：
+                                                        // DistributedRedisLock=redis
+                                                        // DistributedRedisLock=redis_1
                                                         if (!cachedNames.containsKey(clazz)) {
                                                             cachedNames.put(clazz, n);
                                                         }
                                                         Class<?> c = extensionClasses.get(n);
                                                         if (c == null) {
+                                                            //缓存名称对应的扩展类：
+                                                            // redis=DistributedRedisLock
+                                                            // redis_1=DistributedRedisLock
                                                             extensionClasses.put(n, clazz);
                                                         } else if (c != clazz) {
                                                             throw new IllegalStateException("Duplicate extension " + type.getName() + " name " + n + " on " + c.getName() + " and " + clazz.getName());
