@@ -58,11 +58,4 @@ public class PayController {
         return new ResponseUtil<>().setErrorMsg(response.getMsg());
 
     }
-
-    public static void main(String[] args) {
-        BigDecimal bigDecimal=new BigDecimal(23.33);
-
-        bigDecimal=bigDecimal.multiply(new BigDecimal(100));
-
-    }
 }

@@ -58,7 +58,7 @@
               </el-option>
             </el-select>
           </div>
-          <div style="flex: 1">
+          <div style="flex: 1;padding-left:4px">
             <el-select @change="_handleCityChange" v-model="cityId" placeholder="请选择市">
               <el-option
                 v-for="(item, index) in cityList"
@@ -99,7 +99,6 @@
   import YButton from '/components/YButton'
   import YPopup from '/components/popup'
   import YShelf from '/components/shelf'
-  import { getStore } from '/utils/storage'
 
   import cityMap from '/utils/area/city'
   import provinceList from '/utils/area/province'
@@ -307,8 +306,6 @@
       this.provinceList = provinceList
       this.cityList = []
       this.district = []
-
-      this.userId = getStore('userId')
       this._addressList()
     },
     components: {
@@ -396,24 +393,25 @@
     > div {
       text-align: left;
       margin-bottom: 15px;
-      > input {
-        width: 100%;
-        height: 50px;
-        font-size: 18px;
-        padding: 10px 20px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        box-shadow: 0 3px 5px -4px rgba(0, 0, 0, .4) inset, -1px 0 3px -2px rgba(0, 0, 0, .1) inset;
-        line-height: 46px;
-      }
     }
   }
-
   .btn {
     margin: 0;
     width: 100%;
-    height: 50px;
+    height: 44px;
     font-size: 14px;
-    line-height: 48px
+    line-height: 44px
+  }
+</style>
+<style lang="scss">
+  .md .el-input__inner {
+    width: 100%;
+    height: 36px;
+    font-size: 14px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px -4px rgba(0, 0, 0, .4) inset, -1px 0 3px -2px rgba(0, 0, 0, .1) inset;
+    line-height: 36px;
   }
 </style>
