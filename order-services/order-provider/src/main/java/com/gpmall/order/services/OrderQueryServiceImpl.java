@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.common.utils.CollectionUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,8 +46,7 @@ public class OrderQueryServiceImpl implements OrderQueryService{
     public OrderCountResponse orderCount(OrderCountRequest request) {
         OrderCountResponse response=new OrderCountResponse();
         try {
-            OrderExample example = new OrderExample();
-            Long count = orderMapper.countByExample(example);
+            Long count = orderMapper.countAll();
             response.setCount(count.intValue());
             response.setCode(OrderRetCode.SUCCESS.getCode());
             response.setMsg(OrderRetCode.SUCCESS.getMessage());
@@ -71,9 +71,8 @@ public class OrderQueryServiceImpl implements OrderQueryService{
             response.setCode(OrderRetCode.SUCCESS.getCode());
             response.setMsg(OrderRetCode.SUCCESS.getMessage());
             PageHelper.startPage(request.getPage(),request.getSize());
-            OrderExample example = new OrderExample();
-            example.createCriteria().andUserIdEqualTo(request.getUserId());
-            example.setOrderByClause("create_time desc");
+            Example example = new Example(Order.class);
+            example.createCriteria().andEqualTo("userId",request.getUserId());
             List<Order> orderList = orderMapper.selectByExample(example);
             if(CollectionUtils.isEmpty(orderList)){
                 response.setTotal(0L);
@@ -85,9 +84,10 @@ public class OrderQueryServiceImpl implements OrderQueryService{
             response.setTotal(pageInfo.getTotal());
             orderList.forEach( order -> {
                 OrderDetailInfo info = orderConverter.order2detail(order);
-                OrderItemExample itemExample=new OrderItemExample();
-                itemExample.createCriteria().andOrderIdEqualTo(order.getOrderId());
-                List<OrderItem> list=orderItemMapper.selectByExample(itemExample);
+                List<OrderItem> list =  orderItemMapper.queryByOrderId(order.getOrderId());
+//                OrderItemExample itemExample=new OrderItemExample();
+//                itemExample.createCriteria().andOrderIdEqualTo(order.getOrderId());
+//                List<OrderItem> list=orderItemMapper.selectByExample(itemExample);
                 OrderShipping orderShipping=orderShippingMapper.selectByPrimaryKey(order.getOrderId());
                 info.setOrderItemDto(orderConverter.item2dto(list));
                 info.setOrderShippingDto(orderConverter.shipping2dto(orderShipping));
@@ -112,10 +112,11 @@ public class OrderQueryServiceImpl implements OrderQueryService{
         try{
             request.requestCheck();
             Order order=orderMapper.selectByPrimaryKey(request.getOrderId());
-            OrderItemExample example=new OrderItemExample();
-            OrderItemExample.Criteria criteria=example.createCriteria();
-            criteria.andOrderIdEqualTo(order.getOrderId());
-            List<OrderItem> list=orderItemMapper.selectByExample(example);
+//            OrderItemExample example=new OrderItemExample();
+//            OrderItemExample.Criteria criteria=example.createCriteria();
+//            criteria.andOrderIdEqualTo(order.getOrderId());
+//            List<OrderItem> list=orderItemMapper.selectByExample(example);
+            List<OrderItem> list =  orderItemMapper.queryByOrderId(order.getOrderId());
             OrderShipping orderShipping=orderShippingMapper.selectByPrimaryKey(order.getOrderId());
             response=orderConverter.order2res(order);
             response.setOrderItemDto(orderConverter.item2dto(list));
@@ -125,6 +126,24 @@ public class OrderQueryServiceImpl implements OrderQueryService{
             return response;
         }catch (Exception e){
             log.error("OrderQueryServiceImpl.orderDetail occur Exception :" +e);
+            ExceptionProcessorUtils.wrapperHandlerException(response,e);
+        }
+        return response;
+    }
+
+    @Override
+    public OrderItemResponse orderItem(OrderItemRequest request) {
+        OrderItemResponse response = new OrderItemResponse();
+        try {
+            request.requestCheck();
+            OrderItem orderItem = orderItemMapper.selectByPrimaryKey(request.getOrderItemId());
+            response = orderConverter.item2res(orderItem);
+            Order order = orderMapper.selectByPrimaryKey(orderItem.getOrderId());
+            response.setOrderDto(orderConverter.order2dto(order));
+            response.setCode(OrderRetCode.SUCCESS.getCode());
+            response.setMsg(OrderRetCode.SUCCESS.getMessage());
+        } catch (Exception e){
+            log.error("OrderQueryServiceImpl.orderItem occur Exception :" +e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }
         return response;

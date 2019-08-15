@@ -17,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -47,8 +48,9 @@ public class ProductCateServiceImpl implements IProductCateService {
                 response.setProductCateDtoList(productCateDtos);
                 return response;
             }
-            ItemCatExample itemCatExample = new ItemCatExample();
-            ItemCatExample.Criteria criteria = itemCatExample.createCriteria();
+            Example itemCatExample = new Example(ItemCat.class);
+//            ItemCatExample itemCatExample = new ItemCatExample();
+//            ItemCatExample.Criteria criteria = itemCatExample.createCriteria();
             String orderCol = "sort_order";
             String orderDir = "asc";
             if(request.getSort().equals("1")){
