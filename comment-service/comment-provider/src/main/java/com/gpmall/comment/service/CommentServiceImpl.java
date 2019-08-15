@@ -1,5 +1,7 @@
 package com.gpmall.comment.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gpmall.comment.CommentException;
 import com.gpmall.comment.ICommentService;
 import com.gpmall.comment.constant.CommentRetCode;
@@ -9,10 +11,7 @@ import com.gpmall.comment.dal.entitys.CommentExample;
 import com.gpmall.comment.dal.entitys.CommentPicture;
 import com.gpmall.comment.dal.persistence.CommentMapper;
 import com.gpmall.comment.dal.persistence.CommentPictureMapper;
-import com.gpmall.comment.dto.AddCommentRequest;
-import com.gpmall.comment.dto.AddCommentResponse;
-import com.gpmall.comment.dto.CommentRequest;
-import com.gpmall.comment.dto.CommentResponse;
+import com.gpmall.comment.dto.*;
 import com.gpmall.comment.utils.ExceptionProcessorUtil;
 import com.gpmall.comment.utils.GlobalIdGeneratorUtil;
 import com.gpmall.comment.utils.SensitiveWordsUtil;
@@ -98,7 +97,41 @@ public class CommentServiceImpl implements ICommentService {
             } else {
                 response.setCode(CommentRetCode.SUCCESS.getCode());
                 response.setMsg(CommentRetCode.SUCCESS.getMessage());
-                response.setCommentDto(commentConverter.comment2Dto(comments.get(0)));
+                response.setCommentDtoList(commentConverter.comment2Dto(comments));
+            }
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public CommentListResponse commentList(CommentListRequest request) {
+        CommentListResponse response = new CommentListResponse();
+        try {
+            request.requestCheck();
+            String itemId = request.getItemId();
+            Integer type = request.getType();
+            CommentExample example = new CommentExample();
+
+            CommentExample.Criteria criteria = example.createCriteria();
+            criteria.andItemIdEqualTo(itemId);
+            if (type != null) {
+                criteria.andTypeEqualTo(type.byteValue());
+            }
+            PageHelper.startPage(request.getPage(), request.getSize());
+            List<Comment> comments = commentMapper.selectByExample(example);
+            if (CollectionUtils.isEmpty(comments)) {
+                response.setCode(CommentRetCode.COMMENT_NOT_EXIST.getCode());
+                response.setMsg(CommentRetCode.COMMENT_NOT_EXIST.getMessage());
+            } else {
+                response.setCode(CommentRetCode.SUCCESS.getCode());
+                response.setMsg(CommentRetCode.SUCCESS.getMessage());
+                response.setPage(request.getPage());
+                response.setSize(request.getSize());
+                PageInfo<Comment> commentPageInfo = new PageInfo<>();
+                response.setTotal(commentPageInfo.getTotal());
+                response.setCommentDtoList(commentConverter.comment2Dto(comments));
             }
         } catch (Exception e) {
             ExceptionProcessorUtil.handleException(response, e);

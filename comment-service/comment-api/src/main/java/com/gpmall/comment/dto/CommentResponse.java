@@ -3,6 +3,8 @@ package com.gpmall.comment.dto;
 import com.gpmall.commons.result.AbstractResponse;
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author heps
  * @date 2019/8/14 23:24
@@ -11,5 +13,5 @@ import lombok.Data;
 @Data
 public class CommentResponse extends AbstractResponse {
 
-    private CommentDto commentDto;
+    private List<CommentDto> commentDtoList;
 }

@@ -1,9 +1,6 @@
 package com.gpmall.comment;
 
-import com.gpmall.comment.dto.AddCommentRequest;
-import com.gpmall.comment.dto.AddCommentResponse;
-import com.gpmall.comment.dto.CommentRequest;
-import com.gpmall.comment.dto.CommentResponse;
+import com.gpmall.comment.dto.*;
 
 /**
  * @author heps
@@ -26,4 +23,11 @@ public interface ICommentService {
      * @return
      */
     CommentResponse comment(CommentRequest request);
+
+    /**
+     * 分页查询某个商品的评价
+     * @param request
+     * @return
+     */
+    CommentListResponse commentList(CommentListRequest request);
 }
