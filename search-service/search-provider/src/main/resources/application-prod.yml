@@ -34,7 +34,7 @@ dubbo:
     owner: Mic
   protocol:
     name: dubbo
-    port: 20883
+    port: 20884
   registry:
     address: zookeeper://localhost:2181
     check: true
