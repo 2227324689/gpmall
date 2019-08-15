@@ -12,6 +12,8 @@ import com.gupaoedu.pay.PayCoreService;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
+import com.gupaoedu.pay.dto.RefundRequest;
+import com.gupaoedu.pay.dto.RefundResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -56,6 +58,18 @@ public class PayController {
         }
         return new ResponseUtil<>().setErrorMsg(response.getMsg());
 
+    }
+
+    @PostMapping("/refund")
+    public ResponseData refund(@RequestBody PayForm refundForm,HttpServletRequest httpServletRequest){
+        log.info("订单退款入参:{}",JSON.toJSONString(refundForm));
+        RefundRequest refundRequest=new RefundRequest();
+        refundRequest.setOrderId(refundForm.getOrderId());
+        refundRequest.setRefundAmount(refundForm.getMoney());
+        refundRequest.setPayChannel(refundForm.getPayType());
+        RefundResponse refundResponse=payCoreService.execRefund(refundRequest);
+        log.info("订单退款同步返回结果:{}",JSON.toJSONString(refundResponse));
+        return new ResponseUtil<>().setData(refundResponse);
     }
 
     public static void main(String[] args) {
