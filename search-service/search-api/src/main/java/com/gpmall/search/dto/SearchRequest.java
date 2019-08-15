@@ -1,8 +1,10 @@
 package com.gpmall.search.dto;
 
 import com.gpmall.commons.result.AbstractRequest;
+import com.gpmall.commons.tool.exception.ValidateException;
 import com.gpmall.search.SearchException;
-import com.gpmall.search.consts.SearchEnum;
+import com.gpmall.search.consts.SearchRetCode;
+import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -12,45 +14,25 @@ import org.apache.commons.lang3.StringUtils;
  * @version v1.0.0
  * @Date 2019年8月10日
  */
+@Data
 public class SearchRequest extends AbstractRequest {
 
     private String keyword;
     private Integer currentPage;
     private Integer pageSize;
+    private String sort;
+    private Integer priceGt;
+    private Integer priceLte;
 
-    public SearchRequest() {
-    }
-
-    public SearchRequest(String keyword) {
-        this.keyword = keyword;
-    }
-
-    public static SearchRequest of(String keyword) {
-        return new SearchRequest(keyword);
-    }
-    public String getKeyword() {
-        return keyword;
+    @Override
+    public void requestCheck() {
+        if(StringUtils.isBlank(keyword)){
+            throw new ValidateException(
+                    SearchRetCode.REQUEST_CHECK_FAILURE.getCode(),
+                    SearchRetCode.REQUEST_CHECK_FAILURE.getMsg());
+        }
     }
 
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
-
-    public Integer getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(Integer currentPage) {
-        this.currentPage = currentPage;
-    }
-
-    public Integer getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
-    }
 
     @Override
     public String toString() {
@@ -59,13 +41,5 @@ public class SearchRequest extends AbstractRequest {
                 ", currentPage=" + currentPage +
                 ", pageSize=" + pageSize +
                 '}';
-    }
-
-    @Override
-    public void requestCheck() {
-        if (StringUtils.isAllBlank(keyword)) {
-            throw SearchException.create(SearchEnum.STRING_EMPTY.getCode(),
-                    SearchEnum.STRING_EMPTY.param(keyword));
-        }
     }
 }
