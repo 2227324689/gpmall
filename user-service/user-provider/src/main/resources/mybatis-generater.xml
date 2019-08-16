@@ -16,7 +16,7 @@
 
         <!--数据库连接 -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/gmall"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/gpmall"
                         userId="root"
                         password="root">
             <property name="useInformationSchema" value="true"/>
@@ -41,11 +41,27 @@
                              targetProject="src/main/java"
                              type="XMLMAPPER"/>
         <!--已生成的表
+        <table tableName="tb_address" domainObjectName="Address"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+          <table tableName="tb_member" domainObjectName="Member"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+        <table tableName="tb_user" domainObjectName="User"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
         -->
         <table tableName="tb_address" domainObjectName="Address"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false">
         </table>
+
     </context>
 </generatorConfiguration>

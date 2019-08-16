@@ -35,6 +35,10 @@ public interface OrderCoreService {
      */
     DeleteOrderResponse deleteOrder(DeleteOrderRequest request);
 
-
+    /**
+     * 删除订单与交易
+     * @param request
+     */
+    void deleteOrderWithTransaction(DeleteOrderRequest request);
 
 }

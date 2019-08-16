@@ -37,61 +37,94 @@ import java.util.*;
 @Service
 public class AliPayment extends BasePayment {
 
-    @Resource(name="aliPaymentValidator")
-    private Validator validator;
+	@Resource(name = "aliPaymentValidator")
+	private Validator validator;
 
-    @Autowired
-    AliPaymentConfig aliPaymentConfig;
+	@Autowired
+	AliPaymentConfig aliPaymentConfig;
 
-    @Autowired
-    PaymentMapper paymentMapper;
+	@Autowired
+	PaymentMapper paymentMapper;
 
-    @Override
-    public Validator getValidator() {
-        return validator;
-    }
+	@Override
+	public Validator getValidator() {
+		return validator;
+	}
 
-    @Override
-    public PaymentContext createContext(AbstractRequest request) {
-        AliPaymentContext aliPaymentContext=new AliPaymentContext();
-        PaymentRequest paymentRequest=(PaymentRequest)request;
-        aliPaymentContext.setSubject(paymentRequest.getSubject());
-        aliPaymentContext.setOutTradeNo(paymentRequest.getTradeNo());
-        aliPaymentContext.setTotalFee(paymentRequest.getTotalFee());
-        return aliPaymentContext;
-    }
+	@Override
+	public Context createContext(AbstractRequest request) {
 
-    @Override
-    public void prepare(AbstractRequest request, PaymentContext context) throws BizException {
-        SortedMap<String, Object> sParaTemp =new TreeMap<String, Object>();
-        AliPaymentContext aliPaymentContext=(AliPaymentContext)context;
-        sParaTemp.put("service", aliPaymentConfig.getAli_service());
-        sParaTemp.put("partner", aliPaymentConfig.getAli_partner());
-        sParaTemp.put("seller_email", aliPaymentConfig.getSeller_email());
-        sParaTemp.put("seller_id", aliPaymentConfig.getSeller_id());
-        sParaTemp.put("_input_charset", aliPaymentConfig.getInput_charset());
-        sParaTemp.put("payment_type", 1);
-        sParaTemp.put("it_b_pay", aliPaymentConfig.getIt_b_pay());
-        sParaTemp.put("notify_url", aliPaymentConfig.getNotify_url());
-        sParaTemp.put("return_url",aliPaymentConfig.getReturn_url());
-        sParaTemp.put("out_trade_no",aliPaymentContext.getOutTradeNo());
-        sParaTemp.put("subject", aliPaymentContext.getSubject());
-        sParaTemp.put("total_fee", aliPaymentContext.getTotalFee().doubleValue());
-        aliPaymentContext.setsParaTemp(sParaTemp);
-    }
+		JSONObject jsonObject = JSONObject.parseObject(JSON.toJSONString(request));
+		//如果是退款业务
+		if (jsonObject.containsKey("refundFlag")) {
+			AliRefundContext aliRefundContext = new AliRefundContext();
+			RefundRequest refundRequest = (RefundRequest) request;
+			aliRefundContext.setTotalFee(refundRequest.getRefundAmount());
+			aliRefundContext.setOutTradeNo(refundRequest.getOrderId());
+			return aliRefundContext;
+		}
+		//如果是支付业务
+		AliPaymentContext aliPaymentContext = new AliPaymentContext();
+		PaymentRequest paymentRequest = (PaymentRequest) request;
+		aliPaymentContext.setSubject(paymentRequest.getSubject());
+		aliPaymentContext.setOutTradeNo(paymentRequest.getTradeNo());
+		aliPaymentContext.setTotalFee(paymentRequest.getTotalFee());
+		return aliPaymentContext;
+	}
+
+	@Override
+	public void prepare(AbstractRequest request, Context context) throws BizException {
+		SortedMap<String, Object> sParaTemp = new TreeMap<String, Object>();
+		sParaTemp.put("partner", aliPaymentConfig.getAli_partner());
+		sParaTemp.put("_input_charset", aliPaymentConfig.getInput_charset());
+		//如果是退款上下文，填充退款参数
+		if (context instanceof AliRefundContext) {
+			AliRefundContext aliRefundContext = (AliRefundContext) context;
+			sParaTemp.put("service", aliPaymentConfig.getRefund_service());
+			sParaTemp.put("seller_user_id", aliPaymentConfig.getSeller_id());
+			sParaTemp.put("refund_date", UtilDate.getDateFormatter());
+			sParaTemp.put("batch_no", aliRefundContext.getOutTradeNo());
+			sParaTemp.put("batch_num", "1");
+			sParaTemp.put("notify_url", aliPaymentConfig.getRefund_notify_url());
+			//退款详细数据，必填，格式（支付宝交易号^退款金额^备注），多笔请用#隔开
+			String detail_data = aliRefundContext.getOutTradeNo() + "^" + aliRefundContext.getTotalFee().toString() +
+					"^" + "正常退款";
+			sParaTemp.put("detail_data", detail_data);
+			aliRefundContext.setsParaTemp(sParaTemp);
+			return;
+		}
+		//如果是支付上下文，填充支付参数
+		AliPaymentContext aliPaymentContext = (AliPaymentContext) context;
+		sParaTemp.put("service", aliPaymentConfig.getAli_service());
+		sParaTemp.put("seller_email", aliPaymentConfig.getSeller_email());
+		sParaTemp.put("seller_id", aliPaymentConfig.getSeller_id());
+		sParaTemp.put("payment_type", 1);
+		sParaTemp.put("it_b_pay", aliPaymentConfig.getIt_b_pay());
+		sParaTemp.put("notify_url", aliPaymentConfig.getNotify_url());
+		sParaTemp.put("return_url", aliPaymentConfig.getReturn_url());
+		sParaTemp.put("out_trade_no", aliPaymentContext.getOutTradeNo());
+		sParaTemp.put("subject", aliPaymentContext.getSubject());
+		sParaTemp.put("total_fee", aliPaymentContext.getTotalFee().doubleValue());
+		aliPaymentContext.setsParaTemp(sParaTemp);
+	}
 
 
-    @Override
-    public AbstractResponse generalProcess(AbstractRequest request, PaymentContext context) throws BizException {
-        PaymentResponse response=new PaymentResponse();
-        AliPaymentContext aliPaymentContext=(AliPaymentContext)context;
-        Map<String, Object> sPara = AlipayBuildRequest.buildRequestParam(aliPaymentContext.getsParaTemp(),aliPaymentConfig);
-        String strPara = AlipayBuildRequest.buildRequest(sPara, "get", "确认",aliPaymentConfig);
-        response.setCode(PayReturnCodeEnum.SUCCESS.getCode());
-        response.setMsg(PayReturnCodeEnum.SUCCESS.getMsg());
-        response.setHtmlStr(strPara);
-        return response;
-    }
+	@Override
+	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
+		Map<String, Object> sPara = AlipayBuildRequest.buildRequestParam(context.getsParaTemp(), aliPaymentConfig);
+		String strPara = AlipayBuildRequest.buildRequest(sPara, "get", "确认", aliPaymentConfig);
+		AbstractResponse response;
+		if (context instanceof AliRefundContext) {
+			response = new RefundResponse();
+			((RefundResponse) response).setAlipayForm(strPara);
+		} else {
+			response = new PaymentResponse();
+			((PaymentResponse) response).setHtmlStr(strPara);
+		}
+		response.setCode(PayReturnCodeEnum.SUCCESS.getCode());
+		response.setMsg(PayReturnCodeEnum.SUCCESS.getMsg());
+		return response;
+	}
 
 
     @Override

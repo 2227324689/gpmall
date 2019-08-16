@@ -314,6 +314,7 @@ CREATE TABLE `tb_order` (
   `buyer_message` varchar(100) COLLATE utf8_bin DEFAULT NULL COMMENT '买家留言',
   `buyer_nick` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '买家昵称',
   `buyer_comment` tinyint(1) DEFAULT NULL COMMENT '买家是否已经评价',
+  `unique_key` varchar(50) COLLATE utf8_bin DEFAULT NULL COMMENT '唯一键',
   PRIMARY KEY (`order_id`),
   KEY `create_time` (`create_time`),
   KEY `buyer_nick` (`buyer_nick`),

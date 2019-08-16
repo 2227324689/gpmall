@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 
@@ -42,6 +43,9 @@ public class OrderCoreServiceImpl implements OrderCoreService{
 
     @Autowired
     OrderProcessPipelineFactory orderProcessPipelineFactory;
+
+    @Autowired
+    OrderCoreService orderCoreService;
 
 
     /**
@@ -99,7 +103,7 @@ public class OrderCoreServiceImpl implements OrderCoreService{
         DeleteOrderResponse response=new DeleteOrderResponse();
         try{
             request.requestCheck();
-            deleteOrderWithTransaction(request);
+            orderCoreService.deleteOrderWithTransaction(request);
             response.setCode(OrderRetCode.SUCCESS.getCode());
             response.setMsg(OrderRetCode.SUCCESS.getMessage());
         }catch (Exception e){
@@ -110,10 +114,13 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     }
 
 
-    @Transactional
-    void deleteOrderWithTransaction(DeleteOrderRequest request){
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteOrderWithTransaction(DeleteOrderRequest request){
         orderMapper.deleteByPrimaryKey(request.getOrderId());
-        orderItemMapper.deleteItemByOrderId(request.getOrderId());
+        Example example = new Example(Order.class);
+        example.createCriteria().andEqualTo("orderId",request.getOrderId());
+        orderItemMapper.deleteByExample(example);
         orderShippingMapper.deleteByPrimaryKey(request.getOrderId());
     }
 }
