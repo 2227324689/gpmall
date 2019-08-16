@@ -4,6 +4,7 @@ import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.pay.biz.abs.BasePayment;
+import com.gpmall.pay.biz.abs.Context;
 import com.gpmall.pay.biz.abs.PaymentContext;
 import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.wechatpay.WeChatBuildRequest;
@@ -56,7 +57,7 @@ public class WechatPayment extends BasePayment {
     }
 
     @Override
-    public void prepare(AbstractRequest request, PaymentContext context) throws BizException {
+    public void prepare(AbstractRequest request, Context context) throws BizException {
         WechatPaymentContext wechatPaymentContext=(WechatPaymentContext)context;
         SortedMap<Object, Object> paraMap = new TreeMap<>();
         paraMap.put("body", wechatPaymentContext.getBody());
@@ -81,7 +82,7 @@ public class WechatPayment extends BasePayment {
 
 
     @Override
-    public AbstractResponse generalProcess(AbstractRequest request, PaymentContext context) throws BizException {
+    public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
         PaymentResponse response=new PaymentResponse();
 
         WechatPaymentContext wechatPaymentContext=(WechatPaymentContext)context;
@@ -110,7 +111,7 @@ public class WechatPayment extends BasePayment {
     }
 
     @Override
-    public void afterProcess(AbstractRequest request, AbstractResponse respond, PaymentContext context) throws BizException {
+    public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
 
     }
 
