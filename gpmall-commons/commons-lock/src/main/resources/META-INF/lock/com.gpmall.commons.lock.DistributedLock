@@ -1,2 +1,3 @@
 redis=com.gpmall.commons.lock.impl.DistributedRedisLock
+zookeeper=com.gpmall.commons.lock.impl.zk.ZkMutexDistributedLock
 wrapper=com.gpmall.commons.lock.impl.DistributedLockWrapper

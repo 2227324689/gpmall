@@ -1,4 +1,5 @@
-package com.gpmall.cashier.bootstrap.controller;/**
+package com.gpmall.cashier.bootstrap.controller;
+/**
  * Created by mic on 2019/8/1.
  */
 
@@ -60,6 +61,7 @@ public class PayController {
 
     }
 
+
     @PostMapping("/refund")
     public ResponseData refund(@RequestBody PayForm refundForm,HttpServletRequest httpServletRequest){
         log.info("订单退款入参:{}",JSON.toJSONString(refundForm));
@@ -72,10 +74,5 @@ public class PayController {
         return new ResponseUtil<>().setData(refundResponse);
     }
 
-    public static void main(String[] args) {
-        BigDecimal bigDecimal=new BigDecimal(23.33);
 
-        bigDecimal=bigDecimal.multiply(new BigDecimal(100));
-
-    }
 }
