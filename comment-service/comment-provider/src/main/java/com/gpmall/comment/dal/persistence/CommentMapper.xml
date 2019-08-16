@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.comment.dal.persistence.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.comment.dal.entitys.Comment">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="item_id" jdbcType="VARCHAR" property="itemId" />
+    <result column="star" jdbcType="TINYINT" property="star" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_anoymous" jdbcType="BIT" property="isAnoymous" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="buyer_nick" jdbcType="VARCHAR" property="buyerNick" />
+    <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
+    <result column="is_public" jdbcType="BIT" property="isPublic" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+    <result column="validation_user_id" jdbcType="BIGINT" property="validationUserId" />
+    <result column="validation_time" jdbcType="TIMESTAMP" property="validationTime" />
+    <result column="validation_suggestion" jdbcType="VARCHAR" property="validationSuggestion" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="deletion_time" jdbcType="TIMESTAMP" property="deletionTime" />
+    <result column="deletion_user_id" jdbcType="BIGINT" property="deletionUserId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, order_id, item_id, star, type, is_anoymous, content, buyer_nick, comment_time, 
+    is_public, is_valid, validation_user_id, validation_time, validation_suggestion, 
+    is_top, user_id, is_deleted, deletion_time, deletion_user_id
+  </sql>
+  <select id="selectByExample" parameterType="com.gpmall.comment.dal.entitys.CommentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from tb_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tb_comment
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from tb_comment
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gpmall.comment.dal.entitys.CommentExample">
+    delete from tb_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gpmall.comment.dal.entitys.Comment">
+    insert into tb_comment (id, order_id, item_id, 
+      star, type, is_anoymous, 
+      content, buyer_nick, comment_time, 
+      is_public, is_valid, validation_user_id, 
+      validation_time, validation_suggestion, 
+      is_top, user_id, is_deleted, deletion_time, 
+      deletion_user_id)
+    values (#{id,jdbcType=VARCHAR}, #{orderId,jdbcType=VARCHAR}, #{itemId,jdbcType=VARCHAR}, 
+      #{star,jdbcType=TINYINT}, #{type,jdbcType=TINYINT}, #{isAnoymous,jdbcType=BIT}, 
+      #{content,jdbcType=VARCHAR}, #{buyerNick,jdbcType=VARCHAR}, #{commentTime,jdbcType=TIMESTAMP}, 
+      #{isPublic,jdbcType=BIT}, #{isValid,jdbcType=BIT}, #{validationUserId,jdbcType=BIGINT}, 
+      #{validationTime,jdbcType=TIMESTAMP}, #{validationSuggestion,jdbcType=VARCHAR}, 
+      #{isTop,jdbcType=BIT}, #{userId,jdbcType=BIGINT}, #{isDeleted,jdbcType=BIT}, #{deletionTime,jdbcType=TIMESTAMP}, 
+      #{deletionUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gpmall.comment.dal.entitys.Comment">
+    insert into tb_comment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="orderId != null">
+        order_id,
+      </if>
+      <if test="itemId != null">
+        item_id,
+      </if>
+      <if test="star != null">
+        star,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="isAnoymous != null">
+        is_anoymous,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="buyerNick != null">
+        buyer_nick,
+      </if>
+      <if test="commentTime != null">
+        comment_time,
+      </if>
+      <if test="isPublic != null">
+        is_public,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+      <if test="validationUserId != null">
+        validation_user_id,
+      </if>
+      <if test="validationTime != null">
+        validation_time,
+      </if>
+      <if test="validationSuggestion != null">
+        validation_suggestion,
+      </if>
+      <if test="isTop != null">
+        is_top,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="isDeleted != null">
+        is_deleted,
+      </if>
+      <if test="deletionTime != null">
+        deletion_time,
+      </if>
+      <if test="deletionUserId != null">
+        deletion_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="star != null">
+        #{star,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isAnoymous != null">
+        #{isAnoymous,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerNick != null">
+        #{buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="commentTime != null">
+        #{commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublic != null">
+        #{isPublic,jdbcType=BIT},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+      <if test="validationUserId != null">
+        #{validationUserId,jdbcType=BIGINT},
+      </if>
+      <if test="validationTime != null">
+        #{validationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validationSuggestion != null">
+        #{validationSuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null">
+        #{isTop,jdbcType=BIT},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="deletionTime != null">
+        #{deletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletionUserId != null">
+        #{deletionUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gpmall.comment.dal.entitys.CommentExample" resultType="java.lang.Long">
+    select count(*) from tb_comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update tb_comment
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderId != null">
+        order_id = #{record.orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemId != null">
+        item_id = #{record.itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.star != null">
+        star = #{record.star,jdbcType=TINYINT},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=TINYINT},
+      </if>
+      <if test="record.isAnoymous != null">
+        is_anoymous = #{record.isAnoymous,jdbcType=BIT},
+      </if>
+      <if test="record.content != null">
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.buyerNick != null">
+        buyer_nick = #{record.buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="record.commentTime != null">
+        comment_time = #{record.commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isPublic != null">
+        is_public = #{record.isPublic,jdbcType=BIT},
+      </if>
+      <if test="record.isValid != null">
+        is_valid = #{record.isValid,jdbcType=BIT},
+      </if>
+      <if test="record.validationUserId != null">
+        validation_user_id = #{record.validationUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.validationTime != null">
+        validation_time = #{record.validationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.validationSuggestion != null">
+        validation_suggestion = #{record.validationSuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isTop != null">
+        is_top = #{record.isTop,jdbcType=BIT},
+      </if>
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.isDeleted != null">
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.deletionTime != null">
+        deletion_time = #{record.deletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deletionUserId != null">
+        deletion_user_id = #{record.deletionUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update tb_comment
+    set id = #{record.id,jdbcType=VARCHAR},
+      order_id = #{record.orderId,jdbcType=VARCHAR},
+      item_id = #{record.itemId,jdbcType=VARCHAR},
+      star = #{record.star,jdbcType=TINYINT},
+      type = #{record.type,jdbcType=TINYINT},
+      is_anoymous = #{record.isAnoymous,jdbcType=BIT},
+      content = #{record.content,jdbcType=VARCHAR},
+      buyer_nick = #{record.buyerNick,jdbcType=VARCHAR},
+      comment_time = #{record.commentTime,jdbcType=TIMESTAMP},
+      is_public = #{record.isPublic,jdbcType=BIT},
+      is_valid = #{record.isValid,jdbcType=BIT},
+      validation_user_id = #{record.validationUserId,jdbcType=BIGINT},
+      validation_time = #{record.validationTime,jdbcType=TIMESTAMP},
+      validation_suggestion = #{record.validationSuggestion,jdbcType=VARCHAR},
+      is_top = #{record.isTop,jdbcType=BIT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      deletion_time = #{record.deletionTime,jdbcType=TIMESTAMP},
+      deletion_user_id = #{record.deletionUserId,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gpmall.comment.dal.entitys.Comment">
+    update tb_comment
+    <set>
+      <if test="orderId != null">
+        order_id = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="itemId != null">
+        item_id = #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="star != null">
+        star = #{star,jdbcType=TINYINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="isAnoymous != null">
+        is_anoymous = #{isAnoymous,jdbcType=BIT},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="buyerNick != null">
+        buyer_nick = #{buyerNick,jdbcType=VARCHAR},
+      </if>
+      <if test="commentTime != null">
+        comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublic != null">
+        is_public = #{isPublic,jdbcType=BIT},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+      <if test="validationUserId != null">
+        validation_user_id = #{validationUserId,jdbcType=BIGINT},
+      </if>
+      <if test="validationTime != null">
+        validation_time = #{validationTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validationSuggestion != null">
+        validation_suggestion = #{validationSuggestion,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null">
+        is_top = #{isTop,jdbcType=BIT},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="isDeleted != null">
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="deletionTime != null">
+        deletion_time = #{deletionTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deletionUserId != null">
+        deletion_user_id = #{deletionUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gpmall.comment.dal.entitys.Comment">
+    update tb_comment
+    set order_id = #{orderId,jdbcType=VARCHAR},
+      item_id = #{itemId,jdbcType=VARCHAR},
+      star = #{star,jdbcType=TINYINT},
+      type = #{type,jdbcType=TINYINT},
+      is_anoymous = #{isAnoymous,jdbcType=BIT},
+      content = #{content,jdbcType=VARCHAR},
+      buyer_nick = #{buyerNick,jdbcType=VARCHAR},
+      comment_time = #{commentTime,jdbcType=TIMESTAMP},
+      is_public = #{isPublic,jdbcType=BIT},
+      is_valid = #{isValid,jdbcType=BIT},
+      validation_user_id = #{validationUserId,jdbcType=BIGINT},
+      validation_time = #{validationTime,jdbcType=TIMESTAMP},
+      validation_suggestion = #{validationSuggestion,jdbcType=VARCHAR},
+      is_top = #{isTop,jdbcType=BIT},
+      user_id = #{userId,jdbcType=BIGINT},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      deletion_time = #{deletionTime,jdbcType=TIMESTAMP},
+      deletion_user_id = #{deletionUserId,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
