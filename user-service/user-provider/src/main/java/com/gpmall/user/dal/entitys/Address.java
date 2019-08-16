@@ -1,5 +1,6 @@
 package com.gpmall.user.dal.entitys;
 
+
 import lombok.Data;
 import lombok.ToString;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 public class Address {
     @Id
     @Column(name = "address_id")
+
     private Long addressId;
 
     @Column(name = "user_id")

@@ -5,7 +5,9 @@
 <generatorConfiguration>
 <!--    数据库驱动jar-->
     <!--<classPathEntry location="E:\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />-->
-    <classPathEntry location="D:/repository/mysql/mysql-connector-java/5.1.47/mysql-connector-java-5.1.47.jar" />
+
+    <classPathEntry location="/Users/wangzhong/IdeaProjects/gpmall/mysql-connector-java-8.0.16.jar" />
+
 
     <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
         <property name="beginningDelimiter" value="`"/>
