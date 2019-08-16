@@ -1,9 +1,11 @@
 package com.gpmall.search.dto;
 
 
-import com.gpmall.search.consts.SearchEnum;
+import com.gpmall.commons.result.AbstractResponse;
+import com.gpmall.search.consts.SearchRetCode;
+import lombok.Data;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
  * 通用响应类
@@ -12,64 +14,24 @@ import java.io.Serializable;
  * @version v1.0.0
  * @Date 2019年8月10日
  */
-public class SearchResponse implements Serializable {
-    private String code;
-    private String msg;
-    private Object data;
+@Data
+public class SearchResponse<T> extends AbstractResponse {
 
-    public static SearchResponse ok() {
-        SearchResponse response = new SearchResponse();
-        response.setCode(SearchEnum.SUCCESS.getCode());
-        return response;
-    }
+    private List<T> data;
 
-    public static SearchResponse err() {
-        SearchResponse response = new SearchResponse();
-        response.setCode(SearchEnum.FAILED.getCode());
-        return response;
-    }
-
-    public SearchResponse msg(String msg) {
-        this.setMsg(msg);
-        return this;
-    }
-
-    public SearchResponse data(Object data) {
-        this.setData(data);
-        return this;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
-
-    public Object getData() {
+    public List<T> getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public SearchResponse setData(List<T> data) {
         this.data = data;
+        return this;
     }
 
-    @Override
-    public String toString() {
-        return "SearchResponse{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
+    public SearchResponse ok(List<T> data) {
+        this.setCode(SearchRetCode.SUCCESS.getCode());
+        this.setMsg(SearchRetCode.SUCCESS.getMsg());
+        this.setData(data);
+        return this;
     }
-
 }

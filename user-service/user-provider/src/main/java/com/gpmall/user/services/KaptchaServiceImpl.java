@@ -59,9 +59,11 @@ public class KaptchaServiceImpl implements IKaptchaService {
         KaptchaCodeResponse response=new KaptchaCodeResponse();
         try{
             request.requestCheck();
-            RBucket<String> rBucket=redissonClient.getBucket(KAPTCHA_UUID+request.getUuid());
+            String redisKey = KAPTCHA_UUID+request.getUuid();
+            RBucket<String> rBucket=redissonClient.getBucket(redisKey);
             String code=rBucket.get();
-            if(StringUtils.isNotBlank(code)&&request.getCode().equals(code)){
+            log.info("请求的redisKey={},请求的code={},从redis获得的code={}",redisKey,request.getCode(),code);
+            if(StringUtils.isNotBlank(code)&&request.getCode().equalsIgnoreCase(code)){
                 response.setCode(SysRetCodeConstants.SUCCESS.getCode());
                 response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
                 return response;

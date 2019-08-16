@@ -67,7 +67,7 @@ export default {
         z-index: 10;
         overflow: hidden;
         width: 100%;
-        height: 60px;
+        height: 55px;
         background: #F5F5F5;
         background: linear-gradient(#FFF,#F5F5F5);
         border-bottom: 1px solid #DCDCDC;
