@@ -1,17 +1,15 @@
 package com.gpmall.comment.service;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.gpmall.comment.CommentException;
 import com.gpmall.comment.ICommentService;
 import com.gpmall.comment.constant.CommentRetCode;
-import com.gpmall.comment.convert.CommentConverter;
 import com.gpmall.comment.dal.entitys.Comment;
 import com.gpmall.comment.dal.entitys.CommentExample;
 import com.gpmall.comment.dal.entitys.CommentPicture;
 import com.gpmall.comment.dal.persistence.CommentMapper;
 import com.gpmall.comment.dal.persistence.CommentPictureMapper;
-import com.gpmall.comment.dto.*;
+import com.gpmall.comment.dto.AddCommentRequest;
+import com.gpmall.comment.dto.AddCommentResponse;
 import com.gpmall.comment.utils.ExceptionProcessorUtil;
 import com.gpmall.comment.utils.GlobalIdGeneratorUtil;
 import com.gpmall.comment.utils.SensitiveWordsUtil;
@@ -34,11 +32,10 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements ICommentService {
 
+    @Autowired
     private CommentMapper commentMapper;
-
+    @Autowired
     private CommentPictureMapper commentPictureMapper;
-
-    private CommentConverter commentConverter;
 
     @Reference
     private OrderQueryService orderQueryService;
@@ -154,10 +151,10 @@ public class CommentServiceImpl implements ICommentService {
         String orderId = orderItemResponse.getOrderId();
         String itemId = orderItemResponse.getItemId();
 
-        CommentExample example = new CommentExample();
-        CommentExample.Criteria criteria = example.createCriteria();
-        criteria.andOrderIdEqualTo(orderId);
-        criteria.andItemIdEqualTo(itemId);
+        Example example = new Example(Comment.class);
+        example.createCriteria()
+        .andEqualTo(orderId)
+        .andEqualTo(itemId);
         List<Comment> comments = commentMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(comments)) {
             throw new CommentException(CommentRetCode.CURRENT_ORDER_ITEM_EXISTS_COMMENT.getCode(), CommentRetCode.CURRENT_ORDER_ITEM_EXISTS_COMMENT.getMessage());

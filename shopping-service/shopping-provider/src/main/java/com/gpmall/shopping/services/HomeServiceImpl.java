@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -60,10 +61,10 @@ public class HomeServiceImpl implements IHomeService {
                 response.setPanelContentItemDtos(set);
                 return response;
             }
-            PanelExample panelExample=new PanelExample();
-            PanelExample.Criteria criteria=panelExample.createCriteria();
-            criteria.andPositionEqualTo(0);
-            criteria.andStatusEqualTo(1);
+            Example panelExample = new Example(Panel.class);
+            Example.Criteria criteria = panelExample.createCriteria();
+            criteria.andEqualTo("position", 0);
+            criteria.andEqualTo("status", 1);
             panelExample.setOrderByClause("sort_order");
             List<Panel> panels = panelMapper.selectByExample(panelExample);
             Set<PanelDto> panelContentItemDtos = new HashSet<PanelDto>();

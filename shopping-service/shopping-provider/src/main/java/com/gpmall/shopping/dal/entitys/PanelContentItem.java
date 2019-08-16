@@ -1,7 +1,10 @@
 package com.gpmall.shopping.dal.entitys;
 
 import lombok.Data;
+import tk.mybatis.mapper.annotation.KeySql;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -12,8 +15,11 @@ import java.util.Date;
  * create-date: 2019/7/23-18:03
  */
 @Data
+@Table(name = "tb_panel_content_item")
 public class PanelContentItem {
 
+    @Id
+    @KeySql(useGeneratedKeys = true)
     private Integer id;
 
     private Integer panelId;

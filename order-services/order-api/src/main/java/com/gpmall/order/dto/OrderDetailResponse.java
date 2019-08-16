@@ -5,7 +5,6 @@ package com.gpmall.order.dto;/**
 import com.gpmall.commons.result.AbstractResponse;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -20,11 +19,11 @@ public class OrderDetailResponse extends AbstractResponse{
 
     private String orderId;
 
-    private BigDecimal payment;
+    private Double payment;
 
     private Integer paymentType;
 
-    private BigDecimal postFee;
+    private Double postFee;
 
     private Integer status;
 
@@ -50,7 +49,7 @@ public class OrderDetailResponse extends AbstractResponse{
 
     private String buyerNick;
 
-    private Boolean buyerComment;
+    private Integer buyerComment;
 
     private List<OrderItemDto> orderItemDto;
 

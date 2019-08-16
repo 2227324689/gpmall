@@ -64,7 +64,7 @@ public class AddressController {
         request.setUserName(form.getUserName());
         request.setStreetName(form.getStreetName());
         request.setTel(form.getTel());
-        request.setIsDefault(form.is_Default());
+        request.setIsDefault(form.is_Default()?1:null);
         AddAddressResponse response = addressService.createAddress(request);
 
         if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
@@ -92,7 +92,7 @@ public class AddressController {
         JSONObject object= JSON.parseObject(userInfo);
         Long uid=Long.parseLong(object.get("uid").toString());
         request.setAddressId(form.getAddressId());
-        request.setIsDefault(form.is_Default());
+        request.setIsDefault(form.is_Default()?1:null);
         request.setStreetName(form.getStreetName());
         request.setTel(form.getTel());
         request.setUserId(uid);

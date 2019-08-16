@@ -26,7 +26,7 @@ public class UpdateAddressRequest extends AbstractRequest {
 
     private String streetName;
 
-    private Boolean isDefault;
+    private Integer isDefault;
 
     @Override
     public void requestCheck() {
