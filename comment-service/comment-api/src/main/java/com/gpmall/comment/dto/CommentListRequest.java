@@ -6,35 +6,35 @@ import com.gpmall.commons.tool.exception.ValidateException;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.List;
-
 /**
  * @author heps
- * @date 2019/8/11 22:58
- *
- * 添加商品评价请求参数
+ * @date 2019/8/15 23:01
+ * 分页查询单个商品的商品评价参数
  */
 @Data
-public class AddCommentRequest extends AbstractRequest {
+public class CommentListRequest extends AbstractRequest {
 
-    private String orderItemId;
+    private String itemId;
 
-    private Integer star;
-
+    /**
+     * 评价类型 1、好评 2、中评 3、差评
+     */
     private Integer type;
 
-    private Boolean isAnoymous;
+    private int page;
 
-    private String content;
-
-    private List<String> picPaths;
-
-    private Boolean isPublic;
+    private int size;
 
     @Override
     public void requestCheck() {
-        if (StringUtils.isEmpty(orderItemId) || StringUtils.isEmpty(content) || isPublic == null) {
+        if (StringUtils.isEmpty(itemId)) {
             throw new ValidateException(CommentRetCode.REQUISITE_PARAMETER_NOT_EXIST.getCode(),CommentRetCode.REQUISITE_PARAMETER_NOT_EXIST.getMessage());
+        }
+        if (page < 1) {
+            setPage(1);
+        }
+        if (size < 1) {
+            size = 10;
         }
     }
 }
