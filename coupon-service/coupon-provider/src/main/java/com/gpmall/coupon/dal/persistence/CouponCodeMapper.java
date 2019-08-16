@@ -1,7 +1,7 @@
 package com.gpmall.coupon.dal.persistence;
 
-import com.gpmall.coupon.config.MyMapper;
+import com.gpmall.commons.tool.tkmapper.TkMapper;
 import com.gpmall.coupon.dal.entitys.CouponCode;
 
-public interface CouponCodeMapper extends MyMapper<CouponCode> {
+public interface CouponCodeMapper extends TkMapper<CouponCode> {
 }

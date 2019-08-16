@@ -1,24 +1,25 @@
 package com.gpmall.pay.biz.payment;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
-import com.gpmall.pay.biz.abs.BasePayment;
-import com.gpmall.pay.biz.abs.PaymentContext;
-import com.gpmall.pay.biz.abs.Validator;
+import com.gpmall.commons.tool.utils.NumberUtils;
+import com.gpmall.commons.tool.utils.UtilDate;
+import com.gpmall.pay.biz.abs.*;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayBuildRequest;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayNotify;
 import com.gpmall.pay.biz.payment.constants.AliPaymentConfig;
 import com.gpmall.pay.biz.payment.constants.PayResultEnum;
 import com.gpmall.pay.biz.payment.context.AliPaymentContext;
+import com.gpmall.pay.biz.payment.context.AliRefundContext;
 import com.gpmall.pay.dal.entitys.Payment;
 import com.gpmall.pay.dal.persistence.PaymentMapper;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
-import com.gupaoedu.pay.dto.PaymentNotifyRequest;
-import com.gupaoedu.pay.dto.PaymentNotifyResponse;
-import com.gupaoedu.pay.dto.PaymentRequest;
-import com.gupaoedu.pay.dto.PaymentResponse;
+import com.gupaoedu.pay.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -127,28 +128,28 @@ public class AliPayment extends BasePayment {
 	}
 
 
-    @Override
-    public void afterProcess(AbstractRequest request, AbstractResponse respond, PaymentContext context) throws BizException {
-        log.info("Alipayment begin - afterProcess -request:"+request+"\n response:"+respond);
-        PaymentRequest paymentRequest=(PaymentRequest)request;
-        PaymentResponse response=(PaymentResponse)respond;
-        com.gpmall.pay.dal.entitys.Payment payment=new Payment();
-        payment.setCreateTime(new Date());
-        payment.setId(UUID.randomUUID().toString());
-        BigDecimal amount=new BigDecimal(paymentRequest.getOrderFee()/100);
-        payment.setOrderAmount(amount);
-        payment.setOrderId(paymentRequest.getTradeNo());
-        payment.setPayerAmount(amount);
-        payment.setPayerUid(paymentRequest.getUserId());
-        payment.setPayerName("");//TODO
-        payment.setPayWay(paymentRequest.getPayChannel());
-        payment.setProductName(paymentRequest.getSubject());
-        payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());//
-        payment.setRemark("");
-        payment.setPayNo(response.getPrepayId());//第三方的交易id
-        payment.setUpdateTime(new Date());
-        paymentMapper.insert(payment);
-    }
+	@Override
+	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
+		log.info("Alipayment begin - afterProcess -request:" + request + "\n response:" + respond);
+		PaymentRequest paymentRequest = (PaymentRequest) request;
+		PaymentResponse response = (PaymentResponse) respond;
+		Payment payment = new Payment();
+		payment.setCreateTime(new Date());
+		payment.setId(UUID.randomUUID().toString());
+		BigDecimal amount = new BigDecimal(paymentRequest.getOrderFee() / 100);
+		payment.setOrderAmount(NumberUtils.toDouble(amount));
+		payment.setOrderId(paymentRequest.getTradeNo());
+		payment.setPayerAmount(NumberUtils.toDouble(amount));
+		payment.setPayerUid(paymentRequest.getUserId());
+		payment.setPayerName("");//TODO
+		payment.setPayWay(paymentRequest.getPayChannel());
+		payment.setProductName(paymentRequest.getSubject());
+		payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());//
+		payment.setRemark("");
+		payment.setPayNo(response.getPrepayId());//第三方的交易id
+		payment.setUpdateTime(new Date());
+		paymentMapper.insert(payment);
+	}
 
     @Override
     public String getPayChannel() {
