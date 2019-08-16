@@ -43,6 +43,9 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     @Autowired
     OrderProcessPipelineFactory orderProcessPipelineFactory;
 
+    @Autowired
+    OrderCoreService orderCoreService;
+
 
     /**
      * 创建订单的处理流程
@@ -99,7 +102,7 @@ public class OrderCoreServiceImpl implements OrderCoreService{
         DeleteOrderResponse response=new DeleteOrderResponse();
         try{
             request.requestCheck();
-            deleteOrderWithTransaction(request);
+            orderCoreService.deleteOrderWithTransaction(request);
             response.setCode(OrderRetCode.SUCCESS.getCode());
             response.setMsg(OrderRetCode.SUCCESS.getMessage());
         }catch (Exception e){
@@ -110,8 +113,9 @@ public class OrderCoreServiceImpl implements OrderCoreService{
     }
 
 
-    @Transactional
-    void deleteOrderWithTransaction(DeleteOrderRequest request){
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void deleteOrderWithTransaction(DeleteOrderRequest request){
         orderMapper.deleteByPrimaryKey(request.getOrderId());
         orderItemMapper.deleteItemByOrderId(request.getOrderId());
         orderShippingMapper.deleteByPrimaryKey(request.getOrderId());
