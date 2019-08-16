@@ -4,6 +4,7 @@ import com.gpmall.comment.CommentException;
 import com.gpmall.comment.ICommentService;
 import com.gpmall.comment.constant.CommentRetCode;
 import com.gpmall.comment.dal.entitys.Comment;
+import com.gpmall.comment.dal.entitys.CommentExample;
 import com.gpmall.comment.dal.entitys.CommentPicture;
 import com.gpmall.comment.dal.persistence.CommentMapper;
 import com.gpmall.comment.dal.persistence.CommentPictureMapper;
@@ -18,9 +19,7 @@ import com.gpmall.order.dto.OrderItemRequest;
 import com.gpmall.order.dto.OrderItemResponse;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
-import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
@@ -47,7 +46,11 @@ public class CommentServiceImpl implements ICommentService {
 
     private final String COMMENT_PICTURE_GLOBAL_ID_CACHE_KEY = "COMMENT_PICTURE_ID";
 
-    public CommentServiceImpl(GlobalIdGeneratorUtil globalIdGeneratorUtil) {
+    public CommentServiceImpl(CommentMapper commentMapper, CommentPictureMapper commentPictureMapper,
+                              CommentConverter commentConverter, GlobalIdGeneratorUtil globalIdGeneratorUtil) {
+        this.commentMapper = commentMapper;
+        this.commentPictureMapper = commentPictureMapper;
+        this.commentConverter = commentConverter;
         this.globalIdGeneratorUtil = globalIdGeneratorUtil;
     }
 
@@ -60,6 +63,73 @@ public class CommentServiceImpl implements ICommentService {
             request.requestCheck();
             checkSensitiveWords(request.getContent());
             return doAddComment(request);
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public CommentResponse comment(CommentRequest request) {
+        CommentResponse response = new CommentResponse();
+        try {
+            request.requestCheck();
+
+            String orderItemId = request.getOrderItemId();
+            OrderItemRequest orderItemRequest = new OrderItemRequest();
+            orderItemRequest.setOrderItemId(orderItemId);
+            OrderItemResponse orderItemResponse = orderQueryService.orderItem(orderItemRequest);
+
+            String itemId = orderItemResponse.getItemId();
+            String orderId = orderItemResponse.getOrderId();
+
+            CommentExample example = new CommentExample();
+            CommentExample.Criteria criteria = example.createCriteria();
+            criteria.andItemIdEqualTo(itemId);
+            criteria.andOrderIdEqualTo(orderId);
+            List<Comment> comments = commentMapper.selectByExample(example);
+            if (CollectionUtils.isEmpty(comments)) {
+                response.setCode(CommentRetCode.COMMENT_NOT_EXIST.getCode());
+                response.setMsg(CommentRetCode.COMMENT_NOT_EXIST.getMessage());
+            } else {
+                response.setCode(CommentRetCode.SUCCESS.getCode());
+                response.setMsg(CommentRetCode.SUCCESS.getMessage());
+                response.setCommentDtoList(commentConverter.comment2Dto(comments));
+            }
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public CommentListResponse commentList(CommentListRequest request) {
+        CommentListResponse response = new CommentListResponse();
+        try {
+            request.requestCheck();
+            String itemId = request.getItemId();
+            Integer type = request.getType();
+            CommentExample example = new CommentExample();
+
+            CommentExample.Criteria criteria = example.createCriteria();
+            criteria.andItemIdEqualTo(itemId);
+            if (type != null) {
+                criteria.andTypeEqualTo(type.byteValue());
+            }
+            PageHelper.startPage(request.getPage(), request.getSize());
+            List<Comment> comments = commentMapper.selectByExample(example);
+            if (CollectionUtils.isEmpty(comments)) {
+                response.setCode(CommentRetCode.COMMENT_NOT_EXIST.getCode());
+                response.setMsg(CommentRetCode.COMMENT_NOT_EXIST.getMessage());
+            } else {
+                response.setCode(CommentRetCode.SUCCESS.getCode());
+                response.setMsg(CommentRetCode.SUCCESS.getMessage());
+                response.setPage(request.getPage());
+                response.setSize(request.getSize());
+                PageInfo<Comment> commentPageInfo = new PageInfo<>();
+                response.setTotal(commentPageInfo.getTotal());
+                response.setCommentDtoList(commentConverter.comment2Dto(comments));
+            }
         } catch (Exception e) {
             ExceptionProcessorUtil.handleException(response, e);
         }
@@ -97,7 +167,12 @@ public class CommentServiceImpl implements ICommentService {
         if (request.getStar() == null) {
             comment.setStar((byte) 5);
         } else {
-            comment.setStar((byte) request.getStar().intValue());
+            comment.setStar(request.getStar().byteValue());
+        }
+        if (request.getType() == null) {
+            comment.setType((byte) 1);
+        } else {
+            comment.setType(request.getType().byteValue());
         }
         if (request.getIsAnoymous() == null) {
             comment.setIsAnoymous(true);

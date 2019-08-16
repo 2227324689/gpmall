@@ -6,3 +6,9 @@ mybatis:
   type-aliases-package: com.gpmall.comment.dal.entitys
 server:
   port: 8089
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
