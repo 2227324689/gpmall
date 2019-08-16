@@ -10,7 +10,7 @@ import com.gupaoedu.pay.IEnum;
  */
 public enum PayChannelEnum implements IEnum{
 
-    ALI_PAY("alipay","微信支付渠道"),
+    ALI_PAY("alipay","支付宝支付渠道"),
     WECHAT_PAY("wechat_pay","微信支付渠道");
 
     private String code;
