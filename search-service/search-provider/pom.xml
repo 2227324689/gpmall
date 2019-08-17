@@ -113,6 +113,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpmime</artifactId>
         </dependency>
+        <!--tkmapper-->
+        <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+        </dependency>
      </dependencies>
     <build>
         <plugins>
@@ -138,6 +143,11 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <!--mbg工具-->
+            <!--<plugin>-->
+                <!--<groupId>org.mybatis.generator</groupId>-->
+                <!--<artifactId>mybatis-generator-maven-plugin</artifactId>-->
+            <!--</plugin>-->
         </plugins>
         <resources>
             <resource>

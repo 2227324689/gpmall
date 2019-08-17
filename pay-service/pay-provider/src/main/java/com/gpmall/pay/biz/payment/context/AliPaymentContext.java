@@ -12,19 +12,8 @@ import java.util.SortedMap;
  * 支付宝支付的上下文信息
  */
 public class AliPaymentContext extends PaymentContext {
-
-    SortedMap<String, Object> sParaTemp;
     /** 商品名称（必填）*/
     private String subject;
-
-
-    public SortedMap<String, Object> getsParaTemp() {
-        return sParaTemp;
-    }
-
-    public void setsParaTemp(SortedMap<String, Object> sParaTemp) {
-        this.sParaTemp = sParaTemp;
-    }
 
     public String getSubject() {
         return subject;
