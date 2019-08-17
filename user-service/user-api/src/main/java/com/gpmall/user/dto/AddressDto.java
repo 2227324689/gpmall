@@ -23,5 +23,5 @@ public class AddressDto implements Serializable {
 
     private String streetName;
 
-    private Boolean isDefault;
+    private Integer isDefault;
 }

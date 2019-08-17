@@ -21,7 +21,7 @@
     <curator.famework.version>4.2.0</curator.famework.version>
     <mybatis.version>2.1.0</mybatis.version>
     <tkmybatis.version>3.4.2</tkmybatis.version>
-    <tkmybatis.springboot.version>1.1.7</tkmybatis.springboot.version>
+    <tkmybatis.springboot.version>2.1.5</tkmybatis.springboot.version>
     <druid.version>1.1.19</druid.version>
     <gpmall.commons>1.0-SNAPSHOT</gpmall.commons>
     <mapstruct.version>1.3.0.Final</mapstruct.version>
@@ -230,15 +230,20 @@
           <version>1.3.5</version>
           <dependencies>
             <dependency>
-              <groupId> mysql</groupId>
-              <artifactId> mysql-connector-java</artifactId>
+              <groupId>mysql</groupId>
+              <artifactId>mysql-connector-java</artifactId>
               <version>8.0.16</version>
             </dependency>
             <dependency>
               <groupId>org.mybatis.generator</groupId>
               <artifactId>mybatis-generator-core</artifactId>
-              <version>1.3.7</version>
+              <version>1.3.5</version>
             </dependency>
+              <dependency>
+                  <groupId>tk.mybatis</groupId>
+                  <artifactId>mapper</artifactId>
+                  <version>${tkmybatis.version}</version>
+              </dependency>
           </dependencies>
           <executions>
             <execution>

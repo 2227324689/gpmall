@@ -16,6 +16,7 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -86,7 +87,7 @@ public class OrderController {
         OrderDetailResponse response=orderQueryService.orderDetail(request);
         if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
             OrderDetail orderDetail=new OrderDetail();
-            orderDetail.setOrderTotal(response.getPayment());
+            orderDetail.setOrderTotal(BigDecimal.valueOf(response.getPayment()));
             orderDetail.setUserId(response.getUserId());
             orderDetail.setUserName(response.getBuyerNick());
             orderDetail.setGoodsList(response.getOrderItemDto());

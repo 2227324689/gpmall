@@ -4,17 +4,14 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
 <!--    数据库驱动jar-->
-    <!--<classPathEntry location="E:\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />-->
-    <classPathEntry location="D:\java_study\projects\gpmall\mysql-connector-java-8.0.16.jar" />
 
-    <context id="MysqlTables" targetRuntime="MyBatis3">
-        <!-- 格式化java代码 -->
-        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
-        <!-- 格式化XML代码 -->
-        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+    <context id="Mysql" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
         <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
-
-        <plugin type="org.mybatis.generator.plugins.ToStringPlugin" />
+        <plugin type="tk.mybatis.mapper.generator.MapperPlugin">
+            <property name="mappers" value="com.gpmall.commons.tool.tkmapper.TkMapper"/>
+        </plugin>
 
         <!--去除注释  -->
         <commentGenerator>
@@ -22,8 +19,8 @@
         </commentGenerator>
 
         <!--数据库连接 -->
-        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://192.168.117.135:3306/gpmall"
+        <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+                        connectionURL="jdbc:mysql://mysql.gpmall.com:3306/gpmall?useUnicode=true&amp;characterEncoding=utf8&amp;useOldAliasMetadataBehavior=true&amp;zeroDateTimeBehavior=convertToNull&amp;allowMultiQueries=true&amp;serverTimezone=UTC"
                         userId="root"
                         password="root">
             <property name="useInformationSchema" value="true"/>
@@ -50,30 +47,18 @@
         </javaClientGenerator>
 
         <!--对应数据库表 mysql可以加入主键自增 字段命名 忽略某字段等-->
-<!--        <table tableName="tb_comment" domainObjectName="Comment"-->
-<!--               enableCountByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true" />-->
-<!--        <table tableName="tb_comment_reply" domainObjectName="CommentReply"-->
-<!--               enableCountByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"/>-->
-<!--        <table tableName="tb_comment_picture" domainObjectName="CommentPicture"-->
-<!--               enableCountByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableDeleteByPrimaryKey="true"/>-->
+        <table tableName="tb_comment" domainObjectName="Comment"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false" />
+        <table tableName="tb_comment_reply" domainObjectName="CommentReply"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false" />
+        <table tableName="tb_comment_picture" domainObjectName="CommentPicture"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false" />
 
     </context>
 </generatorConfiguration>
