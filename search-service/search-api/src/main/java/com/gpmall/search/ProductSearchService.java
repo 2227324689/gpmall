@@ -33,4 +33,5 @@ public interface ProductSearchService {
      * @return SearchResponse
      */
     SearchResponse hotProductKeyword();
+
 }
