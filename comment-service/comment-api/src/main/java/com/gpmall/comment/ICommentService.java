@@ -30,4 +30,11 @@ public interface ICommentService {
      * @return
      */
     CommentListResponse commentList(CommentListRequest request);
+
+    /**
+     * 查询某个商品的评价总数
+     * @param request
+     * @return
+     */
+    TotalCommentResponse totalComment(TotalCommentRequest request);
 }
