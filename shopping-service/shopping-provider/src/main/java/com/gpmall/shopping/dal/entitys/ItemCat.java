@@ -1,9 +1,16 @@
 package com.gpmall.shopping.dal.entitys;
 
+import tk.mybatis.mapper.annotation.KeySql;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
+@Table(name = "tb_item_cat")
 public class ItemCat implements Serializable {
+    @Id
+    @KeySql(useGeneratedKeys = true)
     private Long id;
 
     private Long parentId;

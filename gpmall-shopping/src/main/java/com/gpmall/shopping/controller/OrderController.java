@@ -16,6 +16,7 @@ import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.UUID;
 
 /**
@@ -86,7 +87,7 @@ public class OrderController {
         OrderDetailResponse response=orderQueryService.orderDetail(request);
         if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
             OrderDetail orderDetail=new OrderDetail();
-            orderDetail.setOrderTotal(response.getPayment());
+            orderDetail.setOrderTotal(BigDecimal.valueOf(response.getPayment()));
             orderDetail.setUserId(response.getUserId());
             orderDetail.setUserName(response.getBuyerNick());
             orderDetail.setGoodsList(response.getOrderItemDto());
@@ -101,9 +102,11 @@ public class OrderController {
      * 取消订单
      * @return
      */
-    @PutMapping("/order")
-    public ResponseData orderCancel(){
-        return new ResponseUtil<>().setData(null);
+    @PutMapping("/order/{id}")
+    public ResponseData orderCancel(@PathVariable String id){
+        CancelOrderRequest request =new CancelOrderRequest ();
+        request.setOrderId(id);
+        return new ResponseUtil<>().setData(orderCoreService.cancelOrder(request));
     }
 
     /**
@@ -113,7 +116,9 @@ public class OrderController {
      */
     @DeleteMapping("/order/{id}")
     public ResponseData orderDel(@PathVariable String id){
-        return new ResponseUtil<>().setData(null);
+        DeleteOrderRequest deleteOrderRequest=new DeleteOrderRequest();
+        deleteOrderRequest.setOrderId(id);
+        return new ResponseUtil<>().setData(orderCoreService.deleteOrder(deleteOrderRequest));
     }
 
 }

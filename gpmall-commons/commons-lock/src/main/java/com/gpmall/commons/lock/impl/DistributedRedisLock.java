@@ -2,6 +2,7 @@ package com.gpmall.commons.lock.impl;
 
 import com.gpmall.commons.lock.ApplicationContextUtils;
 import com.gpmall.commons.lock.DistributedLock;
+import com.gpmall.commons.lock.DistributedLockException;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
@@ -59,12 +60,17 @@ public class DistributedRedisLock implements DistributedLock {
      * @param unit      时间单位
      * @param waitTime  最多等待时间
      * @param leaseTime 上锁后自动释放锁时间
+     * @throws DistributedLockException
      * @return
      */
     @Override
-    public boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime) throws InterruptedException {
+    public boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime) throws DistributedLockException {
         RLock lock = redissonClient.getLock(lockKey);
-        return lock.tryLock(waitTime, leaseTime, unit);
+        try {
+            return lock.tryLock(waitTime, leaseTime, unit);
+        } catch (Exception e) {
+            throw new DistributedLockException("redis加锁异常: ", e);
+        }
     }
 
     /**

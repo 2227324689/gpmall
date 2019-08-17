@@ -21,7 +21,7 @@ public class AddCommentRequest extends AbstractRequest {
 
     private Integer star;
 
-    private Short type;
+    private Integer type;
 
     private Boolean isAnoymous;
 
