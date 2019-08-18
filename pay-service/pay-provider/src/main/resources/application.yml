@@ -22,7 +22,8 @@ ali:
   pay_open_gateway: https://openapi.alipay.com/gateway.do
   #退款接口名
   refund_service: refund_fastpay_by_platform_pwd
-  refund_notify_url: http://shop.gupaoedu.com/refund/alipayNotify
+  #退款通知回调地址
+  refund_notify_url: http://shop.gupaoedu.com/refund/alipayRefundNotify
 
 wechat:
   wechat_appid: 1
@@ -32,6 +33,11 @@ wechat:
   wechat_notifyurl: http://shop.gupaoedu.com/pay/wechatPayNotify
   wechat_unified_order: https://api.mch.weixin.qq.com/pay/unifiedorder
   wechat_order_query: https://api.mch.weixin.qq.com/pay/orderquery
+  #申请退款url
+  wechat_refund_url: https://api.mch.weixin.qq.com/secapi/pay/refund
+  #退款通知回调地址
+  wechat_refund_notify_url: http://shop.gupaoedu.com/refund/wechatRefundNotify
+
 
 
 

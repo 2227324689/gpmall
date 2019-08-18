@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -51,7 +53,10 @@ public abstract class BasePayment implements Payment {
 	 * @param context
 	 * @throws BizException
 	 */
-	public abstract void prepare(AbstractRequest request, Context context) throws BizException;
+	public  void prepare(AbstractRequest request, Context context)throws BizException{
+		SortedMap<String, Object> sParaTemp = new TreeMap<String, Object>();
+		context.setsParaTemp(sParaTemp);
+	};
 
 
 	/**

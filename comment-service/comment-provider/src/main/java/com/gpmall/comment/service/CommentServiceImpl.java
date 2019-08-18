@@ -140,6 +140,29 @@ public class CommentServiceImpl implements ICommentService {
         return response;
     }
 
+    @Override
+    public TotalCommentResponse totalComment(TotalCommentRequest request) {
+        TotalCommentResponse response = new TotalCommentResponse();
+        try {
+            request.requestCheck();
+            String itemId = request.getItemId();
+            Integer type = request.getType();
+            Example example = new Example(Comment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            if (type != null) {
+                criteria.andEqualTo("type", type.byteValue());
+            }
+            int count = commentMapper.selectCountByExample(example);
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+            response.setTotal(count);
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
     /**
      * 执行业务逻辑
      * @param request 评价参数

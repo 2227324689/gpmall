@@ -48,7 +48,7 @@ public class UtilDate {
 		DateFormat df=new SimpleDateFormat(simple);
 		return df.format(date);
 	}
-	
+
 	/**
 	 * 获取系统当期年月日(精确到天)，格式：yyyyMMdd
 	 * @return
@@ -67,5 +67,11 @@ public class UtilDate {
 		Random rad=new Random();
 		return rad.nextInt(1000)+"";
 	}
-	
+
+	public  static  String getExpireTime(Long time){
+		DateFormat df=new SimpleDateFormat(dtLong);
+		Date afterTime=new Date(new Date().getTime()+time);
+		return df.format(afterTime);
+	}
+
 }
