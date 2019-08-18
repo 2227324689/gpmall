@@ -6,7 +6,11 @@ import com.google.gson.JsonObject;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
+
 import com.gpmall.commons.tool.utils.TradeNoUtils;
+
+import com.gpmall.commons.tool.utils.NumberUtils;
+
 import com.gpmall.commons.tool.utils.UtilDate;
 import com.gpmall.order.OrderCoreService;
 import com.gpmall.order.OrderQueryService;
@@ -53,7 +57,6 @@ import java.util.stream.Collectors;
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- *
  * @author 风骚的Michael 老师
  */
 @Slf4j
@@ -136,12 +139,23 @@ public class AliPayment extends BasePayment {
 	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
 		log.info("Alipayment begin - afterProcess -request:" + request + "\n response:" + respond);
 		PaymentRequest paymentRequest = (PaymentRequest) request;
+
 		//插入支付记录表
 		com.gpmall.pay.dal.entitys.Payment payment = new Payment();
 		payment.setCreateTime(new Date());
 		payment.setOrderAmount(paymentRequest.getOrderFee());
 		payment.setOrderId(paymentRequest.getTradeNo());
 		payment.setPayerAmount(paymentRequest.getOrderFee());
+
+		PaymentResponse response = (PaymentResponse) respond;
+		Payment payment = new Payment();
+		payment.setCreateTime(new Date());
+		payment.setId(UUID.randomUUID().toString());
+		BigDecimal amount = new BigDecimal(paymentRequest.getOrderFee() / 100);
+		payment.setOrderAmount(NumberUtils.toDouble(amount));
+		payment.setOrderId(paymentRequest.getTradeNo());
+		payment.setPayerAmount(NumberUtils.toDouble(amount));
+
 		payment.setPayerUid(paymentRequest.getUserId());
 		payment.setPayerName("");//TODO
 		payment.setPayWay(paymentRequest.getPayChannel());
@@ -214,5 +228,4 @@ public class AliPayment extends BasePayment {
 		}
 		return response;
 	}
-
 }

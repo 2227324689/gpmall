@@ -7,7 +7,6 @@ import com.gpmall.comment.ICommentService;
 import com.gpmall.comment.constant.CommentRetCode;
 import com.gpmall.comment.convert.CommentConverter;
 import com.gpmall.comment.dal.entitys.Comment;
-import com.gpmall.comment.dal.entitys.CommentExample;
 import com.gpmall.comment.dal.entitys.CommentPicture;
 import com.gpmall.comment.dal.persistence.CommentMapper;
 import com.gpmall.comment.dal.persistence.CommentPictureMapper;
@@ -21,7 +20,9 @@ import com.gpmall.order.dto.OrderItemRequest;
 import com.gpmall.order.dto.OrderItemResponse;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.Date;
 import java.util.List;
@@ -34,8 +35,9 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements ICommentService {
 
+    @Autowired
     private CommentMapper commentMapper;
-
+    @Autowired
     private CommentPictureMapper commentPictureMapper;
 
     private CommentConverter commentConverter;
@@ -86,10 +88,10 @@ public class CommentServiceImpl implements ICommentService {
             String itemId = orderItemResponse.getItemId();
             String orderId = orderItemResponse.getOrderId();
 
-            CommentExample example = new CommentExample();
-            CommentExample.Criteria criteria = example.createCriteria();
-            criteria.andItemIdEqualTo(itemId);
-            criteria.andOrderIdEqualTo(orderId);
+            Example example = new Example(Comment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            criteria.andEqualTo("orderId", orderId);
             List<Comment> comments = commentMapper.selectByExample(example);
             if (CollectionUtils.isEmpty(comments)) {
                 response.setCode(CommentRetCode.COMMENT_NOT_EXIST.getCode());
@@ -112,12 +114,11 @@ public class CommentServiceImpl implements ICommentService {
             request.requestCheck();
             String itemId = request.getItemId();
             Integer type = request.getType();
-            CommentExample example = new CommentExample();
-
-            CommentExample.Criteria criteria = example.createCriteria();
-            criteria.andItemIdEqualTo(itemId);
+            Example example = new Example(Comment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
             if (type != null) {
-                criteria.andTypeEqualTo(type.byteValue());
+                criteria.andEqualTo("type", type.byteValue());
             }
             PageHelper.startPage(request.getPage(), request.getSize());
             List<Comment> comments = commentMapper.selectByExample(example);
@@ -139,6 +140,29 @@ public class CommentServiceImpl implements ICommentService {
         return response;
     }
 
+    @Override
+    public TotalCommentResponse totalComment(TotalCommentRequest request) {
+        TotalCommentResponse response = new TotalCommentResponse();
+        try {
+            request.requestCheck();
+            String itemId = request.getItemId();
+            Integer type = request.getType();
+            Example example = new Example(Comment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            if (type != null) {
+                criteria.andEqualTo("type", type.byteValue());
+            }
+            int count = commentMapper.selectCountByExample(example);
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+            response.setTotal(count);
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
     /**
      * 执行业务逻辑
      * @param request 评价参数
@@ -154,10 +178,10 @@ public class CommentServiceImpl implements ICommentService {
         String orderId = orderItemResponse.getOrderId();
         String itemId = orderItemResponse.getItemId();
 
-        CommentExample example = new CommentExample();
-        CommentExample.Criteria criteria = example.createCriteria();
-        criteria.andOrderIdEqualTo(orderId);
-        criteria.andItemIdEqualTo(itemId);
+        Example example = new Example(Comment.class);
+        example.createCriteria()
+        .andEqualTo(orderId)
+        .andEqualTo(itemId);
         List<Comment> comments = commentMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(comments)) {
             throw new CommentException(CommentRetCode.CURRENT_ORDER_ITEM_EXISTS_COMMENT.getCode(), CommentRetCode.CURRENT_ORDER_ITEM_EXISTS_COMMENT.getMessage());

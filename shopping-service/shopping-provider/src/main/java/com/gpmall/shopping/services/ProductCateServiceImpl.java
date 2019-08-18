@@ -6,7 +6,6 @@ import com.gpmall.shopping.constant.GlobalConstants;
 import com.gpmall.shopping.constants.ShoppingRetCode;
 import com.gpmall.shopping.converter.ProductCateConverter;
 import com.gpmall.shopping.dal.entitys.ItemCat;
-import com.gpmall.shopping.dal.entitys.ItemCatExample;
 import com.gpmall.shopping.dal.persistence.ItemCatMapper;
 import com.gpmall.shopping.dto.AllProductCateRequest;
 import com.gpmall.shopping.dto.AllProductCateResponse;
@@ -17,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -47,8 +47,9 @@ public class ProductCateServiceImpl implements IProductCateService {
                 response.setProductCateDtoList(productCateDtos);
                 return response;
             }
-            ItemCatExample itemCatExample = new ItemCatExample();
-            ItemCatExample.Criteria criteria = itemCatExample.createCriteria();
+            Example itemCatExample = new Example(ItemCat.class);
+//            ItemCatExample itemCatExample = new ItemCatExample();
+//            ItemCatExample.Criteria criteria = itemCatExample.createCriteria();
             String orderCol = "sort_order";
             String orderDir = "asc";
             if(request.getSort().equals("1")){

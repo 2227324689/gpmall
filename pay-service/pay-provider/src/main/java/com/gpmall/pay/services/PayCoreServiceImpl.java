@@ -25,10 +25,10 @@ import org.apache.dubbo.config.annotation.Service;
 public class PayCoreServiceImpl implements PayCoreService {
 
 
-
     @Override
     @CustomerLock(lockKey = "#request.tradeNo",lockType = "zookeeper", tryLock = true)
     public PaymentResponse execPay(PaymentRequest request) {
+
         PaymentResponse paymentResponse=new PaymentResponse();
         try {
             paymentResponse=(PaymentResponse) BasePayment.paymentMap.get(request.getPayChannel()).process(request);
