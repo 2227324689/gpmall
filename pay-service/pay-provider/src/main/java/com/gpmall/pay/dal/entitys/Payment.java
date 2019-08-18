@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Table(name = "tb_payment")
@@ -35,7 +36,7 @@ public class Payment {
      * 付款方支付金额
      */
     @Column(name = "payer_amount")
-    private Double payerAmount;
+    private BigDecimal payerAmount;
 
 
     /**
@@ -61,7 +62,7 @@ public class Payment {
      * 订单金额
      */
     @Column(name = "order_amount")
-    private Double orderAmount;
+    private BigDecimal orderAmount;
 
     /**
      * 支付方式

@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
+import com.gpmall.commons.tool.utils.NumberUtils;
 import com.gpmall.commons.tool.utils.TradeNoUtils;
 import com.gpmall.commons.tool.utils.UtilDate;
 import com.gpmall.order.OrderCoreService;
@@ -131,18 +132,18 @@ public class WechatPayment extends BasePayment {
 		PaymentRequest paymentRequest = (PaymentRequest) request;
 		//插入支付记录表
 		PaymentResponse response = (PaymentResponse) respond;
-		com.gpmall.pay.dal.entitys.Payment payment = new Payment();
+		Payment payment = new Payment();
 		payment.setCreateTime(new Date());
-		payment.setId(UUID.randomUUID().toString());
-		payment.setOrderAmount(paymentRequest.getOrderFee());
+		BigDecimal amount=paymentRequest.getOrderFee();
+		payment.setOrderAmount(amount);
 		payment.setOrderId(paymentRequest.getTradeNo());
-		payment.setPayerAmount(paymentRequest.getOrderFee());
+		payment.setPayerAmount(amount);
 		payment.setPayerUid(paymentRequest.getUserId());
 		payment.setPayerName("");//TODO
 		payment.setPayWay(paymentRequest.getPayChannel());
 		payment.setProductName(paymentRequest.getSubject());
 		payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());//
-		payment.setRemark("");
+		payment.setRemark("微信支付");
 		payment.setPayNo(response.getPrepayId());//第三方的交易id
 		payment.setUpdateTime(new Date());
 		paymentMapper.insert(payment);

@@ -54,9 +54,6 @@ public class WechatRefund extends BasePayment {
 	@Reference(timeout = 30000)
 	private OrderCoreService orderCoreService;
 
-	@Reference(timeout = 30000)
-	private IAddressService iAddressService;
-
 	@Override
 	public Validator getValidator() {
 		return null;

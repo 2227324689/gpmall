@@ -25,7 +25,6 @@ import com.gpmall.pay.biz.payment.constants.PayResultEnum;
 import com.gpmall.pay.biz.payment.context.AliPaymentContext;
 import com.gpmall.pay.biz.payment.context.AliRefundContext;
 import com.gpmall.pay.dal.entitys.Payment;
-import com.gpmall.pay.dal.entitys.PaymentExample;
 import com.gpmall.pay.dal.persistence.PaymentMapper;
 import com.gpmall.shopping.ICartService;
 import com.gpmall.shopping.dto.CartListByIdRequest;
@@ -73,15 +72,7 @@ public class AliPayment extends BasePayment {
 	PaymentMapper paymentMapper;
 
 	@Reference(timeout = 3000)
-	private OrderCoreService orderCoreService;
-	@Reference(timeout = 3000)
-	private OrderQueryService orderQueryService;
-
-	@Reference(timeout = 3000)
-	private ICartService iCartService;
-
-	@Reference(timeout = 3000)
-	private IAddressService iAddressService;
+	OrderCoreService orderCoreService;
 
 	@Override
 	public Validator getValidator() {
@@ -139,23 +130,15 @@ public class AliPayment extends BasePayment {
 	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
 		log.info("Alipayment begin - afterProcess -request:" + request + "\n response:" + respond);
 		PaymentRequest paymentRequest = (PaymentRequest) request;
-
 		//插入支付记录表
-		com.gpmall.pay.dal.entitys.Payment payment = new Payment();
-		payment.setCreateTime(new Date());
-		payment.setOrderAmount(paymentRequest.getOrderFee());
-		payment.setOrderId(paymentRequest.getTradeNo());
-		payment.setPayerAmount(paymentRequest.getOrderFee());
-
-		PaymentResponse response = (PaymentResponse) respond;
 		Payment payment = new Payment();
 		payment.setCreateTime(new Date());
-		payment.setId(UUID.randomUUID().toString());
-		BigDecimal amount = new BigDecimal(paymentRequest.getOrderFee() / 100);
-		payment.setOrderAmount(NumberUtils.toDouble(amount));
 		payment.setOrderId(paymentRequest.getTradeNo());
-		payment.setPayerAmount(NumberUtils.toDouble(amount));
-
+		payment.setCreateTime(new Date());
+		BigDecimal amount =paymentRequest.getOrderFee();
+		payment.setOrderAmount(amount);
+		payment.setOrderId(paymentRequest.getTradeNo());
+		payment.setPayerAmount(amount);
 		payment.setPayerUid(paymentRequest.getUserId());
 		payment.setPayerName("");//TODO
 		payment.setPayWay(paymentRequest.getPayChannel());
@@ -190,11 +173,7 @@ public class AliPayment extends BasePayment {
 		});
 
 		PaymentNotifyResponse response = new PaymentNotifyResponse();
-
-		PaymentExample paymentExample = new PaymentExample();
-		PaymentExample.Criteria criteria = paymentExample.createCriteria();
 		String orderId = params.get("out_trade_no").toString();
-		criteria.andOrderIdEqualTo(orderId);
 		//验证
 		if (AlipayNotify.verify(params, aliPaymentConfig)) {
 			com.gpmall.pay.dal.entitys.Payment payment = new Payment();
@@ -205,20 +184,20 @@ public class AliPayment extends BasePayment {
 				//更新支付表
 				payment.setStatus(PayResultEnum.TRADE_SUCCESS.getCode());
 				payment.setPaySuccessTime((Date) params.get("gmt_payment"));
-				paymentMapper.updateByExampleSelective(payment, paymentExample);
+				paymentMapper.updateByExampleSelective(payment,orderId);
 				//更新订单表状态
 				orderCoreService.updateOrder(1, orderId);
 				response.setResult("success");
 				return response;
 			} else if ("TRADE_FINISH".equals(tradeStatus)) {
 				payment.setStatus(PayResultEnum.TRADE_FINISHED.getCode());
-				paymentMapper.updateByExampleSelective(payment, paymentExample);
+				paymentMapper.updateByExampleSelective(payment, orderId);
 				//更新订单表状态
 				orderCoreService.updateOrder(1, orderId);
 				response.setResult("success");
 			} else if ("FAIL".equals(tradeStatus)) {
 				payment.setStatus(PayResultEnum.FAIL.getCode());
-				paymentMapper.updateByExampleSelective(payment, paymentExample);
+				paymentMapper.updateByExampleSelective(payment, orderId);
 				response.setResult("success");
 			} else {
 				response.setResult("fail");
