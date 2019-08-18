@@ -10,12 +10,7 @@
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="street_name" jdbcType="VARCHAR" property="streetName" />
-    <result column="is_default" jdbcType="TINYINT" property="isDefault" />
+    <result column="is_default" jdbcType="BIT" property="isDefault" />
   </resultMap>
-  
-  <sql id="BaseColumns">
-    <!-- WARNING - @mbg.generated -->
-    address_id, user_id, user_name, tel, street_name, is_default
-  </sql>
   
 </mapper>
