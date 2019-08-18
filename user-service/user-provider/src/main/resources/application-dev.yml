@@ -47,3 +47,12 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.user.services
+lock:
+  zookeeper:
+    zkHosts: zookeeper://zk.gpmall.com:2181,zookeeper://zk.gpmall.com:2181
+    sessionTimeout: 30000;
+    connectionTimeout: 30000;
+    ## 共享一个zk链接
+    singleton: true;
+    ## 全局path前缀,常用来区分不同的应用
+    namespace: zkLock

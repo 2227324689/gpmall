@@ -88,6 +88,16 @@
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson</artifactId>
 		</dependency>
+		<dependency>
+			<artifactId>commons-lock</artifactId>
+			<groupId>com.gpmall.commons</groupId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<artifactId>commons-tool</artifactId>
+			<groupId>com.gpmall.commons</groupId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
