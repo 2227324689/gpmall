@@ -47,12 +47,11 @@ public class PayController {
         Long uid=Long.parseLong(object.get("uid").toString());
         request.setUserId(uid);
         BigDecimal money=payForm.getMoney();
-        money=money.multiply(new BigDecimal(100));
-        request.setOrderFee(money.intValue());
+        request.setOrderFee(money);
         request.setPayChannel(payForm.getPayType());
         request.setSubject(payForm.getInfo());
         request.setTradeNo(payForm.getOrderId());
-        request.setTotalFee(money.intValue());
+        request.setTotalFee(money);
         PaymentResponse response=payCoreService.execPay(request);
         if(response.getCode().equals(PayReturnCodeEnum.SUCCESS.getCode())){
             return new ResponseUtil<>().setData(response.getHtmlStr());

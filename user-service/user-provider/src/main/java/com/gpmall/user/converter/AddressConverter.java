@@ -20,7 +20,7 @@ public interface AddressConverter {
     AddressDto address2List(Address address);
 
     @Mappings({})
-    AddressDetailResponse address2Res(Address address);
+    AddressDto address2Res(Address address);
 
     List<AddressDto> address2List(List<Address> addresses);
 
