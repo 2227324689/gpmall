@@ -1,10 +1,15 @@
 package com.gpmall.shopping.dal.entitys;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Table(name = "tb_item")
 public class Item implements Serializable {
+
+    @Id
     private Long id;
 
     private String title;

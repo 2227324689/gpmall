@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.comment.dal.persistence.CommentReplyMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.comment.dal.entitys.CommentReply">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="comment_id" jdbcType="VARCHAR" property="commentId" />
+    <result column="parent_id" jdbcType="VARCHAR" property="parentId" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="reply_time" jdbcType="TIMESTAMP" property="replyTime" />
+    <result column="reply_nick" jdbcType="VARCHAR" property="replyNick" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="deletion_time" jdbcType="TIMESTAMP" property="deletionTime" />
+    <result column="deletion_user_id" jdbcType="BIGINT" property="deletionUserId" />
+  </resultMap>
+  
+  <sql id="BaseColumns">
+    <!-- WARNING - @mbg.generated -->
+    id, comment_id, parent_id, content, reply_time, reply_nick, user_id, is_deleted, deletion_time, deletion_user_id
+  </sql>
+  
+</mapper>

@@ -1,84 +1,31 @@
 package com.gpmall.user.dal.entitys;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.ToString;
 
-public class Address implements Serializable {
+import javax.persistence.*;
+
+@Table(name = "tb_address")
+@Data
+@ToString
+public class Address {
+    @Id
+    @Column(name = "address_id")
     private Long addressId;
 
+    @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "user_name")
     private String userName;
 
     private String tel;
 
+    @Column(name = "street_name")
     private String streetName;
 
-    private Boolean isDefault;
+    @Column(name = "is_default")
+    private Integer isDefault;
 
-    private static final long serialVersionUID = 1L;
 
-    public Long getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(Long addressId) {
-        this.addressId = addressId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName == null ? null : userName.trim();
-    }
-
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel == null ? null : tel.trim();
-    }
-
-    public String getStreetName() {
-        return streetName;
-    }
-
-    public void setStreetName(String streetName) {
-        this.streetName = streetName == null ? null : streetName.trim();
-    }
-
-    public Boolean getIsDefault() {
-        return isDefault;
-    }
-
-    public void setIsDefault(Boolean isDefault) {
-        this.isDefault = isDefault;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", addressId=").append(addressId);
-        sb.append(", userId=").append(userId);
-        sb.append(", userName=").append(userName);
-        sb.append(", tel=").append(tel);
-        sb.append(", streetName=").append(streetName);
-        sb.append(", isDefault=").append(isDefault);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

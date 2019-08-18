@@ -1,0 +1,14 @@
+spring:
+  profiles:
+    active: dev
+mybatis:
+  mapper-locations: classpath*:com/gpmall/comment/dal/persistence/*Mapper.xml"
+  type-aliases-package: com.gpmall.comment.dal.entitys
+server:
+  port: 8089
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+

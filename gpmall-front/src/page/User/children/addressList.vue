@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-shelf title="收货地址">
-      <span slot="right"><y-button text="添加收货地址" style="margin: 0" @btnClick="update()"></y-button></span>
+      <span slot="right"><y-button text="添加收货地址" style="margin: 0" @btnClick="addNewAddress()"></y-button></span>
       <div slot="content">
         <!--标题-->
         <div class="table-title">
@@ -10,7 +10,7 @@
         <div v-if="addList.length">
           <div class="address-item" v-for="(item,i) in addList" :key="i">
             <div class="name">{{item.userName}}</div>
-            <div class="address-msg">{{item.streetName}}</div>
+            <div class="address-msg">{{item.streetName | addressFilter}}</div>
             <div class="telephone">{{item.tel}}</div>
             <div class="defalut">
               <a @click="changeDef(item)"
@@ -37,13 +37,50 @@
     <y-popup :open="popupOpen" @close='popupOpen=false' :title="popupTitle">
       <div slot="content" class="md" :data-id="msg.addressId">
         <div>
-          <input type="text" placeholder="收货人姓名" v-model="msg.userName">
+          <el-input type="text" placeholder="收货人姓名" v-model="msg.userName"></el-input>
         </div>
         <div>
-          <input type="number" placeholder="手机号码" v-model="msg.tel">
+          <el-input type="number" placeholder="手机号码" v-model="msg.tel"></el-input>
+        </div>
+<!--      数据源 https://github.com/wecatch/china_regions/tree/master/json    -->
+<!--        TODO 地址模块的同学mysql创建字典表-->
+<!--        <div>-->
+<!--          <input type="text" placeholder="收货地址" v-model="msg.streetName">-->
+<!--        </div>-->
+        <div style="display: flex;flex-direction: row">
+          <div style="flex: 1;">
+            <el-select @change="_handleProvinceChange" v-model="provinceId" placeholder="请选择省份">
+              <el-option
+                v-for="(item, index) in provinceList"
+                :key="index"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </div>
+          <div style="flex: 1;padding-left:4px">
+            <el-select @change="_handleCityChange" v-model="cityId" placeholder="请选择市">
+              <el-option
+                v-for="(item, index) in cityList"
+                :key="index"
+                :label="item.name"
+                :value="item.id">
+              </el-option>
+            </el-select>
+          </div>
+        </div>
+        <div style="display: flex;">
+          <el-select style="flex: 1" @change="_handleDistrictChange" v-model="districtId" placeholder="请选择区">
+            <el-option
+              v-for="(item, index) in districtList"
+              :key="index"
+              :label="item.name"
+              :value="item.id">
+            </el-option>
+          </el-select>
         </div>
         <div>
-          <input type="text" placeholder="收货地址" v-model="msg.streetName">
+          <el-input type="text" placeholder="详细地址" @change="_handleAddressChange" v-model="address"></el-input>
         </div>
         <div>
           <el-checkbox class="auto-login" v-model="msg._Default">设为默认</el-checkbox>
@@ -62,7 +99,12 @@
   import YButton from '/components/YButton'
   import YPopup from '/components/popup'
   import YShelf from '/components/shelf'
-  import { getStore } from '/utils/storage'
+
+  import cityMap from '/utils/area/city'
+  import provinceList from '/utils/area/province'
+  import districtMap from '/utils/area/country'
+  import Util from '/utils'
+
   export default {
     data () {
       return {
@@ -76,7 +118,20 @@
           streetName: '',
           _Default: false
         },
-        userId: ''
+        userId: '',
+
+        // data
+        provinceList: [],
+        cityList: [],
+        districtList: [],
+
+        city: '', // 市
+        province: '', // 省
+        district: '', // 区
+        cityId: null,
+        provinceId: null,
+        districtId: null,
+        address: ''  // 街道
       }
     },
     computed: {
@@ -90,6 +145,41 @@
         this.$message.error({
           message: m
         })
+      },
+      _handleProvinceChange (provinceId) {
+        if (!provinceId) {
+          return
+        }
+        this.province = provinceList.find(p => p.id === provinceId).name
+        this.cityId = null
+        this.districtId = null
+        this.districtList = []
+
+        let cityList = cityMap[provinceId]
+        this.cityList = cityList || []
+        this.msg.streetName = this.province + '-' + this.city + '-' + this.district + '-' + this.address
+      },
+      _handleCityChange (cityId) {
+        if (!cityId) {
+          return
+        }
+        this.city = this.cityList.find(c => c.id === cityId).name
+        this.districtId = null
+
+        let districtList = districtMap[cityId]
+        this.districtList = districtList || []
+        this.msg.streetName = this.province + '-' + this.city + '-' + this.district + '-' + this.address
+      },
+      _handleDistrictChange (districtId) {
+        if (!districtId) {
+          return
+        }
+        this.district = this.districtList.find(d => d.id === districtId).name
+        this.msg.streetName = this.province + '-' + this.city + '-' + this.district + '-' + this.address
+      },
+      _handleAddressChange () {
+        this.msg.streetName = this.province + '-' + this.city + '-' + this.district + '-' + this.address
+        // console.log('%c[addressList-_handleAddressChange]', 'color: #63ADD1', this.msg.streetName)
       },
       _addressList () {
         addressList().then(res => {
@@ -146,7 +236,6 @@
       },
       // 修改
       update (item) {
-        this.popupOpen = true
         if (item) {
           this.popupTitle = '管理收货地址'
           this.msg.userName = item.userName
@@ -154,18 +243,69 @@
           this.msg.streetName = item.streetName
           this.msg._Default = item._Default
           this.msg.addressId = item.addressId
+          // init 地址选择框
+          this._initAddressSelect(item.streetName)
+          this.popupOpen = true
+        }
+      },
+      addNewAddress () {
+        this.popupTitle = '新增收货地址'
+        this.msg.userName = ''
+        this.msg.tel = ''
+        this.msg.streetName = ''
+        this.msg._Default = false
+        this.msg.addressId = ''
+
+        this._clearAddressSelect()
+        this.popupOpen = true
+      },
+      _clearAddressSelect () {
+        this.provinceId = null
+        this.cityId = null
+        this.districtId = null
+      },
+      _initAddressSelect (streetName) {
+        let addressList = !Util.isEmpty(streetName) ? streetName.split('-') : []
+        if (addressList.length >= 3) {
+          this.province = addressList[0]
+          this.city = addressList[1]
+          this.district = addressList[2]
+          this.address = addressList.length === 4 ? addressList[3] : ''
+
+          // 查找对应省份
+          let provinceObj = provinceList.find(p => p.name === this.province)
+          if (!Util.isEmpty(provinceObj)) {
+            this.provinceId = provinceObj.id
+            this.cityList = cityMap[this.provinceId]
+            // 查找对应城市
+            let cityObj = cityMap[this.provinceId].find(c => c.name === this.city)
+            if (!Util.isEmpty(cityObj)) {
+              this.cityId = cityObj.id
+              this.districtList = districtMap[this.cityId]
+              // 查找对应地区
+              let districtObj = districtMap[this.cityId].find(d => d.name === this.district)
+              if (!Util.isEmpty(districtObj)) {
+                this.districtId = districtObj.id
+              }
+            }
+          }
         } else {
-          this.popupTitle = '新增收货地址'
-          this.msg.userName = ''
-          this.msg.tel = ''
-          this.msg.streetName = ''
-          this.msg._Default = false
-          this.msg.addressId = ''
+          // 老数据直接重置
+          this.provinceId = null
+          this.cityId = null
+          this.districtId = null
         }
       }
     },
+    filters: {
+      addressFilter (streetName) {
+        return streetName ? streetName.replace(new RegExp('-', 'g'), '') : ''
+      }
+    },
     created () {
-      this.userId = getStore('userId')
+      this.provinceList = provinceList
+      this.cityList = []
+      this.district = []
       this._addressList()
     },
     components: {
@@ -253,24 +393,25 @@
     > div {
       text-align: left;
       margin-bottom: 15px;
-      > input {
-        width: 100%;
-        height: 50px;
-        font-size: 18px;
-        padding: 10px 20px;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        box-shadow: 0 3px 5px -4px rgba(0, 0, 0, .4) inset, -1px 0 3px -2px rgba(0, 0, 0, .1) inset;
-        line-height: 46px;
-      }
     }
   }
-
   .btn {
     margin: 0;
     width: 100%;
-    height: 50px;
+    height: 44px;
     font-size: 14px;
-    line-height: 48px
+    line-height: 44px
+  }
+</style>
+<style lang="scss">
+  .md .el-input__inner {
+    width: 100%;
+    height: 36px;
+    font-size: 14px;
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 2px 5px -4px rgba(0, 0, 0, .4) inset, -1px 0 3px -2px rgba(0, 0, 0, .1) inset;
+    line-height: 36px;
   }
 </style>
