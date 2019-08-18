@@ -36,5 +36,6 @@ public interface OrderCoreService {
     DeleteOrderResponse deleteOrder(DeleteOrderRequest request);
 
 
+    void updateOrder(Integer status,String orderId);
 
 }

@@ -3,6 +3,8 @@ package com.gpmall.pay.dal.persistence;
 import com.gpmall.pay.dal.entitys.Payment;
 import com.gpmall.pay.dal.entitys.PaymentExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 public interface PaymentMapper {

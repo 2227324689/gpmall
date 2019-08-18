@@ -471,7 +471,7 @@ INSERT INTO `tb_panel_content` VALUES ('61', '0', '0', null, '5', '', '服务', 
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_payment`;
 CREATE TABLE `tb_payment` (
-  `id` varchar(50) NOT NULL,
+  `id` varchar(50) NOT NULL AUTO_INCREMENT ,
   `status` varchar(20) NOT NULL COMMENT '支付状态',
   `order_id` varchar(50) NOT NULL COMMENT '订单id',
   `product_name` varchar(80) DEFAULT NULL COMMENT '产品名称',
