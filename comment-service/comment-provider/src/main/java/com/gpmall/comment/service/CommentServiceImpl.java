@@ -12,7 +12,7 @@ import com.gpmall.comment.dal.persistence.CommentMapper;
 import com.gpmall.comment.dal.persistence.CommentPictureMapper;
 import com.gpmall.comment.dto.*;
 import com.gpmall.comment.utils.ExceptionProcessorUtil;
-import com.gpmall.commons.tool.utils.GlobalIdGeneratorUtil;
+import com.gpmall.comment.utils.GlobalIdGeneratorUtil;
 import com.gpmall.comment.utils.SensitiveWordsUtil;
 import com.gpmall.order.OrderQueryService;
 import com.gpmall.order.dto.OrderDto;

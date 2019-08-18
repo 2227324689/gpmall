@@ -1,4 +1,4 @@
-package com.gpmall.commons.tool.utils;/**
+package com.gpmall.pay.utils;/**
  * Created by mic on 2019/8/1.
  */
 

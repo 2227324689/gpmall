@@ -1,50 +1,24 @@
 package com.gpmall.pay.biz.payment;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.google.gson.JsonObject;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
-
-import com.gpmall.commons.tool.utils.GlobalIdGeneratorUtil;
-import com.gpmall.commons.tool.utils.TradeNoUtils;
-
-import com.gpmall.commons.tool.utils.NumberUtils;
-
-import com.gpmall.commons.tool.utils.UtilDate;
 import com.gpmall.order.OrderCoreService;
-import com.gpmall.order.OrderQueryService;
-import com.gpmall.order.dto.CartProductDto;
-import com.gpmall.order.dto.CreateOrderRequest;
-import com.gpmall.order.dto.OrderItemRequest;
 import com.gpmall.pay.biz.abs.*;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayBuildRequest;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayNotify;
 import com.gpmall.pay.biz.payment.constants.AliPaymentConfig;
 import com.gpmall.pay.biz.payment.constants.PayResultEnum;
 import com.gpmall.pay.biz.payment.context.AliPaymentContext;
-import com.gpmall.pay.biz.payment.context.AliRefundContext;
 import com.gpmall.pay.dal.entitys.Payment;
 import com.gpmall.pay.dal.persistence.PaymentMapper;
-import com.gpmall.shopping.ICartService;
-import com.gpmall.shopping.dto.CartListByIdRequest;
-import com.gpmall.shopping.dto.CartListByIdResponse;
-import com.gpmall.shopping.dto.CheckAllItemRequest;
-import com.gpmall.shopping.dto.CheckAllItemResponse;
-import com.gpmall.user.IAddressService;
-import com.gpmall.user.dto.AddressDetailRequest;
-import com.gpmall.user.dto.AddressDetailResponse;
-import com.gpmall.user.dto.AddressDto;
-import com.gpmall.user.dto.AddressListRequest;
-import com.gupaoedu.pay.PayCoreService;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +27,6 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 腾讯课堂搜索 咕泡学院
