@@ -58,4 +58,11 @@ public interface ICommentService {
      * @return
      */
     AuditCommentResponse auditComment(AuditCommentRequest request);
+
+    /**
+     * 根据商品评价计算综合评分
+     * @param request
+     * @return
+     */
+    ItemScoreResponse itemScore(ItemScoreRequest request);
 }

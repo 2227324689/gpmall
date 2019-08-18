@@ -238,6 +238,37 @@ public class CommentServiceImpl implements ICommentService {
         return response;
     }
 
+    @Override
+    public ItemScoreResponse itemScore(ItemScoreRequest request) {
+        ItemScoreResponse response = new ItemScoreResponse();
+        try {
+            request.requestCheck();
+            String itemId = request.getItemId();
+            Example example = new Example(Comment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            criteria.andEqualTo("type", 1);
+            int goodCommentCount = commentMapper.selectCountByExample(example);
+
+            example = new Example(Comment.class);
+            criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            criteria.andEqualTo("type", 3);
+            int badCommentCount = commentMapper.selectCountByExample(example);
+            if (badCommentCount == 0) {
+                response.setScore(100);
+            } else {
+                double score = goodCommentCount / (goodCommentCount + badCommentCount);
+                response.setScore(score);
+            }
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
     /**
      * 执行业务逻辑
      * @param request 评价参数
