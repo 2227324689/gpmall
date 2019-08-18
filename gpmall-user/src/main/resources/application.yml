@@ -4,4 +4,4 @@ spring:
   profiles:
     active: dev
 server:
-  port: 8088
+  port: 8082
