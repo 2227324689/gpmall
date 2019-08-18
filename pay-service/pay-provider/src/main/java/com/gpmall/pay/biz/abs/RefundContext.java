@@ -10,6 +10,8 @@ import java.math.BigDecimal;
  * @Date: 2019-08-16 00:08
  **/
 @Data
-public class RefundContext extends Context {
+public class RefundContext extends Context{
+	/** 商城退款流水号*/
+	private String refundPlatformNo;
 
 }

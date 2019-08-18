@@ -30,88 +30,102 @@ import java.util.Date;
  */
 @Slf4j
 @Service(cluster = "failfast")
-public class OrderCoreServiceImpl implements OrderCoreService{
+public class OrderCoreServiceImpl implements OrderCoreService {
 
-    @Autowired
-    OrderMapper orderMapper;
+	@Autowired
+	OrderMapper orderMapper;
 
-    @Autowired
-    OrderItemMapper orderItemMapper;
+	@Autowired
+	OrderItemMapper orderItemMapper;
 
-    @Autowired
-    OrderShippingMapper orderShippingMapper;
+	@Autowired
+	OrderShippingMapper orderShippingMapper;
 
-    @Autowired
-    OrderProcessPipelineFactory orderProcessPipelineFactory;
+	@Autowired
+	OrderProcessPipelineFactory orderProcessPipelineFactory;
 
     @Autowired
     OrderCoreService orderCoreService;
 
 
-    /**
-     * 创建订单的处理流程
-     * @param request
-     * @return
-     */
-    @Override
-    public CreateOrderResponse createOrder(CreateOrderRequest request) {
-        CreateOrderResponse response=new CreateOrderResponse();
-        try{
-            TransOutboundInvoker invoker=orderProcessPipelineFactory.build(request);
-            invoker.start(); //启动流程（pipeline来处理）
-            AbsTransHandlerContext context=invoker.getContext();
-            response=(CreateOrderResponse) context.getConvert().convertCtx2Respond(context);
-        }catch (Exception e){
-            log.error("OrderCoreServiceImpl.createOrder Occur Exception :"+e);
-            ExceptionProcessorUtils.wrapperHandlerException(response,e);
-        }
-        return response;
-    }
+	/**
+	 * 创建订单的处理流程
+	 *
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public CreateOrderResponse createOrder(CreateOrderRequest request) {
+		CreateOrderResponse response = new CreateOrderResponse();
+		try {
+			TransOutboundInvoker invoker = orderProcessPipelineFactory.build(request);
+			invoker.start(); //启动流程（pipeline来处理）
+			AbsTransHandlerContext context = invoker.getContext();
+			response = (CreateOrderResponse) context.getConvert().convertCtx2Respond(context);
+		} catch (Exception e) {
+			log.error("OrderCoreServiceImpl.createOrder Occur Exception :" + e);
+			ExceptionProcessorUtils.wrapperHandlerException(response, e);
+		}
+		return response;
+	}
 
-    /**
-     * 取消订单
-     * @param request
-     * @return
-     */
-    @Override
-    public CancelOrderResponse cancelOrder(CancelOrderRequest request) {
-        CancelOrderResponse response=new CancelOrderResponse();
-        try{
-            Order order=new Order();
-            order.setOrderId(request.getOrderId());
-            order.setStatus(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL);
-            order.setCloseTime(new Date());
-            int num=orderMapper.updateByPrimaryKey(order);
-            log.info("cancelOrder,effect Row:"+num);
-            response.setCode(OrderRetCode.SUCCESS.getCode());
-            response.setMsg(OrderRetCode.SUCCESS.getMessage());
-        }catch (Exception e){
-            log.error("OrderCoreServiceImpl.cancelOrder Occur Exception :"+e);
-            ExceptionProcessorUtils.wrapperHandlerException(response,e);
-        }
-        return response;
-    }
+	/**
+	 * 取消订单
+	 *
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public CancelOrderResponse cancelOrder(CancelOrderRequest request) {
+		CancelOrderResponse response = new CancelOrderResponse();
+		try {
+			Order order = new Order();
+			order.setOrderId(request.getOrderId());
+			order.setStatus(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL);
+			order.setCloseTime(new Date());
+			int num = orderMapper.updateByPrimaryKey(order);
+			log.info("cancelOrder,effect Row:" + num);
+			response.setCode(OrderRetCode.SUCCESS.getCode());
+			response.setMsg(OrderRetCode.SUCCESS.getMessage());
+		} catch (Exception e) {
+			log.error("OrderCoreServiceImpl.cancelOrder Occur Exception :" + e);
+			ExceptionProcessorUtils.wrapperHandlerException(response, e);
+		}
+		return response;
+	}
 
 
-    /**
-     * 删除订单
-     * @param request
-     * @return
-     */
-    @Override
-    public DeleteOrderResponse deleteOrder(DeleteOrderRequest request) {
-        DeleteOrderResponse response=new DeleteOrderResponse();
-        try{
-            request.requestCheck();
-            orderCoreService.deleteOrderWithTransaction(request);
-            response.setCode(OrderRetCode.SUCCESS.getCode());
-            response.setMsg(OrderRetCode.SUCCESS.getMessage());
-        }catch (Exception e){
-            log.error("OrderCoreServiceImpl.deleteOrder Occur Exception :"+e);
-            ExceptionProcessorUtils.wrapperHandlerException(response,e);
-        }
-        return response;
-    }
+
+	/**
+	 * 删除订单
+	 *
+	 * @param request
+	 * @return
+	 */
+	@Override
+	public DeleteOrderResponse deleteOrder(DeleteOrderRequest request) {
+		DeleteOrderResponse response = new DeleteOrderResponse();
+		try {
+			request.requestCheck();
+			deleteOrderWithTransaction(request);
+			response.setCode(OrderRetCode.SUCCESS.getCode());
+			response.setMsg(OrderRetCode.SUCCESS.getMessage());
+		} catch (Exception e) {
+			log.error("OrderCoreServiceImpl.deleteOrder Occur Exception :" + e);
+			ExceptionProcessorUtils.wrapperHandlerException(response, e);
+		}
+		return response;
+	}
+
+
+
+	@Override
+	public void updateOrder(Integer status, String orderId) {
+		Order order = new Order();
+		order.setOrderId(orderId);
+		order.setStatus(status);
+		orderMapper.updateByPrimaryKey(order);
+	}
 
 
     @Transactional(rollbackFor = Exception.class)
