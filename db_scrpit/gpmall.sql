@@ -301,7 +301,7 @@ CREATE TABLE `tb_order` (
   `payment` decimal(10,2) DEFAULT NULL COMMENT '实付金额',
   `payment_type` int(1) DEFAULT NULL COMMENT '支付类型 1在线支付 2货到付款',
   `post_fee` decimal(10,2) DEFAULT NULL COMMENT '邮费',
-  `status` int(1) DEFAULT NULL COMMENT '状态 0未付款 1已付款 2未发货 3已发货 4交易成功 5交易关闭 6交易失败',
+  `status` int(1) DEFAULT NULL COMMENT '状态 0未付款 1已付款 2未发货 3已发货 4交易成功 5交易关闭 6交易失败 7-已退款',
   `create_time` datetime DEFAULT NULL COMMENT '订单创建时间',
   `update_time` datetime DEFAULT NULL COMMENT '订单更新时间',
   `payment_time` datetime DEFAULT NULL COMMENT '付款时间',
@@ -475,7 +475,8 @@ CREATE TABLE `tb_payment` (
   `status` varchar(20) NOT NULL COMMENT '支付状态',
   `order_id` varchar(50) NOT NULL COMMENT '订单id',
   `product_name` varchar(80) DEFAULT NULL COMMENT '产品名称',
-  `pay_no` varchar(80) DEFAULT NULL COMMENT '支付流水号',
+  `pay_no` varchar(80) DEFAULT NULL COMMENT '第三方返回单号',
+  trade_no varchar(80) DEFAULT NULL COMMENT '支付流水号',
   `payer_uid` int(20) NOT NULL COMMENT '付款人id',
   `payer_name` varchar(50) DEFAULT NULL COMMENT '付款人姓名',
   `payer_amount` decimal(10,2) NOT NULL COMMENT '付款方支付金额',
@@ -801,3 +802,19 @@ CREATE TABLE `tb_user` (
 INSERT INTO `tb_user` VALUES ('1', 'admin', 'e10adc3949ba59abbe56e057f20f883e', '17621230884', '1012139570@qq.com', '男', null, '1', '超级管理员', '1', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', '2017-09-05 21:27:54', '2017-10-18 22:57:08');
 INSERT INTO `tb_user` VALUES ('2', 'test', '098f6bcd4621d373cade4e832627b4f6', '12345678901', '123@qq.com', '女', null, '1', '游客', '0', 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', '2017-09-05 21:27:54', '2018-04-18 14:35:19');
 INSERT INTO `tb_user` VALUES ('3', 'mic', '4eea1e5de59fbc61cb3ab480dbbf6a5f', null, null, null, null, '1', null, null, 'https://gper.club/server-img/avatars/000/00/00/user_origin_30.jpg?time1565591384242', '2019-07-23 02:28:28', '2019-07-23 02:28:28');
+-----------------------------------
+DROP TABLE IF EXISTS `tb_refund`;
+CREATE TABLE `tb_refund` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `status` int(2) DEFAULT NULL COMMENT '1-成功 2-失败',
+  `order_id` varchar(64) DEFAULT NULL COMMENT '订单号',
+  `user_id` bigint(20) DEFAULT NULL COMMENT '退款人id',
+  `user_name` varchar(64) DEFAULT NULL COMMENT '退款人姓名',
+  `trade_no` varchar(64) DEFAULT NULL COMMENT '平台退款流水号',
+  `refund_no` varchar(64) DEFAULT NULL COMMENT '第三方退款流水号',
+  `amount` decimal(10,2) DEFAULT NULL COMMENT '退款金额(元)',
+  `channel` int(2) DEFAULT NULL COMMENT '退款渠道 1-支付宝 2-微信',
+  `gmt_create` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '退款时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `trade_no_key` (`trade_no`) USING BTREE COMMENT '平台退款流水号'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='退款表';

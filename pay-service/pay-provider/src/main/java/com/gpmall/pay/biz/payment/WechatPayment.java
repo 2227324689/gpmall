@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
+import com.gpmall.commons.tool.utils.GlobalIdGeneratorUtil;
 import com.gpmall.commons.tool.utils.NumberUtils;
 import com.gpmall.commons.tool.utils.TradeNoUtils;
 import com.gpmall.commons.tool.utils.UtilDate;
@@ -30,10 +31,12 @@ import com.gpmall.pay.biz.payment.context.WechatPaymentContext;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.*;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.http.client.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -57,6 +60,14 @@ public class WechatPayment extends BasePayment {
 
 	@Autowired
 	private PaymentMapper paymentMapper;
+
+	@Autowired
+	GlobalIdGeneratorUtil globalIdGeneratorUtil;
+
+	private final String COMMENT_GLOBAL_ID_CACHE_KEY = "COMMENT_ID";
+
+	@Reference(timeout = 3000)
+	OrderCoreService orderCoreService;
 
 	@Override
 	public Validator getValidator() {
@@ -103,9 +114,9 @@ public class WechatPayment extends BasePayment {
 	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
 		PaymentResponse response = new PaymentResponse();
 		WechatPaymentContext wechatPaymentContext = (WechatPaymentContext) context;
-		log.info("微信支付组装的请求参数:{}",wechatPaymentContext.getXml());
+		log.info("微信支付组装的请求参数:{}", wechatPaymentContext.getXml());
 		String xml = HttpClientUtil.httpPost(wechatPaymentConfig.getWechatUnifiedOrder(), wechatPaymentContext.getXml());
-		log.info("微信支付同步返回的结果:{}" ,xml);
+		log.info("微信支付同步返回的结果:{}", xml);
 		Map<String, String> resultMap = WeChatBuildRequest.doXMLParse(xml);
 		if ("SUCCESS".equals(resultMap.get("return_code"))) {
 			if ("SUCCESS".equals(resultMap.get("result_code"))) {
@@ -134,9 +145,10 @@ public class WechatPayment extends BasePayment {
 		PaymentResponse response = (PaymentResponse) respond;
 		Payment payment = new Payment();
 		payment.setCreateTime(new Date());
-		BigDecimal amount=paymentRequest.getOrderFee();
+		BigDecimal amount = paymentRequest.getOrderFee();
 		payment.setOrderAmount(amount);
 		payment.setOrderId(paymentRequest.getTradeNo());
+		payment.setTradeNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
 		payment.setPayerAmount(amount);
 		payment.setPayerUid(paymentRequest.getUserId());
 		payment.setPayerName("");//TODO
@@ -155,14 +167,13 @@ public class WechatPayment extends BasePayment {
 	}
 
 	@Override
-	public AbstractResponse completePayment(AbstractRequest request) throws BizException {
-		PaymentNotifyRequest paymentNotifyRequest = (PaymentNotifyRequest) request;
+	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
 		PaymentNotifyResponse response = new PaymentNotifyResponse();
 		SortedMap<Object, Object> paraMap = new TreeMap<>();
-		Map<String, Object> resultMap = paymentNotifyRequest.getResultMap();
+		Map<String, String[]> resultMap = request.getResultMap();
 		for (Iterator iter = resultMap.keySet().iterator(); iter.hasNext(); ) {
 			String name = iter.next().toString();
-			String value = resultMap.get(name).toString();
+			String value = Arrays.toString(resultMap.get(name));
 			paraMap.put(name, value);
 		}
 		//组装返回的结果的签名字符串
@@ -171,12 +182,20 @@ public class WechatPayment extends BasePayment {
 		//验证签名
 		if (rsSign.equals(sign)) {
 			//SUCCESS、FAIL
-			String resultCode = resultMap.get("result_code").toString();
+			String resultCode = paraMap.get("return_code").toString();
 			if ("SUCCESS".equals(resultCode)) {
-				//TODO 更新交易表的交易结果
-				response.setResult(WeChatBuildRequest.setXML("SUCCESS", "OK"));
-			} else {
-				//TODO 更新交易表交易结果为失败，交易失败，微信端不需要知道我们的处理结果
+				if ("SUCCESS".equals(paraMap.get("result_code"))) {
+					//更新支付表
+					Payment payment = new Payment();
+					payment.setStatus(PayResultEnum.TRADE_SUCCESS.getCode());
+					payment.setPaySuccessTime((Date) paraMap.get("time_end"));
+					Example example = new Example(Payment.class);
+					example.createCriteria().andEqualTo("orderId", paraMap.get("out_trade_no"));
+					paymentMapper.updateByExampleSelective(payment, example);
+					//更新订单表状态
+					orderCoreService.updateOrder(1, paraMap.get("out_trade_no").toString());
+					response.setResult(WeChatBuildRequest.setXML("SUCCESS", "OK"));
+				}
 			}
 		} else {
 			throw new BizException("微信返回结果签名验证失败");

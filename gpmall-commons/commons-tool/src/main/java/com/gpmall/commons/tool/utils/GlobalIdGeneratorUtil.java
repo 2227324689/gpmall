@@ -1,4 +1,4 @@
-package com.gpmall.comment.utils;/**
+package com.gpmall.commons.tool.utils;/**
  * Created by mic on 2019/8/1.
  */
 

@@ -7,6 +7,7 @@ import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
 
+import com.gpmall.commons.tool.utils.GlobalIdGeneratorUtil;
 import com.gpmall.commons.tool.utils.TradeNoUtils;
 
 import com.gpmall.commons.tool.utils.NumberUtils;
@@ -47,6 +48,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -95,7 +97,6 @@ public class AliPayment extends BasePayment {
 		super.prepare(request, context);
 		SortedMap sParaTemp = context.getsParaTemp();
 		AliPaymentContext aliPaymentContext = (AliPaymentContext) context;
-		PaymentRequest paymentRequest = (PaymentRequest) request;
 		sParaTemp.put("partner", aliPaymentConfig.getAli_partner());
 		sParaTemp.put("input_charset", aliPaymentConfig.getInput_charset());
 		sParaTemp.put("service", aliPaymentConfig.getAli_service());
@@ -133,11 +134,11 @@ public class AliPayment extends BasePayment {
 		//插入支付记录表
 		Payment payment = new Payment();
 		payment.setCreateTime(new Date());
+		//订单号
 		payment.setOrderId(paymentRequest.getTradeNo());
 		payment.setCreateTime(new Date());
 		BigDecimal amount =paymentRequest.getOrderFee();
 		payment.setOrderAmount(amount);
-		payment.setOrderId(paymentRequest.getTradeNo());
 		payment.setPayerAmount(amount);
 		payment.setPayerUid(paymentRequest.getUserId());
 		payment.setPayerName("");//TODO
@@ -162,10 +163,8 @@ public class AliPayment extends BasePayment {
 	 */
 	@Override
 	@Transactional
-	public AbstractResponse completePayment(AbstractRequest request) throws BizException {
-		PaymentNotifyRequest paymentNotifyRequest = (PaymentNotifyRequest) request;
-
-		Map requestParams = paymentNotifyRequest.getResultMap();
+	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+		Map requestParams = request.getResultMap();
 		Map<String, Object> params = new HashMap<>(requestParams.size());
 		requestParams.forEach((key, value) -> {
 			String[] values = (String[]) value;
@@ -177,14 +176,16 @@ public class AliPayment extends BasePayment {
 		//验证
 		if (AlipayNotify.verify(params, aliPaymentConfig)) {
 			com.gpmall.pay.dal.entitys.Payment payment = new Payment();
-			payment.setPayNo(params.get("trade_no").toString());
 			//TRADE_FINISH(支付完成)、TRADE_SUCCESS(支付成功)、FAIL(支付失败)
 			String tradeStatus = params.get("trade_status").toString();
 			if ("TRADE_SUCCESS".equals(tradeStatus)) {
 				//更新支付表
+				payment.setPayNo(params.get("trade_no").toString());
 				payment.setStatus(PayResultEnum.TRADE_SUCCESS.getCode());
 				payment.setPaySuccessTime((Date) params.get("gmt_payment"));
-				paymentMapper.updateByExampleSelective(payment,orderId);
+				Example example=new Example(Payment.class);
+				example.createCriteria().andEqualTo("orderId",orderId);
+				paymentMapper.updateByExampleSelective(payment,example);
 				//更新订单表状态
 				orderCoreService.updateOrder(1, orderId);
 				response.setResult("success");
@@ -203,7 +204,7 @@ public class AliPayment extends BasePayment {
 				response.setResult("fail");
 			}
 		} else {
-			throw new BizException("支付宝签名验证失败");
+			throw new BizException("支付宝支付验签失败");
 		}
 		return response;
 	}

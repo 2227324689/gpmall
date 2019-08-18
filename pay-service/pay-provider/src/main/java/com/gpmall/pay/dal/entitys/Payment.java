@@ -40,10 +40,16 @@ public class Payment {
 
 
     /**
-     * 支付流水号
+     * 第三方返回单号
      */
     @Column(name = "pay_no")
     private String payNo;
+
+    /**
+     * 支付流水号
+     */
+    @Column(name = "trade_no")
+    private String tradeNo;
 
     /**
      * 付款人id
