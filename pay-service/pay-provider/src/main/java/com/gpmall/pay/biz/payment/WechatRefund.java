@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
-import com.gpmall.commons.tool.utils.TradeNoUtils;
 import com.gpmall.order.OrderCoreService;
 import com.gpmall.order.OrderQueryService;
 import com.gpmall.order.dto.OrderItemRequest;
@@ -16,23 +15,21 @@ import com.gpmall.pay.biz.payment.channel.wechatpay.WeChatBuildRequest;
 import com.gpmall.pay.biz.payment.commons.HttpClientUtil;
 import com.gpmall.pay.biz.payment.constants.WechatPaymentConfig;
 import com.gpmall.pay.biz.payment.context.WechatRefundContext;
-import com.gpmall.user.IAddressService;
+import com.gpmall.pay.dal.entitys.Refund;
+import com.gpmall.pay.dal.persistence.RefundMapper;
+import com.gpmall.pay.utils.GlobalIdGeneratorUtil;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
-import com.gupaoedu.pay.dto.PaymentResponse;
-import com.gupaoedu.pay.dto.RefundRequest;
-import com.gupaoedu.pay.dto.RefundResponse;
+import com.gupaoedu.pay.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * @Description: 微信退款
@@ -48,14 +45,17 @@ public class WechatRefund extends BasePayment {
 	@Resource(name = "wechatPaymentValidator")
 	private Validator validator;
 
-	@Reference(timeout = 30000)
-	private OrderQueryService orderQueryService;
+	@Reference(timeout = 3000)
+	OrderQueryService orderQueryService;
+	@Reference(timeout = 3000)
+	OrderCoreService orderCoreService;
+	@Autowired
+	RefundMapper refundMapper;
 
-	@Reference(timeout = 30000)
-	private OrderCoreService orderCoreService;
+	@Autowired
+	GlobalIdGeneratorUtil globalIdGeneratorUtil;
 
-	@Reference(timeout = 30000)
-	private IAddressService iAddressService;
+	private final String COMMENT_GLOBAL_ID_CACHE_KEY = "COMMENT_ID";
 
 	@Override
 	public Validator getValidator() {
@@ -67,7 +67,7 @@ public class WechatRefund extends BasePayment {
 		WechatRefundContext wechantRefundContext = new WechatRefundContext();
 		RefundRequest refundRequest = (RefundRequest) request;
 		wechantRefundContext.setOutTradeNo(refundRequest.getOrderId());
-		wechantRefundContext.setRefundPlatformNo(TradeNoUtils.generateTradeNo());
+		wechantRefundContext.setRefundPlatformNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
 		return wechantRefundContext;
 
 	}
@@ -101,7 +101,7 @@ public class WechatRefund extends BasePayment {
 	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
 		RefundResponse response = new RefundResponse();
 		WechatRefundContext wechatRefundContext = (WechatRefundContext) context;
-		log.info("微信退款组装参数：{}",wechatRefundContext.getXml());
+		log.info("微信退款组装参数：{}", wechatRefundContext.getXml());
 		//wechat_refund_url 微信退款申请地址
 		String xml = HttpClientUtil.httpPost(wechatPaymentConfig.getWechat_refund_url(), wechatRefundContext.getXml());
 		log.info("微信退款同步返回结果:{}", xml);
@@ -128,8 +128,19 @@ public class WechatRefund extends BasePayment {
 
 	@Override
 	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
-		log.info("weChatPayment begin - afterProcess -request:" + JSON.toJSONString(request) + "\n response:" + JSON.toJSONString(respond));
-
+		log.info("weChatRefund begin - afterProcess -request:" + JSON.toJSONString(request) + "\n response:" + JSON.toJSONString(respond));
+		WechatRefundContext wechatRefundContext = (WechatRefundContext) context;
+		RefundResponse refundResponse = (RefundResponse) respond;
+		//写入退款记录表
+		Refund refund = new Refund();
+		refund.setOrderId(wechatRefundContext.getOutTradeNo());
+		refund.setAmount(refundResponse.getRefundAmount());
+		refund.setChannel("wechant_refund");
+		refund.setStatus(0);
+		refund.setTradeNo(wechatRefundContext.getRefundPlatformNo());
+		refund.setUserId(wechatRefundContext.getUserId());
+		refund.setUserName("");
+		refundMapper.insert(refund);
 	}
 
 	@Override
@@ -138,7 +149,44 @@ public class WechatRefund extends BasePayment {
 	}
 
 	@Override
-	public AbstractResponse completePayment(AbstractRequest request) throws BizException {
-		return null;
+	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+		PaymentNotifyResponse response = new PaymentNotifyResponse();
+		SortedMap<Object, Object> paraMap = new TreeMap<>();
+		Map<String, String[]> resultMap = request.getResultMap();
+		for (String s : resultMap.keySet()) {
+			String value = Arrays.toString(resultMap.get(s));
+			paraMap.put(s, value);
+		}
+		//组装返回的结果的签名字符串
+		String rsSign = resultMap.remove("sign").toString();
+		String sign = WeChatBuildRequest.createSign(paraMap, wechatPaymentConfig.getWechatMchsecret());
+		//验证签名
+		if (rsSign.equals(sign)) {
+			//SUCCESS、FAIL
+			String resultCode = paraMap.get("return_code").toString();
+			if ("SUCCESS".equals(resultCode)) {
+				if ("SUCCESS".equals(paraMap.get("result_code"))) {
+					//写入退款记录表
+					Refund refund = new Refund();
+					String amount = (String) paraMap.get("refund_fee");
+					String refundNo = (String) paraMap.get("refund_id");
+					refund.setRefundNo(refundNo);
+					refund.setAmount(new BigDecimal(amount));
+					int status = paraMap.get("refund_status").equals("SUCCESS") ? 1 : 2;
+					refund.setStatus(status);
+					Example example = new Example(Refund.class);
+					example.createCriteria().andEqualTo("tradeNo", paraMap.get("out_refund_no"));
+					refundMapper.updateByExampleSelective(refund, example);
+					//更新订单状态为退款状态
+					if (status == 1) {
+						orderCoreService.updateOrder(7, paraMap.get("out_trade_no").toString());
+					}
+					response.setResult(WeChatBuildRequest.setXML("SUCCESS", "OK"));
+				}
+			}
+		} else {
+			throw new BizException("支付宝退款验签失败");
+		}
+		return response;
 	}
 }
