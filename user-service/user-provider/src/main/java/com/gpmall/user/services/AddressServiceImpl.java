@@ -56,7 +56,7 @@ public class AddressServiceImpl implements IAddressService {
         try{
             request.requestCheck();
             Address address=addressMapper.selectByPrimaryKey(request.getAddressId());
-            response.setAddressDto(converter.address2Res(address));
+            response.setAddressDto(converter.address2List(address));
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         }catch (Exception e){

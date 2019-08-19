@@ -8,29 +8,20 @@ import org.apache.commons.lang3.StringUtils;
 
 /**
  * @author heps
- * @date 2019/8/17 23:13
- * 查询某个商品的评价总数请求参数
+ * @date 2019/8/18 8:29
+ * 删除某个商品评价请求参数
  */
 @Data
-public class TotalCommentRequest extends AbstractRequest {
+public class DeleteCommentRequest extends AbstractRequest {
 
-    /**
-     * 商品id
-     */
-    private String itemId;
+    private String commentId;
 
-    /**
-     * 评价类型 1好评 2中评 3差评
-     */
-    private Integer type;
+    private Long userId;
 
     @Override
     public void requestCheck() {
-        if (StringUtils.isEmpty(itemId)) {
+        if (StringUtils.isEmpty(commentId) || userId == null) {
             throw new ValidateException(CommentRetCode.REQUISITE_PARAMETER_NOT_EXIST.getCode(),CommentRetCode.REQUISITE_PARAMETER_NOT_EXIST.getMessage());
-        }
-        if (type != null && (type < 1 || type > 3)) {
-            type = null;
         }
     }
 }

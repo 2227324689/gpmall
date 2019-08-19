@@ -30,6 +30,9 @@ public class CommentListRequest extends AbstractRequest {
         if (StringUtils.isEmpty(itemId)) {
             throw new ValidateException(CommentRetCode.REQUISITE_PARAMETER_NOT_EXIST.getCode(),CommentRetCode.REQUISITE_PARAMETER_NOT_EXIST.getMessage());
         }
+        if (type != null && (type < 1 || type > 3)) {
+            type = null;
+        }
         if (page < 1) {
             setPage(1);
         }

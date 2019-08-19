@@ -32,7 +32,7 @@ public class WechatPaymentConfig {
     @Value("${wechat.wechat_order_query}")
     private String checkOrderUrl;
 
-    @Value("${wechat_refund_url}")
+    @Value("${wechat.wechat_refund_url}")
     private String wechat_refund_url;
 
     public String getWechatAppid() {

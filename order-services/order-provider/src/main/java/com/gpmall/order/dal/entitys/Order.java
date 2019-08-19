@@ -25,11 +25,7 @@ public class Order {
      * 订单id
 
      */
-
     @Id
-
-    @Column(name = "order_id")
-
     private String orderId;
 
 
