@@ -31,6 +31,6 @@
 
 
     <select id="countAll" resultType="long">
-    SELECT  COUNT(*) FROM TB_ORDER
+    SELECT  COUNT(*) FROM tb_order
     </select>
 </mapper>
