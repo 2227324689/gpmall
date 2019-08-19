@@ -37,4 +37,32 @@ public interface ICommentService {
      * @return
      */
     TotalCommentResponse totalComment(TotalCommentRequest request);
+
+    /**
+     * 删除评价
+     * @param request
+     * @return
+     */
+    DeleteCommentResponse deleteComment(DeleteCommentRequest request);
+
+    /**
+     * 将商品评价置顶
+     * @param request
+     * @return
+     */
+    TopCommentResponse topComment(TopCommentRequest request);
+
+    /**
+     * 商品评价审核
+     * @param request
+     * @return
+     */
+    AuditCommentResponse auditComment(AuditCommentRequest request);
+
+    /**
+     * 根据商品评价计算综合评分
+     * @param request
+     * @return
+     */
+    ItemScoreResponse itemScore(ItemScoreRequest request);
 }
