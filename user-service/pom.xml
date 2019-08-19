@@ -8,6 +8,19 @@
 		<module>user-sdk</module>
 	</modules>
 
+	<distributionManagement>
+		<repository>
+			<id>maven-release</id>
+			<name>Nexus Release Repository</name>
+			<url>http://maven.igper.com/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>maven-snapshots</id>
+			<name>Nexus Snapshot Repository</name>
+			<url>http://maven.igper.com/repository/maven-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
 	<groupId>com.gpmall.user</groupId>
 	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>

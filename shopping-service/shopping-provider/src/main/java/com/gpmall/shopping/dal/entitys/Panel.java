@@ -5,6 +5,7 @@ import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,7 @@ public class Panel implements Serializable {
 
     private List<PanelContentItem> panelContentItems;
 
+    @Transient
     private Long productId;
 
     private static final long serialVersionUID = 1L;

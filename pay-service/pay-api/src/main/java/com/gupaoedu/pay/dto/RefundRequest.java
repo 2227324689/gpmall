@@ -16,6 +16,11 @@ import java.math.BigDecimal;
 @Data
 public class RefundRequest extends AbstractRequest {
 	/**
+	 * 用户id
+	 */
+	@NotNull(message = "userId不可为空")
+	private Long userId;
+	/**
 	 * 支付渠道（alipay：支付宝  /  wechat_pay：微信）
 	 */
 	@PayChannel
@@ -27,20 +32,11 @@ public class RefundRequest extends AbstractRequest {
 	private String orderId;
 
 	/**
-	 * 商城退款流水号
-	 */
-	private String refundPlatformNo;
-
-	/**
 	 * 申请退款金额
 	 */
 	@NotNull(message = "退款金额不能为空")
 	@DecimalMin(value = "0.01",message = "退款最小金额不能小于0.01元")
 	private BigDecimal refundAmount;
-	/**
-	 * 退款标识
-	 */
-	private Integer refundFlag=1;
 
 	@Override
 	public void requestCheck() {

@@ -5,5 +5,4 @@ import com.gpmall.order.dal.entitys.Order;
 
 public interface OrderMapper extends TkMapper<Order> {
     Long countAll();
-
 }

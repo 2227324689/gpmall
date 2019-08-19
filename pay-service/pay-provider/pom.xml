@@ -115,6 +115,26 @@
             <artifactId>common-lock</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.gpmall.order</groupId>
+            <version>1.0-SNAPSHOT</version>
+            <artifactId>order-api</artifactId>
+        </dependency>
+        <dependency>
+            <artifactId>user-api</artifactId>
+            <groupId>com.gpmall.user</groupId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.gpmall.shopping</groupId>
+            <artifactId>shopping-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
