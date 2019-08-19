@@ -56,7 +56,7 @@ public class AddressServiceImpl implements IAddressService {
         try{
             request.requestCheck();
             Address address=addressMapper.selectByPrimaryKey(request.getAddressId());
-            response=converter.address2Res(address);
+            response.setAddressDto(converter.address2List(address));
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         }catch (Exception e){
@@ -72,7 +72,7 @@ public class AddressServiceImpl implements IAddressService {
         AddAddressResponse response=new AddAddressResponse();
         try{
             request.requestCheck();
-            checkAddressDefaultUnique(request.getIsDefault()==1,request.getUserId());
+            checkAddressDefaultUnique(request.getIsDefault() != null && request.getIsDefault()==1,request.getUserId());
             Address address=converter.req2Address(request);
             int row=addressMapper.insert(address);
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());

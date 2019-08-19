@@ -15,7 +15,7 @@ public class PaymentNotifyRequest extends AbstractRequest {
      */
     private String payChannel;
 
-    private Map<String,Object> resultMap; //服务端返回的支付通知结果
+    private Map<String,String[]> resultMap; //服务端返回的支付通知结果
 
     public String getPayChannel() {
         return payChannel;
@@ -25,11 +25,11 @@ public class PaymentNotifyRequest extends AbstractRequest {
         this.payChannel = payChannel;
     }
 
-    public Map<String, Object> getResultMap() {
+    public Map<String, String[]> getResultMap() {
         return resultMap;
     }
 
-    public void setResultMap(Map<String, Object> resultMap) {
+    public void setResultMap(Map<String,String[]> resultMap) {
         this.resultMap = resultMap;
     }
 

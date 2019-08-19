@@ -21,7 +21,7 @@
   </sql>
 
   <select id="queryByOrderId" resultMap="BaseResultMap">
-    SELECT * FROM TB_ORDER_ITEM WHERE  ORDER_ID = #{orderId}
+    SELECT * FROM tb_order_item WHERE  ORDER_ID = #{orderId}
   </select>
   
 </mapper>

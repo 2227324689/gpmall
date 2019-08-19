@@ -1,5 +1,6 @@
 package com.gpmall.pay.services;
 
+import com.alibaba.fastjson.JSON;
 import com.gpmall.commons.lock.annotation.CustomerLock;
 import com.gpmall.pay.biz.abs.BasePayment;
 import com.gpmall.pay.utils.ExceptionProcessorUtils;
@@ -25,7 +26,6 @@ public class PayCoreServiceImpl implements PayCoreService {
 
 
     @Override
-    @CustomerLock(lockKey = "#request.tradeNo",lockType = "zookeeper", tryLock = true)
     public PaymentResponse execPay(PaymentRequest request) {
 
         PaymentResponse paymentResponse=new PaymentResponse();
@@ -41,7 +41,7 @@ public class PayCoreServiceImpl implements PayCoreService {
 
     @Override
     public PaymentNotifyResponse paymentResultNotify(PaymentNotifyRequest request) {
-        log.info("paymentResultNotify request:"+request);
+        log.info("paymentResultNotify request:{}", JSON.toJSONString(request));
         PaymentNotifyResponse response=new PaymentNotifyResponse();
         try{
             response=(PaymentNotifyResponse) BasePayment.paymentMap.get
@@ -51,7 +51,7 @@ public class PayCoreServiceImpl implements PayCoreService {
             log.error("paymentResultNotify occur exception:"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }finally {
-            log.info("paymentResultNotify return result:"+response);
+            log.info("paymentResultNotify return result:{}",JSON.toJSONString(response));
         }
         return response;
     }

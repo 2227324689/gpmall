@@ -37,6 +37,7 @@ public class CommentServiceImpl implements ICommentService {
 
     @Autowired
     private CommentMapper commentMapper;
+
     @Autowired
     private CommentPictureMapper commentPictureMapper;
 
@@ -47,9 +48,9 @@ public class CommentServiceImpl implements ICommentService {
 
     private GlobalIdGeneratorUtil globalIdGeneratorUtil;
 
-    private final String COMMENT_GLOBAL_ID_CACHE_KEY = "COMMENT_ID";
+    private static final String COMMENT_GLOBAL_ID_CACHE_KEY = "COMMENT_ID";
 
-    private final String COMMENT_PICTURE_GLOBAL_ID_CACHE_KEY = "COMMENT_PICTURE_ID";
+    private static final String COMMENT_PICTURE_GLOBAL_ID_CACHE_KEY = "COMMENT_PICTURE_ID";
 
     public CommentServiceImpl(CommentMapper commentMapper, CommentPictureMapper commentPictureMapper,
                               CommentConverter commentConverter, GlobalIdGeneratorUtil globalIdGeneratorUtil) {
@@ -92,6 +93,7 @@ public class CommentServiceImpl implements ICommentService {
             Example.Criteria criteria = example.createCriteria();
             criteria.andEqualTo("itemId", itemId);
             criteria.andEqualTo("orderId", orderId);
+            criteria.andEqualTo("isDeleted", false);
             List<Comment> comments = commentMapper.selectByExample(example);
             if (CollectionUtils.isEmpty(comments)) {
                 response.setCode(CommentRetCode.COMMENT_NOT_EXIST.getCode());
@@ -120,6 +122,7 @@ public class CommentServiceImpl implements ICommentService {
             if (type != null) {
                 criteria.andEqualTo("type", type.byteValue());
             }
+            criteria.andEqualTo("isDeleted", false);
             PageHelper.startPage(request.getPage(), request.getSize());
             List<Comment> comments = commentMapper.selectByExample(example);
             if (CollectionUtils.isEmpty(comments)) {
@@ -134,6 +137,132 @@ public class CommentServiceImpl implements ICommentService {
                 response.setTotal(commentPageInfo.getTotal());
                 response.setCommentDtoList(commentConverter.comment2Dto(comments));
             }
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public TotalCommentResponse totalComment(TotalCommentRequest request) {
+        TotalCommentResponse response = new TotalCommentResponse();
+        try {
+            request.requestCheck();
+            String itemId = request.getItemId();
+            Integer type = request.getType();
+            Example example = new Example(Comment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            if (type != null) {
+                criteria.andEqualTo("type", type.byteValue());
+            }
+            int count = commentMapper.selectCountByExample(example);
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+            response.setTotal(count);
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public DeleteCommentResponse deleteComment(DeleteCommentRequest request) {
+        DeleteCommentResponse response = new DeleteCommentResponse();
+        try {
+            request.requestCheck();
+            String commentId = request.getCommentId();
+            Comment comment = commentMapper.selectByPrimaryKey(commentId);
+            if (comment == null || !comment.getIsDeleted()) {
+                throw new CommentException(CommentRetCode.CURRENT_COMMENT_NOT_EXIST.getCode(), CommentRetCode.CURRENT_COMMENT_NOT_EXIST.getMessage());
+            }
+            comment.setDeletionUserId(request.getUserId());
+            comment.setIsDeleted(true);
+            comment.setDeletionTime(new Date());
+
+            Example example = new Example(CommentPicture.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("commentId", commentId);
+            commentPictureMapper.deleteByExample(example);
+
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public TopCommentResponse topComment(TopCommentRequest request) {
+        TopCommentResponse response = new TopCommentResponse();
+        try {
+            request.requestCheck();
+
+            String commentId = request.getCommentId();
+            Comment comment = commentMapper.selectByPrimaryKey(commentId);
+            if (comment == null || !comment.getIsDeleted()) {
+                throw new CommentException(CommentRetCode.CURRENT_COMMENT_NOT_EXIST.getCode(), CommentRetCode.CURRENT_COMMENT_NOT_EXIST.getMessage());
+            }
+            comment.setIsTop(true);
+            commentMapper.updateByPrimaryKey(comment);
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return null;
+    }
+
+    @Override
+    public AuditCommentResponse auditComment(AuditCommentRequest request) {
+        AuditCommentResponse response = new AuditCommentResponse();
+        try {
+            request.requestCheck();
+            String commentId = request.getCommentId();
+            Comment comment = commentMapper.selectByPrimaryKey(commentId);
+            if (comment == null || !comment.getIsDeleted()) {
+                throw new CommentException(CommentRetCode.CURRENT_COMMENT_NOT_EXIST.getCode(), CommentRetCode.CURRENT_COMMENT_NOT_EXIST.getMessage());
+            }
+            comment.setIsValid(request.isValid());
+            comment.setValidationUserId(request.getValidationUserId());
+            comment.setValidationTime(new Date());
+            comment.setValidationSuggestion(request.getValidationSuggestion());
+            commentMapper.updateByPrimaryKey(comment);
+
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public ItemScoreResponse itemScore(ItemScoreRequest request) {
+        ItemScoreResponse response = new ItemScoreResponse();
+        try {
+            request.requestCheck();
+            String itemId = request.getItemId();
+            Example example = new Example(Comment.class);
+            Example.Criteria criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            criteria.andEqualTo("type", 1);
+            int goodCommentCount = commentMapper.selectCountByExample(example);
+
+            example = new Example(Comment.class);
+            criteria = example.createCriteria();
+            criteria.andEqualTo("itemId", itemId);
+            criteria.andEqualTo("type", 3);
+            int badCommentCount = commentMapper.selectCountByExample(example);
+            if (badCommentCount == 0) {
+                response.setScore(100);
+            } else {
+                double score = goodCommentCount / (goodCommentCount + badCommentCount);
+                response.setScore(score);
+            }
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
         } catch (Exception e) {
             ExceptionProcessorUtil.handleException(response, e);
         }
@@ -189,6 +318,7 @@ public class CommentServiceImpl implements ICommentService {
         comment.setIsPublic(request.getIsPublic());
         comment.setIsValid(false);
         comment.setIsTop(false);
+        comment.setIsDeleted(false);
         comment.setUserId(orderDto.getUserId());
         commentMapper.insert(comment);
 
