@@ -26,7 +26,6 @@ public class PayCoreServiceImpl implements PayCoreService {
 
 
     @Override
-    @CustomerLock(lockKey = "#request.tradeNo",lockType = "zookeeper", tryLock = true)
     public PaymentResponse execPay(PaymentRequest request) {
 
         PaymentResponse paymentResponse=new PaymentResponse();

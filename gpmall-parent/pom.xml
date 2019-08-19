@@ -31,7 +31,7 @@
     <joda-time.version>2.10.3</joda-time.version>
     <redisson.version>3.11.1</redisson.version>
     <pagehelper.version>5.1.10</pagehelper.version>
-    <pagehelper.sprinboo.version>1.2.12</pagehelper.sprinboo.version>
+    <pagehelper.sprinboot.version>1.2.12</pagehelper.sprinboot.version>
     <swagger-starter.version>1.8.0.RELEASE</swagger-starter.version>
     <validation-api.version>2.0.1.Final</validation-api.version>
     <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
@@ -190,12 +190,12 @@
       <dependency>
         <groupId>com.github.pagehelper</groupId>
         <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
-        <version>${pagehelper.sprinboo.version}</version>
+        <version>${pagehelper.sprinboot.version}</version>
       </dependency>
       <dependency>
         <groupId>com.github.pagehelper</groupId>
         <artifactId>pagehelper-spring-boot-starter</artifactId>
-        <version>${pagehelper.sprinboo.version}</version>
+        <version>${pagehelper.sprinboot.version}</version>
       </dependency>
       <!--swagger在线文档工具-->
       <dependency>
@@ -227,7 +227,7 @@
         <plugin>
           <groupId>org.mybatis.generator</groupId>
           <artifactId>mybatis-generator-maven-plugin</artifactId>
-          <version>1.3.5</version>
+          <version>1.3.7</version>
           <dependencies>
             <dependency>
               <groupId>mysql</groupId>
@@ -237,7 +237,7 @@
             <dependency>
               <groupId>org.mybatis.generator</groupId>
               <artifactId>mybatis-generator-core</artifactId>
-              <version>1.3.5</version>
+              <version>1.3.7</version>
             </dependency>
               <dependency>
                   <groupId>tk.mybatis</groupId>
