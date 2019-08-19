@@ -16,6 +16,11 @@ import java.math.BigDecimal;
 @Data
 public class RefundRequest extends AbstractRequest {
 	/**
+	 * 用户id
+	 */
+	@NotNull(message = "userId不可为空")
+	private Long userId;
+	/**
 	 * 支付渠道（alipay：支付宝  /  wechat_pay：微信）
 	 */
 	@PayChannel
