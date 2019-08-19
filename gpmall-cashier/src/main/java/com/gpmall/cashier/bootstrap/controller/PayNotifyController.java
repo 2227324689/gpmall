@@ -32,7 +32,7 @@ public class PayNotifyController {
 	 * @param httpServletRequest
 	 * @return
 	 */
-	@PostMapping("/pay/alipayNotifty")
+	@PostMapping("/pay/alipayNotify")
 	public String doAliPay(HttpServletRequest httpServletRequest) {
 		return commonDo("ali_pay", httpServletRequest);
 	}
@@ -42,7 +42,7 @@ public class PayNotifyController {
 	 *
 	 * @return
 	 */
-	@PostMapping("/pay/wechatPayNotifty")
+	@PostMapping("/pay/wechatPayNotify")
 	public String doWeChantPay(HttpServletRequest httpServletRequest) {
 		return commonDo("wechat_pay", httpServletRequest);
 	}
@@ -52,7 +52,7 @@ public class PayNotifyController {
 	 *
 	 * @return
 	 */
-	@PostMapping("/refund/aliRefundNotifty")
+	@PostMapping("/refund/aliRefundNotify")
 	public String doAliRefund(HttpServletRequest httpServletRequest) {
 		return commonDo("ali_refund", httpServletRequest);
 	}
@@ -62,7 +62,7 @@ public class PayNotifyController {
 	 *
 	 * @return
 	 */
-	@PostMapping("/refund/wechatRefundNotifty")
+	@PostMapping("/refund/wechatRefundNotify")
 	public String doWechatRefund(HttpServletRequest httpServletRequest) {
 		return commonDo("wechat_refund", httpServletRequest);
 	}
