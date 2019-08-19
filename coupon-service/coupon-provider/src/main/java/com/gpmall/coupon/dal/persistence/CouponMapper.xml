@@ -2,6 +2,30 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gpmall.coupon.dal.persistence.CouponMapper">
   <resultMap id="BaseResultMap" type="com.gpmall.coupon.dal.entitys.Coupon">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="discount_price" jdbcType="DECIMAL" property="discountPrice" />
+    <result column="full_price" jdbcType="DECIMAL" property="fullPrice" />
+    <result column="is_visible" jdbcType="BIT" property="isVisible" />
+    <result column="count" jdbcType="INTEGER" property="count" />
+    <result column="grab_start_time" jdbcType="TIMESTAMP" property="grabStartTime" />
+    <result column="grab_end_time" jdbcType="TIMESTAMP" property="grabEndTime" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+  </resultMap>
+  
+  <sql id="BaseColumns">
+    <!-- WARNING - @mbg.generated -->
+    id, name, desc, type, discount_price, full_price, is_visible, count, grab_start_time, grab_end_time, start_time, end_time, created, updated
+  </sql>
+  <resultMap id="BaseResultMap" type="com.gpmall.coupon.dal.entitys.Coupon">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />

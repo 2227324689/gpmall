@@ -1,9 +1,12 @@
 package com.gpmall.pay.services;
 
+import com.alibaba.fastjson.JSON;
 import com.gpmall.commons.lock.annotation.CustomerLock;
 import com.gpmall.pay.biz.abs.BasePayment;
 import com.gpmall.pay.utils.ExceptionProcessorUtils;
 import com.gupaoedu.pay.PayCoreService;
+import com.gupaoedu.pay.constants.PayReturnCodeEnum;
+import com.gupaoedu.pay.dto.*;
 import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import com.gupaoedu.pay.dto.PaymentRequest;
@@ -22,10 +25,9 @@ import org.apache.dubbo.config.annotation.Service;
 public class PayCoreServiceImpl implements PayCoreService {
 
 
-
     @Override
-    @CustomerLock(lockKey = "#request.tradeNo",lockType = "zookeeper", tryLock = true)
     public PaymentResponse execPay(PaymentRequest request) {
+
         PaymentResponse paymentResponse=new PaymentResponse();
         try {
             paymentResponse=(PaymentResponse) BasePayment.paymentMap.get(request.getPayChannel()).process(request);
@@ -39,7 +41,7 @@ public class PayCoreServiceImpl implements PayCoreService {
 
     @Override
     public PaymentNotifyResponse paymentResultNotify(PaymentNotifyRequest request) {
-        log.info("paymentResultNotify request:"+request);
+        log.info("paymentResultNotify request:{}", JSON.toJSONString(request));
         PaymentNotifyResponse response=new PaymentNotifyResponse();
         try{
             response=(PaymentNotifyResponse) BasePayment.paymentMap.get
@@ -49,8 +51,25 @@ public class PayCoreServiceImpl implements PayCoreService {
             log.error("paymentResultNotify occur exception:"+e);
             ExceptionProcessorUtils.wrapperHandlerException(response,e);
         }finally {
-            log.info("paymentResultNotify return result:"+response);
+            log.info("paymentResultNotify return result:{}",JSON.toJSONString(response));
         }
         return response;
+    }
+
+    /**
+     * 执行退款
+     * @param refundRequest
+     * @return
+     */
+    @Override
+    public RefundResponse execRefund(RefundRequest refundRequest) {
+        RefundResponse refundResponse=new RefundResponse();
+        try {
+            refundResponse=(RefundResponse) BasePayment.paymentMap.get(refundRequest.getPayChannel()).process(refundRequest);
+        }catch (Exception e){
+            log.error("PayCoreServiceImpl.execRefund Occur Exception :{}",e);
+            ExceptionProcessorUtils.wrapperHandlerException(refundResponse,e);
+        }
+        return refundResponse;
     }
 }

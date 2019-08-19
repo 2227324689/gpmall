@@ -1,12 +1,19 @@
 package com.gpmall.shopping.dal.entitys;
 
 import lombok.Data;
+import tk.mybatis.mapper.annotation.KeySql;
 
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 
 @Data
+@Table(name = "tb_panel_content")
 public class PanelContent implements Serializable {
+
+    @Id
+    @KeySql(useGeneratedKeys = true)
     private Integer id;
 
     private Integer panelId;

@@ -9,27 +9,27 @@ services:
     - MYSQL_DATABASE=gpmall
    volumes:
     - "/Users/wangzhong/datas/mysql:/var/lib/mysql"
-# elasticsearch:
-#  image: elasticsearch:6.6.1
-#  environment:
-#    - cluster.name=elasticsearch
-#    - bootstrap.memory_lock=true
-#    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-#  ulimits:
-#    memlock:
-#      soft: -1
-#      hard: -1
-#  ports:
-#    - 9200:9200
-#    - 9300:9300
-#  volumes:
-#    - "/Users/wangzhong/datas/es/data:/usr/share/elasticsearch/data"
-#    - "/Users/wangzhong/datas/es/plugins:/usr/share/elasticsearch/plugins"
+ elasticsearch:
+  image: elasticsearch:6.6.1
+  environment:
+    - cluster.name=elasticsearch
+    - bootstrap.memory_lock=true
+    - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  ulimits:
+    memlock:
+      soft: -1
+      hard: -1
+  ports:
+    - 9200:9200
+    - 9300:9300
+  volumes:
+    - "/Users/wangzhong/datas/es/data:/usr/share/elasticsearch/data"
+    #- "/Users/wangzhong/datas/es/plugins:/usr/share/elasticsearch/plugins"
  kibana:
   image: kibana:6.6.1
   environment:
     SERVER_NAME:
-    ELASTICSEARCH_HOSTS: http://39.98.240.253:9200
+    ELASTICSEARCH_HOSTS: http://localhost:9200
   ports:
     - 5601:5601
  kafka:

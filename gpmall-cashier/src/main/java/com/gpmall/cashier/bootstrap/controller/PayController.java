@@ -13,6 +13,8 @@ import com.gupaoedu.pay.PayCoreService;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
+import com.gupaoedu.pay.dto.RefundRequest;
+import com.gupaoedu.pay.dto.RefundResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,12 +47,11 @@ public class PayController {
         Long uid=Long.parseLong(object.get("uid").toString());
         request.setUserId(uid);
         BigDecimal money=payForm.getMoney();
-        money=money.multiply(new BigDecimal(100));
-        request.setOrderFee(money.intValue());
+        request.setOrderFee(money);
         request.setPayChannel(payForm.getPayType());
         request.setSubject(payForm.getInfo());
         request.setTradeNo(payForm.getOrderId());
-        request.setTotalFee(money.intValue());
+        request.setTotalFee(money);
         PaymentResponse response=payCoreService.execPay(request);
         if(response.getCode().equals(PayReturnCodeEnum.SUCCESS.getCode())){
             return new ResponseUtil<>().setData(response.getHtmlStr());
@@ -58,4 +59,19 @@ public class PayController {
         return new ResponseUtil<>().setErrorMsg(response.getMsg());
 
     }
+
+
+    @PostMapping("/refund")
+    public ResponseData refund(@RequestBody PayForm refundForm,HttpServletRequest httpServletRequest){
+        log.info("订单退款入参:{}",JSON.toJSONString(refundForm));
+        RefundRequest refundRequest=new RefundRequest();
+        refundRequest.setOrderId(refundForm.getOrderId());
+        refundRequest.setRefundAmount(refundForm.getMoney());
+        refundRequest.setPayChannel(refundForm.getPayType());
+        RefundResponse refundResponse=payCoreService.execRefund(refundRequest);
+        log.info("订单退款同步返回结果:{}",JSON.toJSONString(refundResponse));
+        return new ResponseUtil<>().setData(refundResponse);
+    }
+
+
 }

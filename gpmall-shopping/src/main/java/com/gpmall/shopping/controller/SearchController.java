@@ -44,4 +44,14 @@ public class SearchController {
         }
         return new ResponseUtil().setErrorMsg(response.getMsg());
     }
+
+    @Anoymous
+    @GetMapping("/searchHotWord")
+    public ResponseData<SearchResponse> getSearchHotWord(){
+        SearchResponse searchResponse = productSearchService.hotProductKeyword();
+        if(searchResponse.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
+            return new ResponseUtil().setData(searchResponse.getData());
+        }
+        return new ResponseUtil().setErrorMsg(searchResponse.getMsg());
+    }
 }
