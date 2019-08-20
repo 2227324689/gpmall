@@ -1,5 +1,6 @@
 package com.gpmall.pay.biz.payment;
 
+import com.alibaba.fastjson.JSON;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
@@ -66,9 +67,12 @@ public class WechatPayment extends BasePayment {
 	public Context createContext(AbstractRequest request) {
 		WechatPaymentContext wechatPaymentContext = new WechatPaymentContext();
 		PaymentRequest paymentRequest = (PaymentRequest) request;
+		wechatPaymentContext.setOutTradeNo(paymentRequest.getTradeNo());
 		wechatPaymentContext.setProductId(paymentRequest.getTradeNo());
 		wechatPaymentContext.setSpbillCreateIp(paymentRequest.getSpbillCreateIp());
 		wechatPaymentContext.setTradeType(PaymentConstants.TradeTypeEnum.NATIVE.getType());
+		wechatPaymentContext.setTotalFee(paymentRequest.getTotalFee());
+		wechatPaymentContext.setBody(paymentRequest.getSubject());
 		return wechatPaymentContext;
 	}
 
@@ -91,9 +95,10 @@ public class WechatPayment extends BasePayment {
 		paraMap.put("device_info", "WEB");
 		paraMap.put("notify_url", wechatPaymentConfig.getWechatNotifyurl());
 		//二维码的失效时间（5分钟）
-		paraMap.put("time_expire", UtilDate.getExpireTime(5 * 60 * 1000L));
+		paraMap.put("time_expire", UtilDate.getExpireTime(30 * 60 * 1000L));
 		String sign = WeChatBuildRequest.createSign(paraMap, wechatPaymentConfig.getWechatMchsecret());
 		paraMap.put("sign", sign);
+		log.info("微信生成sign:{}", JSON.toJSONString(paraMap));
 		String xml = WeChatBuildRequest.getRequestXml(paraMap);
 		wechatPaymentContext.setXml(xml);
 	}
@@ -136,7 +141,7 @@ public class WechatPayment extends BasePayment {
 		BigDecimal amount = paymentRequest.getOrderFee();
 		payment.setOrderAmount(amount);
 		payment.setOrderId(paymentRequest.getTradeNo());
-		payment.setTradeNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
+		//payment.setTradeNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
 		payment.setPayerAmount(amount);
 		payment.setPayerUid(paymentRequest.getUserId());
 		payment.setPayerName("");//TODO
