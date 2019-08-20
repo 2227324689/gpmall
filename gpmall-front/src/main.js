@@ -6,7 +6,9 @@ import VueLazyload from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import VueCookie from 'vue-cookie'
 import { userInfo } from './api'
-import { Button, Pagination, Checkbox, Icon, Autocomplete, Loading, Message, Notification, Steps, Step, Table, TableColumn, Input, Dialog, Select, Option } from 'element-ui'
+// Element css
+import 'element-ui/lib/theme-default/index.css'
+import { Button, Pagination, Checkbox, Icon, Autocomplete, Loading, Message, Notification, Steps, Step, Table, TableColumn, Input, Dialog, Select, Option, Tabs, TabPane } from 'element-ui'
 // import { getStore } from '/utils/storage'
 import VueContentPlaceholders from 'vue-content-placeholders'
 // import Mock from './mock/mock.js'
@@ -26,6 +28,8 @@ Vue.use(Dialog)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Loading.directive)
+Vue.use(Tabs)
+Vue.use(TabPane)
 Vue.prototype.$loading = Loading.service
 Vue.prototype.$notify = Notification
 Vue.prototype.$message = Message
