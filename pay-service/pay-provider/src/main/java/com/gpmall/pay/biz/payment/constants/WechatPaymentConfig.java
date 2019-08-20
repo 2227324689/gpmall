@@ -35,6 +35,9 @@ public class WechatPaymentConfig {
     @Value("${wechat.wechat_refund_url}")
     private String wechat_refund_url;
 
+    @Value("${wechat.wechat_refund_notify_url}")
+    private String wechat_refund_notify_url;
+
     public String getWechatAppid() {
         return wechatAppid;
     }
@@ -70,5 +73,13 @@ public class WechatPaymentConfig {
 
     public void setWechat_refund_url(String wechat_refund_url) {
         this.wechat_refund_url = wechat_refund_url;
+    }
+
+    public String getWechat_refund_notify_url() {
+        return wechat_refund_notify_url;
+    }
+
+    public void setWechat_refund_notify_url(String wechat_refund_notify_url) {
+        this.wechat_refund_notify_url = wechat_refund_notify_url;
     }
 }
