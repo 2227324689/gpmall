@@ -9,16 +9,25 @@
             <y-button text="上传头像" classStyle="main-btn" style="margin: 0;" @btnClick="editAvatar()"></y-button>
           </div>
         </div>
+        <div class="status-box fn-clear safe-status-warning">
+          <div  class="safe-center-title">
+            <h3 >邮箱验证</h3>
+          </div>
+          <p >绑定邮箱后，可用邮箱登录。</p>
+          <div  class="safe-todo">
+            <a >现在绑定</a>
+          </div>
+        </div>
         <div class="edit-avatar" v-if="editAvatarShow">
           <y-shelf title="设置头像">
         <span slot="right">
-                              <span class="close" @click="editAvatarShow=false">
-                        <svg t="1501234940517" class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
-                             xmlns="http://www.w3.org/2000/svg" p-id="3014" xmlns:xlink="http://www.w3.org/1999/xlink"
-                             width="20" height="20"><path
-                          d="M941.576 184.248l-101.824-101.824L512 410.176 184.248 82.424 82.424 184.248 410.168 512l-327.744 327.752 101.824 101.824L512 613.824l327.752 327.752 101.824-101.824L613.832 512z"
-                          fill="#cdcdcd" p-id="3015"></path></svg>
-                    </span>
+        <span class="close" @click="editAvatarShow=false">
+          <svg t="1501234940517" class="icon" style="" viewBox="0 0 1024 1024" version="1.1"
+               xmlns="http://www.w3.org/2000/svg" p-id="3014" xmlns:xlink="http://www.w3.org/1999/xlink"
+               width="20" height="20">
+            <path d="M941.576 184.248l-101.824-101.824L512 410.176 184.248 82.424 82.424 184.248 410.168 512l-327.744 327.752 101.824 101.824L512 613.824l327.752 327.752 101.824-101.824L613.832 512z"
+            fill="#cdcdcd" p-id="3015"></path></svg>
+        </span>
         </span>
             <div slot="content" class="content">
               <div class="edit-l">
@@ -217,6 +226,33 @@
       }
     }
   }
+  .safe-status-ok {
+    background:url("/static/images/safe-status.png") 21px 5px no-repeat;
+    background-size: 22px;
+  }
+  .safe-status-warning {
+    background:url("/static/images/safe-status-problem.png") 21px 5px no-repeat;
+    background-size: 22px;
+  }
+
+  .status-box {
+    position: relative;
+    height:6px;
+    padding-bottom: 30px;
+    margin: 0 30px 30px;
+    border-bottom: 1px solid #dadada;
+    line-height: 30px;
+  }
+
+  .safe-center-title {
+    margin-left: 60px;
+    h3 {
+      font-size: 18px;
+      font-weight: 400;
+      color: #333;
+    }
+  }
+
 
   // 修改头像
   .edit-avatar {

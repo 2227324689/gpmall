@@ -28,13 +28,17 @@ spring:
         max-idle: 10
         max-wait: 3000
         min-idle: 4
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: es.gupaoedu.com:9300
 dubbo:
   application:
     name: pay-services
     owner: Mic
   protocol:
     name: dubbo
-    port: 20883
+    port: 20884
   registry:
     address: zookeeper://192.168.1.105:2181
     check: true

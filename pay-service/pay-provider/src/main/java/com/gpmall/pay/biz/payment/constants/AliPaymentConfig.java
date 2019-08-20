@@ -1,8 +1,6 @@
 package com.gpmall.pay.biz.payment.constants;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 /**
@@ -52,6 +50,14 @@ public class AliPaymentConfig {
 
     @Value("${ali.pay_open_gateway}")
     private String pay_open_gateway;
+
+    /** 退款接口名 */
+    @Value("${ali.refund_service}")
+    private String refund_service;
+
+    /**退款通知地址 */
+    @Value("${ali.refund_notify_url}")
+    private String refund_notify_url;
 
     public String getAli_service() {
         return ali_service;
@@ -104,4 +110,21 @@ public class AliPaymentConfig {
     public String getPay_open_gateway() {
         return pay_open_gateway;
     }
+
+
+    public String getRefund_service() {
+        return refund_service;
+    }
+
+    public void setRefund_service(String refund_service) {
+        this.refund_service = refund_service;
+    }
+    public String getRefund_notify_url() {
+        return refund_notify_url;
+    }
+
+    public void setRefund_notify_url(String refund_notify_url) {
+        this.refund_notify_url = refund_notify_url;
+    }
+
 }

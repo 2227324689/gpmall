@@ -1,6 +1,7 @@
 package com.gpmall.order.biz.handler;
 
 import com.gpmall.commons.tool.exception.BizException;
+import com.gpmall.commons.tool.utils.NumberUtils;
 import com.gpmall.order.biz.callback.SendEmailCallback;
 import com.gpmall.order.biz.callback.TransCallback;
 import com.gpmall.order.biz.context.CreateOrderContext;
@@ -60,19 +61,21 @@ public class InitOrderHandler extends AbstractTransHandler {
         return false;
     }
 
+    //TODO: 事务这里还没测试过， 大家看到这段代码的时候测试一下，如果有问题记得改
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public boolean handle(TransHandlerContext context) {
         log.info("begin InitOrderHandler :context:"+context);
         Order order=new Order();
         try {
-            //TODO 幂等校验（防止订单重复提交）
             CreateOrderContext createOrderContext=(CreateOrderContext)context;
             String orderId = globalIdGeneratorUtil.getNextSeq(ORDER_GLOBAL_ID_CACHE_KEY, 1);
+            //??????????????
+//            order.setUniqueKey(createOrderContext.getUniqueKey());
             order.setOrderId(orderId);
             order.setUserId(Long.valueOf(createOrderContext.getUserId()));
             order.setBuyerNick(createOrderContext.getBuyerNickName());
-            order.setPayment(createOrderContext.getOrderTotal());
+            order.setPayment(NumberUtils.toDouble(createOrderContext.getOrderTotal()));
             order.setCreateTime(new Date());
             order.setUpdateTime(new Date());
             order.setStatus(OrderConstants.ORDER_STATUS_INIT);
@@ -84,10 +87,10 @@ public class InitOrderHandler extends AbstractTransHandler {
                 orderItem.setItemId(String.valueOf(cartProductDto.getProductId()));
                 orderItem.setOrderId(String.valueOf(orderId));
                 orderItem.setNum(Math.toIntExact(cartProductDto.getProductNum()));
-                orderItem.setPrice(cartProductDto.getSalePrice());
+                orderItem.setPrice(NumberUtils.toDouble(cartProductDto.getSalePrice()));
                 orderItem.setTitle(cartProductDto.getProductName());
                 orderItem.setPicPath(cartProductDto.getProductImg());
-                orderItem.setTotalFee(cartProductDto.getSalePrice().multiply(BigDecimal.valueOf(cartProductDto.getProductNum())));
+                orderItem.setTotalFee(cartProductDto.getSalePrice().multiply(BigDecimal.valueOf(cartProductDto.getProductNum())).doubleValue());
                 buyProductIds.add(cartProductDto.getProductId());
                 orderItemMapper.insert(orderItem);
             });

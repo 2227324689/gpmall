@@ -6,6 +6,7 @@ import com.gpmall.commons.result.ResponseUtil;
 import com.gpmall.commons.tool.utils.CookieUtil;
 import com.gpmall.user.IUserLoginService;
 import com.gpmall.user.annotation.Anoymous;
+import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.dto.CheckAuthRequest;
 import com.gpmall.user.dto.CheckAuthResponse;
 import org.apache.commons.lang3.StringUtils;
@@ -51,7 +52,7 @@ public class TokenIntercepter extends HandlerInterceptorAdapter {
         CheckAuthRequest checkAuthRequest=new CheckAuthRequest();
         checkAuthRequest.setToken(token);
         CheckAuthResponse checkAuthResponse=iUserLoginService.validToken(checkAuthRequest);
-        if(checkAuthResponse.getCode().equals("000000")){
+        if(checkAuthResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())){
             request.setAttribute(USER_INFO_KEY,checkAuthResponse.getUserinfo()); //保存token解析后的信息后续要用
             return super.preHandle(request, response, handler);
         }

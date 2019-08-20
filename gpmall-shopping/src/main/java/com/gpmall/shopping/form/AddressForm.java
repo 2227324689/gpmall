@@ -8,7 +8,6 @@ import lombok.Data;
  */
 @Data
 public class AddressForm {
-	private Long userId;
 	private Long addressId;
 	private String userName;
 	private String tel;
