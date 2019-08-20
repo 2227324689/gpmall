@@ -23,7 +23,7 @@ public class WechatPaymentValidator extends BaseValidator {
      OrderQueryService orderQueryService;
     @Override
     public void specialValidate(PaymentRequest paymentRequest) {
-        //校验订单是否存在
+ /*       //校验订单是否存在
         OrderDetailRequest orderDetailRequest=new OrderDetailRequest();
         orderDetailRequest.setOrderId(paymentRequest.getTradeNo());
         OrderDetailResponse orderDetailResponse=orderQueryService.orderDetail(orderDetailRequest);
@@ -34,6 +34,6 @@ public class WechatPaymentValidator extends BaseValidator {
         if(!Objects.equals(orderDetailResponse.getStatus(),0)){
             throw new BizException(PayReturnCodeEnum.HAD_PAY_ERROR.getCode(),PayReturnCodeEnum.HAD_PAY_ERROR.getMsg());
         }
-
+*/
     }
 }

@@ -83,7 +83,7 @@ public abstract class BasePayment implements Payment {
 	 * 核心处理器
 	 */
 	@Override
-	public AbstractResponse process(AbstractRequest request) throws BizException {
+	public <T extends AbstractResponse> T process(AbstractRequest request) throws BizException {
 		log.info("Begin BasePayment.process:{}", JSON.toJSONString(request));
 		AbstractResponse response = null;
 		//创建上下文
@@ -96,7 +96,7 @@ public abstract class BasePayment implements Payment {
 		response = generalProcess(request, context);
 		//善后
 		afterProcess(request, response, context);
-		return response;
+		return (T) response;
 	}
 
 	/**
