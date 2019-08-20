@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.gpmall.cashier.bootstrap.form.PayForm;
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
+import com.gpmall.user.annotation.Anoymous;
 import com.gpmall.user.intercepter.TokenIntercepter;
 import com.gupaoedu.pay.PayCoreService;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
@@ -36,11 +37,13 @@ import java.math.BigDecimal;
 @RequestMapping("/cashier")
 public class PayController {
 
-    @Reference(timeout = 3000)
+    @Reference(timeout = 3000,retries = 0)
     PayCoreService payCoreService;
 
     @PostMapping("/pay")
+    @Anoymous
     public ResponseData pay(@RequestBody PayForm payForm, HttpServletRequest httpServletRequest){
+        log.info("支付表单数据:{}",payForm);
         PaymentRequest request=new PaymentRequest();
         String userInfo=(String)httpServletRequest.getAttribute(TokenIntercepter.USER_INFO_KEY);
         JSONObject object= JSON.parseObject(userInfo);
@@ -50,6 +53,7 @@ public class PayController {
         request.setOrderFee(money);
         request.setPayChannel(payForm.getPayType());
         request.setSubject(payForm.getInfo());
+        request.setSpbillCreateIp("115.195.125.164");
         request.setTradeNo(payForm.getOrderId());
         request.setTotalFee(money);
         PaymentResponse response=payCoreService.execPay(request);

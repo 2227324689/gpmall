@@ -18,7 +18,7 @@ public interface Payment {
      * @return
      * @throws BizException
      */
-    AbstractResponse process(AbstractRequest request) throws BizException;
+    <T extends AbstractResponse> T process(AbstractRequest request) throws BizException;
 
     /**
      * 完成交易结果的处理
@@ -26,5 +26,5 @@ public interface Payment {
      * @return
      * @throws BizException
      */
-    AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException;
+    <T extends AbstractResponse> T completePayment(PaymentNotifyRequest request) throws BizException;
 }

@@ -112,6 +112,7 @@ CREATE TABLE `tb_item` (
   `num` int(11) DEFAULT NULL COMMENT '库存数量',
   `limit_num` int(11) DEFAULT NULL COMMENT '售卖数量限制',
   `image` varchar(2000) DEFAULT NULL COMMENT '商品图片',
+  `image_big` varchar(2000) DEFAULT NULL COMMENT '商品大图片',
   `cid` bigint(11) DEFAULT NULL COMMENT '所属分类',
   `status` int(1) DEFAULT '1' COMMENT '商品状态 1正常 0下架',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
@@ -471,8 +472,8 @@ INSERT INTO `tb_panel_content` VALUES ('61', '0', '0', null, '5', '', '服务', 
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_payment`;
 CREATE TABLE `tb_payment` (
-  `id` varchar(50) NOT NULL,
-  `status` varchar(20) NOT NULL COMMENT '支付状态',
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `status` varchar(20) NOT NULL COMMENT '支付状态（1-支付中 2-支付完成 3-支付成功 4-支付失败）',
   `order_id` varchar(50) NOT NULL COMMENT '订单id',
   `product_name` varchar(80) DEFAULT NULL COMMENT '产品名称',
   `pay_no` varchar(80) DEFAULT NULL COMMENT '第三方返回单号',

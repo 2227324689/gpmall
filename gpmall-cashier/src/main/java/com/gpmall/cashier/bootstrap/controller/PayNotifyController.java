@@ -9,6 +9,7 @@ import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,8 @@ import java.util.Map;
 @Slf4j
 @RestController
 public class PayNotifyController {
-	@Reference(timeout = 3000)
+
+	@Reference(timeout = 30000,retries = 3)
 	private PayCoreService payCoreService;
 
 	/**
@@ -32,7 +34,7 @@ public class PayNotifyController {
 	 * @param httpServletRequest
 	 * @return
 	 */
-	@PostMapping("/pay/alipayNotifty")
+	@PostMapping("/pay/alipayNotify")
 	public String doAliPay(HttpServletRequest httpServletRequest) {
 		return commonDo("ali_pay", httpServletRequest);
 	}
@@ -42,7 +44,7 @@ public class PayNotifyController {
 	 *
 	 * @return
 	 */
-	@PostMapping("/pay/wechatPayNotifty")
+	@RequestMapping("/pay/wechatPayNotify")
 	public String doWeChantPay(HttpServletRequest httpServletRequest) {
 		return commonDo("wechat_pay", httpServletRequest);
 	}
@@ -52,7 +54,7 @@ public class PayNotifyController {
 	 *
 	 * @return
 	 */
-	@PostMapping("/refund/aliRefundNotifty")
+	@PostMapping("/refund/aliRefundNotify")
 	public String doAliRefund(HttpServletRequest httpServletRequest) {
 		return commonDo("ali_refund", httpServletRequest);
 	}
@@ -62,13 +64,13 @@ public class PayNotifyController {
 	 *
 	 * @return
 	 */
-	@PostMapping("/refund/wechatRefundNotifty")
+	@PostMapping("/refund/wechatRefundNotify")
 	public String doWechatRefund(HttpServletRequest httpServletRequest) {
 		return commonDo("wechat_refund", httpServletRequest);
 	}
 
 	private String commonDo(String channel, HttpServletRequest httpServletRequest) {
-		log.info("{}异步通知回调:{}", channel, JSON.toJSON(httpServletRequest));
+		log.info("{}异步通知回调:{}", channel, JSON.toJSON(httpServletRequest.getParameterMap()));
 		Map<String, String[]> map = httpServletRequest.getParameterMap();
 		PaymentNotifyRequest paymentNotifyRequest = new PaymentNotifyRequest();
 		paymentNotifyRequest.setPayChannel(channel);

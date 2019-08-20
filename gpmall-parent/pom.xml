@@ -214,6 +214,19 @@
         <artifactId>hibernate-validator</artifactId>
         <version>${hibernate-validator.version}</version>
       </dependency>
+
+      <dependency>
+        <groupId>org.apache.curator</groupId>
+        <artifactId>curator-framework</artifactId>
+        <version>${curator.famework.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.curator</groupId>
+        <artifactId>curator-recipes</artifactId>
+        <version>${curator.famework.version}</version>
+      </dependency>
+
     </dependencies>
   </dependencyManagement>
   <build>

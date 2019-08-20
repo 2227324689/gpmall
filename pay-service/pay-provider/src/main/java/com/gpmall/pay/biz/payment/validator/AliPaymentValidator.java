@@ -24,7 +24,7 @@ public class AliPaymentValidator extends BaseValidator {
 
     @Override
     public void specialValidate(PaymentRequest paymentRequest) {
-        //TODO  待实现   防止金额篡改等
+  /*      //TODO  待实现   防止金额篡改等
         //校验订单是否存在
         OrderDetailRequest orderDetailRequest=new OrderDetailRequest();
         orderDetailRequest.setOrderId(paymentRequest.getTradeNo());
@@ -35,6 +35,6 @@ public class AliPaymentValidator extends BaseValidator {
         //校验订单是否已支付，同一订单支付幂等处理
         if(!Objects.equals(orderDetailResponse.getStatus(),0)){
             throw new BizException(PayReturnCodeEnum.HAD_PAY_ERROR.getCode(),PayReturnCodeEnum.HAD_PAY_ERROR.getMsg());
-        }
+        }*/
     }
 }

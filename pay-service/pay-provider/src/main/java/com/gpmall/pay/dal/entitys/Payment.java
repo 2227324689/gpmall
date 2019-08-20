@@ -12,7 +12,7 @@ import java.util.Date;
 @Data
 public class Payment {
     @Id
-    private String id;
+    private Long id;
 
     /**
      * 支付状态
@@ -45,11 +45,15 @@ public class Payment {
     @Column(name = "pay_no")
     private String payNo;
 
-    /**
+/*
+    */
+/**
      * 支付流水号
-     */
+     *//*
+
     @Column(name = "trade_no")
     private String tradeNo;
+*/
 
     /**
      * 付款人id
