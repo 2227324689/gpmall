@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.coupon.dal.persistence.QueueMsgMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.coupon.dal.entitys.QueueMsg">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="queue" jdbcType="VARCHAR" property="queue" />
+    <result column="topic" jdbcType="VARCHAR" property="topic" />
+    <result column="method" jdbcType="VARCHAR" property="method" />
+    <result column="args" jdbcType="VARCHAR" property="args" />
+    <result column="finish_time" jdbcType="TIMESTAMP" property="finishTime" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+  </resultMap>
+</mapper>

@@ -1,11 +1,11 @@
 package com.gpmall.coupon.dal.entitys;
 
-import java.math.BigDecimal;
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "tb_coupon")
-public class Coupon {
+@Table(name = "tb_sale_coupon")
+public class SaleCoupon implements Serializable {
     @Id
     private Long id;
 
@@ -21,14 +21,8 @@ public class Coupon {
     /**
      * 优惠金额
      */
-    @Column(name = "discount_price")
-    private BigDecimal discountPrice;
-
-    /**
-     * 满金额
-     */
-    @Column(name = "full_price")
-    private BigDecimal fullPrice;
+    @Column(name = "rule_id")
+    private Long ruleId;
 
     /**
      * 是否可用
@@ -62,6 +56,8 @@ public class Coupon {
     private Date created;
 
     private Date updated;
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * @return id
@@ -126,37 +122,19 @@ public class Coupon {
     /**
      * 获取优惠金额
      *
-     * @return discount_price - 优惠金额
+     * @return rule_id - 优惠金额
      */
-    public BigDecimal getDiscountPrice() {
-        return discountPrice;
+    public Long getRuleId() {
+        return ruleId;
     }
 
     /**
      * 设置优惠金额
      *
-     * @param discountPrice 优惠金额
+     * @param ruleId 优惠金额
      */
-    public void setDiscountPrice(BigDecimal discountPrice) {
-        this.discountPrice = discountPrice;
-    }
-
-    /**
-     * 获取满金额
-     *
-     * @return full_price - 满金额
-     */
-    public BigDecimal getFullPrice() {
-        return fullPrice;
-    }
-
-    /**
-     * 设置满金额
-     *
-     * @param fullPrice 满金额
-     */
-    public void setFullPrice(BigDecimal fullPrice) {
-        this.fullPrice = fullPrice;
+    public void setRuleId(Long ruleId) {
+        this.ruleId = ruleId;
     }
 
     /**

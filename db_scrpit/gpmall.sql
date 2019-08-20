@@ -112,6 +112,7 @@ CREATE TABLE `tb_item` (
   `num` int(11) DEFAULT NULL COMMENT '库存数量',
   `limit_num` int(11) DEFAULT NULL COMMENT '售卖数量限制',
   `image` varchar(2000) DEFAULT NULL COMMENT '商品图片',
+  `image_big` varchar(2000) DEFAULT NULL COMMENT '商品大图片',
   `cid` bigint(11) DEFAULT NULL COMMENT '所属分类',
   `status` int(1) DEFAULT '1' COMMENT '商品状态 1正常 0下架',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
