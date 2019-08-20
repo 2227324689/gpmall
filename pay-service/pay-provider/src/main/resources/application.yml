@@ -8,7 +8,7 @@ mybatis:
 
 ali:
   ali_service: create_direct_pay_by_user
-  ali_partner: 2088721158773470
+  ali_partner:  2088122862129849
   input_charset: utf-8
   sign_type: MD5
   notify_url: http://shop.gupaoedu.com/pay/alipayNotify
@@ -36,7 +36,7 @@ wechat:
   #申请退款url
   wechat_refund_url: https://api.mch.weixin.qq.com/secapi/pay/refund
   #退款通知回调地址
-  wechat_refund_notify_url: http://shop.gupaoedu.com/refund/wechatRefundNotify
+  wechat_refund_notify_url: https://fada6b7e.ngrok.io/refund/wechatRefundNotify
 
 
 
