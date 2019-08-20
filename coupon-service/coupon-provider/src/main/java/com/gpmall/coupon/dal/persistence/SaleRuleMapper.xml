@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.coupon.dal.persistence.SaleRuleMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.coupon.dal.entitys.SaleRule">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="acti_id" jdbcType="BIGINT" property="actiId" />
+    <result column="item_id" jdbcType="BIGINT" property="itemId" />
+    <result column="full_price" jdbcType="DECIMAL" property="fullPrice" />
+    <result column="discount_price" jdbcType="DECIMAL" property="discountPrice" />
+    <result column="discount_rate" jdbcType="DECIMAL" property="discountRate" />
+    <result column="gift_item_id" jdbcType="BIGINT" property="giftItemId" />
+    <result column="overlap" jdbcType="BIT" property="overlap" />
+    <result column="desc" jdbcType="VARCHAR" property="desc" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+  </resultMap>
+</mapper>

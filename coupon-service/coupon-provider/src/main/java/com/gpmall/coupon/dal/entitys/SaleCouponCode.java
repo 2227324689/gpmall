@@ -1,10 +1,11 @@
 package com.gpmall.coupon.dal.entitys;
 
+import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
 
-@Table(name = "tb_coupon_code")
-public class CouponCode {
+@Table(name = "tb_sale_coupon_code")
+public class SaleCouponCode implements Serializable {
     @Id
     private Long id;
 
@@ -42,6 +43,8 @@ public class CouponCode {
     private Date created;
 
     private Date updated;
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * @return id
