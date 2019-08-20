@@ -113,7 +113,6 @@ updated
 ```
 
 
-
 ```
 TABLE_NAME: tb_sale_rule // 活动规则关联表
 
@@ -150,8 +149,6 @@ created
 updated
 ```
 
-
-
 ```
 TABLE_NAME: tb_sale_coupon_code  // 优惠码
 
@@ -166,3 +163,14 @@ created
 updated
 ```
 
+```
+TABLE_NAME: tb_queue_msg  // 消息队列消息表 （异常消息补偿）
+
+id
+queue // 队列名称
+topic  // 队列主题
+method // 执行的方法
+args // 方法参数
+finish_time // handle执行完成时间
+created
+```
