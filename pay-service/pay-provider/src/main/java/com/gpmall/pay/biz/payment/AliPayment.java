@@ -136,6 +136,7 @@ public class AliPayment extends BasePayment {
 	@Override
 	@Transactional
 	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+		request.requestCheck();
 		Map requestParams = request.getResultMap();
 		Map<String, Object> params = new HashMap<>(requestParams.size());
 		requestParams.forEach((key, value) -> {
