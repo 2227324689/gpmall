@@ -87,7 +87,7 @@ public class OrderController {
         OrderDetailResponse response=orderQueryService.orderDetail(request);
         if(response.getCode().equals(OrderRetCode.SUCCESS.getCode())){
             OrderDetail orderDetail=new OrderDetail();
-            orderDetail.setOrderTotal(BigDecimal.valueOf(response.getPayment()));
+            orderDetail.setOrderTotal(response.getPayment());
             orderDetail.setUserId(response.getUserId());
             orderDetail.setUserName(response.getBuyerNick());
             orderDetail.setGoodsList(response.getOrderItemDto());

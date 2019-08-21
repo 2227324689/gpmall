@@ -1,6 +1,9 @@
 package com.gpmall.pay.biz.payment;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
@@ -11,6 +14,7 @@ import com.gpmall.order.dto.OrderItemResponse;
 import com.gpmall.pay.biz.abs.BasePayment;
 import com.gpmall.pay.biz.abs.Context;
 import com.gpmall.pay.biz.abs.Validator;
+import com.gpmall.pay.biz.payment.channel.wechatpay.AESUtil;
 import com.gpmall.pay.biz.payment.channel.wechatpay.WeChatBuildRequest;
 import com.gpmall.pay.biz.payment.commons.HttpClientUtil;
 import com.gpmall.pay.biz.payment.constants.WechatPaymentConfig;
@@ -20,6 +24,7 @@ import com.gpmall.pay.dal.persistence.RefundMapper;
 import com.gpmall.pay.utils.GlobalIdGeneratorUtil;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
+import com.gupaoedu.pay.constants.RefundCodeEnum;
 import com.gupaoedu.pay.dto.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -59,7 +64,7 @@ public class WechatRefund extends BasePayment {
 
 	@Override
 	public Validator getValidator() {
-		return null;
+		return validator;
 	}
 
 	@Override
@@ -68,6 +73,7 @@ public class WechatRefund extends BasePayment {
 		RefundRequest refundRequest = (RefundRequest) request;
 		wechantRefundContext.setOutTradeNo(refundRequest.getOrderId());
 		wechantRefundContext.setRefundPlatformNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
+		wechantRefundContext.setRefundFee(refundRequest.getRefundAmount());
 		return wechantRefundContext;
 
 	}
@@ -77,23 +83,17 @@ public class WechatRefund extends BasePayment {
 		super.prepare(request, context);
 		SortedMap paraMap = context.getsParaTemp();
 		WechatRefundContext wechatRefundContext = (WechatRefundContext) context;
-		paraMap.put("appid", wechatPaymentConfig.getWechatAppid());
-		paraMap.put("mch_id", wechatPaymentConfig.getWechatMch_id());
 		paraMap.put("out_trade_no", wechatRefundContext.getOutTradeNo());
 		paraMap.put("out_refund_no", wechatRefundContext.getRefundPlatformNo());
-		paraMap.put("refund_fee", wechatRefundContext.getRefundFee().multiply(new BigDecimal("100")).intValue());
+		paraMap.put("refund_fee", wechatRefundContext.getRefundFee().multiply(new BigDecimal("100")).setScale(0).toString());
 		//微信退款通知地址
 		paraMap.put("notify_url", wechatPaymentConfig.getWechat_refund_notify_url());
 		paraMap.put("nonce_str", WeChatBuildRequest.getNonceStr());
 		//查找订单总金额
 		OrderItemRequest orderItemRequest = new OrderItemRequest();
 		orderItemRequest.setOrderItemId(wechatRefundContext.getOutTradeNo());
-		OrderItemResponse orderItemResponse = orderQueryService.orderItem(orderItemRequest);
-		paraMap.put("total_fee", orderItemResponse.getTotalFee().multiply(new BigDecimal("100")).intValue());
-		String sign = WeChatBuildRequest.createSign(paraMap, wechatPaymentConfig.getWechatMchsecret());
-		paraMap.put("sign", sign);
-		String xml = WeChatBuildRequest.getRequestXml(paraMap);
-		wechatRefundContext.setXml(xml);
+		//OrderItemResponse orderItemResponse = orderQueryService.orderItem(orderItemRequest);
+		paraMap.put("total_fee", "1");
 	}
 
 
@@ -101,11 +101,16 @@ public class WechatRefund extends BasePayment {
 	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
 		RefundResponse response = new RefundResponse();
 		WechatRefundContext wechatRefundContext = (WechatRefundContext) context;
-		log.info("微信退款组装参数：{}", wechatRefundContext.getXml());
-		//wechat_refund_url 微信退款申请地址
-		String xml = HttpClientUtil.httpPost(wechatPaymentConfig.getWechat_refund_url(), wechatRefundContext.getXml());
-		log.info("微信退款同步返回结果:{}", xml);
-		Map<String, String> resultMap = WeChatBuildRequest.doXMLParse(xml);
+		Map map = wechatRefundContext.getsParaTemp();
+		Map<String, String> resultMap = new HashMap<String, String>();
+		WXPay wxPay = null;
+		try {
+			wxPay = new WXPay(wechatPaymentConfig);
+			resultMap = wxPay.refund(JSONObject.parseObject(JSON.toJSONString(map), Map.class));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		log.info("微信退款同步返回结果:{}", JSON.toJSONString(resultMap));
 		if ("SUCCESS".equals(resultMap.get("return_code"))) {
 			if ("SUCCESS".equals(resultMap.get("result_code"))) {
 				response.setRefundAmount(new BigDecimal(resultMap.get("refund_fee")).divide(new BigDecimal("100")));
@@ -135,7 +140,7 @@ public class WechatRefund extends BasePayment {
 		Refund refund = new Refund();
 		refund.setOrderId(wechatRefundContext.getOutTradeNo());
 		refund.setAmount(refundResponse.getRefundAmount());
-		refund.setChannel("wechant_refund");
+		refund.setChannel(2);
 		refund.setStatus(0);
 		refund.setTradeNo(wechatRefundContext.getRefundPlatformNo());
 		refund.setUserId(wechatRefundContext.getUserId());
@@ -150,43 +155,62 @@ public class WechatRefund extends BasePayment {
 
 	@Override
 	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+		request.requestCheck();
 		PaymentNotifyResponse response = new PaymentNotifyResponse();
-		SortedMap<Object, Object> paraMap = new TreeMap<>();
-		Map<String, String[]> resultMap = request.getResultMap();
-		for (String s : resultMap.keySet()) {
-			String value = Arrays.toString(resultMap.get(s));
-			paraMap.put(s, value);
+		Map<String, String> xmlMap = new HashMap();
+		String xml = request.getXml();
+		try {
+			xmlMap = WXPayUtil.xmlToMap(xml);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		//组装返回的结果的签名字符串
-		String rsSign = resultMap.remove("sign").toString();
-		String sign = WeChatBuildRequest.createSign(paraMap, wechatPaymentConfig.getWechatMchsecret());
-		//验证签名
-		if (rsSign.equals(sign)) {
-			//SUCCESS、FAIL
-			String resultCode = paraMap.get("return_code").toString();
-			if ("SUCCESS".equals(resultCode)) {
-				if ("SUCCESS".equals(paraMap.get("result_code"))) {
-					//写入退款记录表
-					Refund refund = new Refund();
-					String amount = (String) paraMap.get("refund_fee");
-					String refundNo = (String) paraMap.get("refund_id");
-					refund.setRefundNo(refundNo);
-					refund.setAmount(new BigDecimal(amount));
-					int status = paraMap.get("refund_status").equals("SUCCESS") ? 1 : 2;
-					refund.setStatus(status);
-					Example example = new Example(Refund.class);
-					example.createCriteria().andEqualTo("tradeNo", paraMap.get("out_refund_no"));
-					refundMapper.updateByExampleSelective(refund, example);
-					//更新订单状态为退款状态
-					if (status == 1) {
-						orderCoreService.updateOrder(7, paraMap.get("out_trade_no").toString());
-					}
-					response.setResult(WeChatBuildRequest.setXML("SUCCESS", "OK"));
-				}
-			}
-		} else {
-			throw new BizException("支付宝退款验签失败");
+		String resultCode = xmlMap.get("return_code");
+		if (!"SUCCESS".equals(resultCode)) {
+			String msg = (String) xmlMap.get("return_msg");
+			log.error("回调状态错误{}", msg);
+			throw new BizException("1066666", "微信退款回调状态不对" + msg);
 		}
+
+		String req_info = xmlMap.get("req_info");
+		//对加密字段进行解密，规则如下
+		/*
+		 *解密步骤如下：
+		 *（1）对加密串A做base64解码，得到加密串B
+		 *（2）对商户key做md5，得到32位小写key* ( key设置路径：微信商户平台(pay.weixin.qq.com)-->账户设置-->API安全-->密钥设置 )
+		 *（3）用key*对加密串B做AES-256-ECB解密（PKCS7Padding）
+		 */
+		String decode = null;
+		Map<String, String> result = null;
+		try {
+			decode = AESUtil.decryptData(req_info, wechatPaymentConfig.getKey());
+			result = WXPayUtil.xmlToMap(decode);
+			log.info("解密结果,{}", JSON.toJSONString(result));
+		} catch (Exception e) {
+			log.error("解密失败{}", e.getMessage());
+			throw new BizException(RefundCodeEnum.REFUND_NOTIFY_PASRE_FAIL.getCode(), RefundCodeEnum.REFUND_NOTIFY_PASRE_FAIL.getMsg());
+		}
+		String tradeNo = result.get("out_trade_no"); //商户订单号
+		String refundId = result.get("refund_id");   //微信退款单号
+		String outRefundNo = result.get("out_refund_no");    //商户退款单号
+		String settlementRefundFee = result.get("settlement_refund_fee");  //退款金额
+		String refundStatus = result.get("refund_status");  //退款状态
+
+		//写入退款记录表
+		Refund refund = new Refund();
+		refund.setRefundNo(refundId);
+		refund.setOrderId(tradeNo);
+		refund.setAmount(new BigDecimal(settlementRefundFee));
+		int status = refundStatus.equals("SUCCESS") ? 1 : 2;
+		refund.setStatus(status);
+		Example example = new Example(Refund.class);
+		example.createCriteria().andEqualTo("tradeNo", outRefundNo);
+		refundMapper.updateByExampleSelective(refund, example);
+		//更新订单状态为退款状态
+		if (status == 1) {
+			orderCoreService.updateOrder(7, outRefundNo);
+		}
+		response.setResult(WeChatBuildRequest.setXML("SUCCESS", "OK"));
 		return response;
+
 	}
 }
