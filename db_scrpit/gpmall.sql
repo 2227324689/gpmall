@@ -379,7 +379,7 @@ DROP TABLE IF EXISTS `tb_panel`;
 CREATE TABLE `tb_panel` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '类目ID',
   `name` varchar(50) DEFAULT NULL COMMENT '板块名称',
-  `type1` int(1) DEFAULT NULL COMMENT '类型 0轮播图 1板块种类一 2板块种类二 3板块种类三 ',
+  `type` int(1) DEFAULT NULL COMMENT '类型 0轮播图 1板块种类一 2板块种类二 3板块种类三 ',
   `sort_order` int(4) DEFAULT NULL COMMENT '排列序号',
   `position` int(1) DEFAULT NULL COMMENT '所属位置 0首页 1商品推荐 2我要捐赠',
   `limit_num` int(4) DEFAULT NULL COMMENT '板块限制商品数量',
