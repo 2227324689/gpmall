@@ -37,6 +37,11 @@
             <artifactId>zookeeper</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>com.gpmall.commons</groupId>
+            <artifactId>commons-tool</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
