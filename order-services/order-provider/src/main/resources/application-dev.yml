@@ -48,4 +48,6 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.order.services
-
+logging:
+  config:
+    classpath: logback.xml

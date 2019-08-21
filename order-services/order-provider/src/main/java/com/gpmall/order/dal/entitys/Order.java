@@ -36,7 +36,7 @@ public class Order {
 
      */
 
-    private Double payment;
+    private BigDecimal payment;
 
 
 
@@ -60,7 +60,7 @@ public class Order {
 
     @Column(name = "post_fee")
 
-    private Double postFee;
+    private BigDecimal postFee;
 
 
 

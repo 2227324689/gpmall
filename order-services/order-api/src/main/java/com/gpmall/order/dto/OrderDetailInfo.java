@@ -3,6 +3,7 @@ package com.gpmall.order.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -17,11 +18,11 @@ public class OrderDetailInfo implements Serializable {
     private static final long serialVersionUID = 1L;
     private String orderId;
 
-    private Double payment;
+    private BigDecimal payment;
 
     private Integer paymentType;
 
-    private Double postFee;
+    private BigDecimal postFee;
 
     private Integer status;
 

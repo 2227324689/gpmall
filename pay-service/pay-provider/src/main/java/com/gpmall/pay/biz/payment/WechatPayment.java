@@ -1,6 +1,7 @@
 package com.gpmall.pay.biz.payment;
 
 import com.alibaba.fastjson.JSON;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
@@ -161,16 +162,19 @@ public class WechatPayment extends BasePayment {
 
 	@Override
 	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+		request.requestCheck();
 		PaymentNotifyResponse response = new PaymentNotifyResponse();
-		SortedMap<Object, Object> paraMap = new TreeMap<>();
-		Map<String, String[]> resultMap = request.getResultMap();
-		for (Iterator iter = resultMap.keySet().iterator(); iter.hasNext(); ) {
-			String name = iter.next().toString();
-			String value = Arrays.toString(resultMap.get(name));
-			paraMap.put(name, value);
+		Map xmlMap = new HashMap();
+		String xml = request.getXml();
+		try {
+			xmlMap = WXPayUtil.xmlToMap(xml);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		SortedMap<Object, Object> paraMap = new TreeMap<>();
+		xmlMap.forEach(paraMap::put);
 		//组装返回的结果的签名字符串
-		String rsSign = resultMap.remove("sign").toString();
+		String rsSign = paraMap.remove("sign").toString();
 		String sign = WeChatBuildRequest.createSign(paraMap, wechatPaymentConfig.getWechatMchsecret());
 		//验证签名
 		if (rsSign.equals(sign)) {
@@ -181,7 +185,7 @@ public class WechatPayment extends BasePayment {
 					//更新支付表
 					Payment payment = new Payment();
 					payment.setStatus(PayResultEnum.TRADE_SUCCESS.getCode());
-					payment.setPaySuccessTime((Date) paraMap.get("time_end"));
+					payment.setPaySuccessTime((UtilDate.parseStrToDate(UtilDate.simple,paraMap.get("time_end").toString(),new Date())));
 					Example example = new Example(Payment.class);
 					example.createCriteria().andEqualTo("orderId", paraMap.get("out_trade_no"));
 					paymentMapper.updateByExampleSelective(payment, example);
