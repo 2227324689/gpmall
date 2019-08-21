@@ -46,7 +46,7 @@ public class AliPayment extends BasePayment {
 	@Autowired
 	PaymentMapper paymentMapper;
 
-	@Reference(timeout = 3000)
+	@Reference(timeout = 30000)
 	OrderCoreService orderCoreService;
 
 	@Override
@@ -71,11 +71,10 @@ public class AliPayment extends BasePayment {
 		SortedMap sParaTemp = context.getsParaTemp();
 		AliPaymentContext aliPaymentContext = (AliPaymentContext) context;
 		sParaTemp.put("partner", aliPaymentConfig.getAli_partner());
-		sParaTemp.put("input_charset", aliPaymentConfig.getInput_charset());
 		sParaTemp.put("service", aliPaymentConfig.getAli_service());
-		sParaTemp.put("seller_email", aliPaymentConfig.getSeller_email());
+		//sParaTemp.put("seller_email", aliPaymentConfig.getSeller_email());
 		sParaTemp.put("seller_id", aliPaymentConfig.getSeller_id());
-		sParaTemp.put("payment_type", 1);
+		sParaTemp.put("payment_type", "1");
 		sParaTemp.put("it_b_pay", aliPaymentConfig.getIt_b_pay());
 		sParaTemp.put("notify_url", aliPaymentConfig.getNotify_url());
 		sParaTemp.put("return_url", aliPaymentConfig.getReturn_url());
@@ -87,11 +86,11 @@ public class AliPayment extends BasePayment {
 
 
 	@Override
-	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
+	public PaymentResponse generalProcess(AbstractRequest request, Context context) throws BizException {
 		Map<String, Object> sPara = AlipayBuildRequest.buildRequestParam(context.getsParaTemp(), aliPaymentConfig);
 		log.info("支付宝支付组装请求参数:{}", JSON.toJSONString(sPara));
 		String strPara = AlipayBuildRequest.buildRequest(sPara, "get", "确认", aliPaymentConfig);
-		log.info("支付宝支付同步返回的表单:{}", JSON.toJSONString(strPara));
+		log.info("支付宝支付同步返回的表单:{}",strPara);
 		PaymentResponse response = new PaymentResponse();
 		response.setCode(PayReturnCodeEnum.SUCCESS.getCode());
 		response.setMsg(PayReturnCodeEnum.SUCCESS.getMsg());

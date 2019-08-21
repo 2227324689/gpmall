@@ -7,6 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 
 
@@ -67,5 +68,14 @@ public class PaymentRequest extends AbstractRequest{
     @Override
     public void requestCheck() {
 
+    }
+
+    public String getSubject() {
+        try {
+            return new String(subject.getBytes(),"utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -9,6 +9,14 @@ export const getAllGoods = (params) => {
 export const getAllGoodsCategories = (params) => {
   return http.fetchGet(apis.getAllCategories, params)
 }
+// 商品评价列表
+export const getAllComments = (params) => {
+  return http.fetchGet(apis.getAllComments, params)
+}
+// 商品评价数量
+export const getAllCommentsCount = (params) => {
+  return http.fetchGet(apis.getAllCommentsCount, params)
+}
 
 // 获取购物车列表
 export const getCartList = (params) => {

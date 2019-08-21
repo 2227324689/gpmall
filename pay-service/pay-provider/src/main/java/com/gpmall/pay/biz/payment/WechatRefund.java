@@ -83,7 +83,7 @@ public class WechatRefund extends BasePayment {
 		paraMap.put("out_refund_no", wechatRefundContext.getRefundPlatformNo());
 		paraMap.put("refund_fee", wechatRefundContext.getRefundFee().multiply(new BigDecimal("100")).intValue());
 		//微信退款通知地址
-		paraMap.put("notify_url", wechatPaymentConfig.getWechatNotifyurl());
+		paraMap.put("notify_url", wechatPaymentConfig.getWechat_refund_notify_url());
 		paraMap.put("nonce_str", WeChatBuildRequest.getNonceStr());
 		//查找订单总金额
 		OrderItemRequest orderItemRequest = new OrderItemRequest();
