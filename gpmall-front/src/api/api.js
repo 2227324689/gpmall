@@ -7,10 +7,18 @@ export const apis = {
   upload: '/user/imgaeUpload',
   updateheadimage: '/user/updateheadimage',
   productHome: '/shopping/homepage',
+  // 导航栏
   navList: '/shopping/navigation',
+  // 推荐商品
   recommend: '/shopping/recommend',
+  // 获取产品列表
   getAllGoods: '/shopping/goods',
+  // 产品分类
   getAllCategories: '/shopping/categories',
+  // 商品评论
+  getAllComments: '/shopping/comments',
+  // 商品评论数量
+  getAllCommentsCount: '/shopping/comment/count',
   getCartList: '/shopping/carts',
   addCart: '/shopping/carts',
   delCart: '/shopping/carts',

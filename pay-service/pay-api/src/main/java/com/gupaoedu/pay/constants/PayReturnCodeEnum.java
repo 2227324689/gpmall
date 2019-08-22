@@ -18,7 +18,9 @@ public enum PayReturnCodeEnum {
     SYSTEM_TIMEOUT                      ("006098", "系统超时"),
     SYSTEM_ERROR                        ("006999", "系统繁忙,请稍后重试"),
     HAD_PAY_ERROR                       ("006099","该订单已支付"),
-    NO_ORDER_NOT_EXIST                  ("006096","该订单不存在");
+    NO_ORDER_NOT_EXIST                  ("006096","该订单不存在"),
+    ORDER_AMOUNT_ERROR                  ("006094","订单金额不对");
+
 
     private String code;
 
