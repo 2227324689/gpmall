@@ -1,7 +1,6 @@
 package com.gpmall.comment;
 
-import com.gpmall.comment.dto.AddCommentReplyRequest;
-import com.gpmall.comment.dto.AddCommentReplyResponse;
+import com.gpmall.comment.dto.*;
 
 /**
  * @author hepengshuai
@@ -16,4 +15,18 @@ public interface ICommentReplyService {
      * @return
      */
     AddCommentReplyResponse addCommentReply(AddCommentReplyRequest request);
+
+    /**
+     * 删除商品评价回复
+     * @param request
+     * @return
+     */
+    DeleteCommentReplyResponse deleteCommentReply(DeleteCommentReplyRequest request);
+
+    /**
+     * 分页查询商品评价回复意见
+     * @param request
+     * @return
+     */
+    CommentReplyListResponse commentReplyList(CommentReplyListRequest request);
 }
