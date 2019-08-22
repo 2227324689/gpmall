@@ -49,4 +49,6 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.pay.services
-
+logging:
+  config:
+    classpath: logback.xml

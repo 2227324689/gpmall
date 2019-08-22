@@ -75,7 +75,7 @@ public class InitOrderHandler extends AbstractTransHandler {
             order.setOrderId(orderId);
             order.setUserId(Long.valueOf(createOrderContext.getUserId()));
             order.setBuyerNick(createOrderContext.getBuyerNickName());
-            order.setPayment(NumberUtils.toDouble(createOrderContext.getOrderTotal()));
+            order.setPayment(createOrderContext.getOrderTotal());
             order.setCreateTime(new Date());
             order.setUpdateTime(new Date());
             order.setStatus(OrderConstants.ORDER_STATUS_INIT);

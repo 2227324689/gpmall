@@ -66,9 +66,14 @@ public class PayController {
 
 
     @PostMapping("/refund")
+    @Anoymous
     public ResponseData refund(@RequestBody PayForm refundForm,HttpServletRequest httpServletRequest){
         log.info("订单退款入参:{}",JSON.toJSONString(refundForm));
         RefundRequest refundRequest=new RefundRequest();
+        String userInfo=(String)httpServletRequest.getAttribute(TokenIntercepter.USER_INFO_KEY);
+        JSONObject object= JSON.parseObject(userInfo);
+        Long uid=Long.parseLong(object.get("uid").toString());
+        refundRequest.setUserId(uid);
         refundRequest.setOrderId(refundForm.getOrderId());
         refundRequest.setRefundAmount(refundForm.getMoney());
         refundRequest.setPayChannel(refundForm.getPayType());

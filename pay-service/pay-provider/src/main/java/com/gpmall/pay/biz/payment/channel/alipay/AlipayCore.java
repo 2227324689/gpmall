@@ -43,7 +43,6 @@ public class AlipayCore {
 
         List<String> keys = new ArrayList<String>(params.keySet());
         Collections.sort(keys);
-
         StringBuffer prestr = new StringBuffer();
         for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
