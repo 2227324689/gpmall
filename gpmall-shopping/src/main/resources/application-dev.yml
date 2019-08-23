@@ -15,3 +15,6 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.shopping
+
+swagger:
+  enable: true

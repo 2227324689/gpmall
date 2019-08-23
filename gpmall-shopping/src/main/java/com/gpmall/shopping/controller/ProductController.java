@@ -8,6 +8,9 @@ import com.gpmall.shopping.dto.*;
 import com.gpmall.shopping.form.PageInfo;
 import com.gpmall.shopping.form.PageResponse;
 import com.gpmall.user.annotation.Anoymous;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/shopping")
+@Api(tags = "ProductController", description = "商品控制层")
 public class ProductController {
 
     @Reference(timeout = 3000)
@@ -28,6 +32,8 @@ public class ProductController {
 
     @Anoymous
     @GetMapping("/product/{id}")
+    @ApiOperation("查询商品详情")
+    @ApiImplicitParam(name = "id", value = "商品ID", paramType = "path", required = true)
     public ResponseData product(@PathVariable long id){
         ProductDetailRequest request=new ProductDetailRequest();
         request.setId(id);
@@ -46,6 +52,8 @@ public class ProductController {
      */
     @Anoymous
     @GetMapping("/goods")
+    @ApiOperation("查询商品列表")
+    @ApiImplicitParam(name = "pageInfo", value = "分页信息", dataType = "PageInfo", required = true)
     public ResponseData goods(PageInfo pageInfo){
         AllProductRequest request=new AllProductRequest();
         request.setCid(pageInfo.getCid());
@@ -70,6 +78,7 @@ public class ProductController {
      */
     @Anoymous
     @GetMapping("/recommend")
+    @ApiOperation("查询推荐的商品")
     public ResponseData recommend(){
         RecommendResponse response=productService.getRecommendGoods();
         if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {

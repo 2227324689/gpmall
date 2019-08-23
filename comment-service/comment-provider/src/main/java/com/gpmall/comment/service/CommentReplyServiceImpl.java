@@ -1,19 +1,25 @@
 package com.gpmall.comment.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gpmall.comment.CommentException;
 import com.gpmall.comment.ICommentReplyService;
 import com.gpmall.comment.constant.CommentRetCode;
+import com.gpmall.comment.convert.CommentConverter;
 import com.gpmall.comment.dal.entitys.Comment;
 import com.gpmall.comment.dal.entitys.CommentReply;
 import com.gpmall.comment.dal.persistence.CommentMapper;
 import com.gpmall.comment.dal.persistence.CommentReplyMapper;
-import com.gpmall.comment.dto.AddCommentReplyRequest;
-import com.gpmall.comment.dto.AddCommentReplyResponse;
+import com.gpmall.comment.dto.*;
 import com.gpmall.comment.utils.ExceptionProcessorUtil;
 import com.gpmall.comment.utils.GlobalIdGeneratorUtil;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.util.CollectionUtils;
+import tk.mybatis.mapper.entity.Example;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author heps
@@ -27,13 +33,16 @@ public class CommentReplyServiceImpl implements ICommentReplyService {
 
     private final CommentMapper commentMapper;
 
+    private final CommentConverter commentConverter;
+
     private final GlobalIdGeneratorUtil globalIdGeneratorUtil;
 
     private static final String COMMENT_GLOBAL_ID_CACHE_KEY = "COMMENT_REPLY_ID";
 
-    public CommentReplyServiceImpl(CommentReplyMapper commentReplyMapper, CommentMapper commentMapper, GlobalIdGeneratorUtil globalIdGeneratorUtil) {
+    public CommentReplyServiceImpl(CommentReplyMapper commentReplyMapper, CommentMapper commentMapper, CommentConverter commentConverter, GlobalIdGeneratorUtil globalIdGeneratorUtil) {
         this.commentReplyMapper = commentReplyMapper;
         this.commentMapper = commentMapper;
+        this.commentConverter = commentConverter;
         this.globalIdGeneratorUtil = globalIdGeneratorUtil;
     }
 
@@ -65,6 +74,59 @@ public class CommentReplyServiceImpl implements ICommentReplyService {
 
             response.setCode(CommentRetCode.SUCCESS.getCode());
             response.setMsg(CommentRetCode.SUCCESS.getMessage());
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public DeleteCommentReplyResponse deleteCommentReply(DeleteCommentReplyRequest request) {
+        DeleteCommentReplyResponse response = new DeleteCommentReplyResponse();
+        try {
+            request.requestCheck();
+            CommentReply commentReply = commentReplyMapper.selectByPrimaryKey(request.getCommentReplyId());
+            if (commentReply == null || (commentReply.getIsDeleted() != null && commentReply.getIsDeleted())) {
+                throw new CommentException(CommentRetCode.CURRENT_COMMENT_REPLY_NOT_EXIST.getCode(), CommentRetCode.CURRENT_COMMENT_REPLY_NOT_EXIST.getMessage());
+            }
+            commentReply.setIsDeleted(true);
+            commentReply.setDeletionUserId(request.getUserId());
+            commentReply.setDeletionTime(new Date());
+            commentReplyMapper.updateByPrimaryKey(commentReply);
+
+            response.setCode(CommentRetCode.SUCCESS.getCode());
+            response.setMsg(CommentRetCode.SUCCESS.getMessage());
+        } catch (Exception e) {
+            ExceptionProcessorUtil.handleException(response, e);
+        }
+        return response;
+    }
+
+    @Override
+    public CommentReplyListResponse commentReplyList(CommentReplyListRequest request) {
+        CommentReplyListResponse response = new CommentReplyListResponse();
+        try {
+            request.requestCheck();
+
+            Example example = new Example(CommentReply.class);
+            Example.Criteria criteria = example.createCriteria();
+            CommentReply commentReply = commentReplyMapper.selectByPrimaryKey(request.getCommentId());
+            if (commentReply != null) {
+                criteria.andEqualTo("parentId", request.getCommentId());
+            } else {
+                criteria.andEqualTo("commentId", request.getCommentId());
+            }
+            PageHelper.startPage(request.getPage(), request.getSize());
+            List<CommentReply> commentReplyList = commentReplyMapper.selectByExample(example);
+            PageInfo<CommentReply> pageInfo = new PageInfo<>(commentReplyList);
+            if (CollectionUtils.isEmpty(commentReplyList)) {
+                response.setCommentReplyDtoList(new ArrayList<>());
+            } else {
+                response.setCommentReplyDtoList(commentConverter.commentReply2Dto(commentReplyList));
+            }
+            response.setTotal(pageInfo.getTotal());
+            response.setPage(request.getPage());
+            response.setSize(request.getSize());
         } catch (Exception e) {
             ExceptionProcessorUtil.handleException(response, e);
         }
