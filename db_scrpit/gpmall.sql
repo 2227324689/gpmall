@@ -507,3 +507,59 @@ CREATE TABLE `tb_refund` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `trade_no_key` (`trade_no`) USING BTREE COMMENT '平台退款流水号'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='退款表';
+
+-- ----------------------------
+-- Table structure for tb_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_comment`;
+CREATE TABLE `tb_comment`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品评论主键',
+  `order_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单id',
+  `item_id` bigint(20) NOT NULL COMMENT '商品id',
+  `star` tinyint(4) NULL DEFAULT 5 COMMENT '星级',
+  `type` tinyint(4) NULL DEFAULT 1 COMMENT '类型: 1好评 2中评 3差评',
+  `is_anoymous` bit(1) NULL DEFAULT b'0' COMMENT '是否匿名评价',
+  `content` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '评价内容',
+  `buyer_nick` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '买家昵称',
+  `comment_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '评价时间',
+  `is_public` bit(1) NULL DEFAULT b'1' COMMENT '是否公开',
+  `is_valid` bit(1) NULL DEFAULT b'0' COMMENT '是否通过审核',
+  `validation_user_id` bigint(20) NULL DEFAULT NULL COMMENT '审核人id',
+  `validation_time` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
+  `validation_suggestion` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '审核意见',
+  `is_top` bit(1) NULL DEFAULT b'0' COMMENT '是否置顶',
+  `user_id` bigint(20) NOT NULL COMMENT '评论用户id',
+  `is_deleted` bit(1) NULL DEFAULT b'0' COMMENT '是否删除',
+  `deletion_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
+  `deletion_user_id` bigint(20) NULL DEFAULT NULL COMMENT '删除用户id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评价表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for tb_comment_picture
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_comment_picture`;
+CREATE TABLE `tb_comment_picture`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品评价图片id',
+  `comment_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品评价id',
+  `pic_path` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片路径',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评价图片表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for tb_comment_reply
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_comment_reply`;
+CREATE TABLE `tb_comment_reply`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评价回复id',
+  `comment_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品评价id',
+  `parent_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评价回复自关联id(针对回复的回复)',
+  `content` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '回复意见',
+  `reply_time` datetime(0) NULL DEFAULT NULL COMMENT '回复时间',
+  `reply_nick` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '回复人昵称',
+  `user_id` bigint(20) NOT NULL COMMENT '回复人用户id',
+  `is_deleted` bit(1) NULL DEFAULT b'0' COMMENT '是否删除',
+  `deletion_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
+  `deletion_user_id` bigint(20) NULL DEFAULT NULL COMMENT '删除用户id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评价回复表' ROW_FORMAT = Dynamic;
