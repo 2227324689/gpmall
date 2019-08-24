@@ -58,7 +58,7 @@ public class ProductSearchServiceImpl implements ProductSearchService {
 			staticsSearchHotWord(request);
             // todo 分页
             Iterable<ItemDocument> elasticRes =
-                    productRepository.search(QueryBuilders.termsQuery("title", request.getKeyword()));
+                    productRepository.search(QueryBuilders.matchQuery("title", request.getKeyword()));
             ArrayList<ItemDocument> itemDocuments = Lists.newArrayList(elasticRes);
 
             List<ProductDto> productDtos = productConverter.items2Dto(itemDocuments);
