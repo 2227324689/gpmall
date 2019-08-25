@@ -20,7 +20,9 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
     useGlobalDataSourceStat: true
   redisson:
-    address: redis.gpmall.com:6379
+#    address: redis.gpmall.com:6379
+    address: redis4gpmall.redis.rds.aliyuncs.com:6379
+    password: redis4GPMALL
     timeout: 3000
     database: 0
     pool:
