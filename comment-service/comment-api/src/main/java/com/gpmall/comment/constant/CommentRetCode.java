@@ -13,6 +13,8 @@ public enum CommentRetCode {
     COMMENT_NOT_EXIST("006004", "当前商品没有评价"),
     CURRENT_COMMENT_NOT_EXIST("006005", "该评价不存在"),
     REQUEST_PARAMETER_ERROR("006006", "请求参数错误"),
+    ORIGIN_COMMENT_NOT_EXIST("006007", "原评价不存在"),
+    CURRENT_COMMENT_REPLY_NOT_EXIST("006008", "该回复意见不存在"),
     SYSTEM_ERROR("006500", "系统错误");
 
     /**

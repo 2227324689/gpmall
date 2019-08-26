@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://mysql.gpmall.com:3306/gpmall?useUnicode=true&characterEncoding=utf8&useOldAliasMetadataBehavior=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=UTC
     username: root
-    password: root
+    password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 2
@@ -20,7 +20,9 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
     useGlobalDataSourceStat: true
   redisson:
-    address: redis.gpmall.com:6379
+#    address: redis.gpmall.com:6379
+    address: redis4gpmall.redis.rds.aliyuncs.com:6379
+    password: redis4GPMALL
     timeout: 3000
     database: 0
     pool:

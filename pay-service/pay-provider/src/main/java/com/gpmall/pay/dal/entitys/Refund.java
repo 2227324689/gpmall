@@ -39,7 +39,7 @@ public class Refund {
 	@Column(name = "user_name")
 	private String userName;
 
-	private String channel;
+	private Integer channel;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Column(name = "gmt_create")
