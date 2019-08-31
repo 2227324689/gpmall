@@ -8,7 +8,6 @@ import com.gpmall.user.dto.QueryMemberRequest;
 import com.gpmall.user.dto.QueryMemberResponse;
 import com.gpmall.user.dto.UpdateMemberRequest;
 import com.gpmall.user.dto.UpdateMemberResponse;
-import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,7 +31,6 @@ public class MemberController {
      * @return
      */
     @GetMapping("/member/{id}")
-    @ApiOperation("查询单条会员信息")
     public ResponseData searchMemberById(@PathVariable(name = "id")long id) {
         QueryMemberRequest request=new QueryMemberRequest();
         request.setUserId(id);
@@ -48,7 +46,6 @@ public class MemberController {
      * @return
      */
     @PutMapping("member")
-    @ApiOperation("会员信息更新")
     public ResponseData updateUser(@RequestBody UpdateMemberRequest request) {
         UpdateMemberResponse response = memberService.updateMember(request);
         if(response.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
