@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author 风骚的Michael 老师
  */
-public abstract class BasePayment implements Payment {
+public abstract class BasePayment<R extends AbstractResponse,P extends AbstractRequest,C extends Context>  implements Payment<R,P> {
 
 	protected final Logger log = LoggerFactory.getLogger(this.getClass());
 
@@ -44,7 +44,7 @@ public abstract class BasePayment implements Payment {
 	 * @param request
 	 * @return
 	 */
-	public abstract Context createContext(AbstractRequest request);
+	public abstract C createContext(P request);
 
 	/**
 	 * 为下层的支付渠道的数据做好准备
@@ -53,8 +53,8 @@ public abstract class BasePayment implements Payment {
 	 * @param context
 	 * @throws BizException
 	 */
-	public  void prepare(AbstractRequest request, Context context)throws BizException{
-		SortedMap<String, Object> sParaTemp = new TreeMap<String, Object>();
+	public  void prepare(P request, C context)throws BizException{
+		SortedMap<String, Object> sParaTemp = new TreeMap<>();
 		context.setsParaTemp(sParaTemp);
 	};
 
@@ -67,7 +67,7 @@ public abstract class BasePayment implements Payment {
 	 * @return AbstractResponse
 	 * @throws BizException
 	 */
-	public abstract AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException;
+	public abstract R generalProcess(P request, C context) throws BizException;
 
 	/***
 	 * 基本业务处理完成后执行的后续操作
@@ -77,17 +77,18 @@ public abstract class BasePayment implements Payment {
 	 * @return
 	 * @throws BizException
 	 */
-	public abstract void afterProcess(AbstractRequest request, AbstractResponse respond,Context context) throws BizException;
+	public abstract void afterProcess(P request, R respond,C context) throws BizException;
 
 	/**
 	 * 核心处理器
 	 */
 	@Override
-	public <T extends AbstractResponse> T process(AbstractRequest request) throws BizException {
+	public R process(P request) throws BizException {
 		log.info("Begin BasePayment.process:{}", JSON.toJSONString(request));
-		AbstractResponse response = null;
+		R response = null;
 		//创建上下文
-		Context context = createContext(request);
+
+		C context = createContext(request);
 		//验证
 		getValidator().validate(request);
 		//准备
@@ -96,7 +97,7 @@ public abstract class BasePayment implements Payment {
 		response = generalProcess(request, context);
 		//善后
 		afterProcess(request, response, context);
-		return (T) response;
+		return response;
 	}
 
 	/**

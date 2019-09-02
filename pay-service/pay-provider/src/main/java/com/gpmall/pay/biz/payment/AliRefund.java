@@ -1,13 +1,10 @@
 package com.gpmall.pay.biz.payment;
 
 import com.alibaba.fastjson.JSON;
-import com.gpmall.commons.result.AbstractRequest;
-import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.commons.tool.utils.UtilDate;
 import com.gpmall.order.OrderCoreService;
 import com.gpmall.pay.biz.abs.BasePayment;
-import com.gpmall.pay.biz.abs.Context;
 import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayBuildRequest;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayNotify;
@@ -19,8 +16,10 @@ import com.gpmall.pay.dal.persistence.RefundMapper;
 import com.gpmall.pay.utils.GlobalIdGeneratorUtil;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
-import com.gupaoedu.pay.dto.*;
-import lombok.extern.slf4j.Slf4j;
+import com.gupaoedu.pay.dto.PaymentNotifyRequest;
+import com.gupaoedu.pay.dto.PaymentNotifyResponse;
+import com.gupaoedu.pay.dto.RefundRequest;
+import com.gupaoedu.pay.dto.RefundResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,19 +37,18 @@ import java.util.SortedMap;
  * @Date: 2019-08-17 12:53
  **/
 
-@Slf4j
 @Service("aliRefund")
-public class AliRefund extends BasePayment {
+public class AliRefund extends BasePayment<RefundResponse,RefundRequest,AliRefundContext> {
 
 	@Resource(name = "aliPaymentValidator")
 	private Validator validator;
 
 	@Autowired
-	AliPaymentConfig aliPaymentConfig;
+	private AliPaymentConfig aliPaymentConfig;
 	@Autowired
-	RefundMapper refundMapper;
+	private RefundMapper refundMapper;
 	@Autowired
-	PaymentMapper paymentMapper;
+	private PaymentMapper paymentMapper;
 
 	@Reference(timeout = 3000)
 	OrderCoreService orderCoreService;
@@ -66,9 +64,8 @@ public class AliRefund extends BasePayment {
 	}
 
 	@Override
-	public Context createContext(AbstractRequest request) {
+	public AliRefundContext createContext(RefundRequest refundRequest) {
 		AliRefundContext aliRefundContext = new AliRefundContext();
-		RefundRequest refundRequest = (RefundRequest) request;
 		aliRefundContext.setTotalFee(refundRequest.getRefundAmount());
 		aliRefundContext.setOutTradeNo(refundRequest.getOrderId());
 		aliRefundContext.setRefundPlatformNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY,1));
@@ -77,7 +74,7 @@ public class AliRefund extends BasePayment {
 	}
 
 	@Override
-	public void prepare(AbstractRequest request, Context context) throws BizException {
+	public void prepare(RefundRequest request, AliRefundContext context) throws BizException {
 		super.prepare(request, context);
 		SortedMap sParaTemp = context.getsParaTemp();
 		sParaTemp.put("partner", aliPaymentConfig.getAli_partner());
@@ -98,7 +95,7 @@ public class AliRefund extends BasePayment {
 
 
 	@Override
-	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
+	public RefundResponse generalProcess(RefundRequest request, AliRefundContext context) throws BizException {
 		Map<String, Object> sPara = AlipayBuildRequest.buildRequestParam(context.getsParaTemp(), aliPaymentConfig);
 		log.info("支付宝退款组装请求参数:{}", JSON.toJSONString(context.getsParaTemp()));
 		String strPara = AlipayBuildRequest.buildRequest(sPara, "get", "确认", aliPaymentConfig);
@@ -111,16 +108,15 @@ public class AliRefund extends BasePayment {
 	}
 
 	@Override
-	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
-		AliRefundContext aliRefundContext = (AliRefundContext) context;
+	public void afterProcess(RefundRequest request, RefundResponse respond, AliRefundContext context) throws BizException {
 		//写入退款记录表
 		Refund refund = new Refund();
-		refund.setOrderId(aliRefundContext.getOutTradeNo());
-		refund.setAmount(aliRefundContext.getTotalFee());
+		refund.setOrderId(context.getOutTradeNo());
+		refund.setAmount(context.getTotalFee());
 		refund.setChannel(1);
 		refund.setStatus(0);
-		refund.setTradeNo(aliRefundContext.getRefundPlatformNo());
-		refund.setUserId(aliRefundContext.getUserId());
+		refund.setTradeNo(context.getRefundPlatformNo());
+		refund.setUserId(context.getUserId());
 		refund.setUserName("");
 		refundMapper.insert(refund);
 	}
@@ -131,7 +127,7 @@ public class AliRefund extends BasePayment {
 	}
 
 	@Override
-	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+	public PaymentNotifyResponse completePayment(PaymentNotifyRequest request) throws BizException {
 		request.requestCheck();
 		Map requestParams = request.getResultMap();
 		Map<String, Object> params = new HashMap<>(requestParams.size());

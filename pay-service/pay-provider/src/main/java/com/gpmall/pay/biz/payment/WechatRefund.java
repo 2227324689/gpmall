@@ -4,19 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPay;
 import com.github.wxpay.sdk.WXPayUtil;
-import com.gpmall.commons.result.AbstractRequest;
-import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.order.OrderCoreService;
 import com.gpmall.order.OrderQueryService;
 import com.gpmall.order.dto.OrderItemRequest;
-import com.gpmall.order.dto.OrderItemResponse;
 import com.gpmall.pay.biz.abs.BasePayment;
-import com.gpmall.pay.biz.abs.Context;
 import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.wechatpay.AESUtil;
 import com.gpmall.pay.biz.payment.channel.wechatpay.WeChatBuildRequest;
-import com.gpmall.pay.biz.payment.commons.HttpClientUtil;
 import com.gpmall.pay.biz.payment.constants.WechatPaymentConfig;
 import com.gpmall.pay.biz.payment.context.WechatRefundContext;
 import com.gpmall.pay.dal.entitys.Refund;
@@ -25,8 +20,10 @@ import com.gpmall.pay.utils.GlobalIdGeneratorUtil;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.constants.RefundCodeEnum;
-import com.gupaoedu.pay.dto.*;
-import lombok.extern.slf4j.Slf4j;
+import com.gupaoedu.pay.dto.PaymentNotifyRequest;
+import com.gupaoedu.pay.dto.PaymentNotifyResponse;
+import com.gupaoedu.pay.dto.RefundRequest;
+import com.gupaoedu.pay.dto.RefundResponse;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,16 +31,17 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedMap;
 
 /**
  * @Description: 微信退款
  * @Author： wz
  * @Date: 2019-08-17 12:54
  **/
-@Slf4j
 @Service("wechatRefund")
-public class WechatRefund extends BasePayment {
+public class WechatRefund extends BasePayment<RefundResponse,RefundRequest,WechatRefundContext> {
 	@Autowired
 	private WechatPaymentConfig wechatPaymentConfig;
 
@@ -51,11 +49,11 @@ public class WechatRefund extends BasePayment {
 	private Validator validator;
 
 	@Reference(timeout = 3000)
-	OrderQueryService orderQueryService;
+	private OrderQueryService orderQueryService;
 	@Reference(timeout = 3000)
-	OrderCoreService orderCoreService;
+	private OrderCoreService orderCoreService;
 	@Autowired
-	RefundMapper refundMapper;
+	private RefundMapper refundMapper;
 
 	@Autowired
 	GlobalIdGeneratorUtil globalIdGeneratorUtil;
@@ -68,40 +66,37 @@ public class WechatRefund extends BasePayment {
 	}
 
 	@Override
-	public Context createContext(AbstractRequest request) {
-		WechatRefundContext wechantRefundContext = new WechatRefundContext();
-		RefundRequest refundRequest = (RefundRequest) request;
-		wechantRefundContext.setOutTradeNo(refundRequest.getOrderId());
-		wechantRefundContext.setRefundPlatformNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
-		wechantRefundContext.setRefundFee(refundRequest.getRefundAmount());
-		return wechantRefundContext;
+	public WechatRefundContext createContext(RefundRequest request) {
+		WechatRefundContext context = new WechatRefundContext();
+		context.setOutTradeNo(request.getOrderId());
+		context.setRefundPlatformNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
+		context.setRefundFee(request.getRefundAmount());
+		return context;
 
 	}
 
 	@Override
-	public void prepare(AbstractRequest request, Context context) throws BizException {
+	public void prepare(RefundRequest request, WechatRefundContext context) throws BizException {
 		super.prepare(request, context);
 		SortedMap paraMap = context.getsParaTemp();
-		WechatRefundContext wechatRefundContext = (WechatRefundContext) context;
-		paraMap.put("out_trade_no", wechatRefundContext.getOutTradeNo());
-		paraMap.put("out_refund_no", wechatRefundContext.getRefundPlatformNo());
-		paraMap.put("refund_fee", wechatRefundContext.getRefundFee().multiply(new BigDecimal("100")).setScale(0).toString());
+		paraMap.put("out_trade_no", context.getOutTradeNo());
+		paraMap.put("out_refund_no", context.getRefundPlatformNo());
+		paraMap.put("refund_fee", context.getRefundFee().multiply(new BigDecimal("100")).setScale(0).toString());
 		//微信退款通知地址
 		paraMap.put("notify_url", wechatPaymentConfig.getWechat_refund_notify_url());
 		paraMap.put("nonce_str", WeChatBuildRequest.getNonceStr());
 		//查找订单总金额
 		OrderItemRequest orderItemRequest = new OrderItemRequest();
-		orderItemRequest.setOrderItemId(wechatRefundContext.getOutTradeNo());
+		orderItemRequest.setOrderItemId(context.getOutTradeNo());
 		//OrderItemResponse orderItemResponse = orderQueryService.orderItem(orderItemRequest);
 		paraMap.put("total_fee", "1");
 	}
 
 
 	@Override
-	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
+	public RefundResponse generalProcess(RefundRequest request, WechatRefundContext context) throws BizException {
 		RefundResponse response = new RefundResponse();
-		WechatRefundContext wechatRefundContext = (WechatRefundContext) context;
-		Map map = wechatRefundContext.getsParaTemp();
+		Map map = context.getsParaTemp();
 		Map<String, String> resultMap = new HashMap<String, String>();
 		WXPay wxPay = null;
 		try {
@@ -132,18 +127,17 @@ public class WechatRefund extends BasePayment {
 
 
 	@Override
-	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
-		log.info("weChatRefund begin - afterProcess -request:" + JSON.toJSONString(request) + "\n response:" + JSON.toJSONString(respond));
-		WechatRefundContext wechatRefundContext = (WechatRefundContext) context;
-		RefundResponse refundResponse = (RefundResponse) respond;
+	public void afterProcess(RefundRequest request, RefundResponse respond, WechatRefundContext context) throws BizException {
+		log.info("weChatRefund begin - afterProcess -request:{}\n reponse:{}",
+				JSON.toJSONString(request),JSON.toJSONString(respond));
 		//写入退款记录表
 		Refund refund = new Refund();
-		refund.setOrderId(wechatRefundContext.getOutTradeNo());
-		refund.setAmount(refundResponse.getRefundAmount());
+		refund.setOrderId(context.getOutTradeNo());
+		refund.setAmount(respond.getRefundAmount());
 		refund.setChannel(2);
 		refund.setStatus(0);
-		refund.setTradeNo(wechatRefundContext.getRefundPlatformNo());
-		refund.setUserId(wechatRefundContext.getUserId());
+		refund.setTradeNo(context.getRefundPlatformNo());
+		refund.setUserId(context.getUserId());
 		refund.setUserName("");
 		refundMapper.insert(refund);
 	}
@@ -154,7 +148,7 @@ public class WechatRefund extends BasePayment {
 	}
 
 	@Override
-	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+	public PaymentNotifyResponse completePayment(PaymentNotifyRequest request) throws BizException {
 		request.requestCheck();
 		PaymentNotifyResponse response = new PaymentNotifyResponse();
 		Map<String, String> xmlMap = new HashMap();

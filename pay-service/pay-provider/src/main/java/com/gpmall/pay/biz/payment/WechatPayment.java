@@ -1,6 +1,7 @@
 package com.gpmall.pay.biz.payment;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.wxpay.sdk.WXPayUtil;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
@@ -38,9 +39,8 @@ import java.util.*;
  *
  * @author 风骚的Michael 老师
  */
-@Slf4j
 @Service("wechatPayment")
-public class WechatPayment extends BasePayment {
+public class WechatPayment extends BasePayment<PaymentResponse,PaymentRequest,WechatPaymentContext> {
 
 	@Autowired
 	private WechatPaymentConfig wechatPaymentConfig;
@@ -52,7 +52,7 @@ public class WechatPayment extends BasePayment {
 	private PaymentMapper paymentMapper;
 
 	@Autowired
-	GlobalIdGeneratorUtil globalIdGeneratorUtil;
+	private GlobalIdGeneratorUtil globalIdGeneratorUtil;
 
 	private final String COMMENT_GLOBAL_ID_CACHE_KEY = "COMMENT_ID";
 
@@ -65,33 +65,31 @@ public class WechatPayment extends BasePayment {
 	}
 
 	@Override
-	public Context createContext(AbstractRequest request) {
+	public WechatPaymentContext createContext(PaymentRequest request) {
 		WechatPaymentContext wechatPaymentContext = new WechatPaymentContext();
-		PaymentRequest paymentRequest = (PaymentRequest) request;
-		wechatPaymentContext.setOutTradeNo(paymentRequest.getTradeNo());
-		wechatPaymentContext.setProductId(paymentRequest.getTradeNo());
-		wechatPaymentContext.setSpbillCreateIp(paymentRequest.getSpbillCreateIp());
+		wechatPaymentContext.setOutTradeNo(request.getTradeNo());
+		wechatPaymentContext.setProductId(request.getTradeNo());
+		wechatPaymentContext.setSpbillCreateIp(request.getSpbillCreateIp());
 		wechatPaymentContext.setTradeType(PaymentConstants.TradeTypeEnum.NATIVE.getType());
-		wechatPaymentContext.setTotalFee(paymentRequest.getTotalFee());
-		wechatPaymentContext.setBody(paymentRequest.getSubject());
+		wechatPaymentContext.setTotalFee(request.getTotalFee());
+		wechatPaymentContext.setBody(request.getSubject());
 		return wechatPaymentContext;
 	}
 
 	@Override
-	public void prepare(AbstractRequest request, Context context) throws BizException {
+	public void prepare(PaymentRequest request, WechatPaymentContext context) throws BizException {
 		super.prepare(request, context);
 		SortedMap paraMap = context.getsParaTemp();
-		WechatPaymentContext wechatPaymentContext = (WechatPaymentContext) context;
-		paraMap.put("body", wechatPaymentContext.getBody());
-		paraMap.put("out_trade_no", wechatPaymentContext.getOutTradeNo());
+		paraMap.put("body", context.getBody());
+		paraMap.put("out_trade_no", context.getOutTradeNo());
 		//单位分
-		paraMap.put("total_fee", wechatPaymentContext.getTotalFee().multiply(new BigDecimal("100")).intValue());
-		paraMap.put("spbill_create_ip", wechatPaymentContext.getSpbillCreateIp());
+		paraMap.put("total_fee", context.getTotalFee().multiply(new BigDecimal("100")).intValue());
+		paraMap.put("spbill_create_ip", context.getSpbillCreateIp());
 		paraMap.put("appid", wechatPaymentConfig.getWechatAppid());
 		paraMap.put("mch_id", wechatPaymentConfig.getWechatMch_id());
 		paraMap.put("nonce_str", WeChatBuildRequest.getNonceStr());
-		paraMap.put("trade_type", wechatPaymentContext.getTradeType());
-		paraMap.put("product_id", wechatPaymentContext.getProductId());
+		paraMap.put("trade_type", context.getTradeType());
+		paraMap.put("product_id", context.getProductId());
 		// 此路径是微信服务器调用支付结果通知路径
 		paraMap.put("device_info", "WEB");
 		paraMap.put("notify_url", wechatPaymentConfig.getWechatNotifyurl());
@@ -101,15 +99,14 @@ public class WechatPayment extends BasePayment {
 		paraMap.put("sign", sign);
 		log.info("微信生成sign:{}", JSON.toJSONString(paraMap));
 		String xml = WeChatBuildRequest.getRequestXml(paraMap);
-		wechatPaymentContext.setXml(xml);
+		context.setXml(xml);
 	}
 
 	@Override
-	public AbstractResponse generalProcess(AbstractRequest request, Context context) throws BizException {
+	public PaymentResponse generalProcess(PaymentRequest request, WechatPaymentContext context) throws BizException {
 		PaymentResponse response = new PaymentResponse();
-		WechatPaymentContext wechatPaymentContext = (WechatPaymentContext) context;
-		log.info("微信支付组装的请求参数:{}", wechatPaymentContext.getXml());
-		String xml = HttpClientUtil.httpPost(wechatPaymentConfig.getWechatUnifiedOrder(), wechatPaymentContext.getXml());
+		log.info("微信支付组装的请求参数:{}", context.getXml());
+		String xml = HttpClientUtil.httpPost(wechatPaymentConfig.getWechatUnifiedOrder(), context.getXml());
 		log.info("微信支付同步返回的结果:{}", xml);
 		Map<String, String> resultMap = WeChatBuildRequest.doXMLParse(xml);
 		if ("SUCCESS".equals(resultMap.get("return_code"))) {
@@ -131,26 +128,27 @@ public class WechatPayment extends BasePayment {
 	}
 
 	@Override
-	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
+	public void afterProcess(PaymentRequest request, PaymentResponse respond, WechatPaymentContext context) throws BizException {
 		//插入支付表
-		log.info("Alipayment begin - afterProcess -request:" + request + "\n response:" + respond);
-		PaymentRequest paymentRequest = (PaymentRequest) request;
+		log.info("Alipayment begin - afterProcess -request:{},\n response:{}",
+				JSON.toJSONString(request) , JSONObject.toJSONString(respond));
 		//插入支付记录表
-		PaymentResponse response = (PaymentResponse) respond;
 		Payment payment = new Payment();
 		payment.setCreateTime(new Date());
-		BigDecimal amount = paymentRequest.getOrderFee();
+		BigDecimal amount = request.getOrderFee();
 		payment.setOrderAmount(amount);
-		payment.setOrderId(paymentRequest.getTradeNo());
+		payment.setOrderId(request.getTradeNo());
 		//payment.setTradeNo(globalIdGeneratorUtil.getNextSeq(COMMENT_GLOBAL_ID_CACHE_KEY, 1));
 		payment.setPayerAmount(amount);
-		payment.setPayerUid(paymentRequest.getUserId());
-		payment.setPayerName("");//TODO
-		payment.setPayWay(paymentRequest.getPayChannel());
-		payment.setProductName(paymentRequest.getSubject());
+		payment.setPayerUid(request.getUserId());
+		//TODO
+		payment.setPayerName("");
+		payment.setPayWay(request.getPayChannel());
+		payment.setProductName(request.getSubject());
 		payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());//
 		payment.setRemark("微信支付");
-		payment.setPayNo(response.getPrepayId());//第三方的交易id
+		//第三方的交易id
+		payment.setPayNo(respond.getPrepayId());
 		payment.setUpdateTime(new Date());
 		paymentMapper.insert(payment);
 	}
@@ -161,7 +159,7 @@ public class WechatPayment extends BasePayment {
 	}
 
 	@Override
-	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+	public PaymentNotifyResponse completePayment(PaymentNotifyRequest request) throws BizException {
 		request.requestCheck();
 		PaymentNotifyResponse response = new PaymentNotifyResponse();
 		Map xmlMap = new HashMap();

@@ -1,11 +1,10 @@
 package com.gpmall.pay.biz.payment;
 
 import com.alibaba.fastjson.JSON;
-import com.gpmall.commons.result.AbstractRequest;
-import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
 import com.gpmall.order.OrderCoreService;
-import com.gpmall.pay.biz.abs.*;
+import com.gpmall.pay.biz.abs.BasePayment;
+import com.gpmall.pay.biz.abs.Validator;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayBuildRequest;
 import com.gpmall.pay.biz.payment.channel.alipay.AlipayNotify;
 import com.gpmall.pay.biz.payment.constants.AliPaymentConfig;
@@ -15,7 +14,10 @@ import com.gpmall.pay.dal.entitys.Payment;
 import com.gpmall.pay.dal.persistence.PaymentMapper;
 import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
-import com.gupaoedu.pay.dto.*;
+import com.gupaoedu.pay.dto.PaymentNotifyRequest;
+import com.gupaoedu.pay.dto.PaymentNotifyResponse;
+import com.gupaoedu.pay.dto.PaymentRequest;
+import com.gupaoedu.pay.dto.PaymentResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
@@ -26,28 +28,28 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
  * @author 风骚的Michael 老师
  */
-@Slf4j
 @Service("aliPayment")
-public class AliPayment extends BasePayment {
-
+public class AliPayment extends BasePayment<PaymentResponse,PaymentRequest,AliPaymentContext> {
 	@Resource(name = "aliPaymentValidator")
 	private Validator validator;
 
 	@Autowired
-	AliPaymentConfig aliPaymentConfig;
+	private AliPaymentConfig aliPaymentConfig;
 
 	@Autowired
-	PaymentMapper paymentMapper;
+	private PaymentMapper paymentMapper;
 
 	@Reference(timeout = 30000)
-	OrderCoreService orderCoreService;
+	private OrderCoreService orderCoreService;
 
 	@Override
 	public Validator getValidator() {
@@ -55,7 +57,7 @@ public class AliPayment extends BasePayment {
 	}
 
 	@Override
-	public Context createContext(AbstractRequest request) {
+	public AliPaymentContext createContext(PaymentRequest request) {
 		AliPaymentContext aliPaymentContext = new AliPaymentContext();
 		PaymentRequest paymentRequest = (PaymentRequest) request;
 		aliPaymentContext.setSubject(paymentRequest.getSubject());
@@ -66,27 +68,7 @@ public class AliPayment extends BasePayment {
 	}
 
 	@Override
-	public void prepare(AbstractRequest request, Context context) throws BizException {
-		super.prepare(request, context);
-		SortedMap sParaTemp = context.getsParaTemp();
-		AliPaymentContext aliPaymentContext = (AliPaymentContext) context;
-		sParaTemp.put("partner", aliPaymentConfig.getAli_partner());
-		sParaTemp.put("service", aliPaymentConfig.getAli_service());
-		//sParaTemp.put("seller_email", aliPaymentConfig.getSeller_email());
-		sParaTemp.put("seller_id", aliPaymentConfig.getSeller_id());
-		sParaTemp.put("payment_type", "1");
-		sParaTemp.put("it_b_pay", aliPaymentConfig.getIt_b_pay());
-		sParaTemp.put("notify_url", aliPaymentConfig.getNotify_url());
-		sParaTemp.put("return_url", aliPaymentConfig.getReturn_url());
-		sParaTemp.put("out_trade_no", aliPaymentContext.getOutTradeNo());
-		sParaTemp.put("subject", aliPaymentContext.getSubject());
-		sParaTemp.put("total_fee", aliPaymentContext.getTotalFee());
-		aliPaymentContext.setsParaTemp(sParaTemp);
-	}
-
-
-	@Override
-	public PaymentResponse generalProcess(AbstractRequest request, Context context) throws BizException {
+	public PaymentResponse generalProcess(PaymentRequest request, AliPaymentContext context) throws BizException {
 		Map<String, Object> sPara = AlipayBuildRequest.buildRequestParam(context.getsParaTemp(), aliPaymentConfig);
 		log.info("支付宝支付组装请求参数:{}", JSON.toJSONString(sPara));
 		String strPara = AlipayBuildRequest.buildRequest(sPara, "get", "确认", aliPaymentConfig);
@@ -98,9 +80,8 @@ public class AliPayment extends BasePayment {
 		return response;
 	}
 
-
 	@Override
-	public void afterProcess(AbstractRequest request, AbstractResponse respond, Context context) throws BizException {
+	public void afterProcess(PaymentRequest request, PaymentResponse respond, AliPaymentContext context) throws BizException {
 		log.info("Alipayment begin - afterProcess -request:" + request + "\n response:" + respond);
 		PaymentRequest paymentRequest = (PaymentRequest) request;
 		//插入支付记录表
@@ -116,7 +97,7 @@ public class AliPayment extends BasePayment {
 		payment.setPayerName("");//TODO
 		payment.setPayWay(paymentRequest.getPayChannel());
 		payment.setProductName(paymentRequest.getSubject());
-		payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());//
+		payment.setStatus(PayResultEnum.TRADE_PROCESSING.getCode());
 		payment.setRemark("支付宝支付");
 		payment.setUpdateTime(new Date());
 		paymentMapper.insert(payment);
@@ -135,7 +116,7 @@ public class AliPayment extends BasePayment {
 	 */
 	@Override
 	@Transactional
-	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+	public PaymentNotifyResponse completePayment(PaymentNotifyRequest request) throws BizException {
 		request.requestCheck();
 		Map requestParams = request.getResultMap();
 		Map<String, Object> params = new HashMap<>(requestParams.size());
