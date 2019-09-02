@@ -30,8 +30,8 @@ spring:
         min-idle: 4
   data:
     elasticsearch:
-      cluster-name: docker-cluster
-      cluster-nodes: es.gupaoedu.com:9300
+      cluster-name: elasticsearch
+      cluster-nodes: es.gpmall.com:9300
 
 dubbo:
   application:

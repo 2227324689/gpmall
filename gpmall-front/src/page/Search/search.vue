@@ -63,7 +63,7 @@
         <section class="section">
           <y-shelf :title="recommendPanel.name">
             <div slot="content" class="recommend">
-              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContents" :key="i"></mall-goods>
+              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContentItems" :key="i"></mall-goods>
             </div>
           </y-shelf>
         </section>
@@ -76,7 +76,7 @@
         <section class="section">
           <y-shelf :title="recommendPanel.name">
             <div slot="content" class="recommend">
-              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContents" :key="i"></mall-goods>
+              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContentItems" :key="i"></mall-goods>
             </div>
           </y-shelf>
         </section>
