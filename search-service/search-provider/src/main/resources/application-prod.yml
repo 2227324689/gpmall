@@ -28,6 +28,10 @@ spring:
         max-idle: 10
         max-wait: 3000
         min-idle: 4
+  data:
+    elasticsearch:
+      cluster-name: docker-cluster
+      cluster-nodes: es.gupaoedu.com:9300
 dubbo:
   application:
     name: pay-services

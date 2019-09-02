@@ -45,7 +45,7 @@ public class OrderDto implements Serializable {
 
     private String buyerNick;
 
-    private Boolean buyerComment;
+    private Integer buyerComment;
 
     private String uniqueKey;
 }

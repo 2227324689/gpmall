@@ -1,7 +1,15 @@
 package com.gpmall.pay.biz.payment.constants;
 
+import com.github.wxpay.sdk.IWXPayDomain;
+import com.github.wxpay.sdk.WXPayConfig;
+import com.github.wxpay.sdk.WXPayConstants;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.Base64;
 
 /**
  * 腾讯课堂搜索 咕泡学院
@@ -9,7 +17,8 @@ import org.springframework.stereotype.Service;
  * @author 风骚的Michael 老师
  */
 @Service
-public class WechatPaymentConfig {
+@Data
+public class WechatPaymentConfig extends WXPayConfig {
 
     @Value("${wechat.wechat_appid}")
     private String wechatAppid;
@@ -17,6 +26,7 @@ public class WechatPaymentConfig {
     @Value("${wechat.wechat_mch_id}")
     private String wechatMch_id;
 
+    //默认为微信证书base64证书密文
     @Value("${wechat.wechat_appsecret}")
     private String wechatAppsecret;
 
@@ -32,31 +42,44 @@ public class WechatPaymentConfig {
     @Value("${wechat.wechat_order_query}")
     private String checkOrderUrl;
 
-    public String getWechatAppid() {
+    @Value("${wechat.wechat_refund_url}")
+    private String wechat_refund_url;
+
+    @Value("${wechat.wechat_refund_notify_url}")
+    private String wechat_refund_notify_url;
+
+    @Override
+    public String getAppID() {
         return wechatAppid;
     }
 
-    public String getWechatMch_id() {
+    @Override
+    public String getMchID() {
         return wechatMch_id;
     }
 
-    public String getWechatAppsecret() {
-        return wechatAppsecret;
-    }
-
-    public String getWechatMchsecret() {
+    @Override
+    public String getKey() {
         return wechatMchsecret;
     }
 
-    public String getWechatNotifyurl() {
-        return wechatNotifyurl;
+    @Override
+    public InputStream getCertStream() {
+        return new ByteArrayInputStream(Base64.getDecoder().decode(wechatAppsecret));
     }
 
-    public String getWechatUnifiedOrder() {
-        return wechatUnifiedOrder;
-    }
+    @Override
+    public IWXPayDomain getWXPayDomain() {
+        IWXPayDomain iwxPayDomain = new IWXPayDomain() {
+            @Override
+            public void report(String domain, long elapsedTimeMillis, Exception ex) {
 
-    public String getCheckOrderUrl() {
-        return checkOrderUrl;
+            }
+            @Override
+            public DomainInfo getDomain(WXPayConfig config) {
+                return new IWXPayDomain.DomainInfo(WXPayConstants.DOMAIN_API, true);
+            }
+        };
+        return iwxPayDomain;
     }
 }

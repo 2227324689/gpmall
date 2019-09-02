@@ -17,10 +17,10 @@ import java.util.List;
 public interface AddressConverter {
 
     @Mappings({})
-    AddressDto address2List(Address address);
+    AddressDto address2List(Address addresses);
 
-    @Mappings({})
-    AddressDetailResponse address2Res(Address address);
+    /*@Mappings({})
+    AddressDto address2Res(Address address);*/
 
     List<AddressDto> address2List(List<Address> addresses);
 

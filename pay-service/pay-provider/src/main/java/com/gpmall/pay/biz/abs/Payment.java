@@ -3,6 +3,7 @@ package com.gpmall.pay.biz.abs;
 import com.gpmall.commons.result.AbstractRequest;
 import com.gpmall.commons.result.AbstractResponse;
 import com.gpmall.commons.tool.exception.BizException;
+import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 
 /**
  * 腾讯课堂搜索 咕泡学院
@@ -17,7 +18,7 @@ public interface Payment {
      * @return
      * @throws BizException
      */
-    AbstractResponse process(AbstractRequest request) throws BizException;
+    <T extends AbstractResponse> T process(AbstractRequest request) throws BizException;
 
     /**
      * 完成交易结果的处理
@@ -25,5 +26,5 @@ public interface Payment {
      * @return
      * @throws BizException
      */
-    AbstractResponse completePayment(AbstractRequest request) throws BizException;
+    <T extends AbstractResponse> T completePayment(PaymentNotifyRequest request) throws BizException;
 }

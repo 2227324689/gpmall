@@ -1,22 +1,33 @@
 package com.gpmall.pay.biz.payment.validator;
 
+import com.gpmall.commons.result.AbstractRequest;
+import com.gpmall.commons.tool.exception.BizException;
+import com.gpmall.order.OrderQueryService;
+import com.gpmall.order.dto.OrderDetailRequest;
+import com.gpmall.order.dto.OrderDetailResponse;
 import com.gpmall.pay.biz.abs.BaseValidator;
+import com.gupaoedu.pay.constants.PayReturnCodeEnum;
+import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentRequest;
+import com.gupaoedu.pay.dto.RefundRequest;
+import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.stereotype.Service;
+
+import java.util.Objects;
 
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
+ *
  * @author 风骚的Michael 老师
  */
 @Service("aliPaymentValidator")
 public class AliPaymentValidator extends BaseValidator {
+	@Reference(timeout = 3000)
+	OrderQueryService orderQueryService;
 
-    //TODO 验证支付订单是否已存在
-
-
-    @Override
-    public void specialValidate(PaymentRequest paymentRequest) {
-        //TODO  待实现   防止金额篡改等
-    }
+	@Override
+	public void specialValidate(AbstractRequest request) {
+       super.commonValidate(request,orderQueryService);
+	}
 }
