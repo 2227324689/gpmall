@@ -1,16 +1,31 @@
-# GPMall 电商网站
+![1566284996878](README.assets/1566284996878.png)
 
-很多学员苦恼于没接触过分布式项目，希望有一些完整的项目来落地。所以我抽空给大家开发了一个微服务架构的电商网站，有兴趣的同学，可以私聊我一起参与项目的开发。
+[![license](https://img.shields.io/hexpm/l/plug.svg?style=flat-square)](https://github.com/2227324689/ToBeBetter/blob/master/LICENSE) [![issues](https://img.shields.io/bitbucket/issues-raw/2227324689/ToBeBetter.svg?style=flat-square)](https://github.com/2227324689/gpmall/issues) [![constract us](https://img.shields.io/badge/contract%20us-%E5%AE%98%E7%BD%91-brightgreen.svg?style=flat-square)](https://www.gupaoedu.com) [![origin](https://img.shields.io/badge/origin-%E5%92%95%E6%B3%A1%E5%AD%A6%E9%99%A2-yellowgreen.svg?style=flat-square)](https://www.gupaoedu.com) [![blog](https://img.shields.io/badge/blog-%E5%8D%9A%E5%AE%A2-orange.svg?style=flat-square)](https://istio.tech) [![author](https://img.shields.io/badge/author-Mic-blue.svg?style=flat-square)](#) [![Gpmall](https://img.shields.io/badge/linked-gpmall-red.svg?style=flat-square)](#) ![hits](http://hits.dwyl.io/gpmall/gpmall.svg?style=flat-square) [![community](https://img.shields.io/badge/community-%E6%8A%80%E6%9C%AF%E7%A4%BE%E5%8C%BA-lightgrey.svg?style=flat-square)](https://gper.club)
 
-为了更好的体现在互联网公司项目的完整性，我对模块做了非常细的拆分，并没有使用maven多模块来管理项目，所以大家在部署的时候会一些麻烦
+# 咕泡商城- 微服务架构实战
 
-> 这个项目开发完成之后，我会部署到公网上，供大家来体验，并且基于访问量的提升，我们可以不断的优化这个架构。
+咕泡商城是[咕泡学院](https://www.gupaoedu.com) Java架构课程中，帮助学员对于技术更好落地的一个实战项目，项目基于springboot2.1.6.RELEASE+Dubbo2.7.3 来构建微服务。
 
-**注意： 参与的人太多，本来是打算分组，但是分组的配合比较麻烦，比如各个组的代码的分支提交、合并、不好协调。所以暂时没考虑分组。所有参与的人，都是从前台到后台的统一开发。大家自己在开发的时候可以自己拉组**
+业务模块划分，尽量贴合互联网公司的架构体系。所以，除了业务本身的复杂度不是很高之外，整体的架构基本和实际架构相差无几。
+
+但实际上，真实的生产级的项目由于用户量以及业务的复杂度，会变得非常复杂。 所以我们会让更多的人参与进来，从需求、设计、解决方案等方面出发来对项目进行迭代，从而培养出一定的
+
+实际解决方案的经验和能力。
+
+# 应用架构图
+
+![1565533924343](README.assets/1565533924343.png)
+
+
+
+## 项目演示地址
+
+* 商场系统演示地址：http://47.93.233.188:8888/#/home
+* 后台管理系统：开发中..
 
 # 项目用到的技术
 
-项目采用前后端分离开发，前端需要独立部署。前端架构是基于 xmall 提供框架进行的重构。目前核心的技术栈采用的是SpringBoot2.1.5.RELEASE+Dubbo2.7.2,  后续我会再基于spring cloud alibaba进行重构
+项目采用前后端分离开发，前端需要独立部署。目前核心的技术栈采用的是SpringBoot2.1.5.RELEASE+Dubbo2.7.2,  
 
 ## 前端使用的技术
 
@@ -43,37 +58,21 @@
 
 # 项目模块说明
 
-* db_script  本项目的数据库脚本
-* gpmall-cashier 收银台，负责支付相关的交互逻辑【暂时未开发，可以不用关心】
-* gpmall-commons 公共的组件
-* gpmall-front  咕泡商城的前端项目
-* gpmall-parent 父控文件，用来统一管理所有jar包
-* gpmall-shopping  商品/购物车/首页渲染等交互
-* gpmall-user  提供用户相关的交互，如登录、注册、个人中心等
-* market-service 促销活动的Dubbo服务【暂时未联调完成，可以不启动】
-* pay-service  提供支付处理能力【暂时未联调完成可以不用启动】
-* shopping-service  dubbo服务，提供购物车、推荐商品、商品等服务
-* user-service Dubbo服务，提供用户相关服务
-* order-service Dubbo服务，提供订单服务
-* 未完待续....
-
-# 部署说明
-
-模块比较多，部署这块会比较复杂。由于没有远程私服的支持，所以都需要本地先构建才能运行
-
-1. 提前把环境准备好，zookeeper、mysql、redis、kafka等
-2. gpmall-parent 是一个父控文件，需要先install到本地仓库
-3. gpmall-commons 公共组件，第二步结束之后执行install安装
-4. 把所有dubbo服务的api全部install到本地仓库
-5. 分别启动gpmall-user/gpmall-shopping.  如果在同一个机器运行，需要指定不同的端口
-
-# 前端项目启动流程
-
-前端项目依赖node，所以需要先安装node环境
-
-1. 去node官网下载nodejs安装文件进行安装，如果在`cmd`中输入 npm -version 能够显示版本，说明安装成功
-2. 进入gpmall-front , 执行npm install
-3. 第二步成功之后，执行npm  run dev 启动前端项目
+| db_script  本项目的数据库脚本                                | 使用mysql | 暂时未做分表处理，不过有考虑到分表的情况             |
+| ------------------------------------------------------------ | --------- | ---------------------------------------------------- |
+| gpmall-cashier 收银台，负责支付相关的交互逻辑                | web项目   | 8083端口                                             |
+| gpmall-commons 公共的组件                                    | jar       | 公共组件，很多地方都有引用，改动的时候要注意         |
+| gpmall-front  咕泡商城的前端项目                             | 前端项目  | 使用vue、node、es等前端技术开发                      |
+| gpmall-parent 父控文件，用来统一管理所有jar包                | 父控文件  | 用来统一管理所有项目的jar包的版本                    |
+| gpmall-shopping  商品/购物车/首页渲染等交互                  | web项目   | 8081端口                                             |
+| gpmall-user  提供用户相关的交互，如登录、注册、个人中心等    | web项目   | 8082端口                                             |
+| market-service 促销活动的Dubbo服务【暂时未联调完成，可以不启动】 | dubbo服务 | 20884端口                                            |
+| pay-service  提供支付处理能力                                | dubbo服务 | 20883端口                                            |
+| shopping-service，提供购物车、推荐商品、商品等服务           | dubbo服务 | 20881端口                                            |
+| user-service ，提供用户相关服务                              | dubbo服务 | 20880端口                                            |
+| order-service ，提供订单服务                                 | dubbo服务 | 20882端口                                            |
+| PRD                                                          |           | 存放prd需求文档，有想参与设计的同学，可以提供prd需求 |
+| wiki                                                         |           | 帮助文档，需要每一位同学贡献自己的一份力量           |
 
 # 项目开发进度
 
@@ -85,15 +84,33 @@
 * 购物车、订单查询、下单、支付
 * 促销活动
 
-![1565235690613](https://github.com/2227324689/gpmall/blob/stu_dev/1565235690613.png)
+![1565235690613](README.assets/1565235690613.png)
 
 ## 后台规划
 
-后台这块我会搭建一个框架，有兴趣的同学可以参与开发，主要是提供对于前端相关模块的配置
+
+
+# 效果图
+
+![](README.assets/项目演示图1.png)
+
+
+
+![](README.assets/项目演示图2.png)
+
+![](README.assets/项目演示图3.png)
+
+# 项目架构图
+
+![1565861422268](README.assets/1565861422268.png)
+
+
+
+
 
 # 如何贡献
 
-非常欢迎您对ShopXO的开发作出贡献！ 你可以选择以下方式向Gpmall贡献：
+非常欢迎您对Gpmall的开发作出贡献！ 你可以选择以下方式向Gpmall贡献：
 
 - [Github - 发布issue进行问题反馈和建议](https://github.com/2227324689/gpmall/issues)
 - 通过Pull Request提交修复
@@ -102,9 +119,17 @@
 
 
 
+# 技术交流及问题解答
 
+>  **助理** （一个程序员竟然有助理，不可思议）
 
+|                                                   |                                                   |
+| ------------------------------------------------- | ------------------------------------------------- |
+| ![1565592665627](README.assets/1565592665627.png) | ![1565592704023](README.assets/1565592704023.png) |
 
+>  作者的个人博客
+
+http://istio.tech
 
 
 

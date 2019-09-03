@@ -2,8 +2,8 @@ spring:
   application:
     name: gpmall-cashier
   profiles:
-      active: prod
+      active: dev
 server:
-  port: 8082
+  port: 8083
 
 

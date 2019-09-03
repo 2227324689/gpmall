@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.comment.dal.persistence.CommentMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.comment.dal.entitys.Comment">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="item_id" jdbcType="VARCHAR" property="itemId" />
+    <result column="star" jdbcType="TINYINT" property="star" />
+    <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="is_anoymous" jdbcType="BIT" property="isAnoymous" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="buyer_nick" jdbcType="VARCHAR" property="buyerNick" />
+    <result column="comment_time" jdbcType="TIMESTAMP" property="commentTime" />
+    <result column="is_public" jdbcType="BIT" property="isPublic" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+    <result column="validation_user_id" jdbcType="BIGINT" property="validationUserId" />
+    <result column="validation_time" jdbcType="TIMESTAMP" property="validationTime" />
+    <result column="validation_suggestion" jdbcType="VARCHAR" property="validationSuggestion" />
+    <result column="is_top" jdbcType="BIT" property="isTop" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+    <result column="deletion_time" jdbcType="TIMESTAMP" property="deletionTime" />
+    <result column="deletion_user_id" jdbcType="BIGINT" property="deletionUserId" />
+  </resultMap>
+  
+  <sql id="BaseColumns">
+    <!-- WARNING - @mbg.generated -->
+    id, order_id, item_id, star, type, is_anoymous, content, buyer_nick, comment_time, is_public, is_valid, validation_user_id, validation_time, validation_suggestion, is_top, user_id, is_deleted, deletion_time, deletion_user_id
+  </sql>
+  
+</mapper>

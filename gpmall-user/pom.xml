@@ -15,6 +15,19 @@
     <name>gpmall-user</name>
     <description>gpmall-user</description>
 
+    <distributionManagement>
+        <repository>
+            <id>maven-release</id>
+            <name>Nexus Release Repository</name>
+            <url>http://maven.igper.com/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://maven.igper.com/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <properties>
         <java.version>1.8</java.version>
         <kaptcha.version>2.3.2</kaptcha.version>
@@ -65,15 +78,6 @@
             <groupId>com.gpmall.commons</groupId>
             <version>1.0-SNAPSHOT</version>
             <artifactId>commons-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.penggle</groupId>
-            <artifactId>kaptcha</artifactId>
-            <version>${kaptcha.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.spring4all</groupId>
-            <artifactId>swagger-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

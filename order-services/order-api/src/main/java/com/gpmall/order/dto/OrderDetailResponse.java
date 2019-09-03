@@ -50,7 +50,7 @@ public class OrderDetailResponse extends AbstractResponse{
 
     private String buyerNick;
 
-    private Boolean buyerComment;
+    private Integer buyerComment;
 
     private List<OrderItemDto> orderItemDto;
 

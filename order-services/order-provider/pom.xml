@@ -28,6 +28,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>tk.mybatis</groupId>
+            <artifactId>mapper-spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
         </dependency>
@@ -90,6 +94,18 @@
             <groupId>com.gpmall.shopping</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -108,10 +124,38 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--<plugin>
+           <!-- <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
             </plugin>-->
+            <plugin>
+                <groupId>org.mybatis.generator</groupId>
+                <artifactId>mybatis-generator-maven-plugin</artifactId>
+                <configuration>
+                    <configurationFile>${basedir}/src/main/resources/mybatis-generater.xml</configurationFile>
+                    <!--<configurationFile>${basedir}/src/main/resources/generator/generatorConfigOracle.xml</configurationFile>-->
+                    <overwrite>true</overwrite>
+                    <verbose>true</verbose>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.github.drtrang</groupId>
+                        <artifactId>mybatis-generator-extension</artifactId>
+                        <version>0.0.4</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>mysql</groupId>
+                        <artifactId>mysql-connector-java</artifactId>
+                        <version>5.1.44</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>tk.mybatis</groupId>
+                        <artifactId>mapper</artifactId>
+                        <version>3.4.2</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
         <resources>
             <resource>

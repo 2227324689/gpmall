@@ -1,207 +1,223 @@
 package com.gpmall.order.dal.entitys;
 
-import java.io.Serializable;
+
+
+import lombok.Data;
+
+
+
 import java.math.BigDecimal;
+
 import java.util.Date;
 
-public class Order implements Serializable {
+import javax.persistence.*;
+
+
+
+@Table(name = "tb_order")
+
+@Data
+
+public class Order {
+
+    /**
+
+     * 订单id
+
+     */
+    @Id
     private String orderId;
+
+
+
+    /**
+
+     * 实付金额
+
+     */
 
     private BigDecimal payment;
 
+
+
+    /**
+
+     * 支付类型 1在线支付 2货到付款
+
+     */
+
+    @Column(name = "payment_type")
+
     private Integer paymentType;
+
+
+
+    /**
+
+     * 邮费
+
+     */
+
+    @Column(name = "post_fee")
 
     private BigDecimal postFee;
 
+
+
+    /**
+
+     * 状态 0未付款 1已付款 2未发货 3已发货 4交易成功 5交易关闭 6交易失败
+
+     */
+
     private Integer status;
+
+
+
+    /**
+
+     * 订单创建时间
+
+     */
+
+    @Column(name = "create_time")
 
     private Date createTime;
 
+
+
+    /**
+
+     * 订单更新时间
+
+     */
+
+    @Column(name = "update_time")
+
     private Date updateTime;
+
+
+
+    /**
+
+     * 付款时间
+
+     */
+
+    @Column(name = "payment_time")
 
     private Date paymentTime;
 
+
+
+    /**
+
+     * 发货时间
+
+     */
+
+    @Column(name = "consign_time")
+
     private Date consignTime;
+
+
+
+    /**
+
+     * 交易完成时间
+
+     */
+
+    @Column(name = "end_time")
 
     private Date endTime;
 
+
+
+    /**
+
+     * 交易关闭时间
+
+     */
+
+    @Column(name = "close_time")
+
     private Date closeTime;
+
+
+
+    /**
+
+     * 物流名称
+
+     */
+
+    @Column(name = "shipping_name")
 
     private String shippingName;
 
+
+
+    /**
+
+     * 物流单号
+
+     */
+
+    @Column(name = "shipping_code")
+
     private String shippingCode;
+
+
+
+    /**
+
+     * 用户id
+
+     */
+
+    @Column(name = "user_id")
 
     private Long userId;
 
+
+
+    /**
+
+     * 买家留言
+
+     */
+
+    @Column(name = "buyer_message")
+
     private String buyerMessage;
+
+
+
+    /**
+
+     * 买家昵称
+
+     */
+
+    @Column(name = "buyer_nick")
 
     private String buyerNick;
 
-    private Boolean buyerComment;
 
-    private static final long serialVersionUID = 1L;
 
-    public String getOrderId() {
-        return orderId;
-    }
+    /**
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId == null ? null : orderId.trim();
-    }
+     * 买家是否已经评价
 
-    public BigDecimal getPayment() {
-        return payment;
-    }
+     */
 
-    public void setPayment(BigDecimal payment) {
-        this.payment = payment;
-    }
+    @Column(name = "buyer_comment")
 
-    public Integer getPaymentType() {
-        return paymentType;
-    }
+    private Integer buyerComment;
 
-    public void setPaymentType(Integer paymentType) {
-        this.paymentType = paymentType;
-    }
 
-    public BigDecimal getPostFee() {
-        return postFee;
-    }
 
-    public void setPostFee(BigDecimal postFee) {
-        this.postFee = postFee;
-    }
 
-    public Integer getStatus() {
-        return status;
-    }
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getPaymentTime() {
-        return paymentTime;
-    }
-
-    public void setPaymentTime(Date paymentTime) {
-        this.paymentTime = paymentTime;
-    }
-
-    public Date getConsignTime() {
-        return consignTime;
-    }
-
-    public void setConsignTime(Date consignTime) {
-        this.consignTime = consignTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Date getCloseTime() {
-        return closeTime;
-    }
-
-    public void setCloseTime(Date closeTime) {
-        this.closeTime = closeTime;
-    }
-
-    public String getShippingName() {
-        return shippingName;
-    }
-
-    public void setShippingName(String shippingName) {
-        this.shippingName = shippingName == null ? null : shippingName.trim();
-    }
-
-    public String getShippingCode() {
-        return shippingCode;
-    }
-
-    public void setShippingCode(String shippingCode) {
-        this.shippingCode = shippingCode == null ? null : shippingCode.trim();
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getBuyerMessage() {
-        return buyerMessage;
-    }
-
-    public void setBuyerMessage(String buyerMessage) {
-        this.buyerMessage = buyerMessage == null ? null : buyerMessage.trim();
-    }
-
-    public String getBuyerNick() {
-        return buyerNick;
-    }
-
-    public void setBuyerNick(String buyerNick) {
-        this.buyerNick = buyerNick == null ? null : buyerNick.trim();
-    }
-
-    public Boolean getBuyerComment() {
-        return buyerComment;
-    }
-
-    public void setBuyerComment(Boolean buyerComment) {
-        this.buyerComment = buyerComment;
-    }
-
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(getClass().getSimpleName());
-        sb.append(" [");
-        sb.append("Hash = ").append(hashCode());
-        sb.append(", orderId=").append(orderId);
-        sb.append(", payment=").append(payment);
-        sb.append(", paymentType=").append(paymentType);
-        sb.append(", postFee=").append(postFee);
-        sb.append(", status=").append(status);
-        sb.append(", createTime=").append(createTime);
-        sb.append(", updateTime=").append(updateTime);
-        sb.append(", paymentTime=").append(paymentTime);
-        sb.append(", consignTime=").append(consignTime);
-        sb.append(", endTime=").append(endTime);
-        sb.append(", closeTime=").append(closeTime);
-        sb.append(", shippingName=").append(shippingName);
-        sb.append(", shippingCode=").append(shippingCode);
-        sb.append(", userId=").append(userId);
-        sb.append(", buyerMessage=").append(buyerMessage);
-        sb.append(", buyerNick=").append(buyerNick);
-        sb.append(", buyerComment=").append(buyerComment);
-        sb.append(", serialVersionUID=").append(serialVersionUID);
-        sb.append("]");
-        return sb.toString();
-    }
 }

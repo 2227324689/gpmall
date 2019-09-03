@@ -5,13 +5,13 @@ import com.gpmall.shopping.constant.GlobalConstants;
 import com.gpmall.shopping.constants.ShoppingRetCode;
 import com.gpmall.shopping.converter.ContentConverter;
 import com.gpmall.shopping.dal.entitys.PanelContent;
-import com.gpmall.shopping.dal.entitys.PanelContentExample;
 import com.gpmall.shopping.dal.persistence.PanelContentMapper;
 import com.gpmall.shopping.dto.NavListResponse;
 import com.gpmall.shopping.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -35,10 +35,10 @@ public class ContentServiceImpl implements IContentService {
     public NavListResponse queryNavList() {
         NavListResponse response=new NavListResponse();
         try {
-            PanelContentExample exampleContent = new PanelContentExample();
+            Example exampleContent = new Example(PanelContent.class);
             exampleContent.setOrderByClause("sort_order");
-            PanelContentExample.Criteria criteriaContent = exampleContent.createCriteria();
-            criteriaContent.andPanelIdEqualTo(GlobalConstants.HEADER_PANEL_ID);
+            Example.Criteria criteriaContent = exampleContent.createCriteria();
+            criteriaContent.andEqualTo("panelId", GlobalConstants.HEADER_PANEL_ID);
             List<PanelContent> pannelContents = panelContentMapper.selectByExample(exampleContent);
             //添加缓存操作 TODO
             response.setPannelContentDtos(contentConverter.panelContents2Dto(pannelContents));

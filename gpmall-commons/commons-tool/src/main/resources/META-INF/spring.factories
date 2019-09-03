@@ -1,3 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration= \
   com.gpmall.commons.tool.redisconfig.RedissonAutoConfiguration,\
-  com.gpmall.commons.tool.swaggerconfig.SwaggerConfig
+  com.gpmall.commons.tool.zookeeperConfig.ZookeeperAutoConfiguration

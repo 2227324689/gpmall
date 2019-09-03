@@ -44,24 +44,38 @@
       </div>
     </div>
     <!--产品信息-->
-    <div class="item-info">
-      <y-shelf title="产品信息">
-        <div slot="content">
-          <div class="img-item" v-if="productMsg">
-            <div v-html="productMsg">{{ productMsg }}</div>
-          </div>
-          <div class="no-info" v-else>
-            <img src="/static/images/no-data.png">
-            <br>
-            该商品暂无内容数据
+    <el-tabs v-model="activeTab" @tab-click="_handleTabClick" style="background: #fff;border-radius: 5px;padding: 0 50px">
+      <el-tab-pane label="产品信息" name="itemInfo">
+        <div class="item-info" style="border-radius: 5px">
+          <div>
+            <div class="img-item" v-if="productMsg">
+              <div v-html="productMsg">{{ productMsg }}</div>
+            </div>
+            <div class="no-info" v-else>
+              <img src="/static/images/no-data.png">
+              <br>
+              该商品暂无内容数据
+            </div>
           </div>
         </div>
-      </y-shelf>
-    </div>
+      </el-tab-pane>
+      <el-tab-pane label="评论" name="comment">
+        <span slot="label">评论（{{totalCommentCount}})</span>
+
+        <div style="min-height: 300px">
+          <div style="display: flex;justify-content: center;padding-top: 130px" v-if="!commentList || commentList.length === 0">
+            <span style="font-size: 20px">当前商品无评价</span>
+          </div>
+          <div v-else>
+
+          </div>
+        </div>
+      </el-tab-pane>
+    </el-tabs>
   </div>
 </template>
 <script>
-  import { productDet, addCart } from '/api/goods'
+  import { productDet, addCart, getAllComments, getAllCommentsCount } from '/api/goods'
   import { mapMutations, mapState } from 'vuex'
   import YShelf from '/components/shelf'
   import BuyNum from '/components/buynum'
@@ -77,7 +91,18 @@
           salePrice: 0
         },
         productNum: 1,
-        userId: ''
+        userId: '',
+        // form
+        pageForm: {
+          page: 0,
+          size: 10
+        },
+
+        // data
+        activeTab: 'itemInfo',
+        totalCommentCount: 0,
+        commentList: [],
+        commentType: null
       }
     },
     computed: {
@@ -94,6 +119,38 @@
           this.big = this.small[0]
         })
       },
+      _productCommentCount (productId) {
+        let params = {
+          productId,
+          type: this.commentType
+        }
+        getAllCommentsCount({params: params}).then(res => {
+          let result = res.result
+          console.log('%c[goodsDetails-res]', 'color: #63ADD1', result)
+        })
+      },
+      _productCommentList (productId) {
+        let params = {
+          productId,
+          type: this.commentType,
+          page: this.pageForm.page,
+          size: this.pageForm.size
+        }
+        getAllComments({params: params}).then(res => {
+          let result = res.result
+          console.log('%c[goodsDetails-res]', 'color: #63ADD1', result)
+        })
+      },
+      _handleTabClick (tabComponent) {
+        let {name} = tabComponent
+        if (name === 'comment') {
+          if (this.totalCommentCount !== 0) {
+            this.pageForm.page = 0
+            this._productCommentList(this.$route.params.productId)
+          }
+        }
+      },
+
       addCart (id, price, name, img) {
         if (!this.showMoveImg) {     // 动画是否在运动
           if (this.login) { // 登录了 直接存在用户名下
@@ -138,9 +195,19 @@
     components: {
       YShelf, BuyNum, YButton
     },
+    watch: {
+      $route (to, from) {
+        if (to.fullPath.includes('/product/')) {
+          let id = this.$route.params.productId
+          this._productDet(id)
+          this.userId = getStore('userId')
+        }
+      }
+    },
     created () {
       let id = this.$route.params.productId
       this._productDet(id)
+      this._productCommentCount(id)
       this.userId = getStore('userId')
     }
   }

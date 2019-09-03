@@ -69,9 +69,9 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.gpmall.order</groupId>
+            <groupId>com.gupaoedu.pay</groupId>
             <version>1.0-SNAPSHOT</version>
-            <artifactId>order-api</artifactId>
+            <artifactId>pay-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -90,6 +90,14 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
             </plugin>
         </plugins>
     </build>

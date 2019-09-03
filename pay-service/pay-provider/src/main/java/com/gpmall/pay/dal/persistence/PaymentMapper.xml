@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.pay.dal.persistence.PaymentMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.pay.dal.entitys.Payment">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="order_id" jdbcType="VARCHAR" property="orderId" />
+    <result column="product_name" jdbcType="VARCHAR" property="productName" />
+    <result column="pay_no" jdbcType="VARCHAR" property="payNo" />
+    <result column="payer_uid" jdbcType="INTEGER" property="payerUid" />
+    <result column="payer_name" jdbcType="VARCHAR" property="payerName" />
+    <result column="payer_amount" jdbcType="DECIMAL" property="payerAmount" />
+    <result column="order_amount" jdbcType="DECIMAL" property="orderAmount" />
+    <result column="pay_way" jdbcType="VARCHAR" property="payWay" />
+    <result column="pay_success_time" jdbcType="TIMESTAMP" property="paySuccessTime" />
+    <result column="complete_time" jdbcType="TIMESTAMP" property="completeTime" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+  </resultMap>
+  
+  <sql id="BaseColumns">
+    <!-- WARNING - @mbg.generated -->
+    id, status, order_id, product_name, pay_no, payer_uid, payer_name, payer_amount, order_amount, pay_way, pay_success_time, complete_time, remark, create_time, update_time
+  </sql>
+  
+</mapper>

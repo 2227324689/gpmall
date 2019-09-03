@@ -1,17 +1,16 @@
 package com.gpmall.user.services;
 
-import com.alibaba.druid.support.calcite.DDLColumn;
 import com.gpmall.user.IAddressService;
 import com.gpmall.user.constants.SysRetCodeConstants;
 import com.gpmall.user.converter.AddressConverter;
 import com.gpmall.user.dal.entitys.Address;
-import com.gpmall.user.dal.entitys.AddressExample;
 import com.gpmall.user.dal.persistence.AddressMapper;
 import com.gpmall.user.dto.*;
 import com.gpmall.user.utils.ExceptionProcessorUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.List;
 
@@ -26,10 +25,10 @@ import java.util.List;
 public class AddressServiceImpl implements IAddressService {
 
     @Autowired
-    AddressMapper addressMapper;
+	AddressMapper addressMapper;
 
     @Autowired
-    AddressConverter converter;
+	AddressConverter converter;
 
     @Override
     public AddressListResponse addressList(AddressListRequest request) {
@@ -37,9 +36,9 @@ public class AddressServiceImpl implements IAddressService {
         AddressListResponse response=new AddressListResponse();
         try{
             request.requestCheck();
-            AddressExample example=new AddressExample();
-            AddressExample.Criteria criteria=example.createCriteria();
-            criteria.andUserIdEqualTo(request.getUserId());
+            Example example=new Example(Address.class);
+
+            example.createCriteria().andEqualTo("userId",request.getUserId());
             List<Address> addresses=addressMapper.selectByExample(example);
             response.setAddressDtos(converter.address2List(addresses));
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
@@ -57,7 +56,7 @@ public class AddressServiceImpl implements IAddressService {
         try{
             request.requestCheck();
             Address address=addressMapper.selectByPrimaryKey(request.getAddressId());
-            response=converter.address2Res(address);
+            response.setAddressDto(converter.address2List(address));
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
         }catch (Exception e){
@@ -73,7 +72,7 @@ public class AddressServiceImpl implements IAddressService {
         AddAddressResponse response=new AddAddressResponse();
         try{
             request.requestCheck();
-            checkAddressDefaultUnique(request.getIsDefault(),request.getUserId());
+            checkAddressDefaultUnique(request.getIsDefault() != null && request.getIsDefault()==1,request.getUserId());
             Address address=converter.req2Address(request);
             int row=addressMapper.insert(address);
             response.setCode(SysRetCodeConstants.SUCCESS.getCode());
@@ -92,7 +91,7 @@ public class AddressServiceImpl implements IAddressService {
         UpdateAddressResponse response=new UpdateAddressResponse();
         try{
             request.requestCheck();
-            checkAddressDefaultUnique(request.getIsDefault(),request.getUserId());
+            checkAddressDefaultUnique(request.getIsDefault()==1,request.getUserId());
             Address address=converter.req2Address(request);
             int row=addressMapper.updateByPrimaryKey(address);
             response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
@@ -112,6 +111,13 @@ public class AddressServiceImpl implements IAddressService {
         try{
             request.requestCheck();
             int row=addressMapper.deleteByPrimaryKey(request.getAddressId());
+            if(row>0){
+                response.setCode(SysRetCodeConstants.SUCCESS.getCode());
+                response.setMsg(SysRetCodeConstants.SUCCESS.getMessage());
+            }else{
+                response.setCode(SysRetCodeConstants.DATA_NOT_EXIST.getCode());
+                response.setMsg(SysRetCodeConstants.DATA_NOT_EXIST.getMessage());
+            }
             log.info("AddressServiceImpl.deleteAddress effect row :"+row);
         }catch (Exception e){
             log.error("AddressServiceImpl.deleteAddress occur Exception :"+e);
@@ -123,13 +129,12 @@ public class AddressServiceImpl implements IAddressService {
     //地址只能有一个默认
     private void checkAddressDefaultUnique(boolean isDefault,Long userId){
         if(isDefault){
-            AddressExample example=new AddressExample();
-            AddressExample.Criteria criteria=example.createCriteria();
-            criteria.andUserIdEqualTo(userId);
+            Example example=new Example(Address.class);
+            example.createCriteria().andEqualTo("userId",userId);
             List<Address> addresses=addressMapper.selectByExample(example);
             addresses.parallelStream().forEach(address->{
-                if(address.getIsDefault()){
-                    address.setIsDefault(false);
+                if(address.getIsDefault()==1){
+                    address.setIsDefault(1);
                     addressMapper.updateByPrimaryKey(address);
                 }
             });

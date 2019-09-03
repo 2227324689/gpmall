@@ -1,19 +1,21 @@
 package com.gpmall.pay.biz.abs;
 
+import java.math.BigDecimal;
+
 /**
  * 腾讯课堂搜索 咕泡学院
  * 加群获取视频：608583947
- * 风骚的Michael 老师
+ * @author 风骚的Michael 老师
  */
 public class PaymentContext extends Context {
-
-    private String outTradeNo; //商户订单号（必填）
-
-    private Integer totalFee; //总金额，单位分（必填）
-    /**
-     * 返回参数
-     */
-    private String htmlStr; //构建html表单
+    /** 商户订单号（必填）*/
+    private String outTradeNo;
+    /** 总金额(单位为元)（必填）*/
+    private BigDecimal totalFee;
+    /** 用户id **/
+    private Long userId;
+    /** 返回参数 构建html表单 */
+    private String htmlStr;
 
 
     public String getHtmlStr() {
@@ -32,11 +34,11 @@ public class PaymentContext extends Context {
         this.outTradeNo = outTradeNo;
     }
 
-    public Integer getTotalFee() {
+    public BigDecimal getTotalFee() {
         return totalFee;
     }
 
-    public void setTotalFee(Integer totalFee) {
+    public void setTotalFee(BigDecimal totalFee) {
         this.totalFee = totalFee;
     }
 
@@ -44,4 +46,11 @@ public class PaymentContext extends Context {
         super();
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 }
