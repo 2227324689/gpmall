@@ -1,16 +1,10 @@
 package com.gpmall.pay.services;
 
 import com.alibaba.fastjson.JSON;
-import com.gpmall.commons.lock.annotation.CustomerLock;
 import com.gpmall.pay.biz.abs.BasePayment;
 import com.gpmall.pay.utils.ExceptionProcessorUtils;
 import com.gupaoedu.pay.PayCoreService;
-import com.gupaoedu.pay.constants.PayReturnCodeEnum;
 import com.gupaoedu.pay.dto.*;
-import com.gupaoedu.pay.dto.PaymentNotifyRequest;
-import com.gupaoedu.pay.dto.PaymentNotifyResponse;
-import com.gupaoedu.pay.dto.PaymentRequest;
-import com.gupaoedu.pay.dto.PaymentResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
 
@@ -30,7 +24,7 @@ public class PayCoreServiceImpl implements PayCoreService {
 
         PaymentResponse paymentResponse=new PaymentResponse();
         try {
-            paymentResponse=BasePayment.paymentMap.get(request.getPayChannel()).process(request);
+            paymentResponse= (PaymentResponse) BasePayment.paymentMap.get(request.getPayChannel()).process(request);
         }catch (Exception e){
             log.error("PayCoreServiceImpl.execPay Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(paymentResponse,e);
@@ -63,7 +57,7 @@ public class PayCoreServiceImpl implements PayCoreService {
     public RefundResponse execRefund(RefundRequest refundRequest) {
         RefundResponse refundResponse=new RefundResponse();
         try {
-            refundResponse=BasePayment.paymentMap.get(refundRequest.getPayChannel()).process(refundRequest);
+            refundResponse= (RefundResponse) BasePayment.paymentMap.get(refundRequest.getPayChannel()).process(refundRequest);
         }catch (Exception e){
             log.error("PayCoreServiceImpl.execRefund Occur Exception :{}",e);
             ExceptionProcessorUtils.wrapperHandlerException(refundResponse,e);

@@ -1,8 +1,6 @@
 package com.gpmall.pay.dal.entitys;
 
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
@@ -12,8 +10,6 @@ import java.util.Date;
 
 @Table(name = "tb_payment")
 @Data
-@Builder
-@NoArgsConstructor
 public class Payment {
     @Id
     private Long id;

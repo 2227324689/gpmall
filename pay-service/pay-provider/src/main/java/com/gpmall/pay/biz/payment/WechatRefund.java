@@ -207,4 +207,8 @@ public class WechatRefund extends BasePayment<RefundResponse,RefundRequest,Wecha
 		return response;
 
 	}
+
+	public static void main(String[] args) {
+		System.out.println(1);
+	}
 }
