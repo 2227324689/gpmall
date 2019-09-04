@@ -103,5 +103,5 @@ export const getSearch = (params) => {
 }
 // 快速搜索
 export const getQuickSearch = (params) => {
-  return http.fetchGet(apis.getQuickSearch, params)
+  return http.fetchGet(apis.getQuickSearch + '/' + params.params.key)
 }

@@ -101,8 +101,10 @@ public class ProductSearchServiceImpl implements ProductSearchService {
 			//统计搜索热词
 			staticsSearchHotWord(request);
             // todo 分页
+            BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+            boolQueryBuilder.must(QueryBuilders.matchQuery("title", request.getKeyword()));
             Iterable<ItemDocument> elasticRes =
-                    productRepository.search(QueryBuilders.fuzzyQuery("title", request.getKeyword()));
+                    productRepository.search(boolQueryBuilder);
             ArrayList<ItemDocument> itemDocuments = Lists.newArrayList(elasticRes);
             List<ProductDto> productDtos = productConverter.items2Dto(itemDocuments);
             response.ok(productDtos);
