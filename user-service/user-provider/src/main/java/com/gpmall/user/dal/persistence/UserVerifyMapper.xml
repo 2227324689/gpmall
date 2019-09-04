@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.user.dal.persistence.UserVerifyMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.user.dal.entitys.UserVerify">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
+    <result column="register_date" jdbcType="TIMESTAMP" property="registerDate" />
+    <result column="is_verify" jdbcType="VARCHAR" property="isVerify" />
+    <result column="is_expire" jdbcType="VARCHAR" property="isExpire" />
+  </resultMap>
+  
+  <sql id="BaseColumns">
+    <!-- WARNING - @mbg.generated -->
+    id, username, uuid, register_date, is_verify, is_expire
+  </sql>
+  
+</mapper>

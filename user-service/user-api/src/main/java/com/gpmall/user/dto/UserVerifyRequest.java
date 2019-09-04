@@ -13,15 +13,17 @@ import org.apache.commons.lang3.StringUtils;
  * create-date: 2019/7/23-12:48
  */
 @Data
-public class UserRegisterRequest extends AbstractRequest {
+public class UserVerifyRequest extends AbstractRequest {
 
     private String userName;
-    private String userPwd;
-    private String email;
+    /**
+     * 注册时生产的唯一序号
+     */
+    private String uuid;
 
     @Override
     public void requestCheck() {
-        if(StringUtils.isBlank(userName)||StringUtils.isBlank(userPwd)){
+        if(StringUtils.isBlank(userName)||StringUtils.isBlank(uuid)){
             throw new ValidateException(SysRetCodeConstants.REQUEST_CHECK_FAILURE.getCode(),SysRetCodeConstants.REQUEST_CHECK_FAILURE.getMessage());
         }
     }
