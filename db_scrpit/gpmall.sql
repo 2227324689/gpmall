@@ -563,3 +563,20 @@ CREATE TABLE `tb_comment_reply`  (
   `deletion_user_id` bigint(20) NULL DEFAULT NULL COMMENT '删除用户id',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评价回复表' ROW_FORMAT = Dynamic;
+
+
+DROP TABLE IF EXISTS `tb_user_verify`;
+CREATE TABLE `tb_user_verify`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(56) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `register_date` datetime(0) NULL DEFAULT NULL,
+  `uuid` varchar(56) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `is_verify` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '是否验证Y已验证，N为验证',
+  `is_expire` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '是否过期Y已过期，N为过期',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+
+alter table
+tb_member add COLUMN isverified varchar(26) DEFAULT 'N';
+
