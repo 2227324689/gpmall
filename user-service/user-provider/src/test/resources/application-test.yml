@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://mysql.gpmall.com:3306/gpmall?useUnicode=true&characterEncoding=utf8&useOldAliasMetadataBehavior=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=UTC
     username: root
-    password: root
+    password: 123
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 2
@@ -20,9 +20,9 @@ spring:
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
     useGlobalDataSourceStat: true
   redisson:
-    address: redis.gpmall.com:6379
-#    address: redis4gpmall.redis.rds.aliyuncs.com:6379
-#    password: redis4GPMALL
+#    address: redis.gpmall.com:6379
+    address: redis4gpmall.redis.rds.aliyuncs.com:6379
+    password: redis4GPMALL
     timeout: 3000
     database: 0
     pool:
@@ -53,7 +53,7 @@ dubbo:
     owner: Mic
   protocol:
     name: dubbo
-    port: 20880
+    port: 20887
   registry:
     address: zookeeper://zk.gpmall.com:2181
     check: true
@@ -78,13 +78,12 @@ lock:
 email:
   mail-server-host: smtp.163.com
   mail-server-port: 25
-  from-address: xxxx@163.com
-  to-addresss:
-  cc-addresss:
-  username:
-  password:
+  from-address: shuaike1989@163.com
+  to-addresss: 523123939@qq.com
+  cc-addresss: 523123939@qq.com
+  username: shuaike1989@163.com
+  password: wy_1989shuai
   mailSmtpAuth: true
-  subject: 激活邮件，请点击激活
-  content:
+  subject: 通知
+  content: 你好，纪红，到办公室来,请不要上班时间看电视剧.
   template-path: emailTemplate
-  userMailActiveUrl: http://localhost:9999/gpmall-user/gpuser/verify
