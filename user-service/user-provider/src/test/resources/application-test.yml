@@ -78,11 +78,11 @@ lock:
 email:
   mail-server-host: smtp.163.com
   mail-server-port: 25
-  from-address: shuaike1989@163.com
-  to-addresss: 523123939@qq.com
-  cc-addresss: 523123939@qq.com
-  username: shuaike1989@163.com
-  password: wy_1989shuai
+  from-address:  
+  to-addresss:  
+  cc-addresss:  
+  username:  
+  password:  
   mailSmtpAuth: true
   subject: 通知
   content: 你好，纪红，到办公室来,请不要上班时间看电视剧.
