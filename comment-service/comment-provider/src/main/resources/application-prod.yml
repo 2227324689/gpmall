@@ -34,7 +34,7 @@ dubbo:
     owner: Heps
   protocol:
     name: dubbo
-    port: 20880
+    port: 20886
   registry:
     address: zookeeper://localhost:2181
     check: true

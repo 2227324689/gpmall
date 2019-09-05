@@ -8,6 +8,8 @@ import com.gpmall.shopping.constants.ShoppingRetCode;
 import com.gpmall.shopping.dto.HomePageResponse;
 import com.gpmall.shopping.dto.NavListResponse;
 import com.gpmall.user.annotation.Anoymous;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/shopping")
+@Api(tags = "HomeController", description = "导航控制层")
 public class HomeController {
 
     @Reference(timeout = 3000)
@@ -31,6 +34,7 @@ public class HomeController {
 
     @Anoymous
     @GetMapping("/navigation")
+    @ApiOperation("导航")
     public ResponseData navigation(){
         NavListResponse response=contentService.queryNavList();
         if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
@@ -41,6 +45,7 @@ public class HomeController {
 
     @Anoymous
     @GetMapping("/homepage")
+    @ApiOperation("主页")
     public ResponseData homepage(){
         HomePageResponse response=iHomeService.homepage();
         if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {

@@ -2,7 +2,7 @@ spring:
   application:
     name: gpmall-shopping
   profiles:
-      active: dev
+      active: prod
 server:
   port: 8081
 
