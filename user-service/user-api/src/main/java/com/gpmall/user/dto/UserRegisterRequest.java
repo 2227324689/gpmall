@@ -17,6 +17,7 @@ public class UserRegisterRequest extends AbstractRequest {
 
     private String userName;
     private String userPwd;
+    private String email;
 
     @Override
     public void requestCheck() {

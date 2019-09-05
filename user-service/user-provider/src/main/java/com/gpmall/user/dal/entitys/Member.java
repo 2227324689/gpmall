@@ -3,6 +3,7 @@ package com.gpmall.user.dal.entitys;
 import lombok.Data;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
@@ -60,6 +61,12 @@ public class Member {
      * 余额
      */
     private Double balance;
+
+    /**
+     *  是否激活,默认值N，激活Y
+     */
+    @Column(name = "isverified")
+    private String isVerified;
 
 
 }
