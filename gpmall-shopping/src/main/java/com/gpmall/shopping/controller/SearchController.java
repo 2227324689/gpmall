@@ -38,7 +38,7 @@ public class SearchController {
         request.setPriceGt(pageInfo.getPriceGt());
         request.setPriceLte(pageInfo.getPriceLte());
         request.setSort(pageInfo.getSort());
-        SearchResponse response = productSearchService.search(request);
+        SearchResponse response = productSearchService.fuzzySearch(request);
         if(response.getCode().equals(ShoppingRetCode.SUCCESS.getCode())) {
             return new ResponseUtil().setData(response.getData());
         }

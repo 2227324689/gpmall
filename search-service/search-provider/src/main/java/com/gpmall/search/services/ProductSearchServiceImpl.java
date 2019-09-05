@@ -3,6 +3,7 @@ package com.gpmall.search.services;
 
 import com.google.common.collect.Lists;
 import com.gpmall.search.ProductSearchService;
+import com.gpmall.search.constant.PageInfo;
 import com.gpmall.search.constant.SearchConstants;
 import com.gpmall.search.converter.ProductConverter;
 import com.gpmall.search.dto.ProductDto;
@@ -20,6 +21,9 @@ import org.redisson.api.RScoredSortedSet;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,11 +83,16 @@ public class ProductSearchServiceImpl implements ProductSearchService {
             request.requestCheck();
 			//统计搜索热词
 			staticsSearchHotWord(request);
-            // todo 分页
-            Iterable<ItemDocument> elasticRes =
-                    productRepository.search(QueryBuilders.fuzzyQuery("title", request.getKeyword()));
+            // 分页
+			PageInfo pageInfo=new PageInfo();
+			pageInfo.setPageNumber(request.getCurrentPage());
+			pageInfo.setPageSize(request.getPageSize());
+			pageInfo.setSort(new Sort(Sort.Direction.DESC,request.getSort()));
+            Page<ItemDocument> elasticRes =
+                    productRepository.search(QueryBuilders.matchQuery("title",request.getKeyword()),pageInfo);
             ArrayList<ItemDocument> itemDocuments = Lists.newArrayList(elasticRes);
             List<ProductDto> productDtos = productConverter.items2Dto(itemDocuments);
+            response.setTotal(elasticRes.getTotalElements());
             response.ok(productDtos);
         }catch (Exception e){
             e.printStackTrace();

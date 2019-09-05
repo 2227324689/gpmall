@@ -13,6 +13,7 @@ import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -26,6 +27,7 @@ public class PayCoreServiceImpl implements PayCoreService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public PaymentResponse execPay(PaymentRequest request) {
 
         PaymentResponse paymentResponse=new PaymentResponse();
@@ -40,6 +42,7 @@ public class PayCoreServiceImpl implements PayCoreService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public PaymentNotifyResponse paymentResultNotify(PaymentNotifyRequest request) {
         log.info("paymentResultNotify request:{}", JSON.toJSONString(request));
         PaymentNotifyResponse response=new PaymentNotifyResponse();
@@ -62,6 +65,7 @@ public class PayCoreServiceImpl implements PayCoreService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public RefundResponse execRefund(RefundRequest refundRequest) {
         RefundResponse refundResponse=new RefundResponse();
         try {
