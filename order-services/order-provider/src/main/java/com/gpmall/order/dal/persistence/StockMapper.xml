@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gpmall.order.dal.persistence.StockMapper">
+  <resultMap id="BaseResultMap" type="com.gpmall.order.dal.entitys.Stock">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="item_id" jdbcType="BIGINT" property="ItemId" />
+    <result column="stock_count" jdbcType="BIGINT" property="stockCount" />
+    <result column="lock_count" jdbcType="INTEGER" property="lockCount" />
+    <result column="restrict_count" jdbcType="INTEGER" property="restrictCount" />
+    <result column="sell_id" jdbcType="INTEGER" property="sellId" />
+  </resultMap>
+  
+  <sql id="BaseColumns">
+    item_id,stock_count,lock_count,restrict_count,sell_id
+  </sql>
+
+
+    <update id="updateStock" parameterType="com.gpmall.order.dal.entitys.Stock">
+    UPDATE tb_stock
+      <trim prefix="set" suffixOverrides=",">
+
+              <if test="stockCount!=null">stock_count+=#{stockCount},</if>
+
+              <if test="lockCount!=null">lock_count+=#{lockCount},</if>
+              <if test="restrictCount!=null">restrict_count+=#{restrictCount},</if>
+      </trim>
+      where item_id = #{itemId} and stock_count+=#{stockCount}>=0
+    </update>
+
+  <select id="selectStockForUpdate" resultMap="BaseResultMap">
+  select * from tb_stock where item_id=#{itemId} for update
+  </select>
+
+  <select id="selectStock" resultMap="BaseResultMap">
+  select * from tb_stock where item_id=#{itemId}
+  </select>
+
+  <select id="findStocksForUpdate" parameterType="java.util.List" resultType="com.gpmall.order.dal.entitys.Stock" >
+    select * from tb_stock where item_id in
+     <foreach collection='itemIds' item='itemId' open='(' separator=',' close=')'> #{itemId} </foreach>
+      for update
+  </select>
+
+</mapper>

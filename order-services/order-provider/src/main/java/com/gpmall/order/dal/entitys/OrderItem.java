@@ -100,6 +100,9 @@ public class OrderItem {
 
     private String picPath;
 
-
+    /**
+     * 库存锁定状态 1库存已锁定 2库存已释放 3-库存减扣成功
+     */
+    private Integer status;
 
 }
