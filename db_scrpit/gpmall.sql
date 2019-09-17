@@ -344,8 +344,12 @@ CREATE TABLE `tb_order_item` (
   KEY `item_id` (`item_id`),
   KEY `order_id` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
+alter table tb_order_item add column  `status` int(4) DEFAULT NULL COMMENT '1库存已锁定 2库存已释放 3-库存减扣成功';
+alter  table tb_order_item add column `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间';
+alter  table tb_order_item add column `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+alter  table tb_order_item add UNIQUE KEY `oder_item_id` (`order_id`,`item_id`) USING BTREE COMMENT '订单商品唯一索引';
 -- ----------------------------
+
 -- Records of tb_order_item
 -- ----------------------------
 INSERT INTO `tb_order_item` VALUES ('19081913521949774', '100053202', '19081913521928018', '2', '地平线 8 号商务旅行箱', '999.00', '1998.00', 'https://resource.smartisan.com/resource/d1dcca9144e8d13ffb33026148599d0a.png');
@@ -590,3 +594,12 @@ CREATE TABLE `tb_user_verify`  (
 alter table
 tb_member add COLUMN isverified varchar(26) DEFAULT 'N';
 
+DROP TABLE IF EXISTS `tb_stock`;
+CREATE TABLE `tb_stock` (
+  `item_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '商品id',
+  `stock_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '库存数量',
+  `lock_count` int(11) NOT NULL DEFAULT '0' COMMENT '冻结库存数量',
+  `restrict_count` int(3) DEFAULT '5' COMMENT '限购数量',
+  `sell_id` int(6) DEFAULT NULL COMMENT '售卖id',
+  PRIMARY KEY (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='库存表';
