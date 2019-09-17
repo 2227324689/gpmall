@@ -12,6 +12,7 @@
         <module>commons-tool</module>
         <module>commons-core</module>
         <module>commons-lock</module>
+        <module>commons-mq</module>
     </modules>
 
     <distributionManagement>

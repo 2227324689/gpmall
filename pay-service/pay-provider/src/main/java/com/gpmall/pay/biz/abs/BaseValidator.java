@@ -8,6 +8,7 @@ import com.gpmall.order.dto.OrderDetailRequest;
 import com.gpmall.order.dto.OrderDetailResponse;
 import com.gpmall.pay.utils.ParamValidatorUtils;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
+import com.gupaoedu.pay.constants.RefundCodeEnum;
 import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.RefundRequest;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public abstract class BaseValidator implements Validator {
      * @param orderQueryService
      */
     public void commonValidate(AbstractRequest request, OrderQueryService orderQueryService) {
-       /* if (request instanceof PaymentRequest) {
+        if (request instanceof PaymentRequest) {
             PaymentRequest paymentRequest = (PaymentRequest) request;
             //校验订单是否存在
             OrderDetailRequest orderDetailRequest = new OrderDetailRequest();
@@ -68,8 +69,8 @@ public abstract class BaseValidator implements Validator {
             }
             //检查订单是否已退款
             if (Objects.equals(orderDetailResponse.getStatus(), 7)) {
-                throw new BizException(PayReturnCodeEnum.ORDER_HAD_REFUND.getCode(), PayReturnCodeEnum.ORDER_HAD_REFUND.getMsg());
+                throw new BizException(RefundCodeEnum.ORDER_HAD_REFUND.getCode(), RefundCodeEnum.ORDER_HAD_REFUND.getMsg());
             }
-        }*/
+        }
     }
 }

@@ -32,7 +32,7 @@ public class OrderItem {
 
     @Column(name = "item_id")
 
-    private String itemId;
+    private Long itemId;
 
 
 

@@ -34,6 +34,8 @@ public class OrderProcessPipelineFactory extends AbstranctTransPipelineFactory<C
     private ClearCartItemHandler clearCartItemHandler;
     @Autowired
     private SubStockHandler subStockHandler;
+    @Autowired
+    private SendMessageHandler sendMessageHandler;
 
 
     @Override
@@ -49,6 +51,7 @@ public class OrderProcessPipelineFactory extends AbstranctTransPipelineFactory<C
         pipeline.addLast(initOrderHandler);
         pipeline.addLast(logisticalHandler);
         pipeline.addLast(clearCartItemHandler);
+        pipeline.addLast(sendMessageHandler);
     }
 
     @Override

@@ -13,6 +13,7 @@
     <result column="price" jdbcType="DECIMAL" property="price" />
     <result column="total_fee" jdbcType="DECIMAL" property="totalFee" />
     <result column="pic_path" jdbcType="VARCHAR" property="picPath" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
   
   <sql id="BaseColumns">
@@ -21,7 +22,11 @@
   </sql>
 
   <select id="queryByOrderId" resultMap="BaseResultMap">
-    SELECT * FROM tb_order_item WHERE  ORDER_ID = #{orderId}
+    SELECT * FROM tb_order_item WHERE  order_id = #{orderId}
   </select>
+
+  <update id="updateStockStatus">
+    update tb_order_item set status=#{status} where order_id=#{orderId}
+  </update>
   
 </mapper>

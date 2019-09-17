@@ -5,10 +5,8 @@ import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import com.gpmall.order.dal.entitys.OrderItem;
 import com.gpmall.order.dal.entitys.Stock;
-import com.gpmall.order.dal.entitys.StockRecord;
 import com.gpmall.order.dal.persistence.OrderItemMapper;
 import com.gpmall.order.dal.persistence.StockMapper;
-import com.gpmall.order.dal.persistence.StockRecordMapper;
 import com.gpmall.order.dto.CartProductDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +29,6 @@ import java.util.stream.Collectors;
 public class SubStockHandler extends AbstractTransHandler {
 	@Autowired
 	StockMapper stockMapper;
-	@Autowired
-	StockRecordMapper stockRecordMapper;
 	@Autowired
 	OrderItemMapper orderItemMapper;
 
