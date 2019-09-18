@@ -333,7 +333,7 @@ INSERT INTO `tb_order` VALUES ('19081913521928018', '1998.00', null, null, '0', 
 DROP TABLE IF EXISTS `tb_order_item`;
 CREATE TABLE `tb_order_item` (
   `id` varchar(50) COLLATE utf8_bin NOT NULL,
-  `item_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '商品id',
+  `item_id` bigint(20) COLLATE utf8_bin NOT NULL COMMENT '商品id',
   `order_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '订单id',
   `num` int(10) DEFAULT NULL COMMENT '商品购买数量',
   `title` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '商品标题',

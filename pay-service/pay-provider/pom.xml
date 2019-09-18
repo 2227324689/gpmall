@@ -112,7 +112,7 @@
         </dependency>
         <dependency>
             <groupId>com.gpmall.commons</groupId>
-            <artifactId>common-lock</artifactId>
+            <artifactId>commons-lock</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
