@@ -70,12 +70,10 @@ public class InitOrderHandler extends AbstractTransHandler {
         try {
             CreateOrderContext createOrderContext=(CreateOrderContext)context;
             String orderId = globalIdGeneratorUtil.getNextSeq(ORDER_GLOBAL_ID_CACHE_KEY, 1);
-            //??????????????
-//            order.setUniqueKey(createOrderContext.getUniqueKey());
             order.setOrderId(orderId);
             order.setUserId(Long.valueOf(createOrderContext.getUserId()));
             order.setBuyerNick(createOrderContext.getBuyerNickName());
-            order.setPayment(NumberUtils.toDouble(createOrderContext.getOrderTotal()));
+            order.setPayment(createOrderContext.getOrderTotal());
             order.setCreateTime(new Date());
             order.setUpdateTime(new Date());
             order.setStatus(OrderConstants.ORDER_STATUS_INIT);
@@ -92,6 +90,8 @@ public class InitOrderHandler extends AbstractTransHandler {
                 orderItem.setPicPath(cartProductDto.getProductImg());
                 orderItem.setTotalFee(cartProductDto.getSalePrice().multiply(BigDecimal.valueOf(cartProductDto.getProductNum())).doubleValue());
                 buyProductIds.add(cartProductDto.getProductId());
+                //已锁定库存
+                orderItem.setStatus(1);
                 orderItemMapper.insert(orderItem);
             });
             createOrderContext.setOrderId(orderId);

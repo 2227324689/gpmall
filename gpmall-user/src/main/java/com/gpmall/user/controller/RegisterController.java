@@ -41,6 +41,7 @@ public class RegisterController {
         String userName=map.get("userName");
         String userPwd=map.get("userPwd");
         String captcha=map.get("captcha");
+        String email=map.get("email");
         KaptchaCodeRequest kaptchaCodeRequest = new KaptchaCodeRequest();
         String uuid = CookieUtil.getCookieValue(request, "kaptcha_uuid");
         kaptchaCodeRequest.setUuid(uuid);
@@ -53,7 +54,7 @@ public class RegisterController {
         UserRegisterRequest registerRequest=new UserRegisterRequest();
         registerRequest.setUserName(userName);
         registerRequest.setUserPwd(userPwd);
-
+        registerRequest.setEmail(email);
         UserRegisterResponse registerResponse=iUserRegisterService.register(registerRequest);
 
         if(registerResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {

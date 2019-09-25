@@ -3,6 +3,7 @@ package com.gpmall.search.services;
 
 import com.google.common.collect.Lists;
 import com.gpmall.search.ProductSearchService;
+import com.gpmall.search.constant.PageInfo;
 import com.gpmall.search.constant.SearchConstants;
 import com.gpmall.search.converter.ProductConverter;
 import com.gpmall.search.dto.ProductDto;
@@ -15,11 +16,16 @@ import jdk.nashorn.internal.runtime.GlobalConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
+import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.redisson.api.RScoredSortedSet;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,9 +62,26 @@ public class ProductSearchServiceImpl implements ProductSearchService {
             request.requestCheck();
             //统计搜索热词
 			staticsSearchHotWord(request);
-            // todo 分页
+            BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+            boolQueryBuilder.must(QueryBuilders.matchQuery("title", request.getKeyword()));
+            if (request.getPriceGt() != null) {
+                boolQueryBuilder.must(QueryBuilders.rangeQuery("price").gt(request.getPriceGt()));
+            }
+            if (request.getPriceLte() != null) {
+                boolQueryBuilder.must(QueryBuilders.rangeQuery("price").lte(request.getPriceLte()));
+            }
+            Sort sort = null;
+            if ("1".equals(request.getSort())) {
+                sort = new Sort(Sort.Direction.ASC, "price");
+            } else if ("-1".equals(request.getSort())) {
+                sort = new Sort(Sort.Direction.DESC, "price");
+            }
+            Pageable pageable = new PageRequest(request.getCurrentPage() - 1, request.getPageSize());
+            if (sort != null) {
+                pageable = new PageRequest(request.getCurrentPage() - 1, pageable.getPageSize(), sort);
+            }
             Iterable<ItemDocument> elasticRes =
-                    productRepository.search(QueryBuilders.termsQuery("title", request.getKeyword()));
+                    productRepository.search(boolQueryBuilder, pageable);
             ArrayList<ItemDocument> itemDocuments = Lists.newArrayList(elasticRes);
 
             List<ProductDto> productDtos = productConverter.items2Dto(itemDocuments);
@@ -79,11 +102,16 @@ public class ProductSearchServiceImpl implements ProductSearchService {
             request.requestCheck();
 			//统计搜索热词
 			staticsSearchHotWord(request);
-            // todo 分页
-            Iterable<ItemDocument> elasticRes =
-                    productRepository.search(QueryBuilders.fuzzyQuery("title", request.getKeyword()));
+            // 分页
+			PageInfo pageInfo=new PageInfo();
+			pageInfo.setPageNumber(request.getCurrentPage());
+			pageInfo.setPageSize(request.getPageSize());
+			pageInfo.setSort(new Sort(Sort.Direction.DESC,request.getSort()));
+            Page<ItemDocument> elasticRes =
+                    productRepository.search(QueryBuilders.matchQuery("title",request.getKeyword()),pageInfo);
             ArrayList<ItemDocument> itemDocuments = Lists.newArrayList(elasticRes);
             List<ProductDto> productDtos = productConverter.items2Dto(itemDocuments);
+            response.setTotal(elasticRes.getTotalElements());
             response.ok(productDtos);
         }catch (Exception e){
             e.printStackTrace();

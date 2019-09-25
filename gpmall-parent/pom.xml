@@ -35,6 +35,7 @@
     <swagger-starter.version>1.8.0.RELEASE</swagger-starter.version>
     <validation-api.version>2.0.1.Final</validation-api.version>
     <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
+    <javax.mail.version>1.6.2</javax.mail.version>
   </properties>
 
   <distributionManagement>
@@ -226,7 +227,21 @@
         <artifactId>curator-recipes</artifactId>
         <version>${curator.famework.version}</version>
       </dependency>
-
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-actuator</artifactId>
+        <version>${spring-boot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>javax.mail-api</artifactId>
+        <version>${javax.mail.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.sun.mail</groupId>
+        <artifactId>javax.mail</artifactId>
+        <version>${javax.mail.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <build>
@@ -252,11 +267,12 @@
               <artifactId>mybatis-generator-core</artifactId>
               <version>1.3.7</version>
             </dependency>
-              <dependency>
-                  <groupId>tk.mybatis</groupId>
-                  <artifactId>mapper</artifactId>
-                  <version>${tkmybatis.version}</version>
-              </dependency>
+            <dependency>
+              <groupId>tk.mybatis</groupId>
+              <artifactId>mapper</artifactId>
+              <version>${tkmybatis.version}</version>
+            </dependency>
+
           </dependencies>
           <executions>
             <execution>

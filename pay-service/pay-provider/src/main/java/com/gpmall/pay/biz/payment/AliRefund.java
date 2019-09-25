@@ -62,7 +62,7 @@ public class AliRefund extends BasePayment {
 
 	@Override
 	public Validator getValidator() {
-		return null;
+		return validator;
 	}
 
 	@Override
@@ -117,7 +117,7 @@ public class AliRefund extends BasePayment {
 		Refund refund = new Refund();
 		refund.setOrderId(aliRefundContext.getOutTradeNo());
 		refund.setAmount(aliRefundContext.getTotalFee());
-		refund.setChannel("ali_refund");
+		refund.setChannel(1);
 		refund.setStatus(0);
 		refund.setTradeNo(aliRefundContext.getRefundPlatformNo());
 		refund.setUserId(aliRefundContext.getUserId());
@@ -132,6 +132,7 @@ public class AliRefund extends BasePayment {
 
 	@Override
 	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+		request.requestCheck();
 		Map requestParams = request.getResultMap();
 		Map<String, Object> params = new HashMap<>(requestParams.size());
 		requestParams.forEach((key, value) -> {

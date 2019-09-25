@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50722
 File Encoding         : 65001
 
-Date: 2019-08-12 15:35:01
+Date: 2019-09-02 19:54:05
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -112,7 +112,6 @@ CREATE TABLE `tb_item` (
   `num` int(11) DEFAULT NULL COMMENT '库存数量',
   `limit_num` int(11) DEFAULT NULL COMMENT '售卖数量限制',
   `image` varchar(2000) DEFAULT NULL COMMENT '商品图片',
-  `image_big` varchar(2000) DEFAULT NULL COMMENT '商品大图片',
   `cid` bigint(11) DEFAULT NULL COMMENT '所属分类',
   `status` int(1) DEFAULT '1' COMMENT '商品状态 1正常 0下架',
   `created` datetime DEFAULT NULL COMMENT '创建时间',
@@ -326,6 +325,7 @@ CREATE TABLE `tb_order` (
 -- ----------------------------
 -- Records of tb_order
 -- ----------------------------
+INSERT INTO `tb_order` VALUES ('19081913521928018', '1998.00', null, null, '0', '2019-08-19 05:52:19', '2019-08-19 05:52:19', null, null, null, null, null, null, '62', null, 'test', null, null);
 
 -- ----------------------------
 -- Table structure for tb_order_item
@@ -333,7 +333,7 @@ CREATE TABLE `tb_order` (
 DROP TABLE IF EXISTS `tb_order_item`;
 CREATE TABLE `tb_order_item` (
   `id` varchar(50) COLLATE utf8_bin NOT NULL,
-  `item_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '商品id',
+  `item_id` bigint(20) COLLATE utf8_bin NOT NULL COMMENT '商品id',
   `order_id` varchar(50) COLLATE utf8_bin NOT NULL COMMENT '订单id',
   `num` int(10) DEFAULT NULL COMMENT '商品购买数量',
   `title` varchar(200) COLLATE utf8_bin DEFAULT NULL COMMENT '商品标题',
@@ -344,10 +344,15 @@ CREATE TABLE `tb_order_item` (
   KEY `item_id` (`item_id`),
   KEY `order_id` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
+alter table tb_order_item add column  `status` int(4) DEFAULT NULL COMMENT '1库存已锁定 2库存已释放 3-库存减扣成功';
+alter  table tb_order_item add column `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间';
+alter  table tb_order_item add column `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间';
+alter  table tb_order_item add UNIQUE KEY `oder_item_id` (`order_id`,`item_id`) USING BTREE COMMENT '订单商品唯一索引';
 -- ----------------------------
+
 -- Records of tb_order_item
 -- ----------------------------
+INSERT INTO `tb_order_item` VALUES ('19081913521949774', '100053202', '19081913521928018', '2', '地平线 8 号商务旅行箱', '999.00', '1998.00', 'https://resource.smartisan.com/resource/d1dcca9144e8d13ffb33026148599d0a.png');
 
 -- ----------------------------
 -- Table structure for tb_order_shipping
@@ -371,6 +376,7 @@ CREATE TABLE `tb_order_shipping` (
 -- ----------------------------
 -- Records of tb_order_shipping
 -- ----------------------------
+INSERT INTO `tb_order_shipping` VALUES ('19081913521928018', 'Mic', '18073804421', null, null, null, null, '湖南省长沙市麓谷企业广场A3栋3单元407', null, '2019-08-19 05:52:20', '2019-08-19 05:52:20');
 
 -- ----------------------------
 -- Table structure for tb_panel
@@ -472,8 +478,8 @@ INSERT INTO `tb_panel_content` VALUES ('61', '0', '0', null, '5', '', '服务', 
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_payment`;
 CREATE TABLE `tb_payment` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `status` varchar(20) NOT NULL COMMENT '支付状态（1-支付中 2-支付完成 3-支付成功 4-支付失败）',
+  `id` varchar(50) NOT NULL,
+  `status` varchar(20) NOT NULL COMMENT '支付状态',
   `order_id` varchar(50) NOT NULL COMMENT '订单id',
   `product_name` varchar(80) DEFAULT NULL COMMENT '产品名称',
   `pay_no` varchar(80) DEFAULT NULL COMMENT '第三方返回单号',
@@ -491,7 +497,13 @@ CREATE TABLE `tb_payment` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- ----------------------------
+-- Records of tb_payment
+-- ----------------------------
 
+-- ----------------------------
+-- Table structure for tb_refund
+-- ----------------------------
 DROP TABLE IF EXISTS `tb_refund`;
 CREATE TABLE `tb_refund` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -507,3 +519,87 @@ CREATE TABLE `tb_refund` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `trade_no_key` (`trade_no`) USING BTREE COMMENT '平台退款流水号'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='退款表';
+
+-- ----------------------------
+-- Records of tb_refund
+-- ----------------------------
+-- Table structure for tb_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_comment`;
+CREATE TABLE `tb_comment`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品评论主键',
+  `order_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '订单id',
+  `item_id` bigint(20) NOT NULL COMMENT '商品id',
+  `star` tinyint(4) NULL DEFAULT 5 COMMENT '星级',
+  `type` tinyint(4) NULL DEFAULT 1 COMMENT '类型: 1好评 2中评 3差评',
+  `is_anoymous` bit(1) NULL DEFAULT b'0' COMMENT '是否匿名评价',
+  `content` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '评价内容',
+  `buyer_nick` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '买家昵称',
+  `comment_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP COMMENT '评价时间',
+  `is_public` bit(1) NULL DEFAULT b'1' COMMENT '是否公开',
+  `is_valid` bit(1) NULL DEFAULT b'0' COMMENT '是否通过审核',
+  `validation_user_id` bigint(20) NULL DEFAULT NULL COMMENT '审核人id',
+  `validation_time` datetime(0) NULL DEFAULT NULL COMMENT '审核时间',
+  `validation_suggestion` varchar(512) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '审核意见',
+  `is_top` bit(1) NULL DEFAULT b'0' COMMENT '是否置顶',
+  `user_id` bigint(20) NOT NULL COMMENT '评论用户id',
+  `is_deleted` bit(1) NULL DEFAULT b'0' COMMENT '是否删除',
+  `deletion_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
+  `deletion_user_id` bigint(20) NULL DEFAULT NULL COMMENT '删除用户id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评价表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for tb_comment_picture
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_comment_picture`;
+CREATE TABLE `tb_comment_picture`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品评价图片id',
+  `comment_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '商品评价id',
+  `pic_path` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '图片路径',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评价图片表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for tb_comment_reply
+-- ----------------------------
+DROP TABLE IF EXISTS `tb_comment_reply`;
+CREATE TABLE `tb_comment_reply`  (
+  `id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评价回复id',
+  `comment_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '商品评价id',
+  `parent_id` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '评价回复自关联id(针对回复的回复)',
+  `content` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '回复意见',
+  `reply_time` datetime(0) NULL DEFAULT NULL COMMENT '回复时间',
+  `reply_nick` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '回复人昵称',
+  `user_id` bigint(20) NOT NULL COMMENT '回复人用户id',
+  `is_deleted` bit(1) NULL DEFAULT b'0' COMMENT '是否删除',
+  `deletion_time` datetime(0) NULL DEFAULT NULL COMMENT '删除时间',
+  `deletion_user_id` bigint(20) NULL DEFAULT NULL COMMENT '删除用户id',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '商品评价回复表' ROW_FORMAT = Dynamic;
+
+
+DROP TABLE IF EXISTS `tb_user_verify`;
+CREATE TABLE `tb_user_verify`  (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `username` varchar(56) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `register_date` datetime(0) NULL DEFAULT NULL,
+  `uuid` varchar(56) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `is_verify` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '是否验证Y已验证，N为验证',
+  `is_expire` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '是否过期Y已过期，N为过期',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+
+alter table
+tb_member add COLUMN isverified varchar(26) DEFAULT 'N';
+
+DROP TABLE IF EXISTS `tb_stock`;
+CREATE TABLE `tb_stock` (
+  `item_id` bigint(20) NOT NULL DEFAULT '0' COMMENT '商品id',
+  `stock_count` bigint(20) NOT NULL DEFAULT '0' COMMENT '库存数量',
+  `lock_count` int(11) NOT NULL DEFAULT '0' COMMENT '冻结库存数量',
+  `restrict_count` int(3) DEFAULT '5' COMMENT '限购数量',
+  `sell_id` int(6) DEFAULT NULL COMMENT '售卖id',
+  PRIMARY KEY (`item_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='库存表';
