@@ -82,7 +82,7 @@ public class InitOrderHandler extends AbstractTransHandler {
             createOrderContext.getCartProductDtoList().parallelStream().forEach(cartProductDto -> {
                 OrderItem orderItem = new OrderItem();
                 orderItem.setId(globalIdGeneratorUtil.getNextSeq(ORDER_ITEM_GLOBAL_ID_CACHE_KEY, 1));
-                orderItem.setItemId(String.valueOf(cartProductDto.getProductId()));
+                orderItem.setItemId(cartProductDto.getProductId());
                 orderItem.setOrderId(String.valueOf(orderId));
                 orderItem.setNum(Math.toIntExact(cartProductDto.getProductNum()));
                 orderItem.setPrice(NumberUtils.toDouble(cartProductDto.getSalePrice()));

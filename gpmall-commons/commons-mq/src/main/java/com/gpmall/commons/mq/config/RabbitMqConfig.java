@@ -1,4 +1,4 @@
-package com.gpmall.commons.config;
+package com.gpmall.commons.mq.config;
 
 
 import org.springframework.amqp.core.Binding;

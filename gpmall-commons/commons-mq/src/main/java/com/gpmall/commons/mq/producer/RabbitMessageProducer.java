@@ -1,6 +1,6 @@
-package com.gpmall.commons.producer;
+package com.gpmall.commons.mq.producer;
 
-import com.gpmall.commons.config.RabbitMqConfig;
+import com.gpmall.commons.mq.config.RabbitMqConfig;
 import org.springframework.amqp.core.MessageDeliveryMode;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class RabbitMessageProducer {
 		//将订单发送到rabbitmq
 		rabbitTemplate.convertAndSend(RabbitMqConfig.DELAY_EXCHANGE, context, message -> {
 			message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-			message.getMessageProperties().setDelay(15 * 60 * 1000);//毫秒为单位
+			message.getMessageProperties().setDelay(10 * 60 * 1000);//毫秒为单位
 			return message;
 		});
 	}
