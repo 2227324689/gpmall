@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import tk.mybatis.spring.annotation.MapperScan;
 
-@ComponentScan(basePackages ={"com.gpmall.order"})
+@ComponentScan(basePackages ={"com.gpmall.order","com.gpmall.commons.mq"})
 @MapperScan(basePackages = "com.gpmall.order.dal")
 @SpringBootApplication
 public class OrderProviderApplication {

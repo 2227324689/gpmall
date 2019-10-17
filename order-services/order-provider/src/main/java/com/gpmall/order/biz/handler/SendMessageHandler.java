@@ -1,6 +1,6 @@
 package com.gpmall.order.biz.handler;
 
-import com.gpmall.commons.producer.RabbitMessageProducer;
+import com.gpmall.commons.mq.producer.RabbitMessageProducer;
 import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import lombok.extern.slf4j.Slf4j;
