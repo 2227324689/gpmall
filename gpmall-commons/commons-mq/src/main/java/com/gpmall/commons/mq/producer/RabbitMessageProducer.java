@@ -20,7 +20,7 @@ public class RabbitMessageProducer {
 		//将订单发送到rabbitmq
 		rabbitTemplate.convertAndSend(RabbitMqConfig.DELAY_EXCHANGE, context, message -> {
 			message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
-			message.getMessageProperties().setDelay(1);//毫秒为单位
+			message.getMessageProperties().setDelay(10 * 60 * 1000);//毫秒为单位
 			return message;
 		});
 	}
