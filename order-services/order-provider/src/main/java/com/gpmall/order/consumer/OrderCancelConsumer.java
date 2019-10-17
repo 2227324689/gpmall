@@ -1,7 +1,6 @@
 package com.gpmall.order.consumer;
 
-import com.gpmall.commons.config.RabbitMqConfig;
-import com.gpmall.order.OrderQueryService;
+import com.gpmall.commons.mq.config.RabbitMqConfig;
 import com.gpmall.order.constants.OrderConstants;
 import com.gpmall.order.dal.entitys.Order;
 import com.gpmall.order.dal.entitys.OrderItem;
