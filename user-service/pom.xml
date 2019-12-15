@@ -21,6 +21,13 @@
 		</snapshotRepository>
 	</distributionManagement>
 
+
+	<parent>
+		<groupId>com.gpmall.parent</groupId>
+		<artifactId>gpmall-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../gpmall-parent/pom.xml</relativePath>
+	</parent>
 	<groupId>com.gpmall.user</groupId>
 	<artifactId>user-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
