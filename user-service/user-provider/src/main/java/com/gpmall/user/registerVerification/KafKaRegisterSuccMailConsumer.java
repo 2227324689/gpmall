@@ -57,12 +57,15 @@ public class KafKaRegisterSuccMailConsumer {
             mailData.setToAddresss(Arrays.asList((String)userVerifyMap.get("email")));
             mailData.setSubject(emailConfig.getSubject());
             mailData.setContent("用户激活邮件");
+            mailData.setFileName((String) userVerifyMap.get("fileName"));
             Map<String,Object> viewObj  = new HashMap<>();
-            viewObj.put("url",emailConfig.getUserMailActiveUrl()+"?username="+userVerifyMap.get("username")+"&email="+userVerifyMap.get("key"));
+            viewObj.put("url",emailConfig.getUserMailActiveUrl()+"?username="+userVerifyMap.get("username")+"&uuid="+userVerifyMap.get("key"));
             viewObj.put("title",emailConfig.getSubject());
+            mailData.setDataMap(viewObj);
             defaultEmailSender.sendHtmlMailUseTemplate(mailData);
         }catch (Exception e){
             e.printStackTrace();
+            log.error("sendMail Exception:",e);
         }finally {
 
         }

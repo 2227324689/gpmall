@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: dev
 mybatis:
   mapper-locations: classpath*:com/gpmall/comment/dal/persistence/*Mapper.xml"
   type-aliases-package: com.gpmall.comment.dal.entitys

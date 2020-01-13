@@ -45,6 +45,14 @@ public class LoginController {
     @Value("${captchaFlag:true}")
     private boolean captchaFlag;
 
+    /**
+     * 登录
+     * @desc 登录时需先进行注册，会收到一封邮件的激活，并访问邮件的链接后再次进行登录即可
+     * @param map
+     * @param request
+     * @param response
+     * @return
+     */
     @Anoymous
     @PostMapping("/login")
     public ResponseData login(@RequestBody Map<String,String> map,
