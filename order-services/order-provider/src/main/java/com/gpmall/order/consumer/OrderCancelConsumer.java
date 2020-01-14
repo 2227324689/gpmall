@@ -38,15 +38,16 @@ public class OrderCancelConsumer {
 	private StockMapper stockMapper;
     //context 为订单号
     @RabbitListener(queues = RabbitMqConfig.DELAY_QUEUE)
-	public void process(String context,Message message,Channel channel)throws  IOException{
+	public void process(Message message,Channel channel)throws  IOException{
+		String context = new String(message.getBody());
     try {
 		log.info("开始执行订单[{}]的支付超时订单关闭......", context);
-		Order order=new Order();
+		Order order = new Order();
 		order.setOrderId(context);
 		//先查询订单是否是待支付状态
-		Order order1=orderMapper.selectByPrimaryKey(order);
+		Order orderDb = orderMapper.selectByPrimaryKey(context);
 		//未付款才去走逻辑
-		if(order1.getStatus()==0){
+		if(orderDb != null && orderDb.getStatus()==0){
 			order.setStatus(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL);
 			//将订单状态改为取消
 			orderMapper.updateByPrimaryKey(order);
@@ -63,7 +64,6 @@ public class OrderCancelConsumer {
 						stock.setLockCount(one.getNum());
 						stock.setStockCount(one.getNum().longValue());
 						// 释放库存
-						// todo 处理失败怎么办？
 						stockMapper.releaseDeductionStock(stock);
 						return;
 					}
