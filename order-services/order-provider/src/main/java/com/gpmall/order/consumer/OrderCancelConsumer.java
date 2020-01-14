@@ -42,15 +42,13 @@ public class OrderCancelConsumer {
 		String context = new String(message.getBody());
     try {
 		log.info("开始执行订单[{}]的支付超时订单关闭......", context);
-		Order order = new Order();
-		order.setOrderId(context);
 		//先查询订单是否是待支付状态
 		Order orderDb = orderMapper.selectByPrimaryKey(context);
 		//未付款才去走逻辑
 		if(orderDb != null && orderDb.getStatus()==0){
-			order.setStatus(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL);
+            orderDb.setStatus(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL);
 			//将订单状态改为取消
-			orderMapper.updateByPrimaryKey(order);
+			orderMapper.updateByPrimaryKey(orderDb);
 			//将订单商品的库存状态改为释放
 			orderItemMapper.updateStockStatus(2,context);
 			//将库存还回去
