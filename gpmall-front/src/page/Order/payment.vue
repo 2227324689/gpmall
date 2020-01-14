@@ -129,7 +129,7 @@
         this.payNow = '支付中...'
         this.submit = false
         if (this.payType === 1) {
-          this.type = 'alipay'
+          this.type = 'ali_pay'
         } else if (this.payType === 2) {
           this.type = 'wechat_pay'
         } else if (this.payType === 3) {

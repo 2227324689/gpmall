@@ -5,7 +5,7 @@
     <!--
       WARNING - @mbg.generated
     -->
-    <id column="item_id" jdbcType="BIGINT" property="ItemId" />
+    <id column="item_id" jdbcType="BIGINT" property="itemId" />
     <result column="stock_count" jdbcType="BIGINT" property="stockCount" />
     <result column="lock_count" jdbcType="INTEGER" property="lockCount" />
     <result column="restrict_count" jdbcType="INTEGER" property="restrictCount" />
@@ -16,18 +16,32 @@
     item_id,stock_count,lock_count,restrict_count,sell_id
   </sql>
 
+  <!-- 预先扣减库存 -->
+  <update id="preDeductionStock" parameterType="com.gpmall.order.dal.entitys.Stock">
+    UPDATE tb_stock SET
+        stock_count = stock_count - #{stockCount},
+        lock_count = lock_count + #{lockCount}
+    WHERE item_id = #{itemId} AND stock_count >= #{stockCount}
+  </update>
 
-    <update id="updateStock" parameterType="com.gpmall.order.dal.entitys.Stock">
-    UPDATE tb_stock
-      <trim prefix="set" suffixOverrides=",">
+  <!-- 释放扣减库存 -->
+  <update id="releaseDeductionStock" parameterType="com.gpmall.order.dal.entitys.Stock">
+    UPDATE tb_stock SET
+        stock_count = stock_count + #{stockCount},
+        lock_count = lock_count - #{lockCount}
+    WHERE item_id = #{itemId} AND lock_count >= #{lockCount}
+  </update>
 
-              <if test="stockCount!=null">stock_count+=#{stockCount},</if>
 
-              <if test="lockCount!=null">lock_count+=#{lockCount},</if>
-              <if test="restrictCount!=null">restrict_count+=#{restrictCount},</if>
-      </trim>
-      where item_id = #{itemId} and stock_count+=#{stockCount}>=0
-    </update>
+  <update id="updateStock" parameterType="com.gpmall.order.dal.entitys.Stock">
+        UPDATE tb_stock
+          <trim prefix="set" suffixOverrides=",">
+              <if test="stockCount!=null"> stock_count = stock_count - #{stockCount}, </if>
+              <if test="lockCount!=null"> lock_count = lock_count + #{lockCount}, </if>
+              <if test="restrictCount!=null"> restrict_count = restrict_count + #{restrictCount}, </if>
+          </trim>
+        where item_id = #{itemId} and stock_count >= #{stockCount}
+  </update>
 
   <select id="selectStockForUpdate" resultMap="BaseResultMap">
   select * from tb_stock where item_id=#{itemId} for update
@@ -37,7 +51,7 @@
   select * from tb_stock where item_id=#{itemId}
   </select>
 
-  <select id="findStocksForUpdate" parameterType="java.util.List" resultType="com.gpmall.order.dal.entitys.Stock" >
+  <select id="findStocksForUpdate" parameterType="java.util.List" resultMap="BaseResultMap" >
     select * from tb_stock where item_id in
      <foreach collection='itemIds' item='itemId' open='(' separator=',' close=')'> #{itemId} </foreach>
       for update

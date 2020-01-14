@@ -60,10 +60,11 @@ public class OrderCancelConsumer {
 			stocks.forEach(stock -> {
 				list.forEach(one->{
 					if(Objects.equals(one.getItemId(),stock.getItemId())){
-						stock.setLockCount(-one.getNum());
+						stock.setLockCount(one.getNum());
 						stock.setStockCount(one.getNum().longValue());
-						//释放库存
-						stockMapper.updateStock(stock);
+						// 释放库存
+						// todo 处理失败怎么办？
+						stockMapper.releaseDeductionStock(stock);
 						return;
 					}
 				});

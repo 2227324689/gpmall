@@ -26,7 +26,6 @@ public class TransHandlerNode {
             if (success) {
                 if (transHandler.isAsync()) {
                     //TODO 如果为true，则采用异步线程去执行任务
-
                 }
                 next.exec(context);
             }

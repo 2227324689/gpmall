@@ -4,6 +4,7 @@ package com.gpmall.cashier.bootstrap.controller;/**
 
 import com.alibaba.fastjson.JSON;
 import com.gupaoedu.pay.PayCoreService;
+import com.gupaoedu.pay.constants.PayChannelEnum;
 import com.gupaoedu.pay.dto.PaymentNotifyRequest;
 import com.gupaoedu.pay.dto.PaymentNotifyResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,7 @@ public class PayNotifyController {
      */
     @PostMapping("/pay/alipayNotify")
     public String doAliPay(HttpServletRequest httpServletRequest) {
-        return commonAliDo("ali_pay", httpServletRequest);
+        return commonAliDo(PayChannelEnum.ALI_PAY.getCode(), httpServletRequest);
     }
 
     /**
@@ -49,7 +50,7 @@ public class PayNotifyController {
      */
     @RequestMapping("/pay/wechatPayNotify")
     public String doWeChantPay(HttpServletRequest httpServletRequest) {
-        return commonWeChatDo("wechat_pay", httpServletRequest);
+        return commonWeChatDo(PayChannelEnum.WECHAT_PAY.getCode(), httpServletRequest);
     }
 
     /**
@@ -59,7 +60,7 @@ public class PayNotifyController {
      */
     @PostMapping("/refund/aliRefundNotify")
     public String doAliRefund(HttpServletRequest httpServletRequest) {
-        return commonAliDo("ali_refund", httpServletRequest);
+        return commonAliDo(PayChannelEnum.ALI_REFUND.getCode(), httpServletRequest);
     }
 
     /**
@@ -69,7 +70,7 @@ public class PayNotifyController {
      */
     @PostMapping("/refund/wechatRefundNotify")
     public String doWechatRefund(HttpServletRequest httpServletRequest) {
-        return commonWeChatDo("wechat_refund", httpServletRequest);
+        return commonWeChatDo(PayChannelEnum.WECHAT_REFUND.getCode(), httpServletRequest);
     }
 
     /**
