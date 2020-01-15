@@ -34,7 +34,7 @@
     <pagehelper.sprinboot.version>1.2.12</pagehelper.sprinboot.version>
     <swagger-starter.version>1.8.0.RELEASE</swagger-starter.version>
     <validation-api.version>2.0.1.Final</validation-api.version>
-    <hibernate-validator.version>6.0.17.Final</hibernate-validator.version>
+    <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
     <javax.mail.version>1.6.2</javax.mail.version>
   </properties>
 
