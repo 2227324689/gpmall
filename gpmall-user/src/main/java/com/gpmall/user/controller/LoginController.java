@@ -16,6 +16,7 @@ import com.gpmall.user.intercepter.TokenIntercepter;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -107,9 +108,9 @@ public class LoginController {
 
 
 
-    @GetMapping("/uploadImages")
-    public ResponseData uploadHead(){
-        //TODO
+    @PostMapping("/imageUpload")
+    public ResponseData imageUpload(@RequestBody Map<String,String> map){
+
         return new ResponseUtil<>().setData(null);
     }
 }
