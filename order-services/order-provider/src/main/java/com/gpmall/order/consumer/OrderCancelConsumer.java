@@ -50,7 +50,7 @@ public class OrderCancelConsumer {
 			//将订单状态改为取消
 			orderMapper.updateByPrimaryKey(orderDb);
 			//将订单商品的库存状态改为释放
-			orderItemMapper.updateStockStatus(2,context);
+			orderItemMapper.updateStockStatus(OrderConstants.OrderItemStockStatus.ORDER_ITEM_STATUS_STOCK_RELEASED,context);
 			//将库存还回去
 			List<OrderItem> list=orderItemMapper.queryByOrderId(context);
 			List<Long> itemIds=list.stream().map(OrderItem::getItemId).sorted().collect(Collectors.toList());
