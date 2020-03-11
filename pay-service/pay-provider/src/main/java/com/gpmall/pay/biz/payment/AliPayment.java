@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import tk.mybatis.mapper.entity.Example;
 
@@ -134,8 +135,7 @@ public class AliPayment extends BasePayment {
 	 * @throws BizException
 	 */
 	@Override
-	@Transactional
-	public AbstractResponse completePayment(PaymentNotifyRequest request) throws BizException {
+	public AbstractResponse completePayment(PaymentNotifyRequest request) {
 		request.requestCheck();
 		Map requestParams = request.getResultMap();
 		Map<String, Object> params = new HashMap<>(requestParams.size());

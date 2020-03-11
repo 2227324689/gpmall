@@ -21,6 +21,8 @@ spring:
     useGlobalDataSourceStat: true
   redisson:
     address: redis.gpmall.com:6379
+#    address: redis4gpmall.redis.rds.aliyuncs.com:6379
+#    password: redis4GPMALL
     timeout: 3000
     database: 0
     pool:
@@ -28,6 +30,23 @@ spring:
       max-idle: 10
       max-wait: 3000
       min-idle: 4
+  ##以下下配置是springboot autoconfig 认初始化时会加载的参数，但是user可以重现构建一下参数
+  ##自定义构造的bean可查看kafkaConfig
+  kafka:
+    bootstrapServers: kafka.gpmall.com:9092,kafka.gpmall.com:9092
+    consumer:
+      auto-offset-reset: latest
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.gpmall.user.*
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
 dubbo:
   application:
     name: user-service
@@ -47,3 +66,25 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.user.services
+lock:
+  zookeeper:
+    zkHosts: zookeeper://zk.gpmall.com:2181,zookeeper://zk.gpmall.com:2181
+    sessionTimeout: 30000
+    connectionTimeout: 30000
+    ## 共享一个zk链接
+    singleton: true
+    ## 全局path前缀,常用来区分不同的应用
+    namespace: zkLock
+email:
+  mail-server-host: smtp.163.com
+  mail-server-port: 25
+  from-address: xxxx@163.com
+  to-addresss:
+  cc-addresss:
+  username:
+  password:
+  mailSmtpAuth: true
+  subject: 激活邮件，请点击激活
+  content:
+  template-path: emailTemplate
+  userMailActiveUrl: http://localhost:9999/gpmall-user/gpuser/verify

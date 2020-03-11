@@ -53,3 +53,18 @@ services:
     image: wurstmeister/zookeeper
     ports:
       - "2181:2181"
+ rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "4369:4369"
+      - "5671:5671"
+      - "25672:25672"
+      - "5672:5672"
+      - "15672:15672"
+    container_name: rabbitmq
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: 123456
+      RABBITMQ_NODENAME: rabbitmq
+      RABBITMQ_ERLANG_COOKIE: CURIOAPPLICATION

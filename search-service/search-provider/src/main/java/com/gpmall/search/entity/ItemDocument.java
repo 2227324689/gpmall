@@ -19,9 +19,9 @@ public class ItemDocument {
 	private String image;
 	@Field(type = FieldType.Long)
 	private Integer status;
-	@Field(type = FieldType.Text)
+	@Field(type = FieldType.Text,analyzer = "ik_max_word",searchAnalyzer ="ik_max_word" )
 	private String sell_point;
-	@Field(type = FieldType.Text)
+	@Field(type = FieldType.Text,analyzer = "ik_max_word",searchAnalyzer ="ik_max_word")
 	private String title;
 	@Field(type = FieldType.Long)
 	private Integer num;

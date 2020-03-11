@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Data
 public class SearchResponse<T> extends AbstractResponse {
-
+     private Long total;
     private List<T> data;
 
     public List<T> getData() {
@@ -31,6 +31,7 @@ public class SearchResponse<T> extends AbstractResponse {
     public SearchResponse ok(List<T> data) {
         this.setCode(SearchRetCode.SUCCESS.getCode());
         this.setMsg(SearchRetCode.SUCCESS.getMsg());
+        this.setTotal(total);
         this.setData(data);
         return this;
     }

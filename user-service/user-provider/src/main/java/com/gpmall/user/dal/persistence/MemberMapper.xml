@@ -19,11 +19,12 @@
     <result column="description" jdbcType="VARCHAR" property="description" />
     <result column="points" jdbcType="INTEGER" property="points" />
     <result column="balance" jdbcType="DECIMAL" property="balance" />
+    <result column="isverified" jdbcType="DECIMAL" property="isverified" />
   </resultMap>
   
   <sql id="BaseColumns">
     <!-- WARNING - @mbg.generated -->
-    id, username, password, phone, email, created, updated, sex, address, state, file, description, points, balance
+    id, username, password, phone, email, created, updated, sex, address, state, file, description, points, balance,isverified
   </sql>
   
 </mapper>

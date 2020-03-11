@@ -2,15 +2,11 @@ package com.gpmall.order.biz.factory;/**
  * Created by mic on 2019/8/2.
  */
 
-import com.gpmall.order.biz.handler.TransPipeline;
+import com.gpmall.order.biz.handler.*;
 import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import com.gpmall.order.biz.convert.CreateOrderConvert;
 import com.gpmall.order.biz.convert.TransConvert;
-import com.gpmall.order.biz.handler.ClearCartItemHandler;
-import com.gpmall.order.biz.handler.InitOrderHandler;
-import com.gpmall.order.biz.handler.LogisticalHandler;
-import com.gpmall.order.biz.handler.ValidateHandler;
 import com.gpmall.order.dto.CreateOrderRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +32,11 @@ public class OrderProcessPipelineFactory extends AbstranctTransPipelineFactory<C
     private LogisticalHandler logisticalHandler;
     @Autowired
     private ClearCartItemHandler clearCartItemHandler;
+    @Autowired
+    private SubStockHandler subStockHandler;
+    @Autowired
+    private SendMessageHandler sendMessageHandler;
+
 
     @Override
     protected TransHandlerContext createContext() {
@@ -46,9 +47,11 @@ public class OrderProcessPipelineFactory extends AbstranctTransPipelineFactory<C
     @Override
     protected void doBuild(TransPipeline pipeline) {
         pipeline.addLast(validateHandler);
+        pipeline.addLast(subStockHandler);
         pipeline.addLast(initOrderHandler);
         pipeline.addLast(logisticalHandler);
         pipeline.addLast(clearCartItemHandler);
+        pipeline.addLast(sendMessageHandler);
     }
 
     @Override

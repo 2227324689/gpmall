@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface OrderItemMapper extends TkMapper<OrderItem> {
     List<OrderItem> queryByOrderId(@Param("orderId") String orderId);
+    void updateStockStatus(@Param("status") Integer status,@Param("orderId") String orderId);
 }

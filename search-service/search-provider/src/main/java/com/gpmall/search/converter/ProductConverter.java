@@ -1,5 +1,6 @@
 package com.gpmall.search.converter;
 
+import com.gpmall.search.dal.entitys.Item;
 import com.gpmall.search.dto.ProductDto;
 import com.gpmall.search.entity.ItemDocument;
 import org.mapstruct.Mapper;
@@ -27,4 +28,10 @@ public interface ProductConverter {
     ProductDto item2Dto(ItemDocument item);
 
     List<ProductDto> items2Dto(List<ItemDocument> items);
+
+    @Mappings({
+            @Mapping(source = "sellPoint",target = "sell_point"),
+            @Mapping(source = "limitNum",target = "limit_num")
+    })
+    ItemDocument item2Document(Item item);
 }

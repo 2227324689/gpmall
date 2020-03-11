@@ -7,30 +7,30 @@ mybatis:
   type-aliases-package: com.gpmall.pay.dal.entitys
 
 ali:
-  ali_service: 
-  ali_partner:  
+  ali_service: create_direct_pay_by_user
+  ali_partner:
   input_charset: utf-8
   sign_type: MD5
-  notify_url: http://shop.gupaoedu.com/pay/alipayNotify
-  return_url: http://shop.gupaoedu.com/pay/syncResult
-  seller_id:  
-  seller_email: 
+  notify_url: http://demo.gupaoedu.cn/pay/alipayNotify
+  return_url: http://demo.gupaoedu.cn/pay/syncResult
+  seller_id:
+  seller_email:
   pay_gateway_new: https://mapi.alipay.com/gateway.do?
   it_b_pay: 1h
-  private_key: 
-  public_key: 
+  private_key:
+  public_key: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAigZVBxlXCvTKz0rm/PLBO/ENwjZIAcQhYkkNGyMKQE6M15PzL4mxcA1pwl9GdIaivKsT7Hq3mXOU2ddYN5n4+krysx0QkVHnklLyya5TgNy33yr0W+b6sMdX7GRfqYnP6xH7KRL7hv4Szp/E62HiipSZ/Q9Bk60b90GqgiGz1rw1tMkEvvmeNiREcn+9tdJCmaqvQWetNgtKqnIiNiWF3V87x23u6s780liRP4O/+G3Koa0u8yO7qNT/+FxXGQ+FvT8mNrp0q+QmaslwXG/AwXJokHo+z6X/VmItG7WunEXH6oBPXT9DHeUvlPY2tZg8zH697zElknd+RfuEWhm3EwIDAQAB
   pay_open_gateway: https://openapi.alipay.com/gateway.do
   #退款接口名
   refund_service: refund_fastpay_by_platform_pwd
   #退款通知回调地址
-  refund_notify_url: http://shop.gupaoedu.com/refund/alipayRefundNotify
+  refund_notify_url: http://demo.gupaoedu.cn/refund/alipayRefundNotify
 
 wechat:
   wechat_appid: 1
   wechat_mch_id: 1
   wechat_appsecret: 1
   wechat_mchsecret: 1
-  wechat_notifyurl: http://shop.gupaoedu.com/pay/wechatPayNotify
+  wechat_notifyurl: http://demo.gupaoedu.cn/pay/wechatPayNotify
   wechat_unified_order: https://api.mch.weixin.qq.com/pay/unifiedorder
   wechat_order_query: https://api.mch.weixin.qq.com/pay/orderquery
   #申请退款url
