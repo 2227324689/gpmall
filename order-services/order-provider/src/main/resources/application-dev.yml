@@ -28,6 +28,16 @@ spring:
         max-idle: 10
         max-wait: 3000
         min-idle: 4
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: rabbitmq
+    password: 123456
+    listener:
+      direct:
+        acknowledge-mode: manual
+      simple:
+        acknowledge-mode: manual
 
 dubbo:
   application:
@@ -48,4 +58,6 @@ dubbo:
     group: dubbo-dev
   scan:
     base-packages: com.gpmall.order.services
-
+logging:
+  config:
+    classpath: logback.xml

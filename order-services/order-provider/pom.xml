@@ -106,6 +106,11 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.gpmall.commons</groupId>
+            <artifactId>commons-mq</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -124,38 +129,10 @@
                     </execution>
                 </executions>
             </plugin>
-           <!-- <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-            </plugin>-->
-            <plugin>
-                <groupId>org.mybatis.generator</groupId>
-                <artifactId>mybatis-generator-maven-plugin</artifactId>
-                <configuration>
-                    <configurationFile>${basedir}/src/main/resources/mybatis-generater.xml</configurationFile>
-                    <!--<configurationFile>${basedir}/src/main/resources/generator/generatorConfigOracle.xml</configurationFile>-->
-                    <overwrite>true</overwrite>
-                    <verbose>true</verbose>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.github.drtrang</groupId>
-                        <artifactId>mybatis-generator-extension</artifactId>
-                        <version>0.0.4</version>
-                    </dependency>
-                    <dependency>
-                        <groupId>mysql</groupId>
-                        <artifactId>mysql-connector-java</artifactId>
-                        <version>5.1.44</version>
-                    </dependency>
-
-                    <dependency>
-                        <groupId>tk.mybatis</groupId>
-                        <artifactId>mapper</artifactId>
-                        <version>3.4.2</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
+            <!-- <plugin>
+                 <groupId>org.mybatis.generator</groupId>
+                 <artifactId>mybatis-generator-maven-plugin</artifactId>
+             </plugin>-->
         </plugins>
         <resources>
             <resource>

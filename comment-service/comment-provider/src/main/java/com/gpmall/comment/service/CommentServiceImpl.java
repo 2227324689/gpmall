@@ -20,7 +20,6 @@ import com.gpmall.order.dto.OrderItemRequest;
 import com.gpmall.order.dto.OrderItemResponse;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import tk.mybatis.mapper.entity.Example;
 
@@ -35,18 +34,16 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements ICommentService {
 
-    @Autowired
-    private CommentMapper commentMapper;
+    private final CommentMapper commentMapper;
 
-    @Autowired
-    private CommentPictureMapper commentPictureMapper;
+    private final CommentPictureMapper commentPictureMapper;
 
-    private CommentConverter commentConverter;
+    private final CommentConverter commentConverter;
 
     @Reference
     private OrderQueryService orderQueryService;
 
-    private GlobalIdGeneratorUtil globalIdGeneratorUtil;
+    private final GlobalIdGeneratorUtil globalIdGeneratorUtil;
 
     private static final String COMMENT_GLOBAL_ID_CACHE_KEY = "COMMENT_ID";
 

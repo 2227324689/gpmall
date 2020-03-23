@@ -63,7 +63,7 @@
         <section class="section">
           <y-shelf :title="recommendPanel.name">
             <div slot="content" class="recommend">
-              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContents" :key="i"></mall-goods>
+              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContentItems" :key="i"></mall-goods>
             </div>
           </y-shelf>
         </section>
@@ -76,7 +76,7 @@
         <section class="section">
           <y-shelf :title="recommendPanel.name">
             <div slot="content" class="recommend">
-              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContents" :key="i"></mall-goods>
+              <mall-goods :msg="item" v-for="(item,i) in recommendPanel.panelContentItems" :key="i"></mall-goods>
             </div>
           </y-shelf>
         </section>
@@ -127,19 +127,17 @@
       },
       _getSearch () {
         let params = {
-          params: {
-            key: this.key,
-            size: this.pageSize,
-            page: this.currentPage,
-            sort: this.sort,
-            priceGt: this.min,
-            priceLte: this.max
-          }
+          key: this.key,
+          size: this.pageSize,
+          page: this.currentPage,
+          sort: this.sort,
+          priceGt: this.min,
+          priceLte: this.max
         }
         getSearch(params).then(res => {
           if (res.success === true) {
-            this.goods = res.result.itemList
-            this.total = res.result.recordCount
+            this.goods = res.result
+            this.total = res.result.length
             this.noResult = false
             if (this.total === 0) {
               this.noResult = true

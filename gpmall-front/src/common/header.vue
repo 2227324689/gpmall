@@ -341,12 +341,12 @@
           }
           var array = []
           var maxSize = 5
-          if (response.hits.hits.length <= 5) {
-            maxSize = response.hits.hits.length
+          if (response.result.length <= 5) {
+            maxSize = response.result.length
           }
           for (var i = 0; i < maxSize; i++) {
             var obj = {}
-            obj.value = response.hits.hits[i]._source.productName
+            obj.value = response.result[i].productName
             array.push(obj)
           }
           if (array.length !== 0) {

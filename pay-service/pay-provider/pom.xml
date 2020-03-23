@@ -112,7 +112,7 @@
         </dependency>
         <dependency>
             <groupId>com.gpmall.commons</groupId>
-            <artifactId>common-lock</artifactId>
+            <artifactId>commons-lock</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -134,6 +134,16 @@
         <dependency>
             <groupId>org.redisson</groupId>
             <artifactId>redisson</artifactId>
+        </dependency>
+        <!--<dependency>
+            <groupId>com.github.wxpay</groupId>
+            <artifactId>wxpay-sdk</artifactId>
+            <version>3.0.9</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.github.tedzhdz</groupId>
+            <artifactId>wxpay-sdk</artifactId>
+            <version>3.0.10</version>
         </dependency>
     </dependencies>
 

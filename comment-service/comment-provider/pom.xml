@@ -131,10 +131,10 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
+           <!-- <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
-            </plugin>
+            </plugin>-->
         </plugins>
         <resources>
             <resource>

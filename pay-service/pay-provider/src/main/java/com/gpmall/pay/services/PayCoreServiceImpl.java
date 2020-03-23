@@ -13,6 +13,7 @@ import com.gupaoedu.pay.dto.PaymentRequest;
 import com.gupaoedu.pay.dto.PaymentResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -21,16 +22,17 @@ import org.apache.dubbo.config.annotation.Service;
  * create-date: 2019/7/30-13:54
  */
 @Slf4j
-@Service(cluster = "failfast")
+@Service(cluster = "failover")
 public class PayCoreServiceImpl implements PayCoreService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public PaymentResponse execPay(PaymentRequest request) {
 
         PaymentResponse paymentResponse=new PaymentResponse();
         try {
-            paymentResponse=(PaymentResponse) BasePayment.paymentMap.get(request.getPayChannel()).process(request);
+            paymentResponse=BasePayment.paymentMap.get(request.getPayChannel()).process(request);
         }catch (Exception e){
             log.error("PayCoreServiceImpl.execPay Occur Exception :"+e);
             ExceptionProcessorUtils.wrapperHandlerException(paymentResponse,e);
@@ -40,11 +42,12 @@ public class PayCoreServiceImpl implements PayCoreService {
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public PaymentNotifyResponse paymentResultNotify(PaymentNotifyRequest request) {
         log.info("paymentResultNotify request:{}", JSON.toJSONString(request));
         PaymentNotifyResponse response=new PaymentNotifyResponse();
         try{
-            response=(PaymentNotifyResponse) BasePayment.paymentMap.get
+            response=BasePayment.paymentMap.get
                     (request.getPayChannel()).completePayment(request);
 
         }catch (Exception e){
@@ -62,10 +65,11 @@ public class PayCoreServiceImpl implements PayCoreService {
      * @return
      */
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public RefundResponse execRefund(RefundRequest refundRequest) {
         RefundResponse refundResponse=new RefundResponse();
         try {
-            refundResponse=(RefundResponse) BasePayment.paymentMap.get(refundRequest.getPayChannel()).process(refundRequest);
+            refundResponse=BasePayment.paymentMap.get(refundRequest.getPayChannel()).process(refundRequest);
         }catch (Exception e){
             log.error("PayCoreServiceImpl.execRefund Occur Exception :{}",e);
             ExceptionProcessorUtils.wrapperHandlerException(refundResponse,e);
