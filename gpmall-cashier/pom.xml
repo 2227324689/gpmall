@@ -6,6 +6,7 @@
         <groupId>com.gpmall.parent</groupId>
         <artifactId>gpmall-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
+        <relativePath>../gpmall-parent/pom.xml</relativePath>
     </parent>
     <groupId>com.gpmall.cashier</groupId>
     <artifactId>gpmall-cashier</artifactId>
