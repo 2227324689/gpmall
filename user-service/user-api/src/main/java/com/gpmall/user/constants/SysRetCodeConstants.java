@@ -14,6 +14,7 @@ public enum SysRetCodeConstants {
     USERORPASSWORD_ERRROR               ("003001","用户名或密码不正确"),
     TOKEN_VALID_FAILED                  ("003002","token校验失败"),
     USERNAME_ALREADY_EXISTS             ("003003","用户名已存在"),
+    USE_EMAIL_ALREADY_EXISTS            ("003008","邮箱已存在"),
     USER_REGISTER_FAILED                ("003004","注册失败，请联系管理员"),
     KAPTCHA_CODE_ERROR                  ("003005","验证码不正确"),
     USER_ISVERFIED_ERROR                ("003006","用户名尚未激活"),

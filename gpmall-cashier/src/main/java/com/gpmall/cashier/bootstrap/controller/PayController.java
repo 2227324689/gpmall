@@ -8,7 +8,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.gpmall.cashier.bootstrap.form.PayForm;
 import com.gpmall.commons.result.ResponseData;
 import com.gpmall.commons.result.ResponseUtil;
-import com.gpmall.user.annotation.Anoymous;
 import com.gpmall.user.intercepter.TokenIntercepter;
 import com.gupaoedu.pay.PayCoreService;
 import com.gupaoedu.pay.constants.PayReturnCodeEnum;
@@ -41,7 +40,6 @@ public class PayController {
     PayCoreService payCoreService;
 
     @PostMapping("/pay")
-    @Anoymous
     public ResponseData pay(@RequestBody PayForm payForm, HttpServletRequest httpServletRequest){
         log.info("支付表单数据:{}",payForm);
         PaymentRequest request=new PaymentRequest();
@@ -66,7 +64,6 @@ public class PayController {
 
 
     @PostMapping("/refund")
-    @Anoymous
     public ResponseData refund(@RequestBody PayForm refundForm,HttpServletRequest httpServletRequest){
         log.info("订单退款入参:{}",JSON.toJSONString(refundForm));
         RefundRequest refundRequest=new RefundRequest();

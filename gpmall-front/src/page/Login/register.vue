@@ -29,6 +29,11 @@
               </li>
               <li>
                 <div class="input">
+                  <input type="email" v-model="registered.email" placeholder="邮箱">
+                </div>
+              </li>
+              <li>
+                <div class="input">
                   <input type="text" v-model="registered.captcha" placeholder="验证码" style="width:650px;"/>
                   &nbsp;&nbsp;&nbsp;
                   <img id="imageCode" :src="imageCode" @click="init_geetest()"/>
@@ -129,8 +134,9 @@ export default {
       let userPwd = this.registered.userPwd
       let userPwd2 = this.registered.userPwd2
       let captcha = this.registered.captcha
-      if (!userName || !userPwd || !userPwd2) {
-        this.message('账号密码不能为空!')
+      let email = this.registered.email
+      if (!userName || !userPwd || !userPwd2 || !email) {
+        this.message('账号密码邮箱不能为空!')
         this.registxt = '注册'
         return false
       }
@@ -152,6 +158,7 @@ export default {
       register({
         userName,
         userPwd,
+        email,
         captcha}).then(res => {
           if (res.success === true) {
             this.messageSuccess()

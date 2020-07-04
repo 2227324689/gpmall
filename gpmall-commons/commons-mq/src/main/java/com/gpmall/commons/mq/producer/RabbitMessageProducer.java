@@ -18,7 +18,7 @@ public class RabbitMessageProducer {
 
 	public void send(String context) {
 		//将订单发送到rabbitmq
-		rabbitTemplate.convertAndSend(RabbitMqConfig.DELAY_EXCHANGE, context, message -> {
+		rabbitTemplate.convertAndSend(RabbitMqConfig.DELAY_EXCHANGE,"", context, message -> {
 			message.getMessageProperties().setDeliveryMode(MessageDeliveryMode.PERSISTENT);
 			message.getMessageProperties().setDelay(10 * 60 * 1000);//毫秒为单位
 			return message;

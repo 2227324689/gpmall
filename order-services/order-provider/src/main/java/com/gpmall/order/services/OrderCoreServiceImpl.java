@@ -83,7 +83,7 @@ public class OrderCoreServiceImpl implements OrderCoreService {
 			order.setOrderId(request.getOrderId());
 			order.setStatus(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL);
 			order.setCloseTime(new Date());
-			int num = orderMapper.updateByPrimaryKey(order);
+			int num = orderMapper.updateByPrimaryKeySelective(order);
 			log.info("cancelOrder,effect Row:" + num);
 			response.setCode(OrderRetCode.SUCCESS.getCode());
 			response.setMsg(OrderRetCode.SUCCESS.getMessage());
@@ -124,11 +124,21 @@ public class OrderCoreServiceImpl implements OrderCoreService {
 		Order order = new Order();
 		order.setOrderId(orderId);
 		order.setStatus(status);
-		orderMapper.updateByPrimaryKey(order);
+		orderMapper.updateByPrimaryKeySelective(order);
+	}
+
+	@Override
+	public void updateOrderPayed(String orderId) {
+		updateOrder(OrderConstants.ORDER_STATUS_PAYED,orderId);
+	}
+
+	@Override
+	public void updateOrderCancel(String orderId) {
+		updateOrder(OrderConstants.ORDER_STATUS_TRANSACTION_CANCEL,orderId);
 	}
 
 
-    @Transactional(rollbackFor = Exception.class)
+	@Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteOrderWithTransaction(DeleteOrderRequest request){
         orderMapper.deleteByPrimaryKey(request.getOrderId());

@@ -63,6 +63,7 @@ public class UserVerifyServiceImpl implements IUserVerifyService {
             //更新Member 表的is_verify
             example.clear();
             example = new Example(Member.class);
+            example.createCriteria().andEqualTo("username",request.getUserName());
             Member member_ = member.get(0);
             member_.setIsVerified("Y");
             memberMapper.updateByExample(member_,example);

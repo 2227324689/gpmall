@@ -153,7 +153,7 @@ public class AliRefund extends BasePayment {
 			Refund refund1 = refundMapper.selectByPrimaryKey(params.get("batch_no"));
 			//更新订单状态为退款状态
 			if (status == 1) {
-				orderCoreService.updateOrder(7, refund1.getOrderId());
+				orderCoreService.updateOrderCancel(refund1.getOrderId());
 			}
 		} else {
 			throw new BizException("支付宝退款验签失败");

@@ -91,7 +91,7 @@ public class InitOrderHandler extends AbstractTransHandler {
                 orderItem.setTotalFee(cartProductDto.getSalePrice().multiply(BigDecimal.valueOf(cartProductDto.getProductNum())).doubleValue());
                 buyProductIds.add(cartProductDto.getProductId());
                 //已锁定库存
-                orderItem.setStatus(1);
+                orderItem.setStatus(OrderConstants.OrderItemStockStatus.ORDER_ITEM_STATUS_STOCK_LOCKED);
                 orderItemMapper.insert(orderItem);
             });
             createOrderContext.setOrderId(orderId);

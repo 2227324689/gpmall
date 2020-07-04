@@ -3,7 +3,6 @@ package com.gpmall.order.biz.handler;
 import com.gpmall.commons.tool.exception.BaseBusinessException;
 import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
-import com.gpmall.order.dal.entitys.OrderItem;
 import com.gpmall.order.dal.entitys.Stock;
 import com.gpmall.order.dal.persistence.OrderItemMapper;
 import com.gpmall.order.dal.persistence.StockMapper;
@@ -13,11 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * @Description: 扣减库存处理器
@@ -53,18 +49,22 @@ public class SubStockHandler extends AbstractTransHandler {
 		}
 		if(list.size()!=itemIds.size()){
 			throw new BaseBusinessException("有商品未初始化库存,请在如下商品id中检查库存状态："+itemIds.toString());
-
 		}
 		list.forEach(stock -> {
 			cartProductDtoList.forEach(one -> {
 				if (Objects.equals(one.getProductId(), stock.getItemId())) {
+					// 判断购物车数量是否大于存库数量
 					if (stock.getStockCount() < one.getProductNum()) {
 						throw new BaseBusinessException(stock.getItemId()+"库存不足");
 					}
+					// 设置锁定数量
 					stock.setLockCount(one.getProductNum().intValue());
-					stock.setStockCount(-one.getProductNum());
+					// 设置要扣减的库存数量
+					stock.setStockCount(one.getProductNum());
 					//更改库存状态
-					stockMapper.updateStock(stock);
+					if (stockMapper.preDeductionStock(stock) == 0) {
+						throw new BaseBusinessException(stock.getItemId()+"库存不足");
+					}
 					return;
 				}
 			});

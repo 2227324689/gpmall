@@ -52,3 +52,10 @@ dubbo:
 logging:
   config:
     classpath: logback.xml
+
+# 该方式可以避免测试人员误购买报告
+# 付款设置费用最小
+pay:
+  set:
+    totalFee:
+      min: true

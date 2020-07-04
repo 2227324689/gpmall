@@ -77,14 +77,14 @@ lock:
     namespace: zkLock
 email:
   mail-server-host: smtp.163.com
-  mail-server-port: 25
+  mail-server-port: 465
   from-address: xxxx@163.com
   to-addresss:
   cc-addresss:
-  username:
-  password:
+  username: xxxx@163.com
+  password: 授权码
   mailSmtpAuth: true
   subject: 激活邮件，请点击激活
   content:
   template-path: emailTemplate
-  userMailActiveUrl: http://localhost:9999/gpmall-user/gpuser/verify
+  userMailActiveUrl: http://localhost:9999/user/verify

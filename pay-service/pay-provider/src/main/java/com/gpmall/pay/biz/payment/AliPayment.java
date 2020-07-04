@@ -160,14 +160,14 @@ public class AliPayment extends BasePayment {
 				example.createCriteria().andEqualTo("orderId",orderId);
 				paymentMapper.updateByExampleSelective(payment,example);
 				//更新订单表状态
-				orderCoreService.updateOrder(1, orderId);
+				orderCoreService.updateOrderPayed(orderId);
 				response.setResult("success");
 				return response;
 			} else if ("TRADE_FINISH".equals(tradeStatus)) {
 				payment.setStatus(PayResultEnum.TRADE_FINISHED.getCode());
 				paymentMapper.updateByExampleSelective(payment, orderId);
 				//更新订单表状态
-				orderCoreService.updateOrder(1, orderId);
+				orderCoreService.updateOrderPayed(orderId);
 				response.setResult("success");
 			} else if ("FAIL".equals(tradeStatus)) {
 				payment.setStatus(PayResultEnum.FAIL.getCode());

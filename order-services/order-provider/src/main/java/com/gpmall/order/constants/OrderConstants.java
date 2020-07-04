@@ -16,4 +16,12 @@ public class OrderConstants {
     public static int ORDER_STATUS_TRANSACTION_CLOSE=5; //交易关闭
     public static int ORDER_STATUS_TRANSACTION_FAILED=6; //交易失败
     public static int ORDER_STATUS_TRANSACTION_CANCEL=7; //订单取消
+
+
+    // 库存锁定状态 1库存已锁定 2库存已释放 3-库存减扣成功
+    public static class OrderItemStockStatus {
+        public static int ORDER_ITEM_STATUS_STOCK_LOCKED  = 1; // 库存已锁定
+        public static int ORDER_ITEM_STATUS_STOCK_RELEASED = 2; // 库存已释放
+        public static int ORDER_ITEM_STATUS_STOCK_DEDUCTION_SUCCESS = 3; // 库存减扣成功
+    }
 }
