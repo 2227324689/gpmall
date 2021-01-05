@@ -11,7 +11,7 @@
     "lint": "eslint --ext .js,.vue src"
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "axios-mock-adapter": "^1.17.0",
     "element-ui": "^1.4.13",
     "geetest3": "^1.0.0",
