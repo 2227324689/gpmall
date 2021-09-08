@@ -16,7 +16,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
-    <dubbo.version>2.7.3</dubbo.version>
+    <dubbo.version>2.7.13</dubbo.version>
     <dubbo-spring-boot.version>2.7.3</dubbo-spring-boot.version>
     <curator.famework.version>4.2.0</curator.famework.version>
     <mybatis.version>2.1.0</mybatis.version>
