@@ -58,6 +58,7 @@ public class EmailConfig {
         properties.put("mail.smtp.host", this.mailServerHost);
         properties.put("mail.smtp.port", this.mailServerPort);
         properties.put("mail.smtp.auth", this.mailSmtpAuth);
+        properties.put("mail.smtp.ssl.enable", true);
         return properties;
     }
 

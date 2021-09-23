@@ -14,6 +14,7 @@ import com.gupaoedu.pay.dto.RefundRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
@@ -38,7 +39,7 @@ public abstract class BaseValidator implements Validator {
      * @param request
      * @param orderQueryService
      */
-    public void commonValidate(AbstractRequest request, OrderQueryService orderQueryService) {
+    public void commonValidate(AbstractRequest request, OrderQueryService orderQueryService,boolean paySetTotalFeeMin) {
         if (request instanceof PaymentRequest) {
             PaymentRequest paymentRequest = (PaymentRequest) request;
             //校验订单是否存在
@@ -52,9 +53,12 @@ public abstract class BaseValidator implements Validator {
             if (!Objects.equals(orderDetailResponse.getStatus(), 0)) {
                 throw new BizException(PayReturnCodeEnum.HAD_PAY_ERROR.getCode(), PayReturnCodeEnum.HAD_PAY_ERROR.getMsg());
             }
-            // 防止金额篡改等
-            if(orderDetailResponse.getPayment().compareTo(paymentRequest.getOrderFee())!=0){
-                throw new BizException(PayReturnCodeEnum.ORDER_AMOUNT_ERROR.getCode(),PayReturnCodeEnum.ORDER_AMOUNT_ERROR.getMsg());
+            // 防止金额篡改 : 实际付款
+            if(paySetTotalFeeMin){
+                // 测试环境下设置最小金额为最小值
+                paymentRequest.setTotalFee(new BigDecimal("0.01"));
+            }else {
+                paymentRequest.setTotalFee(orderDetailResponse.getPayment());
             }
         }
         //如果是退款请求

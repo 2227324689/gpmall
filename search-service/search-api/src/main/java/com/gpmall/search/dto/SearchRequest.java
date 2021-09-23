@@ -18,9 +18,9 @@ import org.apache.commons.lang3.StringUtils;
 public class SearchRequest extends AbstractRequest {
 
     private String keyword;
-    private Integer currentPage;
-    private Integer pageSize;
-    private String sort;
+    private Integer currentPage=0;
+    private Integer pageSize=10;
+    private String sort="id";
     private Integer priceGt;
     private Integer priceLte;
 

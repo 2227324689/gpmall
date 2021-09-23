@@ -39,6 +39,17 @@ public interface OrderCoreService {
     void updateOrder(Integer status,String orderId);
 
     /**
+     * 修改状态为已支付
+     * @param orderId
+     */
+    void updateOrderPayed(String orderId);
+
+    /**
+     * 修改状态为已取消
+     * @param orderId
+     */
+    void updateOrderCancel(String orderId);
+    /**
      * 删除订单与交易
      * @param request
      */

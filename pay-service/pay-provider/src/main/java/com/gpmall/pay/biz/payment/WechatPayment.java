@@ -190,7 +190,7 @@ public class WechatPayment extends BasePayment {
 					example.createCriteria().andEqualTo("orderId", paraMap.get("out_trade_no"));
 					paymentMapper.updateByExampleSelective(payment, example);
 					//更新订单表状态
-					orderCoreService.updateOrder(1, paraMap.get("out_trade_no").toString());
+					orderCoreService.updateOrderPayed(paraMap.get("out_trade_no").toString());
 					response.setResult(WeChatBuildRequest.setXML("SUCCESS", "OK"));
 				}
 			}

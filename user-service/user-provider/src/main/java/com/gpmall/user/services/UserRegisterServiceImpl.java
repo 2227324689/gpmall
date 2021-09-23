@@ -29,6 +29,7 @@ import java.util.*;
 @Slf4j
 @Service
 public class UserRegisterServiceImpl implements IUserRegisterService {
+    private final String htmlMailTemplate = "activeRegisterInfoHtmlTemplate.html";
 
     @Autowired
     MemberMapper memberMapper;
@@ -82,6 +83,7 @@ public class UserRegisterServiceImpl implements IUserRegisterService {
             map.put("username",userVerify.getUsername());
             map.put("key",userVerify.getUuid());
             map.put("email",member.getEmail());
+            map.put("fileName",htmlMailTemplate);
             kafKaRegisterSuccProducer.sendRegisterSuccInfo(map);
         } catch (Exception e) {
             log.error("UserLoginServiceImpl.register Occur Exception :" + e);
@@ -99,6 +101,12 @@ public class UserRegisterServiceImpl implements IUserRegisterService {
         List<Member> users = memberMapper.selectByExample(example);
         if (users != null && users.size() > 0) {
             throw new ValidateException(SysRetCodeConstants.USERNAME_ALREADY_EXISTS.getCode(), SysRetCodeConstants.USERNAME_ALREADY_EXISTS.getMessage());
+        }
+        example = new Example(Member.class);
+        example.createCriteria().andEqualTo("state", 1).andEqualTo("email", request.getEmail());
+        users = memberMapper.selectByExample(example);
+        if (users != null && users.size() > 0) {
+            throw new ValidateException(SysRetCodeConstants.USE_EMAIL_ALREADY_EXISTS.getCode(), SysRetCodeConstants.USE_EMAIL_ALREADY_EXISTS.getMessage());
         }
     }
 }

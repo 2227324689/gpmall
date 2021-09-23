@@ -78,14 +78,14 @@
           <!--商品-->
           <div class="goods-table">
             <div class="cart-items" v-for="(item,i) in orderList" :key="i">
-              <a @click="goodsDetails(item.productId)" class="img-box"><img :src="item.productImg" alt=""></a>
+              <a @click="goodsDetails(item.itemId)" class="img-box"><img :src="item.picPath" alt=""></a>
               <div class="name-cell ellipsis">
-                <a @click="goodsDetails(item.productId)" title="" target="_blank">{{item.productName}}</a>
+                <a @click="goodsDetails(item.itemId)" title="" target="_blank">{{item.title}}</a>
               </div>
               <div class="n-b">
-                <div class="price">¥ {{Number(item.salePrice).toFixed(2)}}</div>
-                <div class="goods-num">{{item.productNum}}</div>
-                <div class="subtotal"> ¥ {{Number(item.salePrice * item.productNum).toFixed(2)}}</div>
+                <div class="price">¥ {{Number(item.price).toFixed(2)}}</div>
+                <div class="goods-num">{{item.num}}</div>
+                <div class="subtotal"> ¥ {{Number(item.price * item.num).toFixed(2)}}</div>
               </div>
             </div>
           </div>
@@ -177,10 +177,12 @@
             this.orderStatus = 6
           }
           this.orderList = res.result.goodsList
+          console.info(this.orderList)
           this.orderTotal = res.result.orderTotal
-          this.userName = res.result.addressInfo.userName
-          this.tel = res.result.addressInfo.tel
-          this.streetName = res.result.addressInfo.streetName
+          console.info(res)
+          this.userName = res.result.userName
+          this.tel = res.result.tel
+          this.streetName = res.result.streetName
           this.createTime = res.result.createDate
           this.closeTime = res.result.closeDate
           this.payTime = res.result.payDate

@@ -16,6 +16,7 @@ import com.gpmall.user.intercepter.TokenIntercepter;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,14 @@ public class LoginController {
     @Value("${captchaFlag:true}")
     private boolean captchaFlag;
 
+    /**
+     * 登录
+     * @desc 登录时需先进行注册，会收到一封邮件的激活，并访问邮件的链接后再次进行登录即可
+     * @param map
+     * @param request
+     * @param response
+     * @return
+     */
     @Anoymous
     @PostMapping("/login")
     public ResponseData login(@RequestBody Map<String,String> map,
@@ -99,9 +108,9 @@ public class LoginController {
 
 
 
-    @GetMapping("/uploadImages")
-    public ResponseData uploadHead(){
-        //TODO
+    @PostMapping("/imageUpload")
+    public ResponseData imageUpload(@RequestBody Map<String,String> map){
+
         return new ResponseUtil<>().setData(null);
     }
 }

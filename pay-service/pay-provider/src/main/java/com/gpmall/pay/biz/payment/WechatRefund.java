@@ -207,7 +207,7 @@ public class WechatRefund extends BasePayment {
 		refundMapper.updateByExampleSelective(refund, example);
 		//更新订单状态为退款状态
 		if (status == 1) {
-			orderCoreService.updateOrder(7, outRefundNo);
+			orderCoreService.updateOrderCancel(outRefundNo);
 		}
 		response.setResult(WeChatBuildRequest.setXML("SUCCESS", "OK"));
 		return response;

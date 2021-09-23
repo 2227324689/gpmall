@@ -7,6 +7,7 @@ import com.gpmall.order.biz.context.CreateOrderContext;
 import com.gpmall.order.biz.context.TransHandlerContext;
 import com.gpmall.order.constant.OrderRetCode;
 import com.gpmall.order.dal.persistence.OrderMapper;
+import com.gpmall.order.dto.CartProductDto;
 import com.gpmall.user.IMemberService;
 import com.gpmall.user.dto.QueryMemberRequest;
 import com.gpmall.user.dto.QueryMemberResponse;
@@ -14,6 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 腾讯课堂搜索【咕泡学院】
@@ -50,6 +54,9 @@ public class ValidateHandler extends AbstractTransHandler {
         }else{
             throw new BizException(response.getCode(),response.getMsg());
         }
+
+        List<Long> buyProductIds = createOrderContext.getCartProductDtoList().stream().map(CartProductDto::getProductId).collect(Collectors.toList());
+        createOrderContext.setBuyProductIds(buyProductIds);
         return true;
     }
 }

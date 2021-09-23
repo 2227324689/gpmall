@@ -559,7 +559,7 @@ COMMIT;
 -- ----------------------------
 DROP TABLE IF EXISTS `tb_payment`;
 CREATE TABLE `tb_payment` (
-                              `id` varchar(50) NOT NULL,
+                              `id` int(11) NOT NULL AUTO_INCREMENT,
                               `status` varchar(20) NOT NULL COMMENT '支付状态',
                               `order_id` varchar(50) NOT NULL COMMENT '订单id',
                               `product_name` varchar(80) DEFAULT NULL COMMENT '产品名称',
@@ -610,6 +610,7 @@ CREATE TABLE `tb_stock` (
                             PRIMARY KEY (`item_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='库存表';
 
+INSERT INTO `tb_stock` (`item_id` ,`stock_count` ) SELECT id,1000 FROM tb_item;
 -- ----------------------------
 -- Table structure for tb_user_verify
 -- ----------------------------

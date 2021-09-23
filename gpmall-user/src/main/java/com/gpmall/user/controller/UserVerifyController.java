@@ -40,6 +40,7 @@ public class UserVerifyController {
         userVerifyRequest.setUserName(username);
         userVerifyRequest.setUuid(uuid);
         UserVerifyResponse userVerifyResponse = iUserVerifyService.verifyMemer(userVerifyRequest);
+        // todo 需要进行重定向并提示验证通过信息
         if(userVerifyResponse.getCode().equals(SysRetCodeConstants.SUCCESS.getCode())) {
             return new ResponseUtil().setData(null);
         }else{
