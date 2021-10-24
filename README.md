@@ -121,7 +121,7 @@
 
 # 个人微信公众号
 
-![跟着Mic学架构](https://mic-blob-bucket.oss-cn-beijing.aliyuncs.com/qrcode_for_gh_2ca1c20d4f6c_860.jpg)
+![跟着Mic学架构](https://mic-blob-bucket.oss-cn-beijing.aliyuncs.com/qrcode_for_gh_2ca1c20d4f6c_258.jpg)
 
 
 >  作者的个人博客
