@@ -20,7 +20,7 @@
 
 ## 项目演示地址
 
-* 商场系统演示地址：http://vip.istio.tech
+* 商场系统演示地址：http://vip.istio.tech（暂时不可用）
 * 后台管理系统：开发中..
 
 # 项目用到的技术
@@ -71,8 +71,50 @@
 | shopping-service，提供购物车、推荐商品、商品等服务           | dubbo服务 | 20881端口                                            |
 | user-service ，提供用户相关服务                              | dubbo服务 | 20880端口                                            |
 | order-service ，提供订单服务                                 | dubbo服务 | 20882端口                                            |
+| comment-service , 商品评论服务                               | dubbo服务 | 20885端口                                            |
 | PRD                                                          |           | 存放prd需求文档，有想参与设计的同学，可以提供prd需求 |
 | wiki                                                         |           | 帮助文档，需要每一位同学贡献自己的一份力量           |
+
+
+
+# 项目搭建方式
+
+1. 创建gpmall数据库，并把`db_scrpit`目录下的sql脚本导入。
+
+2. 按照下面顺序分别启动相关服务
+
+   * gpmall-parent , 这个是整个项目的父控文件，需要执行install安装到本地，如果自己搭建了nexus，可以deploy到nexus上
+
+   * gpmall-commons ， 这个是整个项目的公共依赖，执行install安装到本地，如果自己搭建了nexus，可以deploy到nexus上
+
+     > 注： 下列微服务，用到了mysql、redis、kafka等，需要提前安装好相关中间件，并且所有的服务配置的是host地址，建议用hostswitch工具统一维护
+
+   * user-service ,  用户服务，把`user-service-api`模块，install到本地仓库，因为其他模块有依赖。然后启动服务。
+
+   * order-service , 订单服务， 把`order-service-api`模块，install到本地，给其他模块依赖
+
+   * shopping-service , 商品服务， 把`shopping-service-api`模块，install到本地，给其他模块依赖
+
+   * marking-service , 营销服务，暂时未开发功能。
+
+   * pay-service , 支付服务，代码已经写完并调试通过（但是用的是老的接口版本，如果是新的版本，需要改接口），还需要提供appid这些，不过这个项目不启动，并不影响前面的页面的功能
+
+   * comment-service , 评论服务，用于展示商品评论信息
+
+     > 下面的服务为BFF，做服务聚合，分别依赖上面的微服务模块
+
+   * gpmall-shopping 
+
+   * gpmall-user
+
+   * gpmall-cashier 
+
+3. 前端工程 gpmall-front， 这个项目采用vue开发。
+
+   1. 安装node环境
+   2. 安装python2.7
+   3. 在gpmall-front中执行`npm install` ，
+   4. 再执行`npm run dev`运行，  如果后端的服务都正常启动，此时gpmall-front会把请求转发到服务端获取相关数据进行渲染。
 
 # 项目开发进度
 
@@ -119,13 +161,7 @@
 
 
 
-# 技术交流及问题解答
-
->  **助理** （一个程序员竟然有助理，不可思议）
-
-|                                                   |                                                   |
-| ------------------------------------------------- | ------------------------------------------------- |
-| ![1565592665627](README.assets/1565592665627.png) | ![1565592704023](README.assets/1565592704023.png) |
+# 
 
 >  作者的个人博客
 
