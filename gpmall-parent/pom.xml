@@ -16,7 +16,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <spring-boot.version>2.1.6.RELEASE</spring-boot.version>
-    <dubbo.version>2.7.3</dubbo.version>
+    <dubbo.version>2.7.13</dubbo.version>
     <dubbo-spring-boot.version>2.7.3</dubbo-spring-boot.version>
     <curator.famework.version>4.2.0</curator.famework.version>
     <mybatis.version>2.1.0</mybatis.version>
@@ -34,7 +34,7 @@
     <pagehelper.sprinboot.version>1.2.12</pagehelper.sprinboot.version>
     <swagger-starter.version>1.8.0.RELEASE</swagger-starter.version>
     <validation-api.version>2.0.1.Final</validation-api.version>
-    <hibernate-validator.version>6.1.0.Final</hibernate-validator.version>
+    <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
     <javax.mail.version>1.6.2</javax.mail.version>
   </properties>
 

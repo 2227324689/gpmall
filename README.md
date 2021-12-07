@@ -161,11 +161,18 @@
 
 
 
+<<<<<<< HEAD
 # 
+=======
+# 个人微信公众号
+
+![跟着Mic学架构](https://mic-blob-bucket.oss-cn-beijing.aliyuncs.com/qrcode_for_gh_2ca1c20d4f6c_258.jpg)
+
+>>>>>>> 88aab362053f002aeff65bb3c957591fafb1c788
 
 >  作者的个人博客
 
-http://istio.tech
+https://istio.tech
 
 
 
