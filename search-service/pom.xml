@@ -3,7 +3,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
+    <parent>
+        <groupId>com.gpmall.parent</groupId>
+        <artifactId>gpmall-parent</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <groupId>com.gpmall.search</groupId>
     <artifactId>search-service</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -18,16 +22,16 @@
     <url>http://www.gpmall.com</url>
 
     <distributionManagement>
-        <repository>
-            <id>maven-release</id>
-            <name>Nexus Release Repository</name>
-            <url>http://maven.igper.com/repository/maven-releases/</url>
-        </repository>
         <snapshotRepository>
-            <id>maven-snapshots</id>
+            <id>snapshots</id>
             <name>Nexus Snapshot Repository</name>
-            <url>http://maven.igper.com/repository/maven-snapshots/</url>
+            <url>http://192.168.8.136:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://192.168.8.136:8081/repository/huhy-nexus/</url>
+        </repository>
     </distributionManagement>
 
     <properties>

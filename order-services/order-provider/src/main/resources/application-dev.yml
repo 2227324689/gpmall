@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:mysql://mysql.gpmall.com:3306/gpmall?useUnicode=true&characterEncoding=utf8&useOldAliasMetadataBehavior=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&serverTimezone=UTC
     username: root
-    password: root
+    password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.alibaba.druid.pool.DruidDataSource
     initialSize: 2
@@ -28,16 +28,16 @@ spring:
         max-idle: 10
         max-wait: 3000
         min-idle: 4
-  rabbitmq:
-    host: 127.0.0.1
-    port: 5672
-    username: rabbitmq
-    password: 123456
-    listener:
-      direct:
-        acknowledge-mode: manual
-      simple:
-        acknowledge-mode: manual
+#  rabbitmq:
+#    host: 127.0.0.1
+#    port: 5672
+#    username: rabbitmq
+#    password: 123456
+#    listener:
+#      direct:
+#        acknowledge-mode: manual
+#      simple:
+#        acknowledge-mode: manual
 
 dubbo:
   application:

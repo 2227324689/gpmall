@@ -16,16 +16,16 @@
     <description>gpmall-user</description>
 
     <distributionManagement>
-        <repository>
-            <id>maven-release</id>
-            <name>Nexus Release Repository</name>
-            <url>http://maven.igper.com/repository/maven-releases/</url>
-        </repository>
         <snapshotRepository>
-            <id>maven-snapshots</id>
+            <id>snapshots</id>
             <name>Nexus Snapshot Repository</name>
-            <url>http://maven.igper.com/repository/maven-snapshots/</url>
+            <url>http://192.168.8.136:8081/repository/maven-snapshots/</url>
         </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://192.168.8.136:8081/repository/huhy-nexus/</url>
+        </repository>
     </distributionManagement>
 
     <properties>

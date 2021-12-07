@@ -47,7 +47,7 @@
         window.open('//' + window.location.host + '/#/product/' + id)
       },
       addCart (id, price, name, img) {
-        if (!this.showMoveImg) {     // 动画是否在运动
+        if (!this.showMoveImg) {// 动画是否在运动
           if (this.login) { // 登录了 直接存在用户名下
             addCart({userId: getStore('userId'), productId: id, productNum: 1}).then(res => {
               // 并不重新请求数据

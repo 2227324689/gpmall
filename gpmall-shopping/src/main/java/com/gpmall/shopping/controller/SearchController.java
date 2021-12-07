@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/shopping")
 @Api(tags = "SearchController", description = "搜索控制层")
 public class SearchController {
-    @Reference(timeout = 3000)
+   /* @Reference(timeout = 3000)
     private ProductSearchService productSearchService;
 
     @Reference(timeout = 3000)
@@ -79,5 +79,5 @@ public class SearchController {
     public ResponseData init(){
         initDataService.initItems();
         return new ResponseUtil().setData(null);
-    }
+    }*/
 }
